@@ -1,0 +1,120 @@
+# GO7 Hostinger SPA routing — copied to dist/ on every npm run build
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Pass Authorization to PHP (needed for /api/send-otp-email.php Firebase token)
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule ^(.*)$ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Canonical host: www → apex (go7.ng)
+  RewriteCond %{HTTP_HOST} ^www\.go7\.ng$ [NC]
+  RewriteRule ^(.*)$ https://go7.ng/$1 [L,R=301]
+
+  # Never SPA-rewrite SEO files
+  RewriteRule ^(robots\.txt|sitemap\.xml|sitemap_index\.xml)$ - [L]
+
+  # Shareable app link: go7.ng/download → Google Play (iPhone has no store app yet → home)
+  RewriteCond %{HTTP_USER_AGENT} (iPhone|iPad|iPod) [NC]
+  RewriteRule ^download/?$ https://go7.ng/ [R=302,L,NC]
+  RewriteRule ^download/?$ https://play.google.com/store/apps/details?id=g.go7.app [R=302,L,NC]
+
+  RewriteRule ^Vendor/(.*)$ /vendor/$1 [R=301,L,NC]
+  RewriteRule ^Agent/(.*)$ /agent/$1 [R=301,L,NC]
+  RewriteRule ^Admin/(.*)$ /admin/$1 [R=301,L,NC]
+  RewriteRule ^Rider/(.*)$ /rider/$1 [R=301,L,NC]
+
+  # Keep Hostinger upload API + uploaded images out of the SPA rewrite
+  RewriteRule ^api/ - [L]
+  RewriteRule ^uploads/ - [L]
+
+  # Vendor dashboard deep links (/vendor/dashboard/:vendorId) must hit the SPA.
+  # A physical dist/vendor/dashboard/ folder exists for /vendor/dashboard — without
+  # this rule, Hostinger often 404s child paths before the generic SPA rewrite.
+  Options -MultiViews
+  RewriteRule ^vendor/dashboard(?:/.*)?$ /index.html [L,NC]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+<FilesMatch "^(robots\.txt|sitemap\.xml|sitemap_index\.xml)$">
+  <IfModule mod_headers.c>
+    Header set Content-Type "application/xml; charset=UTF-8"
+  </IfModule>
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</FilesMatch>
+
+# robots.txt must stay text/plain
+<Files "robots.txt">
+  <IfModule mod_headers.c>
+    Header set Content-Type "text/plain; charset=UTF-8"
+  </IfModule>
+</Files>
+
+<Files "manifest.json">
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Files>
+
+# Hashed bundles — long immutable cache (safe with Vite content hashes)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?|ttf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(webp|avif|png|jpe?g|gif|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+# Always fetch fresh HTML + runtime loaders (hashed /assets/* can cache safely)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  # Must win over the generic *.js immutable rule above — stale boot/SW = force-close browser
+  <FilesMatch "^(go7-boot\.js|sw\.js|firebase-messaging-sw\.js|manifest\.json)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/avif "access plus 1 month"
+</IfModule>
+
+Options -Indexes
+AddDefaultCharset UTF-8
+AddType application/vnd.android.package-archive .apk
+
+# ============================================================
+# GO7 bot / scraper blocking — blocks known scraper & spam bots.
+# Legit crawlers (Googlebot, Bingbot, etc.) are NOT blocked.
+# ============================================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_USER_AGENT} (?i)(ahrefsbot|ahrefs|mj12bot|mj12|semrushbot|semrush|dotbot|petalbot|bingpreview|baiduspider|yandexbot|yandex|sogou|exabot|archive\.org_bot|ia_archiver|scrapy|python-requests|curl|wget|libwww-perl|httrack|nikto|sqlmap|masscan|zgrab|zgrab2|nmap|netcraft|urllib|httpx|go-http-client|java/|okhttp|python) 
+  RewriteRule .* - [F,L]
+</IfModule>

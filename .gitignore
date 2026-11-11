@@ -1,0 +1,86 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+# dist/ - REMOVED FOR DEPLOYMENT
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Hostinger PHP mail secrets (generated from .env — never commit)
+public/api/go7-secrets.php
+dist/api/go7-secrets.php
+**/go7-secrets.php
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Firebase
+.firebase/
+.firebaserc
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Service Account Keys (IMPORTANT - NEVER COMMIT!)
+service-account.json
+*-firebase-adminsdk-*.json
+
+# Environment variables
+.env
+.env.production
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+.vite_cache/
+node_modules/.vite/
+node_modules/.cache/
+.tsbuildinfo
+
+# Build outputs
+dist/
+functions/lib/
+deploy_temp/
+
+# Alternate Vite configs (not canonical)
+vite.config.clean.js
+vite.config.debug.js
+vite.config.diagnostic.js
+vite.config.minimal.js
+vite.config.minimal.clean.js
+vite.config.minimal-dev.js
+vite.config.mobile.js
+vite.config.nowatch.js
+vite.config.production.js
+vite.config.simple.js
+vite.config.stable.js
+
+# Archive / temp
+go7-temp/
+public_backup/
+test-screenshots/
+*.bat
+
+.env.deploy

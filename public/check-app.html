@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO7 App Diagnostic</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1a1a1a;
+            color: #0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #000;
+            padding: 20px;
+            border: 2px solid #0f0;
+            border-radius: 8px;
+        }
+        h1 { color: #0ff; margin-bottom: 30px; }
+        .step { margin: 20px 0; padding: 15px; background: #111; border-left: 4px solid #0f0; }
+        .error { border-left-color: #f00; color: #f00; }
+        .success { border-left-color: #0f0; color: #0f0; }
+        .warning { border-left-color: #ff0; color: #ff0; }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+            border-radius: 4px;
+        }
+        button:hover { background: #0ff; }
+        pre {
+            background: #222;
+            padding: 10px;
+            overflow-x: auto;
+            border-radius: 4px;
+            color: #fff;
+        }
+        #log {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0a0a0a;
+            border: 1px solid #0f0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .timestamp { color: #888; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 GO7 APP DIAGNOSTIC CONSOLE</h1>
+        
+        <div class="step">
+            <h3>Quick Actions</h3>
+            <button onclick="checkApp()">🔎 Check App Status</button>
+            <button onclick="window.location.href='/'">🏠 Go to Home</button>
+            <button onclick="clearAll()">🗑️ Clear All Cache</button>
+            <button onclick="window.location.reload()">🔄 Reload</button>
+        </div>
+
+        <div id="log"></div>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#f00' : type === 'success' ? '#0f0' : type === 'warning' ? '#ff0' : '#0ff';
+            log.innerHTML += `<div style="margin: 5px 0;">
+                <span class="timestamp">[${timestamp}]</span>
+                <span style="color: ${color}">${message}</span>
+            </div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        async function checkApp() {
+            log.innerHTML = '';
+            addLog('🔍 Starting diagnostic...', 'info');
+            
+            // Check 1: Server connectivity
+            addLog('1️⃣ Checking server...', 'info');
+            try {
+                const response = await fetch(window.location.origin);
+                if (response.ok) {
+                    addLog('✅ Server is responding (Status: ' + response.status + ')', 'success');
+                } else {
+                    addLog('❌ Server error (Status: ' + response.status + ')', 'error');
+                }
+            } catch (error) {
+                addLog('❌ Cannot connect to server: ' + error.message, 'error');
+            }
+
+            // Check 2: JavaScript bundle
+            addLog('2️⃣ Checking JavaScript bundle...', 'info');
+            try {
+                const scripts = document.querySelectorAll('script');
+                addLog(`Found ${scripts.length} script tags`, 'info');
+                
+                for (const script of scripts) {
+                    if (script.src && script.src.includes('/src/')) {
+                        addLog(`📜 Script: ${script.src}`, 'info');
+                    }
+                }
+            } catch (error) {
+                addLog('❌ Error checking scripts: ' + error.message, 'error');
+            }
+
+            // Check 3: Console errors
+            addLog('3️⃣ Check browser console for errors...', 'warning');
+            addLog('⚠️ Press F12 to open DevTools Console', 'warning');
+
+            // Check 4: localStorage
+            addLog('4️⃣ Checking localStorage...', 'info');
+            try {
+                const keys = Object.keys(localStorage);
+                addLog(`Found ${keys.length} items in localStorage`, 'info');
+                keys.slice(0, 10).forEach(key => {
+                    addLog(`  - ${key}`, 'info');
+                });
+            } catch (error) {
+                addLog('❌ localStorage error: ' + error.message, 'error');
+            }
+
+            // Check 5: IndexedDB
+            addLog('5️⃣ Checking IndexedDB...', 'info');
+            try {
+                const dbs = await window.indexedDB.databases();
+                addLog(`Found ${dbs.length} databases`, 'info');
+                dbs.forEach(db => {
+                    addLog(`  - ${db.name}`, 'info');
+                });
+            } catch (error) {
+                addLog('⚠️ Cannot list IndexedDB: ' + error.message, 'warning');
+            }
+
+            // Check 6: Service Workers
+            addLog('6️⃣ Checking Service Workers...', 'info');
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    addLog(`Found ${registrations.length} service workers`, 'info');
+                    registrations.forEach(reg => {
+                        addLog(`  - ${reg.scope}`, 'info');
+                    });
+                } catch (error) {
+                    addLog('❌ Service worker error: ' + error.message, 'error');
+                }
+            } else {
+                addLog('⚠️ Service workers not supported', 'warning');
+            }
+
+            addLog('', 'info');
+            addLog('✅ Diagnostic complete!', 'success');
+            addLog('💡 Next steps:', 'info');
+            addLog('  1. Open DevTools Console (F12)', 'info');
+            addLog('  2. Look for red errors', 'info');
+            addLog('  3. Try "Clear All Cache" button', 'info');
+            addLog('  4. Go to Home page', 'info');
+        }
+
+        async function clearAll() {
+            addLog('🗑️ Clearing all cache and storage...', 'warning');
+            
+            try {
+                // Clear localStorage
+                localStorage.clear();
+                addLog('✅ localStorage cleared', 'success');
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                addLog('✅ sessionStorage cleared', 'success');
+                
+                // Clear IndexedDB
+                const dbs = await window.indexedDB.databases();
+                for (const db of dbs) {
+                    await window.indexedDB.deleteDatabase(db.name);
+                    addLog(`✅ Deleted database: ${db.name}`, 'success');
+                }
+                
+                // Unregister service workers
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                        addLog(`✅ Unregistered service worker: ${registration.scope}`, 'success');
+                    }
+                }
+                
+                // Clear cache storage
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    for (const name of cacheNames) {
+                        await caches.delete(name);
+                        addLog(`✅ Deleted cache: ${name}`, 'success');
+                    }
+                }
+                
+                addLog('', 'info');
+                addLog('✅ All cache cleared! Reloading in 2 seconds...', 'success');
+                setTimeout(() => window.location.reload(), 2000);
+                
+            } catch (error) {
+                addLog('❌ Error clearing cache: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-run diagnostic on load
+        window.addEventListener('load', () => {
+            setTimeout(checkApp, 500);
+        });
+    </script>
+</body>
+</html>

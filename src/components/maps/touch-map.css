@@ -1,0 +1,68 @@
+.map-tap-ripple {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  animation: mapRipple 0.8s ease-out;
+}
+
+.touch-enabled .leaflet-marker-icon,
+.touch-enabled .pillLabel {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.touch-enabled .leaflet-marker-icon:active,
+.touch-enabled .pillLabel:active {
+  transform: scale(1.1);
+}
+
+.touch-enabled.touched::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: 400;
+}
+
+/* Make popup close button larger and easier to tap */
+.touch-enabled .leaflet-popup-close-button {
+  padding: 8px !important;
+  font-size: 22px !important;
+}
+
+/* Increase tap target size for controls */
+.touch-enabled .leaflet-control-zoom a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 22px !important;
+}
+
+@keyframes mapRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+/* Disable text selection when interacting with the map */
+.mapShell.touched *,
+.leaflet-container * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

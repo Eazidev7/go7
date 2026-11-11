@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Fix Hostinger nested paths: strip trailing slash before React Router loads -->
+  <script>
+    (function () {
+      var p = location.pathname;
+      if (p.length > 1 && p.endsWith('/')) {
+        history.replaceState(null, '', p.slice(0, -1) + location.search + location.hash);
+      }
+    })();
+  </script>
+  <base href="/" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon-DvhOxYr2.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/go7-logo-LiHIaF9v.png" />
+  <link rel="shortcut icon" href="/assets/favicon-DvhOxYr2.ico" />
+  <link rel="apple-touch-icon" href="/assets/go7-logo-LiHIaF9v.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+  
+  <!-- iOS Safari compatibility -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="go7-build-id" content="v8.20260713.1783977073757" />
+  <script src="/go7-boot.js"></script>
+  
+  <!-- Bootstrap: path fixes, lite auth pages -->
+  <script>
+    (function () {
+      var path = location.pathname.replace(/\/+$/, '') || '/';
+      var pathLower = path.toLowerCase();
+
+      window.__GO7_LITE_PAGE__ = /^\/(vendor|agent|admin|rider)\/(login|register|signup)/.test(pathLower)
+        || pathLower === '/admin/setup';
+
+      window.initAutocomplete = function () {
+        window.googleMapsApiReady = true;
+        if (window.initGoogleMapsInReact) window.initGoogleMapsInReact();
+        try {
+          window.dispatchEvent(new Event('go7-maps-ready'));
+        } catch (e) { /* ignore */ }
+      };
+      window.googleMapsApiFailed = false;
+
+      if (!window.__GO7_LITE_PAGE__) {
+        window.addEventListener('error', function (e) {
+          if (e.target && e.target.src && e.target.src.indexOf('maps.googleapis.com') !== -1) {
+            window.googleMapsApiFailed = true;
+          }
+        }, true);
+
+        function loadMapLibs() {
+          if (window.__go7MapLibsLoaded) return;
+          window.__go7MapLibsLoaded = true;
+
+          var maps = document.createElement('script');
+          maps.async = true;
+          maps.defer = true;
+          maps.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-83X6nzox-y2rsX6Rukkj48hYs1HVt0&libraries=places&loading=async&callback=initAutocomplete';
+          maps.onerror = function () { window.googleMapsApiFailed = true; };
+          document.head.appendChild(maps);
+
+          var leafletCss = document.createElement('link');
+          leafletCss.rel = 'stylesheet';
+          leafletCss.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+          leafletCss.crossOrigin = 'anonymous';
+          document.head.appendChild(leafletCss);
+
+          var leafletJs = document.createElement('script');
+          leafletJs.async = true;
+          leafletJs.defer = true;
+          leafletJs.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          leafletJs.crossOrigin = 'anonymous';
+          document.head.appendChild(leafletJs);
+        }
+
+        // Defer map SDKs until after interactive — home does not need them immediately
+        if (document.readyState === 'complete') {
+          setTimeout(loadMapLibs, 4000);
+        } else {
+          window.addEventListener('load', function () { setTimeout(loadMapLibs, 4000); });
+        }
+      } else {
+        window.googleMapsApiFailed = true;
+      }
+    })();
+  </script>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#e60023" />
+  <meta name="background-color" content="#ffffff" />
+  <meta name="display" content="standalone" />
+  <meta name="orientation" content="portrait-primary" />
+  <meta name="start_url" content="/" />
+  <meta name="scope" content="/" />
+
+  <!-- App Meta Tags -->
+  <title>Go7 - Fast Delivery in Abeokuta</title>
+  <meta name="description"
+    content="Order food, book deliveries, and track packages in Abeokuta with Go7. Fast, reliable, and affordable." />
+  <meta name="keywords" content="delivery, food, abeokuta, logistics, go7, nigeria" />
+  <meta name="author" content="Go7 Delivery" />
+
+  <!-- iOS Safari PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Go7" />
+  <link rel="apple-touch-icon" href="/assets/go7-logo-LiHIaF9v.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/go7-logo-LiHIaF9v.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/go7-logo-LiHIaF9v.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="/assets/go7-logo-LiHIaF9v.png" />
+
+  <!-- Windows Tile -->
+  <meta name="msapplication-TileImage" content="/assets/go7-logo-LiHIaF9v.png" />
+  <meta name="msapplication-TileColor" content="#e60023" />
+  <meta name="msapplication-navbutton-color" content="#e60023" />
+
+  <!-- Android Chrome -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Go7" />
+
+  <!-- Google Fonts - Inter for modern UI and Poppins for map labels -->
+  <!-- Fallback to system fonts if Google Fonts unavailable -->
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+  </style>
+  <!-- Google Fonts — non-blocking (system font fallback shows instantly on iOS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
+  <!-- Preload critical resources (skip on lite auth pages) -->
+  <script>
+    if (!window.__GO7_LITE_PAGE__) {
+      var preload = document.createElement('link');
+      preload.rel = 'preload';
+      preload.href = '/go7-logo.png';
+      preload.as = 'image';
+      document.head.appendChild(preload);
+    }
+  </script>
+
+  <script type="module" crossorigin src="/assets/main-eOiNqfE6.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/index-PJiktKDK.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-BBBlp8dt.css">
+</head>
+
+<body>
+  <div id="root">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;background:#fff;color:#374151">
+      <div style="text-align:center;padding:24px">
+        <div style="width:40px;height:40px;border:3px solid #fee2e2;border-top-color:#ef4444;border-radius:50%;animation:go7spin .8s linear infinite;margin:0 auto 12px"></div>
+        <p style="margin:0;font-weight:600;font-size:15px">Loading GO7…</p>
+      </div>
+      <style>@keyframes go7spin{to{transform:rotate(360deg)}}</style>
+    </div>
+  </div>
+  <script>
+    if (!window.__GO7_LITE_PAGE__) {
+      (function () {
+      function loadPaystack() {
+        if (window.PaystackPop) return;
+        const script = document.createElement('script');
+        script.src = 'https://js.paystack.co/v1/inline.js';
+        script.async = true;
+        script.onerror = function () {
+          window.PaystackPop = class PaystackPopMock {
+            newTransaction(config) {
+              if (config.onError) config.onError(new Error('Paystack script not loaded'));
+            }
+          };
+        };
+        document.head.appendChild(script);
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadPaystack, { timeout: 12000 });
+      } else {
+        setTimeout(loadPaystack, 8000);
+      }
+    })();
+    }
+  </script>
+</body>
+
+</html>

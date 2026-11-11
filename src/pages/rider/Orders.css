@@ -1,0 +1,396 @@
+/* Go7 Rider Orders - Production Mobile-First Design */
+
+.rider-orders-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+}
+
+/* Header Section */
+.rider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.rider-header h1 {
+  color: #1e1e1e;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.active-count, .completed-count {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.active-count {
+  border: 1px solid #e61e25;
+  color: #e61e25;
+}
+
+.completed-count {
+  border: 1px solid #10b981;
+  color: #10b981;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  background: white;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  background: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+  color: #e61e25;
+  border-bottom-color: #e61e25;
+  background: #fef2f2;
+}
+
+.tab-btn:hover:not(.active) {
+  background: #f8fafc;
+  color: #374151;
+}
+
+/* Orders List */
+.orders-list {
+  padding: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.order-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 30, 37, 0.15);
+  border-color: #e61e25;
+}
+
+.order-card:active {
+  transform: translateY(0px);
+}
+
+/* Order Header */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.order-id {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.status-icon {
+  font-size: 1.2rem;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Location Information */
+.location-info {
+  margin-bottom: 15px;
+}
+
+.pickup-info, .dropoff-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.location-icon {
+  font-size: 1.2rem;
+  margin-top: 2px;
+}
+
+.location-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.location-address {
+  font-size: 0.95rem;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.route-line {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.route-dots {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, #e61e25 0%, #e61e25 50%, transparent 50%);
+  background-size: 2px 4px;
+  border-radius: 1px;
+}
+
+/* Customer Information */
+.customer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.customer-icon {
+  font-size: 1.1rem;
+}
+
+.customer-name {
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 2px 0;
+  font-size: 0.9rem;
+}
+
+.customer-phone {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* Order Meta */
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+  margin-top: 15px;
+}
+
+.time-info, .amount-info {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.amount-info {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* Order Actions */
+.order-actions {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.tap-hint {
+  font-size: 0.8rem;
+  color: #e61e25;
+  font-weight: 500;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid #e61e25;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* Quick Actions */
+.quick-actions {
+  background: #fef7e0;
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px;
+  text-align: center;
+}
+
+.quick-actions p {
+  margin: 0;
+  color: #92400e;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .orders-header {
+    padding: 15px;
+  }
+  
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  .orders-list {
+    padding: 10px;
+  }
+  
+  .order-card {
+    padding: 16px;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .active-count, .completed-count {
+    display: inline-block;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .rider-orders {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  
+  .order-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
+  }
+  
+  .order-card:hover {
+    border-color: #e61e25;
+  }
+  
+  .order-id {
+    color: white;
+  }
+  
+  .location-address {
+    color: #e2e8f0;
+  }
+  
+  .customer-info {
+    background: #334155;
+  }
+  
+  .customer-name {
+    color: #f1f5f9;
+  }
+  
+  .empty-state h3 {
+    color: #f1f5f9;
+  }
+  
+  .tab-btn {
+    background: #1e293b;
+    color: #94a3b8;
+  }
+  
+  .tab-btn.active {
+    background: #2d1b1e;
+  }
+}

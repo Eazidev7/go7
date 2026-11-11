@@ -1,0 +1,13 @@
+# Serve vendor/product images; never execute scripts from uploads
+Options -Indexes
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps .cgi .pl .py .jsp .asp .aspx
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .phps
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|cgi|pl|py|jsp|asp|aspx)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(webp|avif|png|jpe?g|gif)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>

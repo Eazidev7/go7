@@ -1,0 +1,161 @@
+/* ==========================================================
+   GO7 SUMMARY CARD STYLES – Animated Delivery Details
+   ========================================================== */
+
+.go7-summary-card {
+    background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 100%);
+    border: 2px solid #FFB3B3;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 8px 24px rgba(230, 0, 35, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.go7-summary-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Title */
+.go7-summary-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #E60023;
+    margin-bottom: 1rem;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    text-align: center;
+}
+
+/* Grid Layout */
+.go7-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+/* Summary Item */
+.go7-summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: popIn 0.5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.go7-summary-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.go7-summary-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.go7-summary-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+
+    60% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Icon Container */
+.go7-summary-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.go7-summary-item:hover .go7-summary-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Content */
+.go7-summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.go7-summary-label {
+    font-size: 0.75rem;
+    color: #6B7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.go7-summary-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.go7-fare-highlight {
+    color: #10B981;
+    font-size: 1.125rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .go7-summary-card {
+        padding: 1.25rem;
+    }
+
+    .go7-summary-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .go7-summary-item {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .go7-summary-icon {
+        margin-bottom: 0;
+        margin-right: 1rem;
+    }
+
+    .go7-summary-content {
+        align-items: flex-start;
+    }
+}
+
+/* Pulse animation for fare */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.go7-fare-highlight {
+    animation: pulse 2s ease-in-out infinite;
+}

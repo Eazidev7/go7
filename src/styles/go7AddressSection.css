@@ -1,0 +1,44 @@
+/* ==========================================================
+   GO7 ADDRESS SECTION STYLES
+   ========================================================== */
+
+.go7-address-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    position: relative;
+}
+
+/* Section Title */
+.go7-section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .go7-address-section {
+        padding: 1rem;
+    }
+
+    .go7-section-title {
+        font-size: 1.25rem;
+    }
+}

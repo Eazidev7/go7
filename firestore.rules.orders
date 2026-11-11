@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ==========================================
+    // ORDERS COLLECTION - STRICT SECURITY
+    // ==========================================
+    match /orders/{orderId} {
+      // Users can only read their own orders
+      allow read: if request.auth != null && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can create orders (initial creation only)
+      allow create: if request.auth != null && 
+                       request.resource.data.userId == request.auth.uid &&
+                       request.resource.data.orderStatus == 'pending_payment' &&
+                       request.resource.data.paymentStatus == 'pending' &&
+                       // Prevent client from setting payment as paid
+                       !request.resource.data.keys().hasAny(['paymentVerifiedAt']);
+      
+      // Users CANNOT update or delete orders
+      // Only backend/webhook can update
+      allow update, delete: if false;
+      
+      // Vendors can read orders for their business
+      allow read: if request.auth != null && 
+                     resource.data.vendorId == request.auth.uid;
+    }
+    
+    // ==========================================
+    // PRODUCTS - READ ONLY FOR CUSTOMERS
+    // ==========================================
+    match /vendors/{vendorId}/products/{productId} {
+      allow read: if true; // Public read
+      allow write: if request.auth != null && 
+                      request.auth.uid == vendorId; // Only vendor can write
+      
+      // Product add-ons
+      match /addons/{addonId} {
+        allow read: if true;
+        allow write: if request.auth != null && 
+                        request.auth.uid == vendorId;
+      }
+    }
+    
+    // ==========================================
+    // VENDORS - READ ONLY FOR CUSTOMERS
+    // ==========================================
+    match /vendors/{vendorId} {
+      allow read: if true; // Public read
+      allow write: if request.auth != null && 
+                      request.auth.uid == vendorId;
+    }
+    
+    // ==========================================
+    // USERS - OWN DATA ONLY
+    // ==========================================
+    match /users/{userId} {
+      allow read, write: if request.auth != null && 
+                            request.auth.uid == userId;
+    }
+  }
+}

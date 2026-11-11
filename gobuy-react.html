@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./public/favicon.ico" />
+    <link rel="icon" type="image/png" href="./public/go7-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./public/manifest.json" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#e60023" />
+    <meta name="background-color" content="#ffffff" />
+
+    <!-- App Meta Tags -->
+    <title>Go7 - Fast Delivery in Abeokuta | GoBuy Integration</title>
+    <meta name="description"
+        content="Order food, book deliveries, and shop with GoBuy in Abeokuta. Fast, reliable, and affordable." />
+
+    <!-- Import Maps for React -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18",
+        "react-dom": "https://esm.sh/react-dom@18",
+        "react-dom/client": "https://esm.sh/react-dom@18/client",
+        "react-router-dom": "https://esm.sh/react-router-dom@6"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'go7-red': '#dc2626',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS for GoBuy Integration -->
+    <style>
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .fade-in:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .fade-in:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .fade-in:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gobuy-button {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .gobuy-button:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .quick-action-button {
+            transition: all 0.2s ease;
+        }
+
+        .quick-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (min-width: 768px) {
+            .mobile-homepage-container {
+                display: none !important;
+            }
+
+            .desktop-message {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mobile-homepage-container {
+                display: block !important;
+            }
+
+            .desktop-message {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-inter">
+    <div id="root">
+        <!-- Loading state -->
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-go7-red"></div>
+        </div>
+    </div>
+
+    <!-- React App Script -->
+    <script type="module">
+        import React from 'react';
+        import { createRoot } from 'react-dom/client';
+
+        // Go7 Icon Component
+        const Go7Icon = () => React.createElement('div', {
+            className: 'text-2xl font-bold text-go7-red'
+        }, 'Go7');
+
+        // Mobile Homepage Component with GoBuy Integration
+        const MobileHomePage = () => {
+            const [currentLocation, setCurrentLocation] = React.useState('Abeokuta, Nigeria');
+
+            const navigate = (path) => {
+                console.log(`Navigating to: ${path}`);
+                alert(`Opening ${path}...`);
+            };
+
+            return React.createElement('div', { className: 'min-h-screen bg-gray-50' },
+                // Hero Section
+                React.createElement('div', {
+                    className: 'bg-gradient-to-br from-red-600 to-red-800 text-white py-16 px-4'
+                },
+                    React.createElement('div', { className: 'max-w-md mx-auto' },
+                        React.createElement('div', { className: 'flex items-center justify-between mb-6' },
+                            React.createElement(Go7Icon),
+                            React.createElement('div', { className: 'text-right' },
+                                React.createElement('div', { className: 'text-sm opacity-90' }, 'Delivering to'),
+                                React.createElement('div', { className: 'font-medium text-sm' }, currentLocation)
+                            )
+                        ),
+                        React.createElement('div', { className: 'text-center' },
+                            React.createElement('h1', { className: 'text-4xl font-bold mb-3' }, 'Fast Delivery'),
+                            React.createElement('p', { className: 'text-red-100 text-lg' }, 'Food, groceries, and more delivered to your door')
+                        )
+                    )
+                ),
+
+                // Mobile Content Container
+                React.createElement('div', { className: 'mobile-homepage-container' },
+                    React.createElement('div', { className: 'max-w-md mx-auto p-4 -mt-6 relative z-10' },
+
+                        // QuickActions Section
+                        React.createElement('div', { className: 'fade-in bg-white rounded-2xl shadow-xl p-6 mb-6' },
+                            React.createElement('h2', { className: 'text-xl font-semibold text-gray-800 mb-4' }, 'Quick Actions'),
+                            React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
+                                // Book Delivery
+                                React.createElement('button', {
+                                    className: 'quick-action-button bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-xl text-center',
+                                    onClick: () => navigate('/book-delivery')
+                                },
+                                    React.createElement('div', { className: 'text-2xl mb-2' }, '📦'),
+                                    React.createElement('div', { className: 'text-sm font-medium' }, 'Book Delivery')
+                                ),
+
+                                // Order Food
+                                React.createElement('button', {
+                                    className: 'quick-action-button bg-green-600 hover:bg-green-700 text-white p-4 rounded-xl text-center',
+                                    onClick: () => navigate('/order-food')
+                                },
+                                    React.createElement('div', { className: 'text-2xl mb-2' }, '🍕'),
+                                    React.createElement('div', { className: 'text-sm font-medium' }, 'Order Food')
+                                ),
+
+                                // Pharmacy
+                                React.createElement('button', {
+                                    className: 'quick-action-button bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-xl text-center',
+                                    onClick: () => navigate('/pharmacy')
+                                },
+                                    React.createElement('div', { className: 'text-2xl mb-2' }, '💊'),
+                                    React.createElement('div', { className: 'text-sm font-medium' }, 'Pharmacy')
+                                ),
+
+                                // GoBuy Button (Prominent)
+                                React.createElement('button', {
+                                    className: 'gobuy-button text-white p-4 rounded-xl text-center quick-action-button',
+                                    onClick: () => navigate('/gobuy')
+                                },
+                                    React.createElement('div', { className: 'text-2xl mb-2' }, '🛒'),
+                                    React.createElement('div', { className: 'text-sm font-medium' }, 'GoBuy')
+                                )
+                            )
+                        ),
+
+                        // GoBuy Promo Banner
+                        React.createElement('div', { className: 'fade-in bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl p-6 mb-6 shadow-xl' },
+                            React.createElement('div', { className: 'flex items-center justify-between' },
+                                React.createElement('div', null,
+                                    React.createElement('h3', { className: 'text-lg font-bold mb-1 flex items-center' },
+                                        React.createElement('span', { className: 'mr-2' }, '🛒'),
+                                        'Shop with GoBuy'
+                                    ),
+                                    React.createElement('p', { className: 'text-red-100 text-sm' },
+                                        'Use code ',
+                                        React.createElement('span', { className: 'font-semibold text-white bg-red-800 px-2 py-1 rounded' }, 'GOBUY10'),
+                                        ' for 10% off your first order!'
+                                    )
+                                ),
+                                React.createElement('div', { className: 'text-3xl' }, '🎉')
+                            )
+                        ),
+
+                        // Additional Services
+                        React.createElement('div', { className: 'fade-in bg-white rounded-2xl shadow-xl p-6' },
+                            React.createElement('h3', { className: 'text-lg font-semibold text-gray-800 mb-4' }, 'More Services'),
+                            React.createElement('div', { className: 'space-y-3' },
+                                React.createElement('button', {
+                                    className: 'w-full bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-lg text-left transition-colors duration-200',
+                                    onClick: () => navigate('/track-order')
+                                },
+                                    React.createElement('span', { className: 'font-medium' }, '📍 Track Your Order')
+                                ),
+                                React.createElement('button', {
+                                    className: 'w-full bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-lg text-left transition-colors duration-200',
+                                    onClick: () => navigate('/wallet')
+                                },
+                                    React.createElement('span', { className: 'font-medium' }, '💳 Payment & Wallet')
+                                ),
+                                React.createElement('button', {
+                                    className: 'w-full bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-lg text-left transition-colors duration-200',
+                                    onClick: () => navigate('/support')
+                                },
+                                    React.createElement('span', { className: 'font-medium' }, '🆘 Support & Help')
+                                )
+                            )
+                        )
+                    )
+                ),
+
+                // Desktop Message
+                React.createElement('div', { className: 'desktop-message hidden max-w-2xl mx-auto text-center py-20 px-4' },
+                    React.createElement('div', { className: 'bg-white rounded-2xl shadow-xl p-12' },
+                        React.createElement('h2', { className: 'text-3xl font-bold text-gray-800 mb-4' }, '📱 Mobile Experience'),
+                        React.createElement('p', { className: 'text-gray-600 text-lg mb-6' }, 'The GoBuy integration is optimized for mobile devices.'),
+                        React.createElement('p', { className: 'text-gray-500' }, 'Please visit on your phone for the best experience, or resize your browser window to see the mobile interface.')
+                    )
+                )
+            );
+        };
+
+        // Initialize the React app
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(React.createElement(MobileHomePage));
+    </script>
+</body>
+
+</html>

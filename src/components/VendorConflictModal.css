@@ -1,0 +1,134 @@
+/* Vendor Conflict Modal Styles */
+.vendor-conflict-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.vendor-conflict-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.conflict-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.conflict-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+}
+
+.conflict-message {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.vendor-info {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 0 32px 0;
+}
+
+.vendor-change {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.vendor-label {
+  color: #666;
+}
+
+.conflict-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.btn-primary {
+  background: #D72638;
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #c21e2f;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #666;
+  border: 2px solid #e0e0e0;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #D72638;
+  color: #D72638;
+  background: #fff5f6;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .vendor-conflict-overlay {
+    padding: 16px;
+  }
+  
+  .vendor-conflict-modal {
+    padding: 24px 20px;
+  }
+  
+  .conflict-title {
+    font-size: 20px;
+  }
+  
+  .conflict-message {
+    font-size: 14px;
+  }
+}

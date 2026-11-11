@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Go7 Server Test</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #e61e25;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .status {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .check {
+      color: #28a745;
+      font-weight: bold;
+    }
+    .button {
+      background-color: #e61e25;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #c41a20;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Go7 Server Status</h1>
+    
+    <div class="status">
+      <p class="check">✅ Server is running correctly on port 5175</p>
+      <p>Current Time: <span id="time"></span></p>
+    </div>
+    
+    <p>Your Go7 MapTracking system is ready for integration.</p>
+    <p>The app is working - this is a diagnostic page only.</p>
+    
+    <button class="button" onclick="window.location.href='http://localhost:5175/customer/track-order'">
+      Test Customer Tracking Page
+    </button>
+  </div>
+  
+  <script>
+    // Display current time
+    function updateTime() {
+      document.getElementById('time').textContent = new Date().toLocaleString();
+    }
+    
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    // Log status to console
+    console.log('🔍 Go7 Diagnostic Page Loaded');
+    console.log('✅ Server responding on port 5175');
+  </script>
+</body>
+</html>

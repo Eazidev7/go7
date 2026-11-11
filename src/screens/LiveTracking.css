@@ -1,0 +1,329 @@
+/* 🔄 LiveTracking Styles */
+.live-tracking {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Header */
+.tracking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.tracking-header h2 {
+  color: #374151;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-indicator.in_progress {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-indicator.completed {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.status-indicator.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Live Fare Section */
+.live-fare-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid #10b981;
+}
+
+.fare-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fare-header h3 {
+  color: #374151;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.update-indicator {
+  background: #10b981;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  animation: pulse 1.5s infinite;
+}
+
+.live-fare-display {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.main-fare {
+  font-size: 48px;
+  font-weight: 800;
+  color: #10b981;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.fare-change {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+}
+
+.fare-change.increase {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.fare-change.decrease {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.change-icon {
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.calculating {
+  color: #6b7280;
+  font-style: italic;
+  padding: 20px 0;
+}
+
+.live-breakdown {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.breakdown-row span:last-child {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Route Progress */
+.route-progress {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.route-progress h4 {
+  color: #374151;
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #10b981;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* Fare Trend */
+.fare-trend {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.fare-trend h4 {
+  color: #374151;
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.trend-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  height: 100px;
+  padding: 10px 0;
+}
+
+.trend-point {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 4px;
+}
+
+.trend-bar {
+  width: 20px;
+  background: linear-gradient(to top, #10b981, #34d399);
+  border-radius: 4px 4px 0 0;
+  min-height: 20px;
+  transition: height 0.3s ease;
+}
+
+.trend-value {
+  font-size: 10px;
+  color: #6b7280;
+  margin-top: 8px;
+  transform: rotate(-45deg);
+  white-space: nowrap;
+}
+
+/* Update Info */
+.update-info {
+  text-align: center;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.update-info small {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.error-text {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Debug Info */
+.debug-info {
+  background: #1f2937;
+  color: #f9fafb;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.debug-info summary {
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.debug-info pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .live-tracking {
+    padding: 16px;
+  }
+  
+  .live-fare-section,
+  .route-progress,
+  .fare-trend {
+    padding: 16px;
+  }
+  
+  .main-fare {
+    font-size: 36px;
+  }
+  
+  .progress-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .trend-chart {
+    height: 80px;
+  }
+}

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO7 Vendor Data Diagnostic</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #E83A2E;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-width: 300px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        select:hover {
+            border-color: #E83A2E;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background: #E83A2E;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #d42f22;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 58, 46, 0.3);
+        }
+        button.secondary {
+            background: #6c63ff;
+        }
+        button.secondary:hover {
+            background: #5449d4;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        .vendor-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #E83A2E;
+        }
+        .vendor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .vendor-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge.success { background: #d4edda; color: #155724; }
+        .badge.warning { background: #fff3cd; color: #856404; }
+        .badge.danger { background: #f8d7da; color: #721c24; }
+        .badge.info { background: #d1ecf1; color: #0c5460; }
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 1px solid #e0e0e0;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .icon {
+            font-size: 20px;
+        }
+        .product-item, .addon-item {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #6c63ff;
+        }
+        .product-name, .addon-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .product-details, .addon-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .price {
+            color: #E83A2E;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #E83A2E;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #c62828;
+            margin: 20px 0;
+        }
+        .firebase-config {
+            background: #fff9e6;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .firebase-config h3 {
+            color: #ff6f00;
+            margin-bottom: 10px;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 GO7 Vendor Data Diagnostic Tool</h1>
+        <p class="subtitle">Check products, categories, and addons for all vendors</p>
+
+        <div class="firebase-config">
+            <h3>⚠️ Firebase Configuration Required</h3>
+            <p>Please update the Firebase configuration in the script section (around line 250) with your actual Firebase credentials before using this tool.</p>
+        </div>
+
+        <div class="controls">
+            <select id="vendorSelect">
+                <option value="">Loading vendors...</option>
+            </select>
+            <button onclick="checkSingleVendor()">🔎 Check Selected Vendor</button>
+            <button onclick="checkAllVendors()" class="secondary">📊 Check All Vendors</button>
+        </div>
+
+        <div id="stats" class="stats-grid" style="display: none;"></div>
+        <div id="results" class="results"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // 🔥 UPDATE THIS WITH YOUR FIREBASE CONFIG
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        window.db = db;
+
+        // Load vendors on page load
+        loadVendors();
+
+        async function loadVendors() {
+            try {
+                const vendorsSnapshot = await getDocs(collection(db, 'vendors'));
+                const select = document.getElementById('vendorSelect');
+                select.innerHTML = '<option value="">-- Select a Vendor --</option>';
+                
+                if (vendorsSnapshot.empty) {
+                    select.innerHTML = '<option value="">❌ No vendors found in database</option>';
+                    return;
+                }
+
+                vendorsSnapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = `${data.businessName || data.name || 'Unnamed Vendor'} (${doc.id.substring(0, 8)}...)`;
+                    select.appendChild(option);
+                });
+
+                console.log(`✅ Loaded ${vendorsSnapshot.size} vendors`);
+            } catch (error) {
+                console.error('Error loading vendors:', error);
+                document.getElementById('vendorSelect').innerHTML = '<option value="">❌ Error loading vendors</option>';
+                showError('Failed to load vendors. Check console for details.');
+            }
+        }
+
+        window.checkSingleVendor = async function() {
+            const vendorId = document.getElementById('vendorSelect').value;
+            if (!vendorId) {
+                alert('Please select a vendor first');
+                return;
+            }
+
+            showLoading();
+            try {
+                const vendorData = await analyzeVendor(vendorId);
+                displayVendorData([vendorData]);
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message);
+            }
+        };
+
+        window.checkAllVendors = async function() {
+            showLoading();
+            try {
+                const vendorsSnapshot = await getDocs(collection(db, 'vendors'));
+                
+                if (vendorsSnapshot.empty) {
+                    showError('No vendors found in the database');
+                    return;
+                }
+
+                const vendorsData = [];
+                for (const vendorDoc of vendorsSnapshot.docs) {
+                    const data = await analyzeVendor(vendorDoc.id);
+                    vendorsData.push(data);
+                }
+
+                displayVendorData(vendorsData);
+                displayStats(vendorsData);
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message);
+            }
+        };
+
+        async function analyzeVendor(vendorId) {
+            // Get vendor details
+            const vendorDoc = await getDoc(doc(db, 'vendors', vendorId));
+            if (!vendorDoc.exists()) {
+                throw new Error(`Vendor ${vendorId} not found`);
+            }
+
+            const vendorData = { id: vendorId, ...vendorDoc.data() };
+
+            // Get products from vendors/{vendorId}/products
+            const productsSnapshot = await getDocs(collection(db, 'vendors', vendorId, 'products'));
+            const products = productsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            // Get addons from vendors/{vendorId}/addons
+            const addonsSnapshot = await getDocs(collection(db, 'vendors', vendorId, 'addons'));
+            const addons = addonsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            // Get categories (unique from products)
+            const categories = [...new Set(products.map(p => p.category).filter(c => c))];
+
+            // Link addons to products
+            const productsWithAddons = products.map(product => ({
+                ...product,
+                addons: addons.filter(addon => addon.productId === product.id)
+            }));
+
+            return {
+                vendor: vendorData,
+                products: productsWithAddons,
+                addons,
+                categories,
+                stats: {
+                    totalProducts: products.length,
+                    activeProducts: products.filter(p => p.isActive).length,
+                    totalAddons: addons.length,
+                    activeAddons: addons.filter(a => a.isActive).length,
+                    categoriesCount: categories.length
+                }
+            };
+        }
+
+        function displayStats(vendorsData) {
+            const stats = {
+                totalVendors: vendorsData.length,
+                vendorsWithProducts: vendorsData.filter(v => v.products.length > 0).length,
+                totalProducts: vendorsData.reduce((sum, v) => sum + v.products.length, 0),
+                totalAddons: vendorsData.reduce((sum, v) => sum + v.addons.length, 0),
+            };
+
+            const statsDiv = document.getElementById('stats');
+            statsDiv.style.display = 'grid';
+            statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalVendors}</div>
+                    <div class="stat-label">Total Vendors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.vendorsWithProducts}</div>
+                    <div class="stat-label">Vendors with Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalProducts}</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalAddons}</div>
+                    <div class="stat-label">Total Addons</div>
+                </div>
+            `;
+        }
+
+        function displayVendorData(vendorsData) {
+            const results = document.getElementById('results');
+            
+            if (vendorsData.length === 0) {
+                results.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📭</div>
+                        <h2>No vendor data found</h2>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            vendorsData.forEach(data => {
+                const { vendor, products, addons, categories, stats } = data;
+                
+                const hasProducts = products.length > 0;
+                const hasAddons = addons.length > 0;
+                const hasCategories = categories.length > 0;
+
+                html += `
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div>
+                                <div class="vendor-name">${vendor.businessName || vendor.name || 'Unnamed Vendor'}</div>
+                                <div style="color: #666; font-size: 14px; margin-top: 5px;">
+                                    ID: ${vendor.id} • Type: ${vendor.vendorType || 'N/A'}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <span class="badge ${hasProducts ? 'success' : 'danger'}">
+                                    ${hasProducts ? '✅ Has Products' : '❌ No Products'}
+                                </span>
+                                <span class="badge ${vendor.isActive ? 'success' : 'warning'}">
+                                    ${vendor.isActive ? '🟢 Active' : '🟡 Inactive'}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                            <div class="badge info">📦 ${stats.totalProducts} Products (${stats.activeProducts} active)</div>
+                            <div class="badge info">🎁 ${stats.totalAddons} Addons (${stats.activeAddons} active)</div>
+                            <div class="badge info">🏷️ ${stats.categoriesCount} Categories</div>
+                        </div>
+
+                        ${hasCategories ? `
+                            <div class="section">
+                                <div class="section-title">
+                                    <span class="icon">🏷️</span>
+                                    Categories
+                                </div>
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    ${categories.map(cat => `<span class="badge info">${cat}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${hasProducts ? `
+                            <div class="section">
+                                <div class="section-title">
+                                    <span class="icon">📦</span>
+                                    Products (${products.length})
+                                </div>
+                                ${products.map(product => `
+                                    <div class="product-item">
+                                        <div class="product-name">
+                                            ${product.name}
+                                            ${product.isActive ? '<span class="badge success" style="margin-left: 10px;">Active</span>' : '<span class="badge warning" style="margin-left: 10px;">Inactive</span>'}
+                                            ${product.addons && product.addons.length > 0 ? `<span class="badge info" style="margin-left: 5px;">+${product.addons.length} addons</span>` : ''}
+                                        </div>
+                                        <div class="product-details">
+                                            <div class="detail-item">
+                                                <span class="detail-label">Price:</span>
+                                                <span class="price">₦${product.basePrice || product.price || 0}</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Type:</span>
+                                                ${product.measurementType || 'N/A'}
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Category:</span>
+                                                ${product.category || 'Uncategorized'}
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Image:</span>
+                                                ${product.imageUrl ? '✅ Yes' : '❌ No'}
+                                            </div>
+                                            ${product.stockQuantity !== undefined ? `
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Stock:</span>
+                                                    ${product.stockQuantity}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                        ${product.description ? `<div style="margin-top: 8px; color: #666; font-size: 13px;">${product.description}</div>` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <div class="section">
+                                <div class="empty-state">
+                                    <div class="icon">📭</div>
+                                    <h3>No Products Found</h3>
+                                    <p>This vendor has no products in: <code>vendors/${vendor.id}/products</code></p>
+                                    <p style="margin-top: 10px; color: #999;">Products must be created through the vendor dashboard.</p>
+                                </div>
+                            </div>
+                        `}
+
+                        ${hasAddons ? `
+                            <div class="section">
+                                <div class="section-title">
+                                    <span class="icon">🎁</span>
+                                    Addons (${addons.length})
+                                </div>
+                                ${addons.map(addon => `
+                                    <div class="addon-item">
+                                        <div class="addon-name">
+                                            ${addon.name}
+                                            ${addon.isActive ? '<span class="badge success" style="margin-left: 10px;">Active</span>' : '<span class="badge warning" style="margin-left: 10px;">Inactive</span>'}
+                                        </div>
+                                        <div class="addon-details">
+                                            <div class="detail-item">
+                                                <span class="detail-label">Price:</span>
+                                                <span class="price">₦${addon.price || 0}</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Product ID:</span>
+                                                ${addon.productId ? addon.productId.substring(0, 12) + '...' : 'N/A'}
+                                            </div>
+                                        </div>
+                                        ${addon.description ? `<div style="margin-top: 8px; color: #666; font-size: 13px;">${addon.description}</div>` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            results.innerHTML = html;
+        }
+
+        function showLoading() {
+            document.getElementById('results').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing vendor data...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('results').innerHTML = `
+                <div class="error-message">
+                    <h3>❌ Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+/* Fallback fonts in case Google Fonts fails to load */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  font-weight: 400 700;
+  font-style: normal;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 105%;
+}
+
+@font-face {
+  font-family: 'Poppins Fallback';
+  src: local('Segoe UI'), local('Tahoma');
+  font-weight: 400 700;
+  font-style: normal;
+  ascent-override: 94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 107%;
+}
+
+:root {
+  --font-inter: 'Inter', 'Inter Fallback', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-poppins: 'Poppins', 'Poppins Fallback', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}

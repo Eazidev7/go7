@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Vendor Emails - GO7</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .vendor { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-left: 4px solid #007bff; 
+            border-radius: 5px;
+        }
+        .email { color: #007bff; font-weight: bold; font-size: 16px; }
+        .business { color: #333; font-size: 18px; margin-bottom: 5px; }
+        .info { color: #666; font-size: 14px; }
+        .loading { text-align: center; padding: 40px; }
+        .error { color: red; background: #ffe6e6; padding: 15px; border-radius: 5px; }
+        .success { color: green; background: #e6ffe6; padding: 15px; border-radius: 5px; }
+        button { 
+            background: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 GO7 Vendor Credentials</h1>
+        
+        <div id="status" class="loading">Loading vendor accounts...</div>
+        
+        <button onclick="loadVendors()">🔄 Refresh</button>
+        <button onclick="exportToText()">📋 Export List</button>
+        
+        <div id="vendors"></div>
+        
+        <div id="export" style="display: none;">
+            <h3>📋 Copy this list:</h3>
+            <textarea id="exportText" style="width: 100%; height: 200px; font-family: monospace;"></textarea>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiUnq9vlXkp5űBNTyLVFWe3Kq_B0v21M8",
+            authDomain: "go7-32084.firebaseapp.com",
+            projectId: "go7-32084",
+            storageBucket: "go7-32084.firebasestorage.app",
+            messagingSenderId: "201718584347",
+            appId: "1:201718584347:web:b78d9a83ff03e01afaca9c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        let vendorsData = [];
+
+        window.loadVendors = async function() {
+            const statusDiv = document.getElementById('status');
+            const vendorsDiv = document.getElementById('vendors');
+            
+            statusDiv.innerHTML = '<div class="loading">🔄 Loading vendors...</div>';
+            vendorsDiv.innerHTML = '';
+            
+            try {
+                console.log('Fetching from vendors collection...');
+                const vendorsRef = collection(db, 'vendors');
+                const snapshot = await getDocs(vendorsRef);
+                
+                console.log('Snapshot size:', snapshot.size);
+                
+                if (snapshot.empty) {
+                    statusDiv.innerHTML = '<div class="error">❌ No vendors found in database</div>';
+                    return;
+                }
+                
+                vendorsData = [];
+                let html = '';
+                
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const vendor = {
+                        id: doc.id,
+                        email: data.email || data.ownerEmail || 'No email found',
+                        businessName: data.name || data.businessName || 'Unknown Business',
+                        phone: data.phone || data.phoneNumber || 'No phone',
+                        category: data.category || data.businessType || 'Unknown'
+                    };
+                    
+                    vendorsData.push(vendor);
+                    
+                    html += `
+                        <div class="vendor">
+                            <div class="business">🏪 ${vendor.businessName}</div>
+                            <div class="email">📧 ${vendor.email}</div>
+                            <div class="info">📱 ${vendor.phone} | 🏷️ ${vendor.category}</div>
+                            <div class="info">🆔 ${vendor.id}</div>
+                        </div>
+                    `;
+                });
+                
+                statusDiv.innerHTML = `<div class="success">✅ Found ${vendorsData.length} vendor account(s)</div>`;
+                vendorsDiv.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                statusDiv.innerHTML = `
+                    <div class="error">
+                        ❌ Error loading vendors: ${error.message}<br/>
+                        <small>Check console for details</small>
+                    </div>
+                `;
+            }
+        };
+
+        window.exportToText = function() {
+            if (vendorsData.length === 0) {
+                alert('No vendors loaded yet. Click Refresh first.');
+                return;
+            }
+            
+            let text = '🔐 GO7 VENDOR CREDENTIALS\n';
+            text += '=' * 50 + '\n\n';
+            
+            vendorsData.forEach((vendor, index) => {
+                text += `${index + 1}. ${vendor.businessName}\n`;
+                text += `   📧 Email: ${vendor.email}\n`;
+                text += `   📱 Phone: ${vendor.phone}\n`;
+                text += `   🏷️ Category: ${vendor.category}\n`;
+                text += `   🆔 ID: ${vendor.id}\n`;
+                text += '   ' + '-'.repeat(40) + '\n\n';
+            });
+            
+            text += '\n⚠️ PASSWORDS:\n';
+            text += 'Passwords cannot be retrieved (hashed by Firebase)\n';
+            text += 'Use the reset-vendor-password.html tool to send reset emails\n';
+            
+            document.getElementById('exportText').value = text;
+            document.getElementById('export').style.display = 'block';
+        };
+
+        // Auto-load on page load
+        window.loadVendors();
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Fix All Vendor Products</title>
+  <style>
+    body {
+      font-family: monospace;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #000;
+      color: #00ff00;
+    }
+    h1 { color: #00ff00; }
+    .section {
+      background: #1a1a1a;
+      border: 2px solid #00ff00;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    button {
+      background: #00ff00;
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    button:hover { background: #00aa00; }
+    button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+    .success { color: #00ff00; }
+    .error { color: #ff0000; }
+    .warning { color: #ffaa00; }
+    .info { color: #00aaff; }
+    #log {
+      max-height: 500px;
+      overflow-y: auto;
+      background: #000;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #00ff00;
+      margin-top: 20px;
+    }
+    .vendor-card {
+      background: #2a2a2a;
+      border: 1px solid #00ff00;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Auto-Fix All Vendor Products</h1>
+  
+  <div class="section">
+    <h2>Automatic Product Setup</h2>
+    <p>This tool will:</p>
+    <ul>
+      <li>Find all vendors in your database</li>
+      <li>Check which vendors have NO products</li>
+      <li>Automatically create 5 sample products for each vendor without products</li>
+      <li>Set all availability flags correctly</li>
+    </ul>
+    <button onclick="autoFixAllVendors()" id="fixBtn">🚀 AUTO-FIX ALL VENDORS</button>
+    <button onclick="viewAllVendors()" id="viewBtn">👁️ VIEW ALL VENDORS</button>
+  </div>
+
+  <div class="section">
+    <h2>📋 Log Output</h2>
+    <div id="log"></div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Results</h2>
+    <div id="results"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+    import { 
+      getFirestore, 
+      collection, 
+      getDocs, 
+      addDoc,
+      doc,
+      getDoc,
+      Timestamp,
+      enableNetwork
+    } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+      authDomain: "go7-delivery.firebaseapp.com",
+      projectId: "go7-delivery",
+      storageBucket: "go7-delivery.firebasestorage.app",
+      messagingSenderId: "232009015458",
+      appId: "1:232009015458:web:49dbb63a5a67112325f7fb",
+      databaseURL: "https://go7-delivery-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    await enableNetwork(db);
+
+    const logDiv = document.getElementById('log');
+    const resultsDiv = document.getElementById('results');
+
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = type;
+      div.innerHTML = `[${timestamp}] ${message}`;
+      logDiv.appendChild(div);
+      logDiv.scrollTop = logDiv.scrollHeight;
+      console.log(message);
+    }
+
+    const sampleProducts = [
+      { name: "Jollof Rice", basePrice: 2500, category: "Main Course", description: "Delicious Nigerian Jollof rice with chicken" },
+      { name: "Fried Rice", basePrice: 2000, category: "Main Course", description: "Mixed vegetable fried rice" },
+      { name: "Amala & Ewedu", basePrice: 1500, category: "Local Dishes", description: "Traditional Nigerian soup" },
+      { name: "Pounded Yam & Egusi", basePrice: 3000, category: "Local Dishes", description: "Fresh pounded yam with egusi soup" },
+      { name: "Chicken & Chips", basePrice: 2800, category: "Fast Food", description: "Crispy fried chicken with chips" }
+    ];
+
+    window.viewAllVendors = async function() {
+      log('🔍 Fetching all vendors...', 'info');
+      const fixBtn = document.getElementById('fixBtn');
+      const viewBtn = document.getElementById('viewBtn');
+      fixBtn.disabled = true;
+      viewBtn.disabled = true;
+
+      try {
+        const vendorsRef = collection(db, 'vendors');
+        const vendorsSnapshot = await getDocs(vendorsRef);
+        
+        log(`✅ Found ${vendorsSnapshot.size} vendors`, 'success');
+        
+        let html = `<h3>Total Vendors: ${vendorsSnapshot.size}</h3>`;
+        
+        for (const vendorDoc of vendorsSnapshot.docs) {
+          const vendorData = vendorDoc.data();
+          const vendorId = vendorDoc.id;
+          
+          // Check products
+          const productsRef = collection(db, 'vendors', vendorId, 'products');
+          const productsSnapshot = await getDocs(productsRef);
+          
+          html += `
+            <div class="vendor-card">
+              <strong>${vendorData.name || vendorData.businessName || 'Unnamed'}</strong><br>
+              <small>ID: ${vendorId}</small><br>
+              <small>Email: ${vendorData.email || 'N/A'}</small><br>
+              <strong>Products: ${productsSnapshot.size}</strong>
+              ${productsSnapshot.size === 0 ? '<span class="error"> ⚠️ NO PRODUCTS!</span>' : '<span class="success"> ✅</span>'}
+            </div>
+          `;
+          
+          log(`  ${vendorData.name || 'Unnamed'} (${vendorId}): ${productsSnapshot.size} products`, productsSnapshot.size === 0 ? 'warning' : 'success');
+        }
+        
+        resultsDiv.innerHTML = html;
+        
+      } catch (error) {
+        log(`❌ Error: ${error.message}`, 'error');
+      } finally {
+        fixBtn.disabled = false;
+        viewBtn.disabled = false;
+      }
+    };
+
+    window.autoFixAllVendors = async function() {
+      if (!confirm('This will create sample products for ALL vendors that have no products. Continue?')) {
+        return;
+      }
+
+      log('🚀 Starting auto-fix process...', 'info');
+      const fixBtn = document.getElementById('fixBtn');
+      const viewBtn = document.getElementById('viewBtn');
+      fixBtn.disabled = true;
+      viewBtn.disabled = true;
+
+      let totalVendors = 0;
+      let vendorsFixed = 0;
+      let vendorsSkipped = 0;
+      let totalProductsCreated = 0;
+      let errors = 0;
+
+      try {
+        const vendorsRef = collection(db, 'vendors');
+        const vendorsSnapshot = await getDocs(vendorsRef);
+        totalVendors = vendorsSnapshot.size;
+        
+        log(`📋 Found ${totalVendors} vendors to process`, 'info');
+        
+        for (const vendorDoc of vendorsSnapshot.docs) {
+          const vendorData = vendorDoc.data();
+          const vendorId = vendorDoc.id;
+          const vendorName = vendorData.name || vendorData.businessName || 'Unnamed';
+          
+          log(`\n🔍 Processing: ${vendorName} (${vendorId})`, 'info');
+          
+          try {
+            // Check if vendor already has products
+            const productsRef = collection(db, 'vendors', vendorId, 'products');
+            const productsSnapshot = await getDocs(productsRef);
+            
+            if (productsSnapshot.size > 0) {
+              log(`  ⏭️ Skipping - already has ${productsSnapshot.size} products`, 'warning');
+              vendorsSkipped++;
+              continue;
+            }
+            
+            log(`  🛠️ Creating products for ${vendorName}...`, 'info');
+            
+            // Create sample products
+            for (const product of sampleProducts) {
+              const productData = {
+                name: product.name,
+                description: product.description,
+                basePrice: product.basePrice,
+                price: product.basePrice,
+                category: product.category,
+                vendorId: vendorId,
+                
+                // ALL availability flags
+                active: true,
+                isActive: true,
+                available: true,
+                isAvailable: true,
+                
+                // Additional fields
+                measurementType: 'portion',
+                imageUrl: `https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}`,
+                
+                // Timestamps
+                createdAt: Timestamp.now(),
+                updatedAt: Timestamp.now()
+              };
+              
+              const docRef = await addDoc(productsRef, productData);
+              log(`    ✅ Created: ${product.name} (ID: ${docRef.id})`, 'success');
+              totalProductsCreated++;
+            }
+            
+            vendorsFixed++;
+            log(`  ✅ Successfully created ${sampleProducts.length} products for ${vendorName}`, 'success');
+            
+          } catch (error) {
+            log(`  ❌ Error processing ${vendorName}: ${error.message}`, 'error');
+            errors++;
+          }
+        }
+        
+        // Summary
+        const summaryHtml = `
+          <div class="vendor-card" style="border-color: #00ff00; border-width: 3px;">
+            <h3 class="success">✅ AUTO-FIX COMPLETED!</h3>
+            <p><strong>Total Vendors:</strong> ${totalVendors}</p>
+            <p><strong>Vendors Fixed:</strong> <span class="success">${vendorsFixed}</span></p>
+            <p><strong>Vendors Skipped:</strong> <span class="warning">${vendorsSkipped}</span> (already had products)</p>
+            <p><strong>Products Created:</strong> <span class="success">${totalProductsCreated}</span></p>
+            <p><strong>Errors:</strong> <span class="${errors > 0 ? 'error' : 'success'}">${errors}</span></p>
+          </div>
+        `;
+        
+        resultsDiv.innerHTML = summaryHtml;
+        
+        log('\n' + '='.repeat(50), 'info');
+        log('🎉 AUTO-FIX COMPLETE!', 'success');
+        log(`✅ Fixed ${vendorsFixed} vendors`, 'success');
+        log(`📦 Created ${totalProductsCreated} total products`, 'success');
+        if (errors > 0) {
+          log(`⚠️ ${errors} errors occurred`, 'error');
+        }
+        log('='.repeat(50), 'info');
+        
+        alert(`✅ Success!\n\nFixed ${vendorsFixed} vendors\nCreated ${totalProductsCreated} products\n\nYou can now view products on vendor pages!`);
+        
+      } catch (error) {
+        log(`❌ Fatal error: ${error.message}`, 'error');
+        alert(`Error: ${error.message}`);
+      } finally {
+        fixBtn.disabled = false;
+        viewBtn.disabled = false;
+      }
+    };
+
+    log('🚀 Auto-Fix tool loaded and ready!', 'success');
+    log('Click "VIEW ALL VENDORS" to see current state', 'info');
+    log('Click "AUTO-FIX ALL VENDORS" to create products', 'info');
+  </script>
+</body>
+</html>

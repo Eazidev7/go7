@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Triggers Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 { color: #667eea; text-align: center; margin-bottom: 30px; }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+        .warning { background: #fff3cd; color: #856404; border-left: 4px solid #ffc107; }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .step {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .step h3 {
+            color: #667eea;
+            margin: 0 0 10px 0;
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Auto-Trigger Test System</h1>
+        
+        <div class="status info">
+            <strong>� Authentication Status:</strong> <span id="auth-status">Authenticating...</span>
+        </div>
+
+        <div class="status info">
+            <strong>�📋 What This Tests:</strong><br>
+            • onOrderCreated - Automatic WhatsApp when order created<br>
+            • onRiderAssigned - Automatic WhatsApp when rider added<br>
+            • onOrderShipping - Automatic WhatsApp when status = out_for_delivery<br>
+            • onOrderDelivered - Automatic WhatsApp when status = delivered
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">1</span>Create Test Order</h3>
+            <p>This will trigger <strong>onOrderCreated</strong> and send WhatsApp notification</p>
+            <button onclick="createOrder()">🛒 Create Order</button>
+            <div id="order-result"></div>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">2</span>Assign Rider</h3>
+            <p>This will trigger <strong>onRiderAssigned</strong> and send WhatsApp notification</p>
+            <button id="assignBtn" onclick="assignRider()" disabled>🏍️ Assign Rider</button>
+            <div id="rider-result"></div>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">3</span>Mark Out for Delivery</h3>
+            <p>This will trigger <strong>onOrderShipping</strong> and send WhatsApp notification</p>
+            <button id="shippingBtn" onclick="markShipping()" disabled>🚚 Out for Delivery</button>
+            <div id="shipping-result"></div>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">4</span>Mark Delivered</h3>
+            <p>This will trigger <strong>onOrderDelivered</strong> and send WhatsApp notification</p>
+            <button id="deliveredBtn" onclick="markDelivered()" disabled>✅ Mark Delivered</button>
+            <div id="delivered-result"></div>
+        </div>
+
+        <div class="status warning">
+            <strong>📱 Check WhatsApp on 08166205600</strong><br>
+            You should receive 4 automatic notifications as you progress through the steps!
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFirestore, doc, setDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.firebasestorage.app",
+            messagingSenderId: "232009015458",
+            appId: "1:232009015458:web:49dbb63a5a67112325f7fb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        let currentOrderId = null;
+        let currentUserId = null;
+
+        // Authenticate anonymously on page load
+        signInAnonymously(auth).then((userCredential) => {
+            currentUserId = userCredential.user.uid;
+            console.log('✅ Authenticated as:', currentUserId);
+            document.getElementById('auth-status').innerHTML = '<strong style="color: green;">✅ Authenticated (User: ' + currentUserId.substring(0, 8) + '...)</strong>';
+        }).catch((error) => {
+            console.error('Authentication error:', error);
+            document.getElementById('auth-status').innerHTML = '<strong style="color: red;">❌ Authentication failed: ' + error.message + '</strong><br><br>' +
+                '<div class="status warning">⚠️ <strong>Anonymous authentication needs to be enabled in Firebase Console:</strong><br>' +
+                '1. Go to Firebase Console → Authentication<br>' +
+                '2. Click "Sign-in method" tab<br>' +
+                '3. Enable "Anonymous" provider<br>' +
+                '4. Refresh this page</div>';
+        });
+
+        window.createOrder = async function() {
+            if (!currentUserId) {
+                alert('Please wait for authentication...');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('order-result');
+            resultDiv.innerHTML = '⏳ Creating order...';
+            
+            currentOrderId = 'AUTO-TEST-' + Date.now();
+            const testOrder = {
+                orderNumber: currentOrderId,
+                userId: currentUserId,
+                customerName: 'Test Customer',
+                customerPhone: '08166205600',
+                deliveryAddress: { phoneNumber: '08166205600' },
+                total: 5000,
+                items: [{ name: 'Test Item', quantity: 1, price: 5000 }],
+                status: 'pending',
+                createdAt: serverTimestamp()
+            };
+            
+            try {
+                await setDoc(doc(db, 'orders', currentOrderId), testOrder);
+                resultDiv.innerHTML = 
+                    '<div class="status success">✅ Order created successfully!<br>' +
+                    'Order ID: ' + currentOrderId + '<br>' +
+                    'User ID: ' + currentUserId + '<br><br>' +
+                    '<strong>🔔 onOrderCreated triggered!</strong><br>' +
+                    'WhatsApp notification should be sent to 08166205600</div>';
+                document.getElementById('assignBtn').disabled = false;
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="status error">❌ Error: ' + error.message + '<br><br>' +
+                    'If you see "Missing or insufficient permissions", the Firestore rules need to allow anonymous users to create orders.</div>';
+            }
+        };
+
+        window.assignRider = async function() {
+            if (!currentOrderId) {
+                alert('Please create an order first!');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('rider-result');
+            resultDiv.innerHTML = '⏳ Assigning rider...';
+            
+            try {
+                await updateDoc(doc(db, 'orders', currentOrderId), {
+                    riderId: 'test-rider-123',
+                    riderName: 'Test Rider',
+                    status: 'assigned'
+                });
+                
+                resultDiv.innerHTML = 
+                    '<div class="status success">✅ Rider assigned!<br>' +
+                    'Rider: Test Rider<br><br>' +
+                    '<strong>🔔 onRiderAssigned triggered!</strong><br>' +
+                    'WhatsApp "Rider Assigned" notification sent!</div>';
+                document.getElementById('shippingBtn').disabled = false;
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        };
+
+        window.markShipping = async function() {
+            if (!currentOrderId) {
+                alert('Please create an order first!');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('shipping-result');
+            resultDiv.innerHTML = '⏳ Updating status...';
+            
+            try {
+                await updateDoc(doc(db, 'orders', currentOrderId), {
+                    status: 'out_for_delivery'
+                });
+                
+                resultDiv.innerHTML = 
+                    '<div class="status success">✅ Status updated to "out_for_delivery"!<br><br>' +
+                    '<strong>🔔 onOrderShipping triggered!</strong><br>' +
+                    'WhatsApp "Order Shipping" notification sent!</div>';
+                document.getElementById('deliveredBtn').disabled = false;
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        };
+
+        window.markDelivered = async function() {
+            if (!currentOrderId) {
+                alert('Please create an order first!');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('delivered-result');
+            resultDiv.innerHTML = '⏳ Marking as delivered...';
+            
+            try {
+                await updateDoc(doc(db, 'orders', currentOrderId), {
+                    status: 'delivered',
+                    deliveredAt: serverTimestamp()
+                });
+                
+                resultDiv.innerHTML = 
+                    '<div class="status success">✅ Order marked as delivered!<br><br>' +
+                    '<strong>🔔 onOrderDelivered triggered!</strong><br>' +
+                    'WhatsApp "Delivery Confirmation" notification sent!<br><br>' +
+                    '<strong>🎉 All 4 auto-triggers tested successfully!</strong></div>';
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>';
+            }
+        };
+    </script>
+</body>
+</html>

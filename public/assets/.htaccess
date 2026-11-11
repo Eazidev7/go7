@@ -1,0 +1,4 @@
+# Ensure JS/CSS bundles are always served (fixes 403 on /assets/*.js)
+<IfModule mod_authz_core.c>
+  Require all granted
+</IfModule>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Developer Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background-color: #ff6b00;
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .primary-button {
+            background-color: #ff6b00;
+            color: white;
+            border: 2px solid #ff6b00;
+        }
+        
+        .primary-button:hover {
+            background-color: #e05f00;
+            border-color: #e05f00;
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: #ff6b00;
+            border: 2px solid #ff6b00;
+            margin-right: 0.8rem;
+        }
+        
+        .secondary-button:hover {
+            background-color: rgba(255, 107, 0, 0.1);
+        }
+        
+        .status-container {
+            margin-top: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .status-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-title .indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-title .indicator.online {
+            background-color: #2ecc71;
+        }
+        
+        .status-title .indicator.offline {
+            background-color: #e74c3c;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-name {
+            color: #555;
+        }
+        
+        .status-value {
+            font-weight: 500;
+        }
+        
+        .status-value.good {
+            color: #2ecc71;
+        }
+        
+        .status-value.warning {
+            color: #f39c12;
+        }
+        
+        .status-value.error {
+            color: #e74c3c;
+        }
+        
+        .footer {
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="go7-logo.png" alt="Go7 Logo">
+        <h1>Developer Portal</h1>
+    </header>
+    
+    <main class="main-content">
+        <h2>Welcome to Go7 Food Delivery Platform</h2>
+        <p style="margin-top: 0.5rem; color: #666;">Access the application, development tools, and troubleshooting resources.</p>
+        
+        <div class="card-container">
+            <div class="card">
+                <img src="burger-hero.png" alt="Go7 Application" class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Launch Application</h3>
+                    <p class="card-description">Start the Go7 food delivery application to explore all features including customer ordering, vendor management, and delivery tracking.</p>
+                    <div class="card-actions">
+                        <a href="go7/index.html" class="button primary-button">Launch App</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="5787391259843873389-removebg-preview.png" alt="Troubleshooting Tools" class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Troubleshooting Tools</h3>
+                    <p class="card-description">Fix common issues with service workers, browser caching, or application startup problems using our emergency repair tools.</p>
+                    <div class="card-actions">
+                        <a href="go7/public/emergency-fix.html" class="button primary-button">Fix Issues</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="go7-logo.png" alt="Developer Resources" class="card-image" style="object-fit: contain; padding: 1rem;">
+                <div class="card-content">
+                    <h3 class="card-title">Developer Resources</h3>
+                    <p class="card-description">Access documentation, troubleshooting guides, and development utilities to help with the Go7 project.</p>
+                    <div class="card-actions">
+                        <a href="TROUBLESHOOTING.md" class="button secondary-button">Guide</a>
+                        <a href="README.md" class="button primary-button">Docs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-container">
+            <h3 class="status-title">
+                <span class="indicator" id="serverStatusIndicator"></span>
+                System Status
+            </h3>
+            
+            <div class="status-item">
+                <span class="status-name">Development Server</span>
+                <span class="status-value" id="serverStatus">Checking...</span>
+            </div>
+            
+            <div class="status-item">
+                <span class="status-name">Service Workers</span>
+                <span class="status-value" id="swStatus">Checking...</span>
+            </div>
+            
+            <div class="status-item">
+                <span class="status-name">Browser Storage</span>
+                <span class="status-value" id="storageStatus">Checking...</span>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2023 Go7 Food Delivery. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Check server status
+        function checkServerStatus() {
+            fetch('http://localhost:5186/health-check', { 
+                method: 'GET',
+                mode: 'no-cors',
+                cache: 'no-store'
+            })
+            .then(() => {
+                document.getElementById('serverStatus').textContent = 'Online';
+                document.getElementById('serverStatus').className = 'status-value good';
+                document.getElementById('serverStatusIndicator').className = 'indicator online';
+            })
+            .catch(() => {
+                document.getElementById('serverStatus').textContent = 'Offline';
+                document.getElementById('serverStatus').className = 'status-value error';
+                document.getElementById('serverStatusIndicator').className = 'indicator offline';
+            });
+        }
+        
+        // Check service worker status
+        function checkSWStatus() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations()
+                .then(registrations => {
+                    if (registrations.length > 0) {
+                        document.getElementById('swStatus').textContent = `${registrations.length} Active`;
+                        document.getElementById('swStatus').className = 'status-value warning';
+                    } else {
+                        document.getElementById('swStatus').textContent = 'None Active';
+                        document.getElementById('swStatus').className = 'status-value good';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('swStatus').textContent = 'Error';
+                    document.getElementById('swStatus').className = 'status-value error';
+                });
+            } else {
+                document.getElementById('swStatus').textContent = 'Not Supported';
+                document.getElementById('swStatus').className = 'status-value warning';
+            }
+        }
+        
+        // Check storage status
+        function checkStorageStatus() {
+            try {
+                const localStorageSize = new Blob(
+                    Object.entries(localStorage).map(entry => [entry[0], entry[1]])
+                ).size;
+                
+                if (localStorageSize > 1000000) { // 1MB
+                    document.getElementById('storageStatus').textContent = 'High Usage';
+                    document.getElementById('storageStatus').className = 'status-value warning';
+                } else {
+                    document.getElementById('storageStatus').textContent = 'Normal';
+                    document.getElementById('storageStatus').className = 'status-value good';
+                }
+            } catch (e) {
+                document.getElementById('storageStatus').textContent = 'Error';
+                document.getElementById('storageStatus').className = 'status-value error';
+            }
+        }
+        
+        // Run all checks
+        window.addEventListener('load', () => {
+            checkServerStatus();
+            checkSWStatus();
+            checkStorageStatus();
+            
+            // Refresh status every 10 seconds
+            setInterval(() => {
+                checkServerStatus();
+            }, 10000);
+        });
+    </script>
+</body>
+</html>

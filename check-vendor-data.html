@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Vendor Data</title>
+</head>
+<body>
+    <h1>Checking Vendor Data...</h1>
+    <pre id="result"></pre>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.firebasestorage.app",
+            messagingSenderId: "232009015458",
+            appId: "1:232009015458:web:49dbb63a5a67112325f7fb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function checkVendor() {
+            try {
+                const vendorId = '4oOKBZ5koTgB5qQK3Ft5hB1MENz1';
+                
+                const vendorDoc = await getDoc(doc(db, 'vendors', vendorId));
+                
+                if (!vendorDoc.exists()) {
+                    document.getElementById('result').textContent = '❌ Vendor not found!';
+                    return;
+                }
+                
+                const data = vendorDoc.data();
+                
+                const output = `
+📋 VENDOR DATA:
+================
+vendorId: ${data.vendorId}
+businessName: ${data.businessName}
+phone: ${data.phone}
+
+🔐 VERIFICATION STATUS:
+phoneVerified: ${data.phoneVerified}
+phoneVerificationRequired: ${data.phoneVerificationRequired}
+accountStatus: ${data.accountStatus}
+canReceiveOrders: ${data.canReceiveOrders}
+isActive: ${data.isActive}
+registrationComplete: ${data.registrationComplete}
+
+❓ SHOULD SHOW VERIFICATION?
+${!data.phoneVerified || data.accountStatus === 'pending_phone_verification' || !data.registrationComplete}
+
+CONDITION CHECKS:
+- !phoneVerified: ${!data.phoneVerified}
+- accountStatus === 'pending_phone_verification': ${data.accountStatus === 'pending_phone_verification'}
+- !registrationComplete: ${!data.registrationComplete}
+                `;
+                
+                document.getElementById('result').textContent = output;
+                
+            } catch (error) {
+                document.getElementById('result').textContent = '❌ Error: ' + error.message;
+            }
+        }
+
+        checkVendor();
+    </script>
+</body>
+</html>

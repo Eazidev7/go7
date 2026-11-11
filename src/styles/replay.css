@@ -1,0 +1,414 @@
+/* GO7 Delivery Replay System Styles */
+
+/* Main replay page container */
+.delivery-replay-page {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height: 100vh;
+}
+
+/* Map container optimizations */
+.replay-map-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom map controls */
+.map-controls-overlay {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Speed indicator animation */
+.speed-indicator {
+  animation: speedPulse 2s ease-in-out infinite;
+}
+
+@keyframes speedPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Replay controls styling */
+.replay-controls {
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Timeline slider enhancements */
+.timeline-slider {
+  position: relative;
+  height: 8px;
+  background: linear-gradient(to right, #e2e8f0, #cbd5e1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timeline-slider:hover {
+  height: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  border-radius: 4px;
+  transition: width 0.1s ease-out;
+}
+
+.timeline-thumb {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border: 3px solid #ef4444;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.timeline-thumb:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.timeline-thumb:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Playback control buttons */
+.playback-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.playback-btn-primary {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.playback-btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.playback-btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.playback-btn-secondary:hover {
+  background: #e2e8f0;
+  transform: scale(1.05);
+}
+
+/* Speed control styling */
+.speed-control {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.speed-option {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.speed-option.active {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.speed-option:not(.active) {
+  color: #64748b;
+  background: transparent;
+}
+
+.speed-option:not(.active):hover {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+/* Route analytics cards */
+.analytics-card {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.analytics-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+/* Metric cards with gradients */
+.metric-card {
+  border-radius: 16px;
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: scale(1.02);
+}
+
+.metric-card.blue {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+}
+
+.metric-card.green {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+}
+
+.metric-card.purple {
+  background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+}
+
+.metric-card.orange {
+  background: linear-gradient(135deg, #fed7aa, #fdba74);
+}
+
+/* Progress bars */
+.progress-bar {
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s ease-in-out;
+}
+
+.progress-fill.green {
+  background: linear-gradient(to right, #22c55e, #16a34a);
+}
+
+.progress-fill.blue {
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+}
+
+.progress-fill.red {
+  background: linear-gradient(to right, #ef4444, #dc2626);
+}
+
+/* Stop markers */
+.stop-marker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #ffa500;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.stop-marker::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Keyboard shortcuts help */
+.keyboard-shortcuts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #475569;
+}
+
+/* Loading states */
+.loading-spinner {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-radius: 50%;
+  border-top-color: #ef4444;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Export buttons */
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-align: left;
+}
+
+.export-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Breadcrumb trail effect */
+.breadcrumb-trail {
+  stroke-dasharray: 5, 5;
+  animation: dashOffset 2s linear infinite;
+}
+
+@keyframes dashOffset {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .delivery-replay-page {
+    padding: 0;
+  }
+  
+  .replay-controls {
+    border-radius: 16px 16px 0 0;
+    padding: 16px;
+  }
+  
+  .timeline-slider {
+    height: 12px;
+  }
+  
+  .timeline-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .playback-btn {
+    padding: 10px;
+  }
+  
+  .speed-control {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .metric-card {
+    padding: 16px;
+  }
+  
+  .analytics-card {
+    padding: 16px;
+  }
+  
+  .keyboard-shortcuts {
+    display: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .timeline-progress {
+    background: #000000;
+  }
+  
+  .playback-btn-primary {
+    background: #000000;
+    border: 2px solid #ffffff;
+  }
+  
+  .speed-option.active {
+    background: #000000;
+    border: 1px solid #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-thumb,
+  .playback-btn,
+  .analytics-card,
+  .metric-card,
+  .export-btn {
+    transition: none;
+  }
+  
+  .loading-spinner {
+    animation: none;
+    border-top-color: #ef4444;
+  }
+  
+  .speed-indicator {
+    animation: none;
+  }
+  
+  .breadcrumb-trail {
+    animation: none;
+  }
+}

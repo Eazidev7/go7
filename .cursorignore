@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+backend/node_modules/
+
+# Build outputs
+dist/
+build/
+.firebase/
+deploy_temp/
+functions/lib/
+
+# Vite / TS caches
+.vite/
+.vite_cache/
+node_modules/.vite/
+node_modules/.cache/
+.tsbuildinfo
+
+# Archive / backup files
+src/pages/_archive_backups/
+src/App_broken.jsx
+public_backup/
+go7-temp/
+
+# Duplicate nested trees
+src/components/components/
+src/pages/pages/
+src/hooks/hooks/
+
+# Figma generated code
+go7 figma/
+
+# Design / test assets
+design/
+icons/
+docs/
+test-screenshots/
+tests/
+
+# Alternate Vite configs
+vite.config.clean.js
+vite.config.debug.js
+vite.config.diagnostic.js
+vite.config.minimal.js
+vite.config.minimal.clean.js
+vite.config.minimal-dev.js
+vite.config.mobile.js
+vite.config.nowatch.js
+vite.config.production.js
+vite.config.simple.js
+vite.config.stable.js
+
+# Logs
+*.log
+firebase-debug.log
+firestore-debug.log
+
+# Root clutter
+scripts/
+*.bat
+go7/

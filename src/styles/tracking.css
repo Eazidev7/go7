@@ -1,0 +1,117 @@
+/* Rider marker styling */
+.go7-rider-marker {
+    filter: drop-shadow(0 0 4px rgba(227, 6, 19, 0.5));
+    transition: transform 0.3s ease-out;
+}
+
+.go7-rider-marker img {
+    border: 2px solid #E30613;
+    border-radius: 50%;
+    background: white;
+}
+
+.go7-scooter-marker {
+    transition: transform 0.5s ease-out;
+}
+
+/* Map container responsiveness */
+.tracking-map-container {
+    height: calc(100dvh - 64px - var(--go7-safe-top) - var(--go7-safe-bottom));
+    width: 100%;
+    position: relative;
+}
+
+#tracking-map {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+@media (max-width: 640px) {
+    .tracking-map-container {
+        height: calc(100dvh - 56px - var(--go7-safe-top) - var(--go7-safe-bottom));
+    }
+}
+
+/* Route line styling */
+.route-line {
+    stroke: #E30613;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 4px rgba(227, 6, 19, 0.3));
+}
+
+/* Floating UI components */
+.eta-countdown {
+    position: absolute;
+    top: calc(1rem + var(--go7-safe-top, 0px));
+    right: 1rem;
+    z-index: 1000;
+}
+
+.status-card {
+    position: absolute;
+    bottom: calc(1rem + var(--go7-safe-bottom, 0px));
+    left: 1rem;
+    z-index: 1000;
+}
+
+/* Status cards */
+.status-card>div {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(227, 6, 19, 0.1);
+}
+
+/* ETA countdown animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.eta-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Go7 theme colors */
+.text-go7-red {
+    color: #E30613;
+}
+
+.bg-go7-red {
+    background-color: #E30613;
+}
+
+.border-go7-red {
+    border-color: #E30613;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+    .eta-countdown {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .status-card {
+        bottom: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .eta-countdown>div,
+    .status-card>div {
+        padding: 0.75rem;
+    }
+}

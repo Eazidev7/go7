@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced React Diagnostic</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    
+    h1 {
+      color: #1a73e8;
+      border-bottom: 2px solid #1a73e8;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      color: #5f6368;
+      margin-top: 30px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .test-section {
+      margin: 30px 0;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .test-header {
+      background-color: #f1f3f4;
+      padding: 12px 20px;
+      font-weight: 500;
+      border-bottom: 1px solid #dadce0;
+    }
+    
+    .test-content {
+      padding: 20px;
+      background-color: white;
+    }
+    
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    
+    button:hover {
+      background-color: #0d62c9;
+    }
+    
+    pre {
+      background-color: #f1f3f4;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    
+    .success {
+      color: #0f9d58;
+    }
+    
+    .warning {
+      color: #f4b400;
+    }
+    
+    .error {
+      color: #d93025;
+    }
+    
+    #react-test {
+      min-height: 200px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    #root {
+      border: 2px dashed #dadce0;
+      min-height: 100px;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+    
+    #networkRequests {
+      height: 200px;
+      overflow-y: auto;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0,0,0,0.2);
+      border-radius: 50%;
+      border-top-color: #1a73e8;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .test-result {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .test-status {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .test-status.pending {
+      background-color: #f4b400;
+    }
+    
+    .test-status.success {
+      background-color: #0f9d58;
+    }
+    
+    .test-status.error {
+      background-color: #d93025;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #dadce0;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .tab.active {
+      border-bottom-color: #1a73e8;
+      font-weight: 500;
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Advanced React Diagnostic Tool</h1>
+  
+  <div class="card">
+    <h2>Quick Status</h2>
+    <div id="quickStatus">
+      <div class="test-result">
+        <div class="test-status pending"></div>
+        <span>Running diagnostics...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="basic-test">Basic React Test</div>
+    <div class="tab" data-tab="file-check">File Loading Check</div>
+    <div class="tab" data-tab="module-test">Module Test</div>
+    <div class="tab" data-tab="storage-test">Storage Test</div>
+    <div class="tab" data-tab="network-monitor">Network Monitor</div>
+  </div>
+  
+  <div class="tab-content active" id="basic-test">
+    <div class="test-section">
+      <div class="test-header">React Availability Check</div>
+      <div class="test-content">
+        <div id="reactCheck">Checking React...</div>
+        <div id="reactDOMCheck">Checking ReactDOM...</div>
+        <div id="reactVersionCheck">Checking React version...</div>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <div class="test-header">React Mounting Test</div>
+      <div class="test-content">
+        <p>This section will test if React can actually render components to the DOM.</p>
+        <div id="react-test">
+          <div id="root"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-content" id="file-check">
+    <div class="test-section">
+      <div class="test-header">Essential File Loading Test</div>
+      <div class="test-content">
+        <p>Testing if required files can be loaded correctly:</p>
+        <div id="fileLoadingStatus"></div>
+        <button id="testManifest">Test manifest.json</button>
+        <button id="testFavicon">Test favicon.ico</button>
+        <button id="testIcons">Test PWA icons</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-content" id="module-test">
+    <div class="test-section">
+      <div class="test-header">ES Module Test</div>
+      <div class="test-content">
+        <p>Testing if ES Modules work correctly in your browser:</p>
+        <div id="moduleTestStatus">Click the button below to test ES Modules</div>
+        <button id="runModuleTest">Test ES Modules</button>
+        <div id="moduleTestResult"></div>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <div class="test-header">MIME Type Test</div>
+      <div class="test-content">
+        <p>Testing if the server provides correct MIME types for JavaScript modules:</p>
+        <div id="mimeTestStatus"></div>
+        <button id="testMimeTypes">Test MIME Types</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-content" id="storage-test">
+    <div class="test-section">
+      <div class="test-header">Browser Storage Test</div>
+      <div class="test-content">
+        <div id="localStorageTest">Testing localStorage...</div>
+        <div id="sessionStorageTest">Testing sessionStorage...</div>
+        <div id="indexedDBTest">Testing IndexedDB...</div>
+        <button id="testStorage">Test Browser Storage</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-content" id="network-monitor">
+    <div class="test-section">
+      <div class="test-header">Network Request Monitor</div>
+      <div class="test-content">
+        <p>Monitoring network requests for JavaScript files and other resources:</p>
+        <div id="networkRequests">
+          <em>Waiting for network activity...</em>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Diagnostic Links</h2>
+    <p>Try these alternative test pages to isolate issues:</p>
+    <button onclick="window.location.href='/minimal'">Minimal React Test</button>
+    <button onclick="window.location.href='/guaranteed-react'">Guaranteed React Test</button>
+    <button onclick="window.location.href='/vite-debug'">Vite Debug</button>
+    <button onclick="window.location.href='/'">Main App</button>
+  </div>
+
+  <script>
+    // Tab functionality
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Quick Status Tests
+    function updateQuickStatus(message, status) {
+      const statusElem = document.getElementById('quickStatus');
+      const statusClass = status === 'success' ? 'success' : status === 'error' ? 'error' : 'warning';
+      const statusDotClass = status === 'success' ? 'success' : status === 'error' ? 'error' : 'pending';
+      
+      statusElem.innerHTML = `
+        <div class="test-result">
+          <div class="test-status ${statusDotClass}"></div>
+          <span class="${statusClass}">${message}</span>
+        </div>
+      `;
+    }
+
+    // React Availability Check
+    function checkReact() {
+      const reactCheck = document.getElementById('reactCheck');
+      const reactDOMCheck = document.getElementById('reactDOMCheck');
+      const reactVersionCheck = document.getElementById('reactVersionCheck');
+      
+      if (typeof React !== 'undefined') {
+        reactCheck.innerHTML = '✅ React is available';
+        reactCheck.classList.add('success');
+        
+        reactVersionCheck.innerHTML = `✅ React version: ${React.version}`;
+        reactVersionCheck.classList.add('success');
+      } else {
+        reactCheck.innerHTML = '❌ React is not available';
+        reactCheck.classList.add('error');
+        
+        reactVersionCheck.innerHTML = '❌ Cannot determine React version';
+        reactVersionCheck.classList.add('error');
+        
+        updateQuickStatus('React is not available. Check React script loading.', 'error');
+        return false;
+      }
+      
+      if (typeof ReactDOM !== 'undefined') {
+        reactDOMCheck.innerHTML = '✅ ReactDOM is available';
+        reactDOMCheck.classList.add('success');
+      } else {
+        reactDOMCheck.innerHTML = '❌ ReactDOM is not available';
+        reactDOMCheck.classList.add('error');
+        
+        updateQuickStatus('ReactDOM is not available. Check ReactDOM script loading.', 'error');
+        return false;
+      }
+      
+      return true;
+    }
+
+    // Test React Mounting
+    function testReactMounting() {
+      if (!checkReact()) return;
+      
+      const container = document.getElementById('root');
+      try {
+        // Define a simple React component
+        const TestComponent = React.createElement('div', {
+          style: {
+            padding: '20px',
+            backgroundColor: '#e8f0fe',
+            borderRadius: '4px',
+            textAlign: 'center'
+          }
+        }, [
+          React.createElement('h3', {
+            key: 'title',
+            style: { color: '#1a73e8' }
+          }, 'React is working!'),
+          React.createElement('p', {
+            key: 'message'
+          }, `This component was rendered using React ${React.version}`)
+        ]);
+        
+        // Render it to the DOM
+        ReactDOM.render(TestComponent, container);
+        
+        updateQuickStatus('React is working correctly!', 'success');
+      } catch (error) {
+        container.innerHTML = `<div class="error">Error mounting React: ${error.message}</div>`;
+        console.error('React mounting error:', error);
+        
+        updateQuickStatus('Error mounting React. See console for details.', 'error');
+      }
+    }
+
+    // File Loading Tests
+    document.getElementById('testManifest').addEventListener('click', function() {
+      const status = document.getElementById('fileLoadingStatus');
+      status.innerHTML = '<div><span class="loading-spinner"></span> Testing manifest.json...</div>';
+      
+      fetch('/manifest.json')
+        .then(response => {
+          if (response.ok) {
+            status.innerHTML = '<div class="success">✅ manifest.json loaded successfully</div>';
+            return response.json();
+          } else {
+            throw new Error(`Failed to load manifest.json: ${response.status} ${response.statusText}`);
+          }
+        })
+        .then(data => {
+          const details = document.createElement('pre');
+          details.textContent = JSON.stringify(data, null, 2);
+          status.appendChild(details);
+        })
+        .catch(error => {
+          status.innerHTML = `<div class="error">❌ ${error.message}</div>`;
+        });
+    });
+
+    document.getElementById('testFavicon').addEventListener('click', function() {
+      const status = document.getElementById('fileLoadingStatus');
+      status.innerHTML = '<div><span class="loading-spinner"></span> Testing favicon.ico...</div>';
+      
+      fetch('/favicon.ico')
+        .then(response => {
+          if (response.ok) {
+            status.innerHTML = '<div class="success">✅ favicon.ico loaded successfully</div>';
+            
+            // Display the favicon
+            const img = document.createElement('img');
+            img.src = '/favicon.ico';
+            img.style.marginTop = '10px';
+            status.appendChild(img);
+          } else {
+            throw new Error(`Failed to load favicon.ico: ${response.status} ${response.statusText}`);
+          }
+        })
+        .catch(error => {
+          status.innerHTML = `<div class="error">❌ ${error.message}</div>`;
+        });
+    });
+
+    document.getElementById('testIcons').addEventListener('click', function() {
+      const status = document.getElementById('fileLoadingStatus');
+      status.innerHTML = '<div><span class="loading-spinner"></span> Testing PWA icons...</div>';
+      
+      // Try common icon paths
+      const iconPaths = [
+        '/icon-192.png',
+        '/icon-512.png',
+        '/icons/icon-192.png', 
+        '/icons/icon-512.png'
+      ];
+      
+      let successCount = 0;
+      const results = document.createElement('div');
+      
+      Promise.all(iconPaths.map(path => {
+        return fetch(path)
+          .then(response => {
+            if (response.ok) {
+              successCount++;
+              const result = document.createElement('div');
+              result.classList.add('success');
+              result.textContent = `✅ ${path} loaded successfully`;
+              
+              // Display the icon
+              const img = document.createElement('img');
+              img.src = path;
+              img.style.height = '32px';
+              img.style.marginLeft = '10px';
+              result.appendChild(img);
+              
+              results.appendChild(result);
+            } else {
+              const result = document.createElement('div');
+              result.classList.add('error');
+              result.textContent = `❌ ${path} not found (${response.status})`;
+              results.appendChild(result);
+            }
+          })
+          .catch(error => {
+            const result = document.createElement('div');
+            result.classList.add('error');
+            result.textContent = `❌ Error fetching ${path}: ${error.message}`;
+            results.appendChild(result);
+          });
+      }))
+      .then(() => {
+        status.innerHTML = '';
+        status.appendChild(results);
+        
+        if (successCount === 0) {
+          const summary = document.createElement('div');
+          summary.classList.add('error');
+          summary.textContent = '❌ No PWA icons were found. This may cause issues with PWA functionality.';
+          status.appendChild(summary);
+        } else {
+          const summary = document.createElement('div');
+          summary.classList.add('success');
+          summary.textContent = `✅ Found ${successCount} icon(s)`;
+          status.appendChild(summary);
+        }
+      });
+    });
+
+    // Module Tests
+    document.getElementById('runModuleTest').addEventListener('click', function() {
+      const status = document.getElementById('moduleTestStatus');
+      const result = document.getElementById('moduleTestResult');
+      
+      status.innerHTML = '<span class="loading-spinner"></span> Testing ES Modules...';
+      
+      // Create a test module
+      const moduleBlob = new Blob([`
+        export function hello() {
+          return "Hello from ES Module!";
+        }
+      `], { type: 'text/javascript' });
+      
+      const moduleURL = URL.createObjectURL(moduleBlob);
+      
+      // Try to import it
+      import(moduleURL)
+        .then(module => {
+          status.innerHTML = '<span class="success">✅ ES Modules are working!</span>';
+          result.innerHTML = `<div class="success">Result: ${module.hello()}</div>`;
+        })
+        .catch(error => {
+          status.innerHTML = '<span class="error">❌ ES Modules test failed</span>';
+          result.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+          console.error('Module test error:', error);
+        });
+    });
+
+    document.getElementById('testMimeTypes').addEventListener('click', function() {
+      const status = document.getElementById('mimeTestStatus');
+      
+      status.innerHTML = '<span class="loading-spinner"></span> Testing MIME types...';
+      
+      // Create test requests to check MIME types
+      const testPaths = [
+        { path: '/test-mime.js', expected: 'application/javascript' },
+        { path: '/test-mime.jsx', expected: 'application/javascript' },
+        { path: '/test-mime.json', expected: 'application/json' }
+      ];
+      
+      // Create temporary files for testing
+      Promise.all(testPaths.map(test => {
+        return fetch(test.path, { method: 'HEAD' })
+          .then(response => {
+            const contentType = response.headers.get('content-type');
+            return {
+              path: test.path,
+              expected: test.expected,
+              actual: contentType,
+              success: contentType && contentType.includes(test.expected)
+            };
+          })
+          .catch(() => {
+            // If file doesn't exist, that's okay for this test
+            return {
+              path: test.path,
+              expected: test.expected,
+              actual: 'File not found',
+              success: null
+            };
+          });
+      }))
+      .then(results => {
+        const anySuccess = results.some(r => r.success === true);
+        const allFailed = results.every(r => r.success === false);
+        
+        status.innerHTML = '';
+        
+        if (allFailed) {
+          status.innerHTML = '<div class="error">❌ All MIME type tests failed</div>';
+        } else if (!anySuccess) {
+          status.innerHTML = '<div class="warning">⚠️ Could not determine MIME types (files not found)</div>';
+        }
+        
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.marginTop = '10px';
+        table.innerHTML = `
+          <tr>
+            <th style="text-align: left">File</th>
+            <th style="text-align: left">Expected MIME</th>
+            <th style="text-align: left">Actual MIME</th>
+            <th style="text-align: left">Status</th>
+          </tr>
+        `;
+        
+        results.forEach(result => {
+          const row = document.createElement('tr');
+          
+          const fileCell = document.createElement('td');
+          fileCell.textContent = result.path;
+          row.appendChild(fileCell);
+          
+          const expectedCell = document.createElement('td');
+          expectedCell.textContent = result.expected;
+          row.appendChild(expectedCell);
+          
+          const actualCell = document.createElement('td');
+          actualCell.textContent = result.actual || 'Unknown';
+          row.appendChild(actualCell);
+          
+          const statusCell = document.createElement('td');
+          if (result.success === true) {
+            statusCell.innerHTML = '<span class="success">✅ Correct</span>';
+          } else if (result.success === false) {
+            statusCell.innerHTML = '<span class="error">❌ Wrong</span>';
+          } else {
+            statusCell.innerHTML = '<span class="warning">⚠️ Not tested</span>';
+          }
+          row.appendChild(statusCell);
+          
+          table.appendChild(row);
+        });
+        
+        status.appendChild(table);
+      });
+    });
+
+    // Storage Tests
+    document.getElementById('testStorage').addEventListener('click', function() {
+      const localStorageTest = document.getElementById('localStorageTest');
+      const sessionStorageTest = document.getElementById('sessionStorageTest');
+      const indexedDBTest = document.getElementById('indexedDBTest');
+      
+      // Test localStorage
+      try {
+        localStorage.setItem('test', 'test');
+        const value = localStorage.getItem('test');
+        localStorage.removeItem('test');
+        
+        if (value === 'test') {
+          localStorageTest.innerHTML = '✅ localStorage is working';
+          localStorageTest.classList.add('success');
+        } else {
+          throw new Error('Value mismatch');
+        }
+      } catch (error) {
+        localStorageTest.innerHTML = `❌ localStorage error: ${error.message}`;
+        localStorageTest.classList.add('error');
+      }
+      
+      // Test sessionStorage
+      try {
+        sessionStorage.setItem('test', 'test');
+        const value = sessionStorage.getItem('test');
+        sessionStorage.removeItem('test');
+        
+        if (value === 'test') {
+          sessionStorageTest.innerHTML = '✅ sessionStorage is working';
+          sessionStorageTest.classList.add('success');
+        } else {
+          throw new Error('Value mismatch');
+        }
+      } catch (error) {
+        sessionStorageTest.innerHTML = `❌ sessionStorage error: ${error.message}`;
+        sessionStorageTest.classList.add('error');
+      }
+      
+      // Test IndexedDB
+      const request = indexedDB.open('testDB', 1);
+      
+      request.onerror = function(event) {
+        indexedDBTest.innerHTML = `❌ IndexedDB error: ${event.target.errorCode}`;
+        indexedDBTest.classList.add('error');
+      };
+      
+      request.onsuccess = function() {
+        indexedDBTest.innerHTML = '✅ IndexedDB is working';
+        indexedDBTest.classList.add('success');
+        
+        // Close and delete the test database
+        const db = request.result;
+        db.close();
+        indexedDB.deleteDatabase('testDB');
+      };
+    });
+
+    // Network Request Monitor
+    function setupNetworkMonitor() {
+      const networkRequests = document.getElementById('networkRequests');
+      
+      if (window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && 
+          PerformanceObserver.supportedEntryTypes.includes('resource')) {
+        
+        networkRequests.innerHTML = '<p>Monitoring network requests... (recent first)</p>';
+        
+        const observer = new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (entry.name.includes('.js') || entry.name.includes('.jsx') || 
+                entry.name.includes('.css') || entry.name.includes('.json')) {
+              
+              const item = document.createElement('div');
+              
+              let status = 'success';
+              if (!entry.responseStatus) {
+                // Chrome doesn't provide responseStatus, so check transferSize
+                if (entry.transferSize === 0 && entry.duration > 0) {
+                  status = 'error';
+                }
+              } else if (entry.responseStatus >= 400) {
+                status = 'error';
+              }
+              
+              item.innerHTML = `
+                <span class="${status}">
+                  ${status === 'success' ? '✅' : '❌'} 
+                  ${entry.name.split('/').pop()}
+                </span>
+                <small> (${Math.round(entry.duration)}ms)</small>
+              `;
+              
+              // Add to the top
+              if (networkRequests.childElementCount > 1) {
+                networkRequests.insertBefore(item, networkRequests.children[1]);
+              } else {
+                networkRequests.appendChild(item);
+              }
+            }
+          }
+        });
+        
+        observer.observe({ entryTypes: ['resource'] });
+      } else {
+        networkRequests.innerHTML = '<div class="warning">⚠️ Performance monitoring API not available in this browser</div>';
+      }
+    }
+
+    // Initialize all the tests
+    window.onload = function() {
+      // Initial quick status
+      updateQuickStatus('Running diagnostics...', 'pending');
+      
+      // Don't run React tests right away - we'll do this after scripts load
+      setTimeout(() => {
+        const reactAvailable = checkReact();
+        if (reactAvailable) {
+          testReactMounting();
+        }
+      }, 1000);
+      
+      // Set up network monitor
+      setupNetworkMonitor();
+    };
+  </script>
+  
+  <!-- Load React for testing -->
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  
+  <!-- Deep diagnostic tool -->
+  <script src="/react-deep-diagnostic.js"></script>
+</body>
+</html>

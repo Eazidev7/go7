@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firestore Diagnostics</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #dc2626;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border-left: 4px solid #dc2626;
+    }
+    .section h2 {
+      margin-top: 0;
+      color: #111;
+      font-size: 18px;
+    }
+    input, button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background: #dc2626;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    button:hover {
+      background: #b91c1c;
+    }
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+    .success {
+      color: #059669;
+      background: #d1fae5;
+      border-color: #059669;
+    }
+    .error {
+      color: #dc2626;
+      background: #fee2e2;
+      border-color: #dc2626;
+    }
+    .info {
+      color: #2563eb;
+      background: #dbeafe;
+      border-color: #2563eb;
+    }
+    pre {
+      background: #1f2937;
+      color: #f3f4f6;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .product-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .product-card h3 {
+      margin: 0 0 10px 0;
+      color: #111;
+    }
+    .product-card .price {
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    .badge-green {
+      background: #d1fae5;
+      color: #059669;
+    }
+    .badge-red {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .vendor-list {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 15px;
+    }
+    .vendor-item {
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .vendor-item:hover {
+      background: #f3f4f6;
+      border-color: #dc2626;
+    }
+    .vendor-item.selected {
+      background: #fee2e2;
+      border-color: #dc2626;
+      border-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 GO7 Firestore Diagnostics</h1>
+    <p class="subtitle">Diagnose product loading issues by checking Firestore directly</p>
+
+    <div class="section">
+      <h2>📊 Step 1: List All Vendors</h2>
+      <p>First, let's see all vendors in your database:</p>
+      <button onclick="listAllVendors()">List All Vendors</button>
+      <div id="vendors-result"></div>
+    </div>
+
+    <div class="section">
+      <h2>🔎 Step 2: Check Vendor Products</h2>
+      <p>Enter a vendor ID to check their products:</p>
+      <input type="text" id="vendorId" placeholder="e.g., sweet-sensation or vendor document ID">
+      <button onclick="checkVendorProducts()">Check Products for This Vendor</button>
+      <div id="products-result"></div>
+    </div>
+
+    <div class="section">
+      <h2>🌍 Step 3: Global Products Search</h2>
+      <p>Search for products across ALL vendors:</p>
+      <button onclick="searchAllProducts()">Search All Products in Database</button>
+      <div id="global-result"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+    import { getFirestore, collection, getDocs, doc, getDoc, query } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+    // Firebase config from your project
+    const firebaseConfig = {
+      apiKey: "AIzaSyCUi3Qu8AAaIQVG0cMW_4wwxvtMqXYT8VU",
+      authDomain: "chowdeck-7bf88.firebaseapp.com",
+      databaseURL: "https://chowdeck-7bf88-default-rtdb.firebaseio.com",
+      projectId: "chowdeck-7bf88",
+      storageBucket: "chowdeck-7bf88.appspot.com",
+      messagingSenderId: "820940682991",
+      appId: "1:820940682991:web:e36df87f9f72cc66f8eb57",
+      measurementId: "G-NF2KWWXPFX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.listAllVendors = async function() {
+      const resultDiv = document.getElementById('vendors-result');
+      resultDiv.innerHTML = '<div class="result info">⏳ Fetching vendors...</div>';
+
+      try {
+        console.log('🔍 Fetching all vendors from Firestore...');
+        const vendorsRef = collection(db, 'vendors');
+        const vendorsSnapshot = await getDocs(vendorsRef);
+
+        console.log('📦 Vendors found:', vendorsSnapshot.size);
+
+        if (vendorsSnapshot.empty) {
+          resultDiv.innerHTML = '<div class="result error">❌ No vendors found in database!</div>';
+          return;
+        }
+
+        let html = `<div class="result success">✅ Found ${vendorsSnapshot.size} vendors</div>`;
+        html += '<div class="vendor-list">';
+
+        vendorsSnapshot.forEach(doc => {
+          const vendor = doc.data();
+          html += `
+            <div class="vendor-item" onclick="document.getElementById('vendorId').value='${doc.id}'; checkVendorProducts();">
+              <strong>${vendor.name || vendor.businessName || 'Unnamed Vendor'}</strong><br>
+              <small style="color: #666;">ID: ${doc.id}</small><br>
+              <small style="color: #666;">Email: ${vendor.email || 'N/A'}</small>
+              ${vendor.isOnline ? '<span class="badge badge-green">ONLINE</span>' : '<span class="badge badge-red">OFFLINE</span>'}
+            </div>
+          `;
+        });
+
+        html += '</div>';
+        resultDiv.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error fetching vendors:', error);
+        resultDiv.innerHTML = `<div class="result error">❌ Error: ${error.message}</div>`;
+      }
+    };
+
+    window.checkVendorProducts = async function() {
+      const vendorId = document.getElementById('vendorId').value.trim();
+      const resultDiv = document.getElementById('products-result');
+
+      if (!vendorId) {
+        resultDiv.innerHTML = '<div class="result error">❌ Please enter a vendor ID</div>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<div class="result info">⏳ Checking products...</div>';
+
+      try {
+        console.log('🔍 Checking vendor:', vendorId);
+
+        // Check if vendor exists
+        const vendorRef = doc(db, 'vendors', vendorId);
+        const vendorDoc = await getDoc(vendorRef);
+
+        if (!vendorDoc.exists()) {
+          resultDiv.innerHTML = `<div class="result error">❌ Vendor "${vendorId}" does not exist!</div>`;
+          return;
+        }
+
+        const vendorData = vendorDoc.data();
+        console.log('✅ Vendor found:', vendorData);
+
+        // Check products in V2 path: vendors/{vendorId}/products
+        const productsPath = `vendors/${vendorId}/products`;
+        console.log('🔍 Checking products at path:', productsPath);
+
+        const productsRef = collection(db, 'vendors', vendorId, 'products');
+        const productsSnapshot = await getDocs(productsRef);
+
+        console.log('📦 Products found:', productsSnapshot.size);
+
+        let html = `
+          <div class="result success">
+            <strong>Vendor: ${vendorData.name || vendorData.businessName || 'Unnamed'}</strong><br>
+            <small>Path: vendors/${vendorId}/products</small><br>
+            <strong>Products Found: ${productsSnapshot.size}</strong>
+          </div>
+        `;
+
+        if (productsSnapshot.empty) {
+          html += `
+            <div class="result error" style="margin-top: 15px;">
+              ❌ No products found at vendors/${vendorId}/products<br><br>
+              <strong>This is why products aren't showing!</strong><br>
+              The vendor needs to add products using the VendorProductManagerV2.
+            </div>
+          `;
+        } else {
+          html += '<div style="margin-top: 20px;">';
+          productsSnapshot.forEach(doc => {
+            const product = doc.data();
+            html += `
+              <div class="product-card">
+                <h3>${product.name || 'Unnamed Product'}</h3>
+                <div class="price">₦${product.basePrice || product.price || 0}</div>
+                <p style="color: #666; font-size: 14px;">${product.description || product.desc || 'No description'}</p>
+                <div style="margin-top: 10px;">
+                  <strong>ID:</strong> ${doc.id}<br>
+                  <strong>Category:</strong> ${product.category || 'N/A'}<br>
+                  <strong>Image:</strong> ${product.imageUrl ? '✅ Yes' : '❌ No'}<br>
+                  <strong>Available:</strong> ${product.available ? '✅' : '❌'}<br>
+                  <strong>Active:</strong> ${product.active ? '✅' : '❌'}<br>
+                  <strong>isActive:</strong> ${product.isActive ? '✅' : '❌'}<br>
+                  <strong>isAvailable:</strong> ${product.isAvailable ? '✅' : '❌'}
+                </div>
+                <details style="margin-top: 10px;">
+                  <summary style="cursor: pointer; color: #dc2626;">View Raw Data</summary>
+                  <pre>${JSON.stringify(product, null, 2)}</pre>
+                </details>
+              </div>
+            `;
+          });
+          html += '</div>';
+        }
+
+        resultDiv.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error checking products:', error);
+        resultDiv.innerHTML = `<div class="result error">❌ Error: ${error.message}</div>`;
+      }
+    };
+
+    window.searchAllProducts = async function() {
+      const resultDiv = document.getElementById('global-result');
+      resultDiv.innerHTML = '<div class="result info">⏳ Searching all vendors for products...</div>';
+
+      try {
+        const vendorsRef = collection(db, 'vendors');
+        const vendorsSnapshot = await getDocs(vendorsRef);
+
+        let totalProducts = 0;
+        let vendorsWithProducts = [];
+
+        for (const vendorDoc of vendorsSnapshot.docs) {
+          const vendorId = vendorDoc.id;
+          const vendorData = vendorDoc.data();
+          
+          const productsRef = collection(db, 'vendors', vendorId, 'products');
+          const productsSnapshot = await getDocs(productsRef);
+
+          if (!productsSnapshot.empty) {
+            totalProducts += productsSnapshot.size;
+            vendorsWithProducts.push({
+              id: vendorId,
+              name: vendorData.name || vendorData.businessName || 'Unnamed',
+              productCount: productsSnapshot.size
+            });
+          }
+        }
+
+        let html = `
+          <div class="result ${totalProducts > 0 ? 'success' : 'error'}">
+            <strong>Global Search Results:</strong><br>
+            Total Vendors: ${vendorsSnapshot.size}<br>
+            Vendors with Products: ${vendorsWithProducts.length}<br>
+            Total Products: ${totalProducts}
+          </div>
+        `;
+
+        if (vendorsWithProducts.length > 0) {
+          html += '<div style="margin-top: 20px;">';
+          vendorsWithProducts.forEach(vendor => {
+            html += `
+              <div class="product-card">
+                <h3>${vendor.name}</h3>
+                <div>
+                  <strong>Vendor ID:</strong> ${vendor.id}<br>
+                  <strong>Products:</strong> ${vendor.productCount}<br>
+                  <button onclick="document.getElementById('vendorId').value='${vendor.id}'; checkVendorProducts();" 
+                          style="width: auto; margin-top: 10px; padding: 8px 16px;">
+                    View Products
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+          html += '</div>';
+        } else {
+          html += `
+            <div class="result error" style="margin-top: 15px;">
+              ❌ No products found anywhere in the database!<br><br>
+              You need to use the VendorProductManagerV2 to create products.
+            </div>
+          `;
+        }
+
+        resultDiv.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error in global search:', error);
+        resultDiv.innerHTML = `<div class="result error">❌ Error: ${error.message}</div>`;
+      }
+    };
+
+    console.log('✅ Firestore Diagnostics Ready');
+    console.log('📝 Instructions:');
+    console.log('1. Click "List All Vendors" to see all vendors');
+    console.log('2. Click on a vendor or enter their ID manually');
+    console.log('3. Click "Check Products for This Vendor" to see their products');
+    console.log('4. Click "Search All Products" to see which vendors have products');
+  </script>
+</body>
+</html>

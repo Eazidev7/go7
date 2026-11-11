@@ -1,0 +1,559 @@
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: auto !important;
+  min-height: 300px !important;
+  display: block !important; /* Ensure it's a block element */
+  margin-bottom: 20px; /* Add some margin */
+  z-index: 10;
+}
+
+.map-inner {
+  width: 100% !important;
+  height: 420px !important; /* Force height with !important */
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1; /* Ensure proper z-index */
+  display: block !important;
+}
+
+/* Force Leaflet container to have proper dimensions */
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+  min-height: 300px !important;
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+}
+
+@media (max-width: 640px) {
+  .map-inner {
+    height: 260px;
+  }
+}
+
+/* Skeleton loading */
+.skeleton-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.map-loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 4px solid rgba(229, 57, 53, 0.1);
+  border-top-color: #E53935;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  margin-top: 10px;
+  color: #666;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error overlay */
+.map-error-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.error-message {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.retry-button {
+  margin-top: 10px;
+  background-color: #E53935;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+  background-color: #D32F2F;
+}
+
+.pillLabel--green {
+  background-color: #16a34a;
+}
+
+.pillLabel--blue {
+  background-color: #3b82f6;
+}
+
+.pillLabel--orange {
+  background-color: #f59e0b;
+}
+
+.pillLabel--pink {
+  background-color: #ec4899;
+}
+
+/* Add hover effects for mobile */
+@media (hover: none) {
+  .pillLabel {
+    /* Slightly larger touch target on mobile */
+    padding: 5px 12px;
+    font-size: 13px;
+  }
+  
+  /* Visual indication that the pills are tappable */
+  .pillLabel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 20px;
+    pointer-events: none;
+  }
+  
+  .mapShell.touched .pillLabel::after {
+    opacity: 1;
+    animation: pulse 1.5s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+}
+
+/* Map skeleton loading state */
+.map-skeleton {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.map-skeleton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+  background-size: 200% 100%;
+}
+
+/* Skeleton road pattern */
+.map-skeleton::after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  background-image: 
+    linear-gradient(90deg, transparent 0%, #e0e0e0 20%, #e0e0e0 80%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #e0e0e0 20%, #e0e0e0 80%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #e0e0e0 20%, #e0e0e0 80%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #e0e0e0 20%, #e0e0e0 80%, transparent 100%);
+  background-position: 
+    center calc(50% - 30px),
+    center calc(50% + 30px),
+    calc(50% - 30px) center,
+    calc(50% + 30px) center;
+  background-size: 
+    90% 2px,
+    70% 2px,
+    2px 90%,
+    2px 70%;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Custom minimal map styling */
+.mapShell .leaflet-tile-pane {
+  filter: contrast(0.9) brightness(1.1) saturate(0.8);
+}
+
+/* Remove Leaflet attribution positioning conflicts */
+.mapShell .leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin: 4px;
+}
+
+/* Pill Markers */
+.pillMarker {
+  background: linear-gradient(135deg, #E10600, #C50500);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 2px solid white;
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+  position: relative;
+  z-index: 1000;
+}
+
+.pillMarker:hover {
+  background: linear-gradient(135deg, #C50500, #A10400);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(225, 6, 0, 0.4);
+  border-color: #fff;
+}
+
+.pillMarker:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(225, 6, 0, 0.3);
+}
+
+/* Pill marker variants for different areas */
+.pillMarker.kuto {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.pillMarker.kuto:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+.pillMarker.panseke {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.pillMarker.panseke:hover {
+  background: linear-gradient(135deg, #047857, #065f46);
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4);
+}
+
+.pillMarker.funaab {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.pillMarker.funaab:hover {
+  background: linear-gradient(135deg, #6d28d9, #5b21b6);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+/* Skeleton Loader */
+.mapSkeleton {
+  width: 100%;
+  min-height: 360px;
+  height: clamp(300px, 38vw, 420px);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+  .mapSkeleton {
+    min-height: 300px;
+    height: clamp(280px, 35vw, 350px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Skeleton content */
+.mapSkeleton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Map ready state */
+.mapShell.loading {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.mapShell.ready {
+  opacity: 1;
+}
+
+/* Error state */
+.mapError {
+  width: 100%;
+  min-height: 360px;
+  height: clamp(300px, 38vw, 420px);
+  border-radius: 16px;
+  background: #fee2e2;
+  border: 2px dashed #fca5a5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #991b1b;
+  font-weight: 500;
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .mapError {
+    min-height: 300px;
+    height: clamp(280px, 35vw, 350px);
+    font-size: 14px;
+    padding: 15px;
+  }
+}
+
+.mapError .error-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+/* Accessibility improvements */
+.pillMarker:focus {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .pillMarker {
+    border-width: 3px;
+    font-weight: 700;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .pillMarker,
+  .mapShell,
+  .mapSkeleton {
+    transition: none;
+    animation: none;
+  }
+  
+  .mapSkeleton::before {
+    animation: none;
+  }
+}
+
+/* Additional styles as requested */
+.mapShell {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+}
+
+.leaflet-container {
+  background: #f8f8f8;
+}
+
+.pill {
+  background: #fff;
+  color: #0f172a;
+  border: 2px solid #1d4ed8;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(29, 78, 216, .25);
+}
+
+.pill--green {
+  border-color: #16a34a;
+}
+
+.pill--orange {
+  border-color: #f97316;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .18);
+}
+
+.map-skeleton {
+  height: inherit;
+  background-color: #f8f9fa;
+  background-image: 
+    linear-gradient(90deg, transparent 0%, transparent 94%, rgba(0, 0, 0, 0.1) 96%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, transparent 94%, rgba(0, 0, 0, 0.1) 96%, transparent 100%),
+    linear-gradient(45deg, transparent 40%, rgba(0, 0, 0, 0.06) 50%, transparent 60%),
+    linear-gradient(-45deg, transparent 40%, rgba(0, 0, 0, 0.06) 50%, transparent 60%);
+  background-size: 
+    50px 50px,
+    50px 50px,
+    100px 100px,
+    100px 100px;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-skeleton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(90deg, transparent 0%, transparent 97%, rgba(0, 0, 0, 0.2) 98%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, transparent 97%, rgba(0, 0, 0, 0.2) 98%, transparent 100%);
+  background-size: 100px 100px, 100px 100px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Custom pill labels for modern map design */
+.pillLabel {
+  font-weight: 700;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pillLabel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .25);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .pillLabel {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+/* Area-specific colors */
+.pillLabel--red { background-color: #EF4444; }     /* Popular hubs */
+.pillLabel--blue { background-color: #3B82F6; }    /* Education zones */
+.pillLabel--green { background-color: #16A34A; }   /* Residential */
+.pillLabel--orange { background-color: #F97316; }  /* Busy roads */
+.pillLabel--pink { background-color: #EC4899; }    /* Markets */

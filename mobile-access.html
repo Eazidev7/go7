@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Mobile Access</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #E30613;
+            margin-top: 0;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            display: inline-block;
+            background-color: #E30613;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .button.secondary {
+            background-color: #333;
+        }
+        .note {
+            background-color: #FFF9E6;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Go7 Mobile Access</h1>
+        <p>This helper page provides direct access to the mobile views and testing tools.</p>
+        
+        <h2>Mobile Routes</h2>
+        <a href="/mobile" class="button">Mobile Homepage</a>
+        <a href="/mobile-test" class="button">Mobile Test Component</a>
+        <a href="/mobile-simulator.html" class="button">Mobile Simulator</a>
+        
+        <h2>Force Mobile Options</h2>
+        <a href="/?forceMobile=true" class="button secondary">Homepage (Force Mobile)</a>
+        <a href="/?forceMobile=false" class="button secondary">Homepage (Force Desktop)</a>
+        
+        <div class="note">
+            <strong>Note:</strong> Make sure your development server is running before using these links.
+            The mobile routes may not work if mobile detection or routing is misconfigured.
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Device Information</h2>
+        <div id="deviceInfo">Loading...</div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const deviceInfo = document.getElementById('deviceInfo');
+                
+                const screenWidth = window.innerWidth;
+                const isMobile = screenWidth <= 768;
+                const userAgentMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const touchEnabled = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                
+                deviceInfo.innerHTML = `
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li><strong>Screen width:</strong> ${screenWidth}px (${isMobile ? 'Mobile' : 'Desktop'} size)</li>
+                        <li><strong>Mobile user agent:</strong> ${userAgentMobile ? 'Yes' : 'No'}</li>
+                        <li><strong>Touch enabled:</strong> ${touchEnabled ? 'Yes' : 'No'}</li>
+                        <li><strong>Current path:</strong> ${window.location.pathname}</li>
+                    </ul>
+                    <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+                `;
+            });
+        </script>
+    </div>
+    
+    <div class="card">
+        <h2>Mobile Test</h2>
+        <p>This section helps diagnose mobile detection issues</p>
+        
+        <div id="mobileTest">
+            <script>
+                // Create mobile test component
+                (function() {
+                    const mobileTest = document.getElementById('mobileTest');
+                    
+                    // Detect mobile
+                    const screenWidth = window.innerWidth;
+                    const isMobile = screenWidth <= 768;
+                    const forceMobile = new URLSearchParams(window.location.search).get('forceMobile');
+                    
+                    let finalStatus = isMobile;
+                    
+                    if (forceMobile === 'true' || forceMobile === '1') {
+                        finalStatus = true;
+                    } else if (forceMobile === 'false' || forceMobile === '0') {
+                        finalStatus = false;
+                    }
+                    
+                    const statusBox = document.createElement('div');
+                    statusBox.style.padding = '10px';
+                    statusBox.style.borderRadius = '4px';
+                    statusBox.style.marginBottom = '15px';
+                    
+                    if (finalStatus) {
+                        statusBox.style.backgroundColor = '#E5FFE5';
+                        statusBox.style.border = '1px solid #00CC00';
+                        statusBox.innerHTML = `
+                            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                <div style="font-size: 16px; margin-right: 5px;">✅</div>
+                                <div style="font-weight: bold;">Mobile Device Detected</div>
+                            </div>
+                            <p style="margin: 0;">You should be seeing the mobile interface.</p>
+                        `;
+                    } else {
+                        statusBox.style.backgroundColor = '#FFF9E6';
+                        statusBox.style.border = '1px solid #FFD700';
+                        statusBox.innerHTML = `
+                            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                <div style="font-size: 16px; margin-right: 5px;">ℹ️</div>
+                                <div style="font-weight: bold;">Desktop Device Detected</div>
+                            </div>
+                            <p style="margin: 0;">Use a mobile device or resize your browser window below 768px width to trigger mobile detection.</p>
+                        `;
+                    }
+                    
+                    mobileTest.appendChild(statusBox);
+                    
+                    // Add button to force mobile
+                    const buttonContainer = document.createElement('div');
+                    
+                    if (!finalStatus) {
+                        const forceButton = document.createElement('a');
+                        forceButton.href = window.location.pathname + '?forceMobile=true';
+                        forceButton.className = 'button';
+                        forceButton.textContent = 'Force Mobile Detection';
+                        buttonContainer.appendChild(forceButton);
+                    } else {
+                        const forceButton = document.createElement('a');
+                        forceButton.href = window.location.pathname + '?forceMobile=false';
+                        forceButton.className = 'button secondary';
+                        forceButton.textContent = 'Force Desktop Detection';
+                        buttonContainer.appendChild(forceButton);
+                    }
+                    
+                    mobileTest.appendChild(buttonContainer);
+                })();
+            </script>
+        </div>
+    </div>
+</body>
+</html>

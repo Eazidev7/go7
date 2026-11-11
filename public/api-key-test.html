@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase API Key Test</title>
+</head>
+<body>
+    <h1>Firebase API Key Debug</h1>
+    <div id="output"></div>
+    <script type="module">
+        const output = document.getElementById('output');
+        
+        // Test environment variables
+        output.innerHTML += '<h2>Environment Variables:</h2>';
+        output.innerHTML += 'VITE_FIREBASE_API_KEY: ' + import.meta.env.VITE_FIREBASE_API_KEY + '<br>';
+        output.innerHTML += 'VITE_FIREBASE_PROJECT_ID: ' + import.meta.env.VITE_FIREBASE_PROJECT_ID + '<br><br>';
+        
+        // Test direct Firebase import
+        import('./src/firebase/config.js').then(config => {
+            output.innerHTML += '<h2>Firebase Config:</h2>';
+            output.innerHTML += 'Auth API Key: ' + (config.auth?.app?.options?.apiKey || 'Not found') + '<br>';
+            output.innerHTML += 'Auth Project ID: ' + (config.auth?.app?.options?.projectId || 'Not found') + '<br>';
+            
+            if (config.auth?.app?.options?.apiKey === 'AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg') {
+                output.innerHTML += '<span style="color: green;">✅ CORRECT API KEY!</span><br>';
+            } else {
+                output.innerHTML += '<span style="color: red;">❌ WRONG API KEY!</span><br>';
+            }
+        }).catch(err => {
+            output.innerHTML += '<span style="color: red;">Error: ' + err.message + '</span><br>';
+        });
+        
+        // Test if there's another Firebase app
+        setTimeout(() => {
+            if (window.firebase) {
+                output.innerHTML += '<h2>Global Firebase:</h2>';
+                output.innerHTML += 'Global firebase detected: ' + typeof window.firebase + '<br>';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

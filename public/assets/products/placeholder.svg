@@ -1,0 +1,6 @@
+<!-- Product Placeholder SVG -->
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <text x="200" y="150" text-anchor="middle" font-family="Arial" font-size="48" fill="#9ca3af">🍽️</text>
+  <text x="200" y="200" text-anchor="middle" font-family="Arial" font-size="16" fill="#6b7280">GO7 Product</text>
+</svg>

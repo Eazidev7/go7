@@ -1,0 +1,261 @@
+/* GO7 NOTIFICATION STYLES */
+/* Enhanced styling for SweetAlert2 and Toastify notifications */
+
+/* ===== SWEETALERT2 CUSTOM STYLES ===== */
+
+/* Go7 Success Popup */
+.go7-success-popup {
+    border-radius: 16px !important;
+    border: 3px solid #22C55E !important;
+    box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2), 0 0 30px rgba(34, 197, 94, 0.1) !important;
+}
+
+.go7-success-title {
+    color: #22C55E !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+
+.go7-success-button {
+    background: linear-gradient(90deg, #E30613 0%, #FF4444 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-success-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* Go7 Error Popup */
+.go7-error-popup {
+    border-radius: 16px !important;
+    border: 3px solid #EF4444 !important;
+    box-shadow: 0 20px 40px rgba(239, 68, 68, 0.2), 0 0 30px rgba(239, 68, 68, 0.1) !important;
+}
+
+.go7-error-title {
+    color: #EF4444 !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+
+.go7-error-button {
+    background: linear-gradient(90deg, #E30613 0%, #FF4444 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-error-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* Go7 Warning Popup */
+.go7-warning-popup {
+    border-radius: 16px !important;
+    border: 3px solid #F59E0B !important;
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2), 0 0 30px rgba(245, 158, 11, 0.1) !important;
+}
+
+.go7-warning-title {
+    color: #F59E0B !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+
+.go7-warning-button {
+    background: linear-gradient(90deg, #E30613 0%, #FF4444 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-warning-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* ===== TOASTIFY CUSTOM STYLES ===== */
+
+/* Go7 Rider Toast */
+.go7-rider-toast {
+    animation: slideInRight 0.4s ease-out, glowPulse 2s infinite alternate !important;
+}
+
+/* Go7 Pricing Toast */
+.go7-pricing-toast {
+    animation: slideInLeft 0.4s ease-out !important;
+}
+
+/* Go7 Location Toast */
+.go7-location-toast {
+    animation: fadeInDown 0.4s ease-out !important;
+}
+
+/* General Go7 Toast Styles */
+.go7-toast {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-toast:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Toast Type Specific Styles */
+.go7-toast-success {
+    border-left: 5px solid #22C55E !important;
+}
+
+.go7-toast-error {
+    border-left: 5px solid #EF4444 !important;
+}
+
+.go7-toast-warning {
+    border-left: 5px solid #F59E0B !important;
+}
+
+.go7-toast-info {
+    border-left: 5px solid #E30613 !important;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 8px 20px rgba(227, 6, 19, 0.4), 0 0 15px rgba(227, 6, 19, 0.3);
+    }
+
+    100% {
+        box-shadow: 0 8px 20px rgba(227, 6, 19, 0.6), 0 0 25px rgba(227, 6, 19, 0.5);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile specific adjustments */
+@media (max-width: 640px) {
+
+    .go7-success-popup,
+    .go7-error-popup,
+    .go7-warning-popup {
+        margin: 20px !important;
+        width: calc(100% - 40px) !important;
+    }
+
+    .go7-toast {
+        margin: 10px !important;
+        width: calc(100% - 20px) !important;
+        font-size: 13px !important;
+        padding: 10px 16px !important;
+    }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+
+    .go7-success-title,
+    .go7-error-title,
+    .go7-warning-title {
+        font-size: 1.3rem !important;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .go7-success-popup {
+        border-width: 4px !important;
+    }
+
+    .go7-error-popup {
+        border-width: 4px !important;
+    }
+
+    .go7-warning-popup {
+        border-width: 4px !important;
+    }
+
+    .go7-toast {
+        border-width: 3px !important;
+        font-weight: 600 !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .go7-toast,
+    .go7-success-popup,
+    .go7-error-popup,
+    .go7-warning-popup {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .go7-toast:hover {
+        transform: none !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+
+    .go7-success-popup,
+    .go7-error-popup,
+    .go7-warning-popup {
+        background: #1F2937 !important;
+        color: #F9FAFB !important;
+    }
+}

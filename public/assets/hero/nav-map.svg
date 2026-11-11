@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="500" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Map with navigation/GPS style elements -->
+  <defs>
+    <!-- Dot pattern for areas -->
+    <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.5" fill="white" opacity="0.1"/>
+    </pattern>
+  </defs>
+  
+  <!-- Organic background shape instead of square -->
+  <path d="M50,50 C150,20 250,40 350,30 C450,20 550,70 580,150 C600,250 550,350 500,400 C400,450 300,460 200,430 C100,400 20,300 30,200 C40,100 100,60 50,50 Z" 
+        fill="none" stroke="white" stroke-width="1.5" opacity="0.15"/>
+  
+  <!-- Main roads/navigation paths -->
+  <path d="M120,100 C180,150 250,120 300,150 C350,180 420,150 480,200 C520,250 500,320 450,350 C400,380 320,370 250,350 C180,330 140,280 120,220 C100,160 130,120 120,100 Z" 
+        fill="none" stroke="white" stroke-width="2" opacity="0.2"/>
+  
+  <!-- Secondary paths -->
+  <path d="M200,80 C250,100 280,130 320,120 C360,110 400,130 420,170 C440,210 430,260 390,280 C350,300 300,290 260,270 C220,250 200,210 190,170 C180,130 180,100 200,80 Z" 
+        fill="none" stroke="white" stroke-width="1.2" opacity="0.15"/>
+  
+  <!-- Connecting routes -->
+  <line x1="120" y1="100" x2="200" y2="80" stroke="white" stroke-width="1" opacity="0.2"/>
+  <line x1="300" y1="150" x2="320" y2="120" stroke="white" stroke-width="1" opacity="0.2"/>
+  <line x1="480" y1="200" x2="420" y2="170" stroke="white" stroke-width="1" opacity="0.2"/>
+  <line x1="450" y1="350" x2="390" y2="280" stroke="white" stroke-width="1" opacity="0.2"/>
+  <line x1="250" y1="350" x2="260" y2="270" stroke="white" stroke-width="1" opacity="0.2"/>
+  <line x1="120" y1="220" x2="190" y2="170" stroke="white" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Navigation points/markers -->
+  <circle cx="120" cy="100" r="3" fill="white" opacity="0.25"/>
+  <circle cx="300" cy="150" r="3" fill="white" opacity="0.25"/>
+  <circle cx="480" cy="200" r="3" fill="white" opacity="0.25"/>
+  <circle cx="450" cy="350" r="3" fill="white" opacity="0.25"/>
+  <circle cx="250" cy="350" r="3" fill="white" opacity="0.25"/>
+  <circle cx="120" cy="220" r="3" fill="white" opacity="0.25"/>
+  
+  <!-- Destination marker -->
+  <circle cx="300" cy="200" r="5" fill="white" opacity="0.3"/>
+  <circle cx="300" cy="200" r="2" fill="white" opacity="0.4"/>
+  
+  <!-- Navigation path indication (dashed line) -->
+  <path d="M150,150 C200,180 250,190 300,200" fill="none" stroke="white" stroke-width="2" stroke-dasharray="5,5" opacity="0.25"/>
+  
+  <!-- Area highlights -->
+  <path d="M350,100 C400,120 430,170 410,220 C390,270 340,280 300,260 C260,240 240,190 260,140 C280,90 320,90 350,100 Z" 
+        fill="url(#dots)" stroke="white" stroke-width="0.8" opacity="0.1"/>
+  <path d="M150,250 C190,270 240,270 270,240 C300,210 300,160 270,130 C240,100 190,100 150,120 C110,140 110,190 130,220 C150,250 150,250 150,250 Z" 
+        fill="url(#dots)" stroke="white" stroke-width="0.8" opacity="0.1"/>
+</svg>

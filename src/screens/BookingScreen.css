@@ -1,0 +1,256 @@
+/* 🎨 BookingScreen Styles */
+.booking-screen {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Route Summary */
+.route-summary {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.route-title {
+  color: #374151;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.route-details {
+  position: relative;
+}
+
+.route-point {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.route-point:last-child {
+  margin-bottom: 0;
+}
+
+.route-icon {
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  z-index: 2;
+  position: relative;
+}
+
+.route-info {
+  flex: 1;
+}
+
+.route-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.route-address {
+  font-size: 16px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.route-line {
+  position: absolute;
+  left: 11px;
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: linear-gradient(to bottom, #10b981, #6b7280);
+  z-index: 1;
+}
+
+/* Fare Section */
+.fare-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.fare-title {
+  color: #374151;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.calculating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #10b981;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 12px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fare-display {
+  text-align: center;
+}
+
+.main-fare {
+  font-size: 48px;
+  font-weight: 800;
+  color: #10b981;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+}
+
+.fare-breakdown {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.breakdown-item span:last-child {
+  font-weight: 600;
+  color: #374151;
+}
+
+.breakdown-divider {
+  border-top: 1px solid #e5e7eb;
+  margin: 12px 0;
+}
+
+.breakdown-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.breakdown-total span:last-child {
+  color: #10b981;
+  font-size: 20px;
+}
+
+.no-route {
+  text-align: center;
+  padding: 40px 0;
+  color: #6b7280;
+}
+
+.no-route-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+/* Time Estimate */
+.time-estimate {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.time-icon {
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.time-info {
+  flex: 1;
+}
+
+.time-label {
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.time-value {
+  font-size: 18px;
+  color: #92400e;
+  font-weight: 700;
+}
+
+/* Action Buttons */
+.booking-actions {
+  margin-top: 24px;
+}
+
+.book-button {
+  width: 100%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.book-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.book-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .booking-screen {
+    padding: 16px;
+  }
+  
+  .route-summary,
+  .fare-section {
+    padding: 20px;
+  }
+  
+  .main-fare {
+    font-size: 36px;
+  }
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Vite Debugger</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #e61e25;
+            margin-bottom: 10px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        code {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .button {
+            background-color: #e61e25;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            border-left: 4px solid #e61e25;
+            padding: 10px 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Go7 Vite Debugger</h1>
+            <p>Solve your Vite + React mounting issues</p>
+        </header>
+
+        <div class="card">
+            <h2>Vite Configuration Check</h2>
+            <p>For your Go7 app to work properly with Vite, you need the correct configuration:</p>
+            
+            <div class="code-block">
+                <code>// vite.config.js</code>
+                <pre>
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    host: true,
+    strictPort: true
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
+  }
+})</pre>
+            </div>
+            
+            <button class="button" onclick="copyViteConfig()">Copy Vite Config</button>
+        </div>
+
+        <div class="card">
+            <h2>File Extension Fix</h2>
+            <p>Common cause of "React not mounting" with Vite is missing file extensions in imports:</p>
+            
+            <div class="code-block">
+                <code>// WRONG ❌</code>
+                <pre>
+import Header from './components/Header'
+import { CartContext } from './contexts/CartContext'</pre>
+            </div>
+            
+            <div class="code-block">
+                <code>// CORRECT ✅</code>
+                <pre>
+import Header from './components/Header.jsx'
+import { CartContext } from './contexts/CartContext.jsx'</pre>
+            </div>
+            
+            <p><strong>Fix Command:</strong> Run this to find files missing extensions:</p>
+            <pre>npx grep-script "import.*from.*['\"]\..*['\"]" --ext js,jsx,tsx</pre>
+            <button class="button" onclick="copyFixCommand()">Copy Command</button>
+        </div>
+
+        <div class="card">
+            <h2>Working Vite + React Setup</h2>
+            <p>Follow these steps for a guaranteed working setup:</p>
+            <ol>
+                <li>Kill all running Node processes:
+                    <div class="code-block"><code>taskkill /F /IM node.exe</code></div>
+                </li>
+                <li>Clear Vite cache:
+                    <div class="code-block"><code>npm run clean-cache</code>
+or manually:
+<code>rmdir /s /q node_modules\.vite</code></div>
+                </li>
+                <li>Use the corrected vite.config.js (above)</li>
+                <li>Add file extensions to all imports</li>
+                <li>Run with host flag:
+                    <div class="code-block"><code>npx vite --host --port 3000</code></div>
+                </li>
+            </ol>
+            <p>For a guaranteed test, you can also try our non-Vite solution:</p>
+            <a href="/guaranteed-react" class="button">Open Guaranteed React App</a>
+        </div>
+    </div>
+
+    <script>
+        function copyViteConfig() {
+            const config = `import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    host: true,
+    strictPort: true
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
+  }
+})`;
+            navigator.clipboard.writeText(config);
+            alert('Vite config copied to clipboard!');
+        }
+        
+        function copyFixCommand() {
+            const command = `npx grep-script "import.*from.*['\"]\..*['\"]" --ext js,jsx,tsx`;
+            navigator.clipboard.writeText(command);
+            alert('Fix command copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

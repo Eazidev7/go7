@@ -1,0 +1,137 @@
+/* Button component styles */
+.go7-button {
+  /* Base styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  border-radius: 14px;
+  transition: 
+    transform 120ms ease, 
+    box-shadow 150ms ease, 
+    background-color 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  user-select: none;
+}
+
+/* Size variants */
+.go7-button-md {
+  height: 48px;
+  padding: 0 1.25rem;
+  font-size: 1rem;
+}
+
+.go7-button-lg {
+  height: 56px;
+  padding: 0 1.5rem;
+  font-size: 1.125rem;
+}
+
+/* Full width variant */
+.go7-button-full-width {
+  width: 100%;
+}
+
+/* Primary variant (red solid) */
+.go7-button-primary {
+  background-color: var(--go7-red);
+  color: white;
+  box-shadow: 0 2px 4px rgba(227, 6, 19, 0.2);
+}
+
+.go7-button-primary:hover {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+  box-shadow: 0 4px 8px rgba(227, 6, 19, 0.3);
+  transform: translateY(-1px);
+}
+
+.go7-button-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(227, 6, 19, 0.2);
+}
+
+/* Secondary variant (white on red bg) */
+.go7-button-secondary {
+  background-color: white;
+  color: var(--go7-red);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.go7-button-secondary:hover {
+  background-image: linear-gradient(rgba(227, 6, 19, 0.05), rgba(227, 6, 19, 0.02));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.go7-button-secondary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Ghost variant (transparent with red border) */
+.go7-button-ghost {
+  background-color: transparent;
+  color: var(--go7-red);
+  border: 2px solid var(--go7-red);
+}
+
+.go7-button-ghost:hover {
+  background-color: rgba(227, 6, 19, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(227, 6, 19, 0.1);
+}
+
+.go7-button-ghost:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* Focus states for accessibility */
+.go7-button:focus-visible {
+  outline: 2px solid #FFD8D6;
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.go7-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.go7-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Icon styles */
+.go7-button-start-icon,
+.go7-button-end-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure sufficient contrast ratio */
+.go7-button-primary,
+.go7-button-secondary,
+.go7-button-ghost {
+  font-weight: 700;
+}
+
+/* Reduce motion if user prefers */
+@media (prefers-reduced-motion: reduce) {
+  .go7-button {
+    transition: none;
+  }
+}

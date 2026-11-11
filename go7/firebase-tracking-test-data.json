@@ -1,0 +1,52 @@
+{
+  "orders": {
+    "go7-NTX72PK": {
+      "riderLocation": {
+        "lat": 7.1475,
+        "lng": 3.3619,
+        "name": "Akeem",
+        "rating": 4.9,
+        "status": "on_the_way",
+        "timestamp": 1697500800000
+      },
+      "orderDetails": {
+        "customerName": "John Doe",
+        "pickupAddress": "123 Main St, Abeokuta",
+        "dropoffAddress": "456 Oak Ave, Abeokuta",
+        "items": "2x Burgers, 1x Fries",
+        "totalAmount": 3500,
+        "createdAt": 1697500000000
+      }
+    },
+    "go7-ABC123": {
+      "riderLocation": {
+        "lat": 7.150,
+        "lng": 3.365,
+        "name": "Ibrahim",
+        "rating": 4.8,
+        "status": "picked_up",
+        "timestamp": 1697501000000
+      }
+    },
+    "go7-XYZ789": {
+      "riderLocation": {
+        "lat": 7.155,
+        "lng": 3.350,
+        "name": "Tunde",
+        "rating": 5.0,
+        "status": "near_destination",
+        "timestamp": 1697501200000
+      }
+    },
+    "go7-TEST001": {
+      "riderLocation": {
+        "lat": 7.1475,
+        "lng": 3.3619,
+        "name": "Test Rider",
+        "rating": 4.9,
+        "status": "rider_assigned",
+        "timestamp": 1697501400000
+      }
+    }
+  }
+}

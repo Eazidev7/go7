@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vendor Signup</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 { color: #667eea; text-align: center; }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Vendor Registration</h1>
+        
+        <form id="vendorForm">
+            <div class="form-group">
+                <label>Business Name *</label>
+                <input type="text" id="businessName" value="Test Restaurant" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Contact Name *</label>
+                <input type="text" id="name" value="John Doe" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" value="test.vendor@go7.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" id="phone" value="08166205600" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Password *</label>
+                <input type="password" id="password" value="test123456" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Address *</label>
+                <input type="text" id="address" value="123 Test Street, Abeokuta" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Vendor Type *</label>
+                <select id="type" required>
+                    <option value="">Select Type</option>
+                    <option value="Restaurant" selected>Restaurant</option>
+                    <option value="Food Vendor">Food Vendor</option>
+                    <option value="Supermarket">Supermarket</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="description" value="Test restaurant for development">
+            </div>
+            
+            <button type="submit" id="registerBtn">🚀 Register Vendor</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.firebasestorage.app",
+            messagingSenderId: "232009015458",
+            appId: "1:232009015458:web:49dbb63a5a67112325f7fb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let resultDiv = document.getElementById('result');
+
+        function showResult(message, type = 'info') {
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = message;
+            resultDiv.style.display = 'block';
+        }
+
+        document.getElementById('vendorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.disabled = true;
+            registerBtn.textContent = '⏳ Registering...';
+            
+            const formData = {
+                businessName: document.getElementById('businessName').value.trim(),
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                password: document.getElementById('password').value,
+                address: document.getElementById('address').value.trim(),
+                type: document.getElementById('type').value,
+                description: document.getElementById('description').value.trim()
+            };
+
+            try {
+                showResult('Step 1: Creating Firebase Auth account...', 'info');
+                
+                let userCredential;
+                let vendorId;
+                
+                // Try to create auth user
+                try {
+                    userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+                    vendorId = userCredential.user.uid;
+                    showResult(`✅ Step 1 Complete: Auth account created\nUID: ${vendorId}\n\nStep 2: Creating vendor document...`, 'success');
+                } catch (authError) {
+                    if (authError.code === 'auth/email-already-in-use') {
+                        showResult(`Email exists. Trying to sign in...`, 'info');
+                        const signInResult = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+                        vendorId = signInResult.user.uid;
+                        
+                        // Check if vendor already exists
+                        const existingVendor = await getDoc(doc(db, 'vendors', vendorId));
+                        if (existingVendor.exists()) {
+                            throw new Error('Vendor already exists. Use login instead.');
+                        }
+                        showResult(`✅ Signed in with existing account\nUID: ${vendorId}\n\nStep 2: Creating vendor document...`, 'success');
+                    } else {
+                        throw authError;
+                    }
+                }
+
+                // Create vendor document
+                const vendorDoc = {
+                    vendorId: vendorId,
+                    userId: vendorId,
+                    name: formData.name,
+                    businessName: formData.businessName,
+                    displayName: formData.businessName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    phoneVerified: false,
+                    phoneVerificationRequired: true,
+                    address: formData.address,
+                    type: formData.type,
+                    categories: [formData.type.toLowerCase()],
+                    description: formData.description,
+                    profileImage: '',
+                    isOnline: true,
+                    autoAccept: false,
+                    accountStatus: 'pending_phone_verification',
+                    canReceiveOrders: false,
+                    isActive: false,
+                    registrationComplete: false,
+                    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                    availableHours: { start: '08:00', end: '22:00' },
+                    deliveryTime: '30-45 mins',
+                    deliveryFee: 200,
+                    isTemporarilyClosed: false,
+                    location: {
+                        address: formData.address,
+                        coordinates: {
+                            latitude: 7.1475,
+                            longitude: 3.3619
+                        }
+                    },
+                    rating: 4.5,
+                    totalOrders: 0,
+                    totalProducts: 0,
+                    createdAt: serverTimestamp(),
+                    lastSeen: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                };
+
+                await setDoc(doc(db, 'vendors', vendorId), vendorDoc);
+                
+                showResult(
+                    `✅✅ VENDOR REGISTRATION SUCCESSFUL! ✅✅\n\n` +
+                    `Vendor ID: ${vendorId}\n` +
+                    `Business: ${formData.businessName}\n` +
+                    `Email: ${formData.email}\n` +
+                    `Phone: ${formData.phone}\n\n` +
+                    `Status: Pending phone verification\n` +
+                    `Next Step: Verify phone via WhatsApp OTP\n\n` +
+                    `You can now log in with these credentials!`,
+                    'success'
+                );
+                
+                registerBtn.textContent = '✅ Registration Complete!';
+                
+            } catch (error) {
+                console.error('❌ Registration error:', error);
+                showResult(
+                    `❌ REGISTRATION FAILED\n\n` +
+                    `Error: ${error.message}\n` +
+                    `Code: ${error.code || 'N/A'}\n\n` +
+                    `Details: ${JSON.stringify(error, null, 2)}`,
+                    'error'
+                );
+                registerBtn.disabled = false;
+                registerBtn.textContent = '🚀 Register Vendor';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+{
+  "timestamp": "2026-01-16T00:31:03.329Z",
+  "baseUrl": "http://localhost:3000",
+  "summary": {
+    "total": 23,
+    "passed": 5,
+    "failed": 18,
+    "passRate": "21.74%"
+  },
+  "tests": [
+    {
+      "category": "Server",
+      "testName": "Response Time",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.163Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Homepage",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.178Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Book Delivery",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.183Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "GoBuy Shopping",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.186Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Restaurants",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.193Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Shops",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.197Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Pharmacy",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.200Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Markets",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.203Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Checkout",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.211Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Track Order",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.214Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Profile",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.221Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Vendor Portal",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.231Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Rider Dashboard",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.235Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Admin Dashboard",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.245Z"
+    },
+    {
+      "category": "React App",
+      "testName": "Bundle Check",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.267Z"
+    },
+    {
+      "category": "Assets",
+      "testName": "CSS Loading",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.273Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Meta Tags",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.279Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/health",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:31:03.284Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/status",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:31:03.286Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/products",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:31:03.290Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/vendors",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:31:03.297Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/restaurants",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:31:03.301Z"
+    },
+    {
+      "category": "Security",
+      "testName": "Headers",
+      "passed": false,
+      "details": "",
+      "timestamp": "2026-01-16T00:31:03.310Z"
+    }
+  ]
+}

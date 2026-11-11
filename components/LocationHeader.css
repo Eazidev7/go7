@@ -1,0 +1,318 @@
+/* Location Header Styles */
+.location-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--go7-white);
+  border-bottom: 1px solid var(--go7-gray-200);
+  z-index: var(--z-dropdown);
+  padding: var(--spacing-sm) 0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Location Selector */
+.location-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex: 1;
+  max-width: 280px;
+}
+
+.location-selector:hover {
+  background-color: var(--go7-gray-100);
+}
+
+.location-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.location-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.location-label {
+  font-size: var(--font-xs);
+  color: var(--go7-gray-600);
+  font-weight: 400;
+}
+
+.location-name {
+  font-size: var(--font-sm);
+  color: var(--go7-neutral-dark);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.location-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Notification Bell */
+.notification-bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-bell:hover {
+  background-color: var(--go7-gray-100);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: var(--go7-primary);
+  color: var(--go7-white);
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--go7-white);
+}
+
+/* Location Modal */
+.location-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: modal-overlay-enter 0.2s ease-out;
+}
+
+@keyframes modal-overlay-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.location-modal {
+  background-color: var(--go7-white);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 70vh;
+  overflow: hidden;
+  animation: modal-slide-up 0.3s ease-out;
+}
+
+@keyframes modal-slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  border-bottom: 1px solid var(--go7-gray-200);
+}
+
+.modal-header h3 {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--go7-neutral-dark);
+  margin: 0;
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-close:hover {
+  background-color: var(--go7-gray-100);
+}
+
+/* Location Search */
+.location-search {
+  padding: var(--spacing-md);
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--go7-gray-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  background-color: var(--go7-gray-50);
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--go7-primary);
+  background-color: var(--go7-white);
+}
+
+/* Location List */
+.location-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.current-location {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--go7-gray-200);
+}
+
+.saved-locations {
+  padding: var(--spacing-sm) 0;
+}
+
+.location-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  padding: var(--spacing-md);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: var(--font-md);
+  color: var(--go7-neutral-dark);
+}
+
+.location-option:hover {
+  background-color: var(--go7-gray-50);
+}
+
+.location-option.current {
+  color: var(--go7-primary);
+  font-weight: 500;
+}
+
+.location-option.selected {
+  background-color: var(--go7-peach);
+  color: var(--go7-primary);
+}
+
+.location-option:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.location-option:disabled:hover {
+  background-color: transparent;
+}
+
+.selected-check {
+  margin-left: auto;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .header-content {
+    padding: 0 var(--spacing-lg);
+  }
+  
+  .location-modal {
+    border-radius: var(--radius-xl);
+    margin: var(--spacing-xl);
+    max-height: 60vh;
+  }
+  
+  .location-modal-overlay {
+    align-items: center;
+  }
+}
+
+/* Mobile-specific touch improvements */
+@media (max-width: 767px) {
+  /* Ensure touch targets are at least 44x44px */
+  .location-selector {
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .notification-bell {
+    min-width: 44px;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .location-option {
+    min-height: 56px;
+    -webkit-tap-highlight-color: transparent;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  /* Prevent zoom on input focus */
+  .search-input {
+    font-size: 16px;
+  }
+  
+  /* Full width modal on mobile */
+  .location-modal {
+    max-height: 80vh;
+  }
+  
+  /* Better scroll on mobile */
+  .location-list {
+    -webkit-overflow-scrolling: touch;
+  }
+}

@@ -1,0 +1,320 @@
+/* FARE CALCULATOR DEMO PAGE STYLES */
+
+.fare-calculator-demo {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+}
+
+.demo-header {
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.demo-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e1e1e;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.demo-header p {
+  font-size: 16px;
+  color: #666;
+  font-weight: 400;
+}
+
+.demo-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.calculator-section {
+  width: 100%;
+}
+
+/* Version Toggle */
+.version-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.toggle-btn {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 20px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  background: white;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  border-color: #e61e25;
+  color: #e61e25;
+}
+
+.toggle-btn.active {
+  background: #e61e25;
+  border-color: #e61e25;
+  color: white;
+  font-weight: 600;
+}
+
+/* Fare Data Display */
+.fare-data-display {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.fare-data-display h3 {
+  margin: 0 0 15px 0;
+  color: #1e1e1e;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.data-item .label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.data-item .value {
+  font-size: 18px;
+  color: #e61e25;
+  font-weight: 700;
+}
+
+.breakdown-details {
+  border-top: 1px solid #e9ecef;
+  padding-top: 15px;
+}
+
+.breakdown-details h4 {
+  margin: 0 0 12px 0;
+  color: #1e1e1e;
+  font-weight: 600;
+}
+
+.breakdown-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.breakdown-row.total {
+  background: #e61e25;
+  color: white;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+/* Features Section */
+.features-section {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.features-section h3 {
+  margin: 0 0 20px 0;
+  color: #1e1e1e;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.feature-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e61e25;
+  color: white;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.feature-content h4 {
+  margin: 0 0 5px 0;
+  color: #1e1e1e;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.feature-content p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Sample Addresses */
+.sample-addresses {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.sample-addresses h3 {
+  margin: 0 0 15px 0;
+  color: #1e1e1e;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.address-samples {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sample-pair {
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #e61e25;
+}
+
+.sample-pair strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #e61e25;
+  font-weight: 700;
+}
+
+.sample-pair div {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #1e1e1e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fare-calculator-demo {
+    padding: 15px;
+  }
+  
+  .demo-header h1 {
+    font-size: 28px;
+  }
+  
+  .demo-content {
+    gap: 20px;
+  }
+  
+  .fare-data-display,
+  .features-section,
+  .sample-addresses {
+    padding: 15px;
+  }
+  
+  .data-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .feature-item {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .demo-header h1 {
+    font-size: 24px;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .breakdown-row {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+  
+  .feature-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .feature-icon {
+    align-self: center;
+  }
+}

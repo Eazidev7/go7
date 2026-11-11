@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>go7.ng DNS — what stays, what goes</title><style>
+body{font-family:Arial,sans-serif;color:#1a1a2e;max-width:760px;margin:0 auto;padding:28px;font-size:13px}
+h1{font-size:22px;color:#0d7a3f}
+h2{font-size:14px;margin-top:20px;border-bottom:2px solid #eee;padding-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:6px 0}
+th,td{border:1px solid #ddd;padding:7px 9px;text-align:left;font-size:12px}
+.keep{background:#e8f5ee}
+.go{background:#fde8e8}
+.swap{background:#fff4e0}
+.leg{font-size:11px;margin:4px 0}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px}
+code{background:#f2f2f7;padding:1px 6px;border-radius:3px;font-size:11px}
+.note{background:#fff4e5;border-left:4px solid #f0a030;padding:8px 12px;margin:12px 0}
+.alt{background:#eaf4ff;border-left:4px solid #2878c8;padding:8px 12px;margin:12px 0}
+</style></head><body>
+<h1>go7.ng DNS — Stay vs Go</h1>
+<div class="leg"><span class="sw" style="background:#e8f5ee"></span>KEEP &nbsp; <span class="sw" style="background:#fde8e8"></span>REPLACE &nbsp; <span class="sw" style="background:#fff4e0"></span>EDIT/MERGE</div>
+
+<div class="alt"><b>Simplest option:</b> skip ALL this — create <code>support@go7.ng</code> in hPanel → Emails (Hostinger mail already works). No DNS changes needed.</div>
+
+<h2>Your current records (from your zone)</h2>
+<table>
+<tr><th>Record</th><th>Value</th><th>Verdict</th></tr>
+<tr class="keep"><td>A go7.ng</td><td>185.61.154.210</td><td>KEEP — your website</td></tr>
+<tr class="keep"><td>A mail.go7.ng</td><td>185.61.154.210</td><td>KEEP if staying Hostinger mail / swap→CNAME privateemail.com if NC</td></tr>
+<tr class="keep"><td>CNAME www</td><td>go7.ng</td><td>KEEP</td></tr>
+<tr class="keep"><td>A ftp, whm, webdisk, cpanel, cpcontacts, cpcalendars</td><td>185.61.154.210</td><td>KEEP — hosting admin</td></tr>
+<tr class="swap"><td>TXT go7.ng (SPF)</td><td>v=spf1 +a +mx +ip4:206 +ip4:208 include:spf.web-hosting.com ~all</td><td>MERGE — add <code>include:spf.privateemail.com</code> inside it (NC option) OR leave as-is (Hostinger option)</td></tr>
+<tr class="keep"><td>TXT _dmarc</td><td>v=DMARC1; p=none;</td><td>KEEP</td></tr>
+<tr class="keep"><td>TXT default._domainkey</td><td>DKIM1 rsa</td><td>KEEP — signing</td></tr>
+<tr class="keep"><td>TXT send.go7.ng</td><td>amazonses</td><td>KEEP — transactional</td></tr>
+<tr class="keep"><td>MX send.go7.ng</td><td>amazonses.com</td><td>KEEP</td></tr>
+<tr class="keep"><td>TXT resend._domainkey</td><td>p=MIGf...</td><td>KEEP — Resend DKIM</td></tr>
+<tr class="keep"><td>SRV/TXT _caldav/_carddav (6+)</td><td>2080/2079</td><td>KEEP — calendar/contacts</td></tr>
+<tr class="go"><td><b>MX go7.ng</b> ×3</td><td>mx1/2/3-hosting.jellyfish.systems</td><td><b>REPLACE</b> with mx1.privateemail.com (10) + mx2.privateemail.com (20) — only if switching to Namecheap mail</td></tr>
+<tr class="go"><td>A autodiscover.go7.ng</td><td>185.61.154.210</td><td>REPLACE → CNAME privateemail.com (NC)</td></tr>
+<tr class="go"><td>A autoconfig.go7.ng</td><td>185.61.154.210</td><td>REPLACE → CNAME privateemail.com (NC)</td></tr>
+<tr class="go"><td>A webmail.go7.ng</td><td>185.61.154.210</td><td>REPLACE → CNAME privateemail.com (NC)</td></tr>
+<tr class="go"><td>SRV _autodiscover._tcp</td><td>cpanelemaildiscovery.cpanel.net</td><td>REPLACE → 0 0 443 privateemail.com (NC)</td></tr>
+</table>
+
+<h2>If you go Namecheap Private Email — add:</h2>
+<table>
+<tr><th>Type</th><th>Name</th><th>Value</th><th>Pri</th></tr>
+<tr><td>MX</td><td>@</td><td>mx1.privateemail.com</td><td>10</td></tr>
+<tr><td>MX</td><td>@</td><td>mx2.privateemail.com</td><td>20</td></tr>
+<tr><td>TXT</td><td>@</td><td>v=spf1 include:spf.privateemail.com ~all (merged into existing)</td><td>—</td></tr>
+<tr><td>CNAME</td><td>mail</td><td>privateemail.com</td><td>—</td></tr>
+<tr><td>CNAME</td><td>webmail</td><td>privateemail.com</td><td>—</td></tr>
+<tr><td>CNAME</td><td>autodiscover</td><td>privateemail.com</td><td>—</td></tr>
+<tr><td>CNAME</td><td>autoconfig</td><td>privateemail.com</td><td>—</td></tr>
+<tr><td>SRV</td><td>_autodiscover._tcp</td><td>0 0 443 privateemail.com</td><td>—</td></tr>
+</table>
+<div class="note"><b>Rule:</b> only ONE <code>v=spf1</code> TXT on the root ever. Don't delete SES/Resend records or Resend-sending breaks. Don't touch any A record for the site.</div>
+<div class="alt"><b>Bottom line:</b> Hostinger mail is already live and configured. Create <code>support@go7.ng</code> in hPanel → Emails → Email Accounts — no DNS needed. The Namecheap swap only makes sense if you want NC webmail specifically.</div>
+</body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Mobile FIXED Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .status {
+            background: #111;
+            border: 2px solid #0f0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            background: #E30613;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background: #c40510;
+        }
+        .info {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #0f0;
+        }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        .warning { color: #ff0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Go7 Mobile Detection - FIXED VERSION</h1>
+        
+        <div class="status" id="status">
+            🔄 Checking mobile detection...
+        </div>
+        
+        <div class="info">
+            <h3>✅ Applied Fixes:</h3>
+            <ul>
+                <li class="success">✅ Simplified mobile detection logic</li>
+                <li class="success">✅ Added URL parameter support (?forceMobile=true/false)</li>
+                <li class="success">✅ Fixed syntax errors in HomePage.jsx</li>
+                <li class="success">✅ Cleared npm cache and restarted server</li>
+                <li class="success">✅ Added comprehensive debug logging</li>
+                <li class="success">✅ Removed complex debounced resize handlers</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <h2>🧪 Test the Fixed Mobile Detection:</h2>
+            <button onclick="testHomepage()" class="button">🏠 Test Homepage</button>
+            <button onclick="testForceMobile()" class="button">📱 Force Mobile</button>
+            <button onclick="testForceDesktop()" class="button">🖥️ Force Desktop</button>
+            <button onclick="clearCache()" class="button">🧹 Clear Cache</button>
+        </div>
+        
+        <div class="info">
+            <h3>📊 Current Status:</h3>
+            <p><strong>Screen Size:</strong> <span id="screenSize">-</span></p>
+            <p><strong>Should be Mobile:</strong> <span id="shouldBeMobile">-</span></p>
+            <p><strong>User Agent:</strong> <span id="userAgent">-</span></p>
+            <p><strong>Timestamp:</strong> <span id="timestamp">-</span></p>
+        </div>
+        
+        <div class="info">
+            <h3>🎯 Expected Behavior:</h3>
+            <p><span class="success">Width &lt; 768px:</span> Should render MobileHomePageNew with all components</p>
+            <p><span class="warning">Width &ge; 768px:</span> Should render DesktopHero (unchanged)</p>
+            <p><span class="success">?forceMobile=true:</span> Always mobile regardless of screen size</p>
+            <p><span class="success">?forceMobile=false:</span> Always desktop regardless of screen size</p>
+        </div>
+    </div>
+
+    <script>
+        function updateInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const isMobile = width < 768;
+            const userAgent = navigator.userAgent;
+            
+            document.getElementById('screenSize').textContent = `${width} × ${height}px`;
+            document.getElementById('shouldBeMobile').textContent = isMobile ? '✅ YES' : '❌ NO';
+            document.getElementById('userAgent').textContent = userAgent.substring(0, 100) + '...';
+            document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
+            
+            const statusDiv = document.getElementById('status');
+            if (isMobile) {
+                statusDiv.innerHTML = '<span class="success">📱 MOBILE SCREEN DETECTED</span><br>Mobile homepage should be active';
+                statusDiv.style.borderColor = '#0f0';
+            } else {
+                statusDiv.innerHTML = '<span class="warning">🖥️ DESKTOP SCREEN DETECTED</span><br>Desktop hero should be active';
+                statusDiv.style.borderColor = '#ff0';
+            }
+            
+            console.log('📊 Status Update:', {
+                width, height, isMobile, 
+                userAgent: userAgent.substring(0, 50),
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        function testHomepage() {
+            console.log('🧪 Opening homepage for testing...');
+            window.open('http://localhost:5173/', '_blank');
+        }
+        
+        function testForceMobile() {
+            console.log('🧪 Opening homepage with forced mobile...');
+            window.open('http://localhost:5173/?forceMobile=true', '_blank');
+        }
+        
+        function testForceDesktop() {
+            console.log('🧪 Opening homepage with forced desktop...');
+            window.open('http://localhost:5173/?forceMobile=false', '_blank');
+        }
+        
+        async function clearCache() {
+            try {
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(
+                        cacheNames.map(cacheName => caches.delete(cacheName))
+                    );
+                    console.log('✅ Browser caches cleared');
+                }
+                localStorage.clear();
+                sessionStorage.clear();
+                console.log('✅ Storage cleared');
+                alert('Cache cleared! Reload the app for fresh state.');
+            } catch (error) {
+                console.error('❌ Error clearing cache:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Mobile Detection Fixed Test initialized');
+            updateInfo();
+            setInterval(updateInfo, 3000); // Update every 3 seconds
+        });
+        
+        window.addEventListener('resize', updateInfo);
+    </script>
+</body>
+</html>

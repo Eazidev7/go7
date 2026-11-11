@@ -1,0 +1,524 @@
+[
+ {
+  "name": "Baala",
+  "type": "village",
+  "lat": 7.15,
+  "lng": 3.533333
+ },
+ {
+  "name": "Sabo",
+  "type": "village",
+  "lat": 7.166667,
+  "lng": 3.316667
+ },
+ {
+  "name": "Degesin",
+  "type": "village",
+  "lat": 7.016667,
+  "lng": 3.333333
+ },
+ {
+  "name": "Sule",
+  "type": "village",
+  "lat": 7.033333,
+  "lng": 3.25
+ },
+ {
+  "name": "Opeji",
+  "type": "village",
+  "lat": 7.316667,
+  "lng": 3.383333
+ },
+ {
+  "name": "Adelokun",
+  "type": "village",
+  "lat": 7.15,
+  "lng": 3.516667
+ },
+ {
+  "name": "Oba",
+  "type": "village",
+  "lat": 7.033333,
+  "lng": 3.35
+ },
+ {
+  "name": "Balogun Eniaiyewu",
+  "type": "village",
+  "lat": 7.35,
+  "lng": 3.316667
+ },
+ {
+  "name": "Odeda",
+  "type": "village",
+  "lat": 7.216667,
+  "lng": 3.516667
+ },
+ {
+  "name": "Asa",
+  "type": "village",
+  "lat": 7.083333,
+  "lng": 3.333333
+ },
+ {
+  "name": "Oteyi",
+  "type": "village",
+  "lat": 7.016667,
+  "lng": 3.2
+ },
+ {
+  "name": "Oshiele",
+  "type": "village",
+  "lat": 7.183333,
+  "lng": 3.45
+ },
+ {
+  "name": "Sogeke",
+  "type": "village",
+  "lat": 7.1167761,
+  "lng": 3.3332123
+ },
+ {
+  "name": "Emo",
+  "type": "village",
+  "lat": 7.016667,
+  "lng": 3.516667
+ },
+ {
+  "name": "Salalu",
+  "type": "village",
+  "lat": 7.283333,
+  "lng": 3.533333
+ },
+ {
+  "name": "Baye",
+  "type": "village",
+  "lat": 7.016667,
+  "lng": 3.25
+ },
+ {
+  "name": "Ilawo",
+  "type": "village",
+  "lat": 7.283333,
+  "lng": 3.4
+ },
+ {
+  "name": "Isan",
+  "type": "village",
+  "lat": 7.066667,
+  "lng": 3.55
+ },
+ {
+  "name": "Baase",
+  "type": "village",
+  "lat": 7.216667,
+  "lng": 3.25
+ },
+ {
+  "name": "Boruboru",
+  "type": "village",
+  "lat": 7.1,
+  "lng": 3.516667
+ },
+ {
+  "name": "Oloko",
+  "type": "village",
+  "lat": 7.25,
+  "lng": 3.283333
+ },
+ {
+  "name": "Agbara",
+  "type": "village",
+  "lat": 7.25,
+  "lng": 3.4
+ },
+ {
+  "name": "Arogbo",
+  "type": "village",
+  "lat": 7.283333,
+  "lng": 3.433333
+ },
+ {
+  "name": "Ogede",
+  "type": "village",
+  "lat": 7,
+  "lng": 3.516667
+ },
+ {
+  "name": "Ojere",
+  "type": "village",
+  "lat": 7.1065815,
+  "lng": 3.3351611
+ },
+ {
+  "name": "Aworo",
+  "type": "village",
+  "lat": 7.316667,
+  "lng": 3.283333
+ },
+ {
+  "name": "Majape",
+  "type": "village",
+  "lat": 7.283333,
+  "lng": 3.316667
+ },
+ {
+  "name": "Arikola",
+  "type": "village",
+  "lat": 7.25,
+  "lng": 3.3
+ },
+ {
+  "name": "Mosunmore",
+  "type": "village",
+  "lat": 7.016667,
+  "lng": 3.433333
+ },
+ {
+  "name": "Ibara-Oko",
+  "type": "village",
+  "lat": 7.133333,
+  "lng": 3.25
+ },
+ {
+  "name": "Aiyerose",
+  "type": "village",
+  "lat": 7.1,
+  "lng": 3.433333
+ },
+ {
+  "name": "Ayedi",
+  "type": "village",
+  "lat": 7.166667,
+  "lng": 3.55
+ },
+ {
+  "name": "Asu",
+  "type": "village",
+  "lat": 7.033333,
+  "lng": 3.45
+ },
+ {
+  "name": "Olanbiwonnu",
+  "type": "village",
+  "lat": 7.333333,
+  "lng": 3.433333
+ },
+ {
+  "name": "Agbontu",
+  "type": "village",
+  "lat": 7.2,
+  "lng": 3.516667
+ },
+ {
+  "name": "Nitoji",
+  "type": "village",
+  "lat": 7.183333,
+  "lng": 3.533333
+ },
+ {
+  "name": "Ajitadun",
+  "type": "village",
+  "lat": 7.283333,
+  "lng": 3.3
+ },
+ {
+  "name": "Old Abeokuta Road",
+  "type": "road",
+  "lat": 7.2001205,
+  "lng": 3.4405198
+ },
+ {
+  "name": "Abeokuta - Iseyin",
+  "type": "road",
+  "lat": 7.5932346,
+  "lng": 3.4368914
+ },
+ {
+  "name": "Abeokuta-Sagamu Expressway",
+  "type": "road",
+  "lat": 7.0071456,
+  "lng": 3.4673535
+ },
+ {
+  "name": "Presidential",
+  "type": "road",
+  "lat": 7.1389144,
+  "lng": 3.3424335
+ },
+ {
+  "name": "Lagos-Abeokuta Expressway",
+  "type": "road",
+  "lat": 7.0466454,
+  "lng": 3.2539112
+ },
+ {
+  "name": "Lalubu Road, Oke-Ilewo",
+  "type": "road",
+  "lat": 7.1356367,
+  "lng": 3.3362475
+ },
+ {
+  "name": "Quarry Road",
+  "type": "road",
+  "lat": 7.1358388,
+  "lng": 3.3266798
+ },
+ {
+  "name": "Substation road",
+  "type": "road",
+  "lat": 7.1041616,
+  "lng": 3.3887727
+ },
+ {
+  "name": "PHCN Substation Abeokuta New",
+  "type": "road",
+  "lat": 7.1047271,
+  "lng": 3.3913659
+ },
+ {
+  "name": "Ago-Oko Street",
+  "type": "road",
+  "lat": 7.1424181,
+  "lng": 3.3385958
+ },
+ {
+  "name": "Obada Oko Road",
+  "type": "road",
+  "lat": 7.0828923,
+  "lng": 3.2989296
+ },
+ {
+  "name": "Ikija Road",
+  "type": "road",
+  "lat": 7.1643536,
+  "lng": 3.3414694
+ },
+ {
+  "name": "Kuforiji Olubi Road",
+  "type": "road",
+  "lat": 7.1287196,
+  "lng": 3.3216991
+ },
+ {
+  "name": "Peachtree Street",
+  "type": "road",
+  "lat": 7.0690793,
+  "lng": 3.2934775
+ },
+ {
+  "name": "Oyinda Pedro Avenue",
+  "type": "road",
+  "lat": 7.154709,
+  "lng": 3.3883078
+ },
+ {
+  "name": "Oke-Ijemo Road",
+  "type": "road",
+  "lat": 7.1632806,
+  "lng": 3.3454442
+ },
+ {
+  "name": "Mercy Clinic Road",
+  "type": "road",
+  "lat": 7.1309946,
+  "lng": 3.3313459
+ },
+ {
+  "name": "Kobiti Road",
+  "type": "road",
+  "lat": 7.1603524,
+  "lng": 3.3396513
+ },
+ {
+  "name": "Obasanjo way, Ita-Eko",
+  "type": "road",
+  "lat": 7.1429365,
+  "lng": 3.3286898
+ },
+ {
+  "name": "Oduntan Street",
+  "type": "road",
+  "lat": 7.183863,
+  "lng": 3.3985131
+ },
+ {
+  "name": "Alubarika Street",
+  "type": "road",
+  "lat": 7.1568104,
+  "lng": 3.4007036
+ },
+ {
+  "name": "Iyana Adigbe",
+  "type": "road",
+  "lat": 7.0699636,
+  "lng": 3.2923549
+ },
+ {
+  "name": "Surulere",
+  "type": "road",
+  "lat": 7.1401524,
+  "lng": 3.3280975
+ },
+ {
+  "name": "Adeleke Adesina Close",
+  "type": "road",
+  "lat": 7.1898366,
+  "lng": 3.4069342
+ },
+ {
+  "name": "Akinyinka Alao Street",
+  "type": "road",
+  "lat": 7.1243806,
+  "lng": 3.3777055
+ },
+ {
+  "name": "Solanke Street",
+  "type": "road",
+  "lat": 7.1254263,
+  "lng": 3.3772351
+ },
+ {
+  "name": "Solola Street",
+  "type": "road",
+  "lat": 7.1689291,
+  "lng": 3.3678618
+ },
+ {
+  "name": "Logbara-Magapon Road",
+  "type": "road",
+  "lat": 7.1523964,
+  "lng": 3.3388719
+ },
+ {
+  "name": "Peace Avenue",
+  "type": "road",
+  "lat": 7.1645297,
+  "lng": 3.3808392
+ },
+ {
+  "name": "Ayeni street",
+  "type": "road",
+  "lat": 7.1206987,
+  "lng": 3.3254797
+ },
+ {
+  "name": "Gbokoniyi",
+  "type": "road",
+  "lat": 7.1152891,
+  "lng": 3.3364952
+ },
+ {
+  "name": "Engr. Adeniran Quams Street",
+  "type": "road",
+  "lat": 7.1129524,
+  "lng": 3.3227693
+ },
+ {
+  "name": "Opako",
+  "type": "road",
+  "lat": 7.1057974,
+  "lng": 3.3099875
+ },
+ {
+  "name": "Oluwatosin Street",
+  "type": "road",
+  "lat": 7.2136743,
+  "lng": 3.3572925
+ },
+ {
+  "name": "Olu Akinleye Close",
+  "type": "road",
+  "lat": 7.139007,
+  "lng": 3.2873573
+ },
+ {
+  "name": "Ilupeju Street",
+  "type": "road",
+  "lat": 7.1629472,
+  "lng": 3.323546
+ },
+ {
+  "name": "Adesina Close",
+  "type": "road",
+  "lat": 7.139014,
+  "lng": 3.2737343
+ },
+ {
+  "name": "Ide-Ape Road",
+  "type": "road",
+  "lat": 7.1592826,
+  "lng": 3.3415144
+ },
+ {
+  "name": "Adagba Street",
+  "type": "road",
+  "lat": 7.1697648,
+  "lng": 3.3494837
+ },
+ {
+  "name": "Adigbe road",
+  "type": "road",
+  "lat": 7.1320352,
+  "lng": 3.3292925
+ },
+ {
+  "name": "Green Villa Street",
+  "type": "road",
+  "lat": 7.1110134,
+  "lng": 3.3233837
+ },
+ {
+  "name": "Famuyiwa Mayowa Crescent",
+  "type": "road",
+  "lat": 7.22001,
+  "lng": 3.4483599
+ },
+ {
+  "name": "Adeoye Lati Jimoh Street",
+  "type": "road",
+  "lat": 7.1294352,
+  "lng": 3.374681
+ },
+ {
+  "name": "Nnpc Abeokuta",
+  "type": "landmark",
+  "lat": 7.0984805,
+  "lng": 3.302081
+ },
+ {
+  "name": "Nigerian Navy Secondary School",
+  "type": "landmark",
+  "lat": 7.1261468,
+  "lng": 3.3268505
+ },
+ {
+  "name": "St Leo's College Abeokuta",
+  "type": "landmark",
+  "lat": 7.1281893,
+  "lng": 3.3287907
+ },
+ {
+  "name": "Oyinkansola",
+  "type": "landmark",
+  "lat": 7.1312827,
+  "lng": 3.3286221
+ },
+ {
+  "name": "Catholic Comprehensive High School",
+  "type": "landmark",
+  "lat": 7.1319949,
+  "lng": 3.3333052
+ },
+ {
+  "name": "Green Legacy Resort",
+  "type": "landmark",
+  "lat": 7.1250427,
+  "lng": 3.3611702
+ },
+ {
+  "name": "Dusmar Presidential Hotel",
+  "type": "landmark",
+  "lat": 7.13448,
+  "lng": 3.3527051
+ }
+]

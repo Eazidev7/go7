@@ -1,0 +1,32 @@
+/**
+ * Placeholder Image Utilities
+ * Base64 encoded placeholder images to avoid external network requests
+ */
+
+// Simple 1x1 transparent pixel
+export const TRANSPARENT_PIXEL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB2aWV3Qm94PSIwIDAgMSAxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+';
+
+// Food placeholder - 300x200
+export const FOOD_PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMjAgMTAwQzEyMCA4OC45NTQzIDEyOC45NTQgODAgMTQwIDgwSDE2MEMxNzEuMDQ2IDgwIDE4MCA4OC45NTQzIDE4MCAxMDBWMTIwSDEyMFYxMDBaIiBmaWxsPSIjRDFENUQ5Ii8+CjxwYXRoIGQ9Ik0xMzUgOTVINjVDMTY1IDk1IDE2NSAxMDUgMTY1IDEwNUgxMzVWOTVaIiBmaWxsPSIjOUNBM0FGIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjc3NzhEIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg==';
+
+// Vendor/Store placeholder - 140x90 
+export const VENDOR_PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTQwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik01MCAzNUg5MFY1NUg1MFYzNVoiIGZpbGw9IiNEMUQ1RDkiLz4KPHA+dGggZD0iTTU1IDQwSDg1VjQ1SDU1VjQwWiIgZmlsbD0iIzlDQTNBRiIvPgo8dGV4dCB4PSI3MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2Nzc3OEQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIj5WZXRQZG9yPC90ZXh0Pgo8L3N2Zz4=';
+
+// Product placeholder - 100x100
+export const PRODUCT_PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjRDFENUQ5Ii8+CjxyZWN0IHg9IjMwIiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjRDFENUQ5Ii8+Cjx0ZXh0IHg9IjUwIiB5PSI4NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY3Nzc4RCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOCI+UHJvZHVjdDwvdGV4dD4KPC9zdmc+';
+
+// Large image placeholder - 600x400
+export const LARGE_PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjE2MCIgcj0iNDAiIGZpbGw9IiNEMUQ1RDkiLz4KPHA+dGggZD0iTTIyMCAyMDBIMzgwVjI0MEgyMjBWMjAwWiIgZmlsbD0iI0QxRDVEOSIvPgo8dGV4dCB4PSIzMDAiIHk9IjI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY3Nzc4RCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiPk5vIEltYWdlPC90ZXh0Pgo8L3N2Zz4=';
+
+// Helper functions to get appropriate placeholder
+export const getPlaceholderForSize = (width = 300, height = 200) => {
+  if (width <= 100 && height <= 100) return PRODUCT_PLACEHOLDER;
+  if (width <= 150 && height <= 100) return VENDOR_PLACEHOLDER;  
+  if (width >= 500) return LARGE_PLACEHOLDER;
+  return FOOD_PLACEHOLDER;
+};
+
+export const getFoodPlaceholder = () => FOOD_PLACEHOLDER;
+export const getVendorPlaceholder = () => VENDOR_PLACEHOLDER;
+export const getProductPlaceholder = () => PRODUCT_PLACEHOLDER;
+export const getLargePlaceholder = () => LARGE_PLACEHOLDER;

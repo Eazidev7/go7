@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO7 Delivery - Hero Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
+        .burger-animation {
+            animation: burger-bob 4s ease-in-out infinite;
+        }
+        
+        .scooter-animation {
+            animation: scooter-nudge 6s ease-in-out infinite;
+        }
+        
+        @keyframes burger-bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        
+        @keyframes scooter-nudge {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(6px); }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .burger-animation,
+            .scooter-animation {
+                animation: none;
+            }
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <section 
+        role="banner" 
+        aria-label="Go7 delivery hero"
+        class="relative bg-[#E32227] overflow-hidden"
+        style="background-image: url(/assets/hero/bg-network.svg); background-size: 200px 200px; background-repeat: repeat; background-position: 0 0; background-blend-mode: overlay;"
+    >
+        <!-- Network Pattern Overlay -->
+        <div 
+            class="absolute inset-0 opacity-[0.06]"
+            style="background-image: url(/assets/hero/bg-network.svg); background-size: 200px 200px; background-repeat: repeat;"
+            aria-hidden="true"
+        ></div>
+        
+        <!-- Main Container -->
+        <div class="relative max-w-[1280px] mx-auto px-6 py-18 lg:py-18">
+            <!-- Desktop Grid Layout (≥1024px) -->
+            <div class="hidden lg:grid lg:grid-cols-[340px_520px_460px] lg:gap-8 lg:items-end lg:min-h-[600px]">
+                
+                <!-- Column A: Burger -->
+                <div class="flex justify-center items-end">
+                    <div class="burger-container">
+                        <img
+                            src="/assets/hero/burger-tall.png"
+                            alt="Stacked burger"
+                            class="w-auto h-[520px] object-contain burger-animation"
+                            loading="eager"
+                            style="filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15))"
+                        />
+                    </div>
+                </div>
+                
+                <!-- Column B: Text Content -->
+                <div class="flex flex-col justify-center space-y-6 lg:pt-16">
+                    <!-- Headline -->
+                    <h1 
+                        class="text-white font-bold leading-[1.05]"
+                        style="font-weight: 800; font-size: clamp(40px, 5vw, 72px); letter-spacing: -0.02em;"
+                    >
+                        <span class="block">From</span>
+                        <span class="block">Burgers</span>
+                        <span class="block">to Parcels,</span>
+                        <span class="block">We</span>
+                        <span class="block">Deliver</span>
+                        <span class="block">Fast</span>
+                    </h1>
+                    
+                    <!-- Subtext -->
+                    <p 
+                        class="text-[#FFEDEB] max-w-[420px]"
+                        style="font-size: 18px; line-height: 1.6;"
+                    >
+                        Order food, groceries, and logistics services from your favorite local vendors. Quick, reliable, and affordable delivery to your doorstep.
+                    </p>
+                    
+                    <!-- CTAs -->
+                    <div class="flex gap-4 pt-2">
+                        <a
+                            href="/book"
+                            class="inline-flex items-center justify-center px-7 py-[18px] bg-[#FFF7F5] text-[#111827] font-bold rounded-[14px] transition-all duration-200 hover:bg-white hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] focus:outline focus:outline-3 focus:outline-white focus:outline-offset-2"
+                            aria-label="Book a delivery service"
+                        >
+                            Book a Delivery
+                        </a>
+                        
+                        <a
+                            href="/track"
+                            class="inline-flex items-center justify-center px-7 py-[18px] bg-transparent border-2 text-[#1A1A1A] font-bold rounded-[14px] transition-all duration-200 hover:bg-[rgba(255,255,255,0.08)] focus:outline focus:outline-3 focus:outline-white focus:outline-offset-2"
+                            style="border-color: rgba(26,26,26,0.4);"
+                            aria-label="Track your package"
+                        >
+                            Track Package
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Column C: Scooter -->
+                <div class="flex justify-center items-end relative">
+                    <!-- Ground Line -->
+                    <div 
+                        class="absolute bottom-0 h-[1px] bg-[#1A1A1A] opacity-30"
+                        style="width: 360px;"
+                    ></div>
+                    
+                    <div class="scooter-container">
+                        <img
+                            src="/assets/hero/go7-scooter.png"
+                            alt="Go7 courier on scooter"
+                            class="w-auto h-[480px] object-contain scooter-animation"
+                            loading="eager"
+                        />
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Layout (<768px) -->
+            <div class="lg:hidden space-y-8 py-12 text-center">
+                <!-- Headline -->
+                <h1 
+                    class="text-white font-bold leading-[1.05]"
+                    style="font-weight: 800; font-size: clamp(32px, 9vw, 40px); letter-spacing: -0.02em;"
+                >
+                    <span class="block">From</span>
+                    <span class="block">Burgers</span>
+                    <span class="block">to Parcels,</span>
+                    <span class="block">We</span>
+                    <span class="block">Deliver</span>
+                    <span class="block">Fast</span>
+                </h1>
+                
+                <!-- Subtext -->
+                <p 
+                    class="text-[#FFEDEB] max-w-[32ch] mx-auto"
+                    style="font-size: 16px; line-height: 1.6;"
+                >
+                    Order food, groceries, and logistics services from your favorite local vendors.
+                </p>
+                
+                <!-- Burger Image -->
+                <div class="flex justify-center">
+                    <img
+                        src="/assets/hero/burger-tall.png"
+                        alt="Stacked burger"
+                        class="w-auto h-[320px] object-contain burger-animation"
+                        loading="eager"
+                        style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1))"
+                    />
+                </div>
+                
+                <!-- Scooter Image -->
+                <div class="flex justify-center relative">
+                    <div 
+                        class="absolute bottom-0 h-[1px] bg-[#1A1A1A] opacity-30"
+                        style="width: 240px;"
+                    ></div>
+                    
+                    <img
+                        src="/assets/hero/go7-scooter.png"
+                        alt="Go7 courier on scooter"
+                        class="w-auto h-[300px] object-contain scooter-animation"
+                        loading="eager"
+                    />
+                </div>
+                
+                <!-- CTAs - Full Width Stacked -->
+                <div class="space-y-3 px-4">
+                    <a
+                        href="/book"
+                        class="w-full inline-flex items-center justify-center px-6 py-4 bg-[#FFF7F5] text-[#111827] font-bold rounded-[14px] transition-all duration-200 hover:bg-white hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] focus:outline focus:outline-3 focus:outline-white focus:outline-offset-2"
+                        aria-label="Book a delivery service"
+                    >
+                        Book a Delivery
+                    </a>
+                    
+                    <a
+                        href="/track"
+                        class="w-full inline-flex items-center justify-center px-6 py-4 bg-transparent border-2 text-[#1A1A1A] font-bold rounded-[14px] transition-all duration-200 hover:bg-[rgba(255,255,255,0.08)] focus:outline focus:outline-3 focus:outline-white focus:outline-offset-2"
+                        style="border-color: rgba(26,26,26,0.4);"
+                        aria-label="Track your package"
+                    >
+                        Track Package
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Content -->
+    <section class="py-12 bg-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">🎉 Hero Section Test</h2>
+            <p class="text-gray-600">This is a standalone test of the Hero section with your GO7 scooter image!</p>
+            <div class="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p class="text-green-800 font-semibold">✅ Server is working!</p>
+                <p class="text-green-600 text-sm mt-1">Hero section should be visible above with scooter animation</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

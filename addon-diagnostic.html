@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GO7 Addon Diagnostic</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 { color: #1BC47D; }
+    h2 { color: #333; border-bottom: 2px solid #1BC47D; padding-bottom: 10px; }
+    .btn {
+      background: #1BC47D;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    .btn:hover { background: #159a64; }
+    pre {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      border-left: 4px solid #1BC47D;
+    }
+    .success { color: #1BC47D; font-weight: bold; }
+    .error { color: #E61E26; font-weight: bold; }
+    .warning { color: #FFA500; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🔍 GO7 Addon Diagnostic Tool</h1>
+  
+  <div class="card">
+    <h2>Quick Checks</h2>
+    <button class="btn" onclick="checkProducts()">1. Check Products Collection</button>
+    <button class="btn" onclick="checkVendorProducts()">2. Check Vendor Products</button>
+    <button class="btn" onclick="checkAddons()">3. Check Product Addons</button>
+    <button class="btn" onclick="checkVendorAddons()">4. Check Vendor Addons</button>
+  </div>
+  
+  <div class="card">
+    <h2>Results</h2>
+    <div id="results">Click a button above to run diagnostics...</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, getDocs, query, where, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    // Use your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDCXufja8yRCDS0cHs8Jd2BbOVnlwZ4EEE",
+      authDomain: "go7-3edda.firebaseapp.com",
+      projectId: "go7-3edda",
+      storageBucket: "go7-3edda.firebasestorage.app",
+      messagingSenderId: "732175827829",
+      appId: "1:732175827829:web:3b8fdf1b5e54c5f3d2cddf",
+      measurementId: "G-EN5K4BXCFT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.db = db;
+
+    function showResults(html) {
+      document.getElementById('results').innerHTML = html;
+    }
+
+    window.checkProducts = async function() {
+      showResults('⏳ Checking /products collection...');
+      try {
+        const productsSnap = await getDocs(query(collection(db, 'products'), limit(10)));
+        
+        let html = `<p class="success">✅ Found ${productsSnap.size} products</p>`;
+        html += '<pre>';
+        
+        productsSnap.forEach(doc => {
+          const data = doc.data();
+          html += `\nProduct ID: ${doc.id}
+  Name: ${data.name || data.productName}
+  VendorID: ${data.vendorId}
+  Price: ₦${data.price}
+  ImageUrl: ${data.imageUrl || data.imageURL || 'MISSING'}
+  Active: ${data.isActive || data.active}\n`;
+        });
+        
+        html += '</pre>';
+        showResults(html);
+      } catch (error) {
+        showResults(`<p class="error">❌ Error: ${error.message}</p>`);
+      }
+    };
+
+    window.checkVendorProducts = async function() {
+      const vendorId = prompt('Enter Vendor ID:');
+      if (!vendorId) return;
+      
+      showResults(`⏳ Checking /vendors/${vendorId}/products...`);
+      try {
+        const productsSnap = await getDocs(collection(db, 'vendors', vendorId, 'products'));
+        
+        let html = `<p class="success">✅ Found ${productsSnap.size} products for vendor</p>`;
+        html += '<pre>';
+        
+        productsSnap.forEach(doc => {
+          const data = doc.data();
+          html += `\nProduct ID: ${doc.id}
+  Name: ${data.name || data.productName || data.title}
+  Price: ₦${data.price}
+  Active: ${data.active}\n`;
+        });
+        
+        html += '</pre>';
+        showResults(html);
+      } catch (error) {
+        showResults(`<p class="error">❌ Error: ${error.message}</p>`);
+      }
+    };
+
+    window.checkAddons = async function() {
+      showResults('⏳ Checking product addons...');
+      try {
+        // Get first product
+        const productsSnap = await getDocs(query(collection(db, 'products'), limit(1)));
+        
+        if (productsSnap.empty) {
+          showResults('<p class="warning">⚠️ No products found in /products collection</p>');
+          return;
+        }
+        
+        const productDoc = productsSnap.docs[0];
+        const productId = productDoc.id;
+        const productData = productDoc.data();
+        
+        // Get addons for this product
+        const addonsSnap = await getDocs(collection(db, 'products', productId, 'addons'));
+        
+        let html = `<p class="success">📦 Product: ${productData.name || productData.productName}</p>`;
+        html += `<p class="success">✅ Found ${addonsSnap.size} addons at /products/${productId}/addons</p>`;
+        html += '<pre>';
+        
+        addonsSnap.forEach(doc => {
+          const data = doc.data();
+          html += `\nAddon ID: ${doc.id}
+  Name: ${data.name || data.title}
+  Price: ₦${data.price}
+  ImageUrl: ${data.imageUrl || data.thumbnail || data.img || 'MISSING'}
+  Active: ${data.isActive}
+  VendorID: ${data.vendorId}\n`;
+        });
+        
+        if (addonsSnap.size === 0) {
+          html += '\n⚠️ NO ADDONS FOUND - This is why they\'re not showing!\n';
+        }
+        
+        html += '</pre>';
+        showResults(html);
+      } catch (error) {
+        showResults(`<p class="error">❌ Error: ${error.message}</p>`);
+      }
+    };
+
+    window.checkVendorAddons = async function() {
+      const vendorId = prompt('Enter Vendor ID:');
+      if (!vendorId) return;
+      
+      showResults(`⏳ Checking /vendors/${vendorId}/addons...`);
+      try {
+        const addonsSnap = await getDocs(collection(db, 'vendors', vendorId, 'addons'));
+        
+        let html = `<p class="success">✅ Found ${addonsSnap.size} master addons</p>`;
+        html += '<pre>';
+        
+        addonsSnap.forEach(doc => {
+          const data = doc.data();
+          html += `\nAddon ID: ${doc.id}
+  Name: ${data.name || data.title}
+  Price: ₦${data.price}
+  ImageUrl: ${data.imageUrl || 'MISSING'}
+  Active: ${data.isActive}
+  Category: ${data.addonCategory}\n`;
+        });
+        
+        html += '</pre>';
+        showResults(html);
+      } catch (error) {
+        showResults(`<p class="error">❌ Error: ${error.message}</p>`);
+      }
+    };
+  </script>
+</body>
+</html>

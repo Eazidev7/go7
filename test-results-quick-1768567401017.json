@@ -1,0 +1,173 @@
+{
+  "timestamp": "2026-01-16T12:43:21.017Z",
+  "baseUrl": "https://localhost:3000",
+  "summary": {
+    "total": 23,
+    "passed": 5,
+    "failed": 18,
+    "passRate": "21.74%"
+  },
+  "tests": [
+    {
+      "category": "Server",
+      "testName": "Response Time",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.829Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Homepage",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.841Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Book Delivery",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.848Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "GoBuy Shopping",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.856Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Restaurants",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.864Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Shops",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.871Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Pharmacy",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.879Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Markets",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.896Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Checkout",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.912Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Track Order",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.920Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Profile",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.929Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Vendor Portal",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.937Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Rider Dashboard",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.944Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Admin Dashboard",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.951Z"
+    },
+    {
+      "category": "React App",
+      "testName": "Bundle Check",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.958Z"
+    },
+    {
+      "category": "Assets",
+      "testName": "CSS Loading",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.966Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Meta Tags",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:20.974Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/health",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T12:43:20.981Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/status",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T12:43:20.988Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/products",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T12:43:20.995Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/vendors",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T12:43:21.001Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/restaurants",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T12:43:21.007Z"
+    },
+    {
+      "category": "Security",
+      "testName": "Headers",
+      "passed": false,
+      "details": "self-signed certificate",
+      "timestamp": "2026-01-16T12:43:21.014Z"
+    }
+  ]
+}

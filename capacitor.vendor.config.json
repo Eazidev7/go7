@@ -1,0 +1,20 @@
+{
+  "appId": "ng.go7.vendor",
+  "appName": "GO7 Vendor",
+  "webDir": "dist",
+  "server": {
+    "url": "https://go7.ng/vendor/login",
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#ffffff"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "backgroundColor": "#ffffff"
+    }
+  }
+}

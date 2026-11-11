@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Map Test</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+    .mapShell {
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+    .mapContainer {
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="mapShell">
+      <div id="map" class="mapContainer"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        // Initialize the map
+        const map = L.map('map', {
+          center: [7.155, 3.345], // Abeokuta coordinates
+          zoom: 12,
+          zoomControl: true,
+          attributionControl: true
+        });
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 18
+        }).addTo(map);
+
+        // Add a sample marker
+        L.marker([7.155, 3.345])
+          .addTo(map)
+          .bindPopup('Abeokuta, Nigeria')
+          .openPopup();
+
+        // Force map to refresh after a short delay
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 300);
+
+        console.log('Map initialized successfully');
+      } catch (error) {
+        console.error('Error initializing map:', error);
+      }
+    });
+  </script>
+</body>
+</html>

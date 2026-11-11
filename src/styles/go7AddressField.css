@@ -1,0 +1,233 @@
+/* ==========================================================
+   GO7 ADDRESS FIELD STYLES – Premium Chowdeck-inspired
+   ========================================================== */
+
+.go7-address-field {
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Label */
+.go7-field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+/* Input Container */
+.go7-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.go7-input-container:hover {
+    border-color: #FFB3B3;
+    box-shadow: 0 4px 12px rgba(230, 0, 35, 0.1);
+}
+
+.go7-address-field.focused .go7-input-container {
+    border-color: #E60023;
+    box-shadow: 0 0 0 3px rgba(230, 0, 35, 0.1),
+        0 4px 12px rgba(230, 0, 35, 0.15);
+}
+
+.go7-address-field.confirmed .go7-input-container {
+    border-color: #10B981;
+    background: #F0FDF4;
+}
+
+/* Input Icon */
+.go7-input-icon {
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Input Field */
+.go7-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9375rem;
+    color: #222;
+    font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+.go7-input::placeholder {
+    color: #9CA3AF;
+}
+
+/* Spinner */
+.go7-spinner {
+    color: #E60023;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Confirmed Badge */
+.go7-confirmed-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #10B981;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Location Button */
+.go7-location-btn {
+    background: transparent;
+    border: none;
+    color: #E60023;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.go7-location-btn:hover {
+    background: #FEE2E2;
+    transform: scale(1.1);
+}
+
+.go7-location-btn:active {
+    transform: scale(0.95);
+}
+
+/* Suggestions Dropdown */
+.go7-suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 50;
+    animation: fadeSlideIn 0.3s ease-out;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Suggestion Item */
+.go7-suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.go7-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.go7-suggestion-item:hover {
+    background: #FEE2E2;
+    transform: translateX(4px);
+}
+
+.go7-suggestion-icon {
+    font-size: 1.125rem;
+    margin-right: 0.75rem;
+}
+
+.go7-suggestion-text {
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.4;
+}
+
+/* No Results */
+.go7-no-results {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #6B7280;
+    font-size: 0.875rem;
+}
+
+.go7-no-results small {
+    color: #9CA3AF;
+    font-size: 0.75rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .go7-input-container {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .go7-input {
+        font-size: 16px;
+        /* Prevent zoom on iOS */
+    }
+
+    .go7-suggestions-dropdown {
+        max-height: 250px;
+    }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Go7 Mobile Detector</title>
+  <script>
+    // Check if the device is mobile
+    function isMobileDevice() {
+      return (
+        // Check screen width
+        window.innerWidth <= 768 ||
+        // Check user agent
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      );
+    }
+
+    // Redirect if mobile
+    if (isMobileDevice()) {
+      window.location.href = '/mobile';
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #E30613;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 15px;
+    }
+    .btn:hover {
+      background-color: #c00;
+    }
+    .device-info {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Go7 Mobile Detector</h1>
+    <p>This page detects if you're on a mobile device and redirects accordingly.</p>
+    
+    <div class="card">
+      <h2>Device Detection</h2>
+      <div id="device-status">
+        Checking device type...
+      </div>
+      <div id="redirect-options" style="margin-top: 20px;">
+        <a href="/mobile" class="btn">Go to Mobile Version</a>
+        <a href="/" class="btn" style="background-color: #333;">Go to Desktop Version</a>
+      </div>
+    </div>
+    
+    <div class="device-info">
+      <div id="user-agent"></div>
+      <div id="screen-info"></div>
+    </div>
+  </div>
+  
+  <script>
+    // Update the page content based on device detection
+    document.addEventListener('DOMContentLoaded', function() {
+      const statusElement = document.getElementById('device-status');
+      const userAgentElement = document.getElementById('user-agent');
+      const screenInfoElement = document.getElementById('screen-info');
+      
+      const isMobile = isMobileDevice();
+      
+      if (isMobile) {
+        statusElement.innerHTML = '<strong style="color:#E30613">Mobile device detected!</strong><br>You should be redirected to the mobile version automatically.';
+      } else {
+        statusElement.innerHTML = '<strong style="color:#333">Desktop device detected.</strong><br>You can continue to the desktop version or manually visit the mobile version.';
+      }
+      
+      userAgentElement.textContent = `User Agent: ${navigator.userAgent}`;
+      screenInfoElement.textContent = `Screen Width: ${window.innerWidth}px, Height: ${window.innerHeight}px`;
+      
+      // Set a timeout to check if redirection failed
+      if (isMobile) {
+        setTimeout(function() {
+          statusElement.innerHTML += '<br><br><span style="color:orange">⚠️ Automatic redirection may have failed.</span><br>Please click the button below:';
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>

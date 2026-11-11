@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map Resources Preload Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.5; }
+    h1 { color: #E53935; }
+    .output { background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-top: 1rem; white-space: pre-wrap; }
+    button { background: #E53935; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-right: 0.5rem; }
+    button:hover { background: #D32F2F; }
+  </style>
+</head>
+<body>
+  <h1>Map Resources Preload Test</h1>
+  <p>This page will help diagnose issues with Leaflet CSS preloading.</p>
+  
+  <div>
+    <button id="testPreload">Test Preload</button>
+    <button id="simulateApp">Simulate App</button>
+  </div>
+  
+  <h2>Output:</h2>
+  <div id="output" class="output">Click a button to start...</div>
+  
+  <script>
+    const output = document.getElementById('output');
+    
+    function log(message) {
+      output.textContent += message + '\n';
+    }
+    
+    function clear() {
+      output.textContent = '';
+    }
+    
+    document.getElementById('testPreload').addEventListener('click', function() {
+      clear();
+      log('Checking for potential Leaflet CSS preload issues...');
+      
+      // Check for existing CSS preload links
+      const links = document.querySelectorAll('link');
+      log(`Found ${links.length} link elements in document head`);
+      
+      let preloadLinks = 0;
+      
+      links.forEach(link => {
+        if (link.rel === 'preload' && link.href.includes('leaflet.css')) {
+          preloadLinks++;
+          log(`Found Leaflet CSS preload link: ${link.href}`);
+        }
+      });
+      
+      if (preloadLinks === 0) {
+        log('No Leaflet CSS preload links found in document head.');
+      }
+      
+      // Create a test div to catch any dynamically added preload links
+      log('\nWatching for dynamic link elements...');
+      
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeName === 'LINK') {
+                const link = node;
+                if (link.rel === 'preload' && link.href && link.href.includes('leaflet.css')) {
+                  log(`Dynamic Leaflet CSS preload link added: ${link.href}`);
+                  log(`Added by script: ${getCallerScript()}`);
+                }
+              }
+            });
+          }
+        });
+      });
+      
+      observer.observe(document.head, { childList: true, subtree: true });
+      
+      // Function to try to identify which script added a link
+      function getCallerScript() {
+        try {
+          throw new Error();
+        } catch(e) {
+          const stack = e.stack.split('\n');
+          // Try to extract script URL from stack trace
+          for (let i = 0; i < stack.length; i++) {
+            const line = stack[i].trim();
+            if (line.includes('http') && !line.includes('map-resources-test.html')) {
+              return line;
+            }
+          }
+          return 'Unknown script';
+        }
+      }
+      
+      // Load the map-preloader.js script to see if it adds any preload links
+      log('\nLoading map-preloader.js to check for dynamic additions...');
+      
+      const script = document.createElement('script');
+      script.src = '/map-preloader.js';
+      document.body.appendChild(script);
+      
+      // Check again after a delay
+      setTimeout(() => {
+        log('\nRechecking after map-preloader.js has loaded:');
+        const links = document.querySelectorAll('link');
+        
+        let preloadLinks = 0;
+        
+        links.forEach(link => {
+          if (link.rel === 'preload' && link.href.includes('leaflet.css')) {
+            preloadLinks++;
+            log(`Found Leaflet CSS preload link: ${link.href}`);
+          }
+        });
+        
+        if (preloadLinks === 0) {
+          log('No Leaflet CSS preload links found after map-preloader.js loaded.');
+        }
+        
+        // Check for any window functions that might be adding preload links
+        log('\nChecking for potential preloading functions:');
+        
+        ['preloadLeafletCSS', 'preloadMapResources', 'preloadLeafletAssets'].forEach(funcName => {
+          if (typeof window[funcName] === 'function') {
+            log(`Found function "${funcName}" in global scope`);
+          }
+        });
+        
+        log('\nTest completed.');
+        
+        // Stop watching for changes
+        observer.disconnect();
+      }, 2000);
+    });
+    
+    document.getElementById('simulateApp').addEventListener('click', function() {
+      clear();
+      log('Simulating application initialization...');
+      
+      // Import Leaflet CSS directly like in main.jsx
+      log('Importing Leaflet CSS directly');
+      
+      const styleLink = document.createElement('link');
+      styleLink.rel = 'stylesheet';
+      styleLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(styleLink);
+      
+      log('Added Leaflet CSS as stylesheet');
+      
+      // Preload marker images like in index.html
+      log('\nPreloading marker images');
+      
+      const markerIconLink = document.createElement('link');
+      markerIconLink.rel = 'preload';
+      markerIconLink.as = 'image';
+      markerIconLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png';
+      document.head.appendChild(markerIconLink);
+      
+      const markerShadowLink = document.createElement('link');
+      markerShadowLink.rel = 'preload';
+      markerShadowLink.as = 'image';
+      markerShadowLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png';
+      document.head.appendChild(markerShadowLink);
+      
+      log('Added marker image preload links');
+      
+      // Create a fake map container
+      log('\nCreating map container');
+      
+      const mapContainer = document.createElement('div');
+      mapContainer.className = 'map-wrap';
+      mapContainer.innerHTML = `
+        <div class="map-inner">
+          <div id="map"></div>
+        </div>
+      `;
+      document.body.appendChild(mapContainer);
+      
+      log('Created map container');
+      
+      // Add the map-preloader.js script
+      log('\nLoading map-preloader.js');
+      
+      const script = document.createElement('script');
+      script.src = '/map-preloader.js';
+      document.body.appendChild(script);
+      
+      log('Loaded map-preloader.js');
+      
+      // Wait for everything to load and check for warnings
+      setTimeout(() => {
+        log('\nChecking for preload warnings:');
+        
+        // Check if any console warnings were captured
+        if (window.preloadWarnings && window.preloadWarnings.length > 0) {
+          log(`Found ${window.preloadWarnings.length} preload warnings:`);
+          window.preloadWarnings.forEach(warning => {
+            log(`- ${warning}`);
+          });
+        } else {
+          log('No preload warnings captured.');
+        }
+        
+        log('\nSimulation completed.');
+      }, 3000);
+    });
+    
+    // Capture console warnings about preload resources
+    window.preloadWarnings = [];
+    const originalWarn = console.warn;
+    console.warn = function(...args) {
+      const message = args.join(' ');
+      if (message.includes('preload') && message.includes('leaflet')) {
+        window.preloadWarnings.push(message);
+      }
+      originalWarn.apply(console, args);
+    };
+  </script>
+</body>
+</html>

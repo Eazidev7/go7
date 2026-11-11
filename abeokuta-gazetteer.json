@@ -1,0 +1,1032 @@
+{
+ "place": [
+  {
+   "name": "Baala",
+   "lat": 7.15,
+   "lng": 3.533333,
+   "sub": "village"
+  },
+  {
+   "name": "Sabo",
+   "lat": 7.166667,
+   "lng": 3.316667,
+   "sub": "village"
+  },
+  {
+   "name": "Degesin",
+   "lat": 7.016667,
+   "lng": 3.333333,
+   "sub": "village"
+  },
+  {
+   "name": "Sule",
+   "lat": 7.033333,
+   "lng": 3.25,
+   "sub": "hamlet"
+  },
+  {
+   "name": "Opeji",
+   "lat": 7.316667,
+   "lng": 3.383333,
+   "sub": "village"
+  },
+  {
+   "name": "Adelokun",
+   "lat": 7.15,
+   "lng": 3.516667,
+   "sub": "village"
+  },
+  {
+   "name": "Ikija",
+   "lat": 7.033333,
+   "lng": 3.316667,
+   "sub": "hamlet"
+  },
+  {
+   "name": "Oba",
+   "lat": 7.033333,
+   "lng": 3.35,
+   "sub": "village"
+  },
+  {
+   "name": "Balogun Eniaiyewu",
+   "lat": 7.35,
+   "lng": 3.316667,
+   "sub": "village"
+  },
+  {
+   "name": "Odeda",
+   "lat": 7.216667,
+   "lng": 3.516667,
+   "sub": "village"
+  },
+  {
+   "name": "Asa",
+   "lat": 7.083333,
+   "lng": 3.333333,
+   "sub": "village"
+  },
+  {
+   "name": "Oteyi",
+   "lat": 7.016667,
+   "lng": 3.2,
+   "sub": "village"
+  },
+  {
+   "name": "Oshiele",
+   "lat": 7.183333,
+   "lng": 3.45,
+   "sub": "village"
+  },
+  {
+   "name": "Sogeke",
+   "lat": 7.1167761,
+   "lng": 3.3332123,
+   "sub": "village"
+  },
+  {
+   "name": "Emo",
+   "lat": 7.016667,
+   "lng": 3.516667,
+   "sub": "village"
+  },
+  {
+   "name": "Salalu",
+   "lat": 7.283333,
+   "lng": 3.533333,
+   "sub": "village"
+  },
+  {
+   "name": "Baye",
+   "lat": 7.016667,
+   "lng": 3.25,
+   "sub": "hamlet"
+  },
+  {
+   "name": "Ilawo",
+   "lat": 7.283333,
+   "lng": 3.4,
+   "sub": "village"
+  },
+  {
+   "name": "Ilawo",
+   "lat": 7.033333,
+   "lng": 3.266667,
+   "sub": "hamlet"
+  },
+  {
+   "name": "Isan",
+   "lat": 7.066667,
+   "lng": 3.55,
+   "sub": "village"
+  },
+  {
+   "name": "Odeda",
+   "lat": 7.233333,
+   "lng": 3.533333,
+   "sub": "village"
+  },
+  {
+   "name": "Baase",
+   "lat": 7.216667,
+   "lng": 3.25,
+   "sub": "village"
+  },
+  {
+   "name": "Alabata",
+   "lat": 7.316667,
+   "lng": 3.5,
+   "sub": "village"
+  },
+  {
+   "name": "Boruboru",
+   "lat": 7.1,
+   "lng": 3.516667,
+   "sub": "village"
+  },
+  {
+   "name": "Oloko",
+   "lat": 7.25,
+   "lng": 3.283333,
+   "sub": "village"
+  },
+  {
+   "name": "Agbara",
+   "lat": 7.25,
+   "lng": 3.4,
+   "sub": "village"
+  },
+  {
+   "name": "Arogbo",
+   "lat": 7.283333,
+   "lng": 3.433333,
+   "sub": "village"
+  },
+  {
+   "name": "Ogede",
+   "lat": 7,
+   "lng": 3.516667,
+   "sub": "village"
+  },
+  {
+   "name": "Ojere",
+   "lat": 7.1065815,
+   "lng": 3.3351611,
+   "sub": "village"
+  },
+  {
+   "name": "Aworo",
+   "lat": 7.316667,
+   "lng": 3.283333,
+   "sub": "village"
+  },
+  {
+   "name": "Majape",
+   "lat": 7.283333,
+   "lng": 3.316667,
+   "sub": "village"
+  },
+  {
+   "name": "Arikola",
+   "lat": 7.25,
+   "lng": 3.3,
+   "sub": "village"
+  },
+  {
+   "name": "Mosunmore",
+   "lat": 7.016667,
+   "lng": 3.433333,
+   "sub": "village"
+  },
+  {
+   "name": "Ibara-Oko",
+   "lat": 7.133333,
+   "lng": 3.25,
+   "sub": "village"
+  },
+  {
+   "name": "Aiyerose",
+   "lat": 7.1,
+   "lng": 3.433333,
+   "sub": "village"
+  },
+  {
+   "name": "Ayedi",
+   "lat": 7.166667,
+   "lng": 3.55,
+   "sub": "village"
+  },
+  {
+   "name": "Asu",
+   "lat": 7.033333,
+   "lng": 3.45,
+   "sub": "village"
+  },
+  {
+   "name": "Olanbiwonnu",
+   "lat": 7.333333,
+   "lng": 3.433333,
+   "sub": "village"
+  },
+  {
+   "name": "Ikereku",
+   "lat": 7.016667,
+   "lng": 3.283333,
+   "sub": "hamlet"
+  },
+  {
+   "name": "Agbontu",
+   "lat": 7.2,
+   "lng": 3.516667,
+   "sub": "village"
+  },
+  {
+   "name": "Nitoji",
+   "lat": 7.183333,
+   "lng": 3.533333,
+   "sub": "village"
+  },
+  {
+   "name": "Ajitadun",
+   "lat": 7.283333,
+   "lng": 3.3,
+   "sub": "village"
+  },
+  {
+   "name": "Abeokuta",
+   "lat": 7.1376758,
+   "lng": 3.3657283,
+   "sub": "town"
+  },
+  {
+   "name": "LADERIN",
+   "lat": 7.1190412,
+   "lng": 3.3893383,
+   "sub": "village"
+  }
+ ],
+ "road": [
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.2001205,
+   "lng": 3.4405198,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta - Iseyin",
+   "lat": 7.5932346,
+   "lng": 3.4368914,
+   "sub": "primary"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.0071456,
+   "lng": 3.4673535,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.007371,
+   "lng": 3.4672607,
+   "sub": "trunk"
+  },
+  {
+   "name": "Presidential",
+   "lat": 7.1389144,
+   "lng": 3.3424335,
+   "sub": "primary"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0466454,
+   "lng": 3.2539112,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1035584,
+   "lng": 3.2971331,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1471399,
+   "lng": 3.3186778,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0766773,
+   "lng": 3.2881456,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0463825,
+   "lng": 3.2549088,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 6.9973085,
+   "lng": 3.2382821,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1431017,
+   "lng": 3.3154766,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1462421,
+   "lng": 3.3182098,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1379276,
+   "lng": 3.3105018,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1023906,
+   "lng": 3.2969368,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1195866,
+   "lng": 3.3023065,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.146801,
+   "lng": 3.3186704,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1035271,
+   "lng": 3.2972503,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.146517,
+   "lng": 3.3181367,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0493217,
+   "lng": 3.2672026,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1489593,
+   "lng": 3.3207,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0767414,
+   "lng": 3.2880626,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 6.99745,
+   "lng": 3.2376797,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1012128,
+   "lng": 3.2967338,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0523586,
+   "lng": 3.2793404,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1195235,
+   "lng": 3.3024994,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0494867,
+   "lng": 3.2667136,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1406027,
+   "lng": 3.3132926,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.102374,
+   "lng": 3.2970618,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1431641,
+   "lng": 3.3152788,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1012148,
+   "lng": 3.2968573,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1406586,
+   "lng": 3.3131876,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1381085,
+   "lng": 3.3104427,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.0522555,
+   "lng": 3.2793922,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lagos-Abeokuta Expressway",
+   "lat": 7.1492523,
+   "lng": 3.3206804,
+   "sub": "trunk"
+  },
+  {
+   "name": "Lalubu Road, Oke-Ilewo",
+   "lat": 7.1356367,
+   "lng": 3.3362475,
+   "sub": "primary"
+  },
+  {
+   "name": "Quarry Road",
+   "lat": 7.1358388,
+   "lng": 3.3266798,
+   "sub": "secondary"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1357835,
+   "lng": 3.3463892,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1356943,
+   "lng": 3.3463474,
+   "sub": "trunk"
+  },
+  {
+   "name": "Quarry Road",
+   "lat": 7.1359221,
+   "lng": 3.3268283,
+   "sub": "secondary"
+  },
+  {
+   "name": "Lalubu Road, Oke-Ilewo",
+   "lat": 7.1357164,
+   "lng": 3.3363801,
+   "sub": "primary"
+  },
+  {
+   "name": "Substation road",
+   "lat": 7.1041616,
+   "lng": 3.3887727,
+   "sub": "residential"
+  },
+  {
+   "name": "PHCN Substation Abeokuta New",
+   "lat": 7.1047271,
+   "lng": 3.3913659,
+   "sub": "service"
+  },
+  {
+   "name": "Ago-Oko Street",
+   "lat": 7.1424181,
+   "lng": 3.3385958,
+   "sub": "primary"
+  },
+  {
+   "name": "Obada Oko Road",
+   "lat": 7.0828923,
+   "lng": 3.2989296,
+   "sub": "secondary"
+  },
+  {
+   "name": "Ikija Road",
+   "lat": 7.1643536,
+   "lng": 3.3414694,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.1706728,
+   "lng": 3.3648174,
+   "sub": "trunk"
+  },
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.170758,
+   "lng": 3.3647998,
+   "sub": "trunk"
+  },
+  {
+   "name": "Kuforiji Olubi Road",
+   "lat": 7.1287196,
+   "lng": 3.3216991,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Peachtree Street",
+   "lat": 7.0690793,
+   "lng": 3.2934775,
+   "sub": "residential"
+  },
+  {
+   "name": "Oyinda Pedro Avenue",
+   "lat": 7.154709,
+   "lng": 3.3883078,
+   "sub": "residential"
+  },
+  {
+   "name": "Oke-Ijemo Road",
+   "lat": 7.1632806,
+   "lng": 3.3454442,
+   "sub": "residential"
+  },
+  {
+   "name": "Mercy Clinic Road",
+   "lat": 7.1309946,
+   "lng": 3.3313459,
+   "sub": "residential"
+  },
+  {
+   "name": "Kobiti Road",
+   "lat": 7.1603524,
+   "lng": 3.3396513,
+   "sub": "unclassified"
+  },
+  {
+   "name": "Obasanjo way, Ita-Eko",
+   "lat": 7.1429365,
+   "lng": 3.3286898,
+   "sub": "unclassified"
+  },
+  {
+   "name": "olomore",
+   "lat": 7.1675006,
+   "lng": 3.3163373,
+   "sub": "residential"
+  },
+  {
+   "name": "Substation road",
+   "lat": 7.104385,
+   "lng": 3.3953228,
+   "sub": "residential"
+  },
+  {
+   "name": "Oduntan Street",
+   "lat": 7.183863,
+   "lng": 3.3985131,
+   "sub": "residential"
+  },
+  {
+   "name": "Oduntan Street",
+   "lat": 7.1847369,
+   "lng": 3.3981875,
+   "sub": "residential"
+  },
+  {
+   "name": "Alubarika Street",
+   "lat": 7.1568104,
+   "lng": 3.4007036,
+   "sub": "residential"
+  },
+  {
+   "name": "Iyana Adigbe",
+   "lat": 7.0699636,
+   "lng": 3.2923549,
+   "sub": "secondary"
+  },
+  {
+   "name": "Surulere",
+   "lat": 7.1401524,
+   "lng": 3.3280975,
+   "sub": "residential"
+  },
+  {
+   "name": "Adeleke Adesina Close",
+   "lat": 7.1898366,
+   "lng": 3.4069342,
+   "sub": "residential"
+  },
+  {
+   "name": "Akinyinka Alao Street",
+   "lat": 7.1243806,
+   "lng": 3.3777055,
+   "sub": "residential"
+  },
+  {
+   "name": "Solanke Street",
+   "lat": 7.1254263,
+   "lng": 3.3772351,
+   "sub": "residential"
+  },
+  {
+   "name": "Solola Street",
+   "lat": 7.1689291,
+   "lng": 3.3678618,
+   "sub": "residential"
+  },
+  {
+   "name": "Solola Street",
+   "lat": 7.1689279,
+   "lng": 3.3676344,
+   "sub": "residential"
+  },
+  {
+   "name": "Logbara-Magapon Road",
+   "lat": 7.1523964,
+   "lng": 3.3388719,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Peace Avenue",
+   "lat": 7.1645297,
+   "lng": 3.3808392,
+   "sub": "residential"
+  },
+  {
+   "name": "Peace Avenue",
+   "lat": 7.1634361,
+   "lng": 3.3805069,
+   "sub": "residential"
+  },
+  {
+   "name": "Ayeni street",
+   "lat": 7.1206987,
+   "lng": 3.3254797,
+   "sub": "residential"
+  },
+  {
+   "name": "Gbokoniyi",
+   "lat": 7.1152891,
+   "lng": 3.3364952,
+   "sub": "residential"
+  },
+  {
+   "name": "Gbokoniyi",
+   "lat": 7.1133239,
+   "lng": 3.3327173,
+   "sub": "residential"
+  },
+  {
+   "name": "Ayeni Street",
+   "lat": 7.1231575,
+   "lng": 3.3289322,
+   "sub": "residential"
+  },
+  {
+   "name": "Engr. Adeniran Quams Street",
+   "lat": 7.1129524,
+   "lng": 3.3227693,
+   "sub": "residential"
+  },
+  {
+   "name": "Engr. Adeniran Quams Street",
+   "lat": 7.1136302,
+   "lng": 3.3227042,
+   "sub": "residential"
+  },
+  {
+   "name": "Mercy Clinic Road",
+   "lat": 7.1256486,
+   "lng": 3.3312137,
+   "sub": "residential"
+  },
+  {
+   "name": "Onikolobo",
+   "lat": 7.1337843,
+   "lng": 3.3321888,
+   "sub": "secondary"
+  },
+  {
+   "name": "Onikolobo",
+   "lat": 7.1335668,
+   "lng": 3.3321157,
+   "sub": "secondary"
+  },
+  {
+   "name": "Opako",
+   "lat": 7.1057974,
+   "lng": 3.3099875,
+   "sub": "residential"
+  },
+  {
+   "name": "Opako",
+   "lat": 7.105972,
+   "lng": 3.3100199,
+   "sub": "residential"
+  },
+  {
+   "name": "Kuforiji Olubi Road",
+   "lat": 7.1333589,
+   "lng": 3.3222049,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Kuforiji Olubi Road",
+   "lat": 7.1345069,
+   "lng": 3.3217872,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Surulere",
+   "lat": 7.1410525,
+   "lng": 3.3245196,
+   "sub": "residential"
+  },
+  {
+   "name": "Oluwatosin Street",
+   "lat": 7.2136743,
+   "lng": 3.3572925,
+   "sub": "residential"
+  },
+  {
+   "name": "Olu Akinleye Close",
+   "lat": 7.139007,
+   "lng": 3.2873573,
+   "sub": "residential"
+  },
+  {
+   "name": "Ilupeju Street",
+   "lat": 7.1629472,
+   "lng": 3.323546,
+   "sub": "residential"
+  },
+  {
+   "name": "Adesina Close",
+   "lat": 7.139014,
+   "lng": 3.2737343,
+   "sub": "residential"
+  },
+  {
+   "name": "Ikija Road",
+   "lat": 7.1643436,
+   "lng": 3.3415897,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Ide-Ape Road",
+   "lat": 7.1592826,
+   "lng": 3.3415144,
+   "sub": "unclassified"
+  },
+  {
+   "name": "Adagba Street",
+   "lat": 7.1697648,
+   "lng": 3.3494837,
+   "sub": "tertiary"
+  },
+  {
+   "name": "Akinyinka Alao Street",
+   "lat": 7.1247431,
+   "lng": 3.3798759,
+   "sub": "residential"
+  },
+  {
+   "name": "Adigbe road",
+   "lat": 7.1320352,
+   "lng": 3.3292925,
+   "sub": "secondary"
+  },
+  {
+   "name": "Adigbe road",
+   "lat": 7.1329143,
+   "lng": 3.3297595,
+   "sub": "secondary"
+  },
+  {
+   "name": "Oluwatosin Street",
+   "lat": 7.2146429,
+   "lng": 3.3572777,
+   "sub": "residential"
+  },
+  {
+   "name": "Green Villa Street",
+   "lat": 7.1110134,
+   "lng": 3.3233837,
+   "sub": "residential"
+  },
+  {
+   "name": "Green Villa Street",
+   "lat": 7.1105024,
+   "lng": 3.3233489,
+   "sub": "residential"
+  },
+  {
+   "name": "Famuyiwa Mayowa Crescent",
+   "lat": 7.22001,
+   "lng": 3.4483599,
+   "sub": "residential"
+  },
+  {
+   "name": "Adeoye Lati Jimoh Street",
+   "lat": 7.1294352,
+   "lng": 3.374681,
+   "sub": "residential"
+  },
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.227919,
+   "lng": 3.5102937,
+   "sub": "trunk"
+  },
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.234085,
+   "lng": 3.5219829,
+   "sub": "trunk"
+  },
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.2402462,
+   "lng": 3.5335952,
+   "sub": "trunk"
+  },
+  {
+   "name": "Old Abeokuta Road",
+   "lat": 7.2509522,
+   "lng": 3.5490468,
+   "sub": "trunk"
+  },
+  {
+   "name": "Kobiti Road",
+   "lat": 7.1632301,
+   "lng": 3.33891,
+   "sub": "unclassified"
+  },
+  {
+   "name": "Kobiti Road",
+   "lat": 7.1638017,
+   "lng": 3.3385231,
+   "sub": "unclassified"
+  },
+  {
+   "name": "Kobiti Road",
+   "lat": 7.1643505,
+   "lng": 3.3381321,
+   "sub": "unclassified"
+  },
+  {
+   "name": "Kobiti Road",
+   "lat": 7.1645815,
+   "lng": 3.336635,
+   "sub": "unclassified"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1245591,
+   "lng": 3.3601865,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1244701,
+   "lng": 3.3601111,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1262178,
+   "lng": 3.3573324,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1261607,
+   "lng": 3.3572672,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1306331,
+   "lng": 3.3543261,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1305729,
+   "lng": 3.3542517,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1346247,
+   "lng": 3.3509922,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1353751,
+   "lng": 3.3483694,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.135255,
+   "lng": 3.348352,
+   "sub": "trunk"
+  },
+  {
+   "name": "Abeokuta-Sagamu Expressway",
+   "lat": 7.1345219,
+   "lng": 3.3509497,
+   "sub": "trunk"
+  },
+  {
+   "name": "Substation road",
+   "lat": 7.1050976,
+   "lng": 3.3928359,
+   "sub": "residential"
+  },
+  {
+   "name": "Solanke Street",
+   "lat": 7.125299,
+   "lng": 3.3795785,
+   "sub": "residential"
+  }
+ ],
+ "amenity": [
+  {
+   "name": "Nnpc Abeokuta",
+   "lat": 7.0984805,
+   "lng": 3.302081,
+   "sub": "fuel"
+  },
+  {
+   "name": "Nigerian Navy Secondary School",
+   "lat": 7.1261468,
+   "lng": 3.3268505,
+   "sub": "school"
+  },
+  {
+   "name": "St Leo's College Abeokuta",
+   "lat": 7.1281893,
+   "lng": 3.3287907,
+   "sub": "school"
+  },
+  {
+   "name": "Oyinkansola",
+   "lat": 7.1312827,
+   "lng": 3.3286221,
+   "sub": "fuel"
+  },
+  {
+   "name": "Catholic Comprehensive High School",
+   "lat": 7.1319949,
+   "lng": 3.3333052,
+   "sub": "school"
+  }
+ ],
+ "tourism": [
+  {
+   "name": "Green Legacy Resort",
+   "lat": 7.1250427,
+   "lng": 3.3611702,
+   "sub": "hotel"
+  },
+  {
+   "name": "Dusmar Presidential Hotel",
+   "lat": 7.13448,
+   "lng": 3.3527051,
+   "sub": "hotel"
+  }
+ ],
+ "shop": [],
+ "leisure": []
+}

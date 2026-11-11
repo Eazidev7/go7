@@ -1,0 +1,48 @@
+/* Utility classes for mobile UI enhancements */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Profile badge pulse animation */
+@keyframes badgePulse {
+  0% { transform: scale(0.95); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+  100% { transform: scale(0.95); opacity: 1; }
+}
+
+.profile-badge {
+  animation: badgePulse 2s infinite;
+}
+
+/* Category icon subtle hover animation */
+.category-icon {
+  transition: all 0.2s ease;
+}
+
+.category-icon:hover {
+  transform: translateY(-3px);
+}
+
+/* Button tap effect */
+.tap-effect {
+  transition: transform 0.1s ease-in-out;
+}
+
+.tap-effect:active {
+  transform: scale(0.95);
+}

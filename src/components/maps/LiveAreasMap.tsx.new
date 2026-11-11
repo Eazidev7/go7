@@ -1,0 +1,275 @@
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import L from 'leaflet';
+import { isTouchDevice } from '../../utils/mobileUtils';
+// Leaflet CSS is already imported in main.jsx
+import './map.css';
+import './touch-map.css';
+
+// Fix for default markers in Leaflet with Vite
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
+
+// Abeokuta areas data
+const ABEOKUTA_AREAS = [
+  { name: "Kuto", coords: [7.1410, 3.3540], color: "green", category: "residential" },
+  { name: "Panseke", coords: [7.1450, 3.3430], color: "red", category: "popular" },
+  { name: "Ibara", coords: [7.1500, 3.3470], color: "red", category: "popular" },
+  { name: "Oke-Ilewo", coords: [7.1600, 3.3490], color: "red", category: "popular" },
+  { name: "Ijemo", coords: [7.1600, 3.3450], color: "green", category: "residential" },
+  { name: "Totoro", coords: [7.1620, 3.3330], color: "orange", category: "busy" },
+  { name: "Lafenwa", coords: [7.1720, 3.3490], color: "orange", category: "busy" },
+  { name: "Omida", coords: [7.1590, 3.3550], color: "green", category: "residential" },
+  { name: "Adatan", coords: [7.1430, 3.3650], color: "pink", category: "market" },
+  { name: "Kemta", coords: [7.1300, 3.3550], color: "green", category: "residential" },
+  { name: "Asero", coords: [7.1670, 3.3680], color: "green", category: "residential" },
+  { name: "Sapon", coords: [7.1530, 3.3530], color: "pink", category: "market" },
+  { name: "Ake", coords: [7.1510, 3.3600], color: "pink", category: "market" },
+  { name: "Itoku", coords: [7.1450, 3.3580], color: "pink", category: "market" },
+  { name: "Isabo", coords: [7.1470, 3.3480], color: "green", category: "residential" },
+  { name: "Idi-Aba", coords: [7.1460, 3.3300], color: "green", category: "residential" },
+  { name: "Quarry Rd", coords: [7.1680, 3.3520], color: "orange", category: "busy" },
+  { name: "Ita-Eko", coords: [7.1610, 3.3560], color: "pink", category: "market" },
+  { name: "Olomore", coords: [7.1970, 3.3470], color: "green", category: "residential" },
+  { name: "Obantoko", coords: [7.1170, 3.3680], color: "green", category: "residential" },
+  { name: "FUNAAB", coords: [7.2460, 3.4390], color: "blue", category: "education" },
+  { name: "Camp (FUNAAB)", coords: [7.2440, 3.4440], color: "blue", category: "education" }
+];
+
+// Map configuration
+const MAP_CONFIG = {
+  center: [7.1475, 3.3619] as [number, number], // Abeokuta
+  zoom: 12.5,
+  minZoom: 10,
+  maxZoom: 18
+};
+
+// Available tile URLs for fallback
+const TILE_URLS = [
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
+];
+
+interface LiveAreasMapProps {
+  onSelect?: (areaName: string) => void;
+}
+
+const LiveAreasMap: React.FC<LiveAreasMapProps> = ({ onSelect }) => {
+  // Refs
+  const mapRef = useRef<L.Map | null>(null);
+  const mapRefDiv = useRef<HTMLDivElement | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
+  const markersRef = useRef<L.Marker[]>([]);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+
+  // State
+  const [isLoading, setIsLoading] = useState(true);
+  const [tileError, setTileError] = useState(false);
+  const [selectedArea, setSelectedArea] = useState<string | null>(null);
+
+  // Function to invalidate map size
+  const invalidateSize = useCallback(() => {
+    if (mapRef.current) {
+      mapRef.current.invalidateSize();
+    }
+  }, []);
+
+  // Function to retry loading tiles
+  const retryTiles = useCallback(() => {
+    if (!mapRef.current || !tileLayerRef.current) return;
+    
+    setTileError(false);
+    
+    // Try with alternative tile source
+    const currentIndex = TILE_URLS.indexOf(
+      (tileLayerRef.current.getUrl() || '').replace('{z}/{x}/{y}', '{z}/{x}/{y}')
+    );
+    const nextIndex = (currentIndex + 1) % TILE_URLS.length;
+    
+    mapRef.current.removeLayer(tileLayerRef.current);
+    
+    const newTileLayer = L.tileLayer(TILE_URLS[nextIndex], {
+      maxZoom: MAP_CONFIG.maxZoom,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    
+    newTileLayer.on('tileerror', () => {
+      console.warn('Tile loading error detected');
+      setTileError(true);
+    });
+    
+    newTileLayer.addTo(mapRef.current);
+    tileLayerRef.current = newTileLayer;
+  }, []);
+
+  // Initialize map once
+  useEffect(() => {
+    if (!mapRefDiv.current || mapRef.current) return;
+
+    // Create map
+    const map = L.map(mapRefDiv.current, {
+      center: MAP_CONFIG.center,
+      zoom: MAP_CONFIG.zoom,
+      zoomControl: true,
+      attributionControl: true,
+      preferCanvas: true,
+    });
+
+    mapRef.current = map;
+
+    // Try primary tile source first
+    const tiles = L.tileLayer(TILE_URLS[0], {
+      maxZoom: MAP_CONFIG.maxZoom,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    // Handle tile errors
+    tiles.on('tileerror', () => {
+      console.warn('Tile loading error detected');
+      setTileError(true);
+    });
+
+    tiles.addTo(map);
+    tileLayerRef.current = tiles;
+
+    // Add area markers
+    ABEOKUTA_AREAS.forEach(area => {
+      const marker = L.marker(area.coords as [number, number], {
+        title: area.name,
+        alt: `${area.name} area marker`
+      });
+      
+      // Add popup
+      marker.bindPopup(`<b>${area.name}</b><br>${area.category}`);
+      
+      // Add click handler
+      marker.on('click', () => {
+        setSelectedArea(area.name);
+        if (onSelect) onSelect(area.name);
+      });
+      
+      marker.addTo(map);
+      markersRef.current.push(marker);
+    });
+
+    // Ensure size after mount + next tick
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (mapRef.current) mapRef.current.invalidateSize();
+        setIsLoading(false);
+      }, 0);
+    });
+
+    // Handle container visibility (if in a collapsed tab/accordion)
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(() => {
+        if (mapRef.current) mapRef.current.invalidateSize();
+      });
+      if (mapRefDiv.current) ro.observe(mapRefDiv.current);
+      resizeObserverRef.current = ro;
+    }
+
+    // Optional: reflow on window resize
+    const onResize = () => {
+      if (mapRef.current) mapRef.current.invalidateSize();
+    };
+    window.addEventListener('resize', onResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', onResize);
+      if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
+      
+      // Clear markers
+      markersRef.current.forEach(marker => {
+        marker.remove();
+      });
+      markersRef.current = [];
+      
+      // Remove map
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+      tileLayerRef.current = null;
+    };
+  }, []); // Empty dependency array ensures this runs once
+
+  // Add touch optimization
+  useEffect(() => {
+    if (!mapRef.current || !isTouchDevice()) return;
+    
+    const mapElement = mapRefDiv.current;
+    if (!mapElement) return;
+    
+    // Add touch-specific classes
+    mapElement.classList.add('touch-optimized');
+    
+    // Add touch feedback
+    const handleTouchStart = () => {
+      mapElement.classList.add('touching');
+    };
+    
+    const handleTouchEnd = () => {
+      mapElement.classList.remove('touching');
+      // Small delay to prevent ghost clicks
+      setTimeout(() => {
+        mapElement.classList.remove('touch-active');
+      }, 300);
+    };
+    
+    mapElement.addEventListener('touchstart', handleTouchStart, { passive: true });
+    mapElement.addEventListener('touchend', handleTouchEnd, { passive: true });
+    mapElement.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+    
+    return () => {
+      mapElement.removeEventListener('touchstart', handleTouchStart);
+      mapElement.removeEventListener('touchend', handleTouchEnd);
+      mapElement.removeEventListener('touchcancel', handleTouchEnd);
+    };
+  }, []);
+
+  // Render loading skeleton when map is initializing
+  if (isLoading) {
+    return (
+      <div className="map-wrap">
+        <div className="map-inner skeleton-loading">
+          <div className="map-loading-indicator">
+            <div className="spinner"></div>
+            <div className="loading-text">Loading map...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="map-wrap">
+      <div id="live-areas-map" className="map-inner" ref={mapRefDiv}>
+        {tileError && (
+          <div className="map-error-overlay">
+            <div className="error-message">
+              <p>Map tiles could not be loaded.</p>
+              <button 
+                onClick={retryTiles}
+                className="retry-button"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {selectedArea && (
+        <div className="selected-area-info">
+          Selected: {selectedArea}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LiveAreasMap;

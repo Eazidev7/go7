@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Homepage Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .instructions {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Mobile Homepage Test</h1>
+        
+        <div class="instructions">
+            <h3>📱 Test Instructions:</h3>
+            <ol>
+                <li>Open the main app at <a href="http://localhost:3001" target="_blank">localhost:3001</a></li>
+                <li>Resize your browser to mobile width (375px) or use device tools</li>
+                <li>Check that the mobile version loads (HomePageTailwind)</li>
+                <li>Verify Firebase vendors load in "Trending" and "For You"</li>
+                <li>Test vendor card navigation</li>
+            </ol>
+        </div>
+
+        <div class="result">
+            <h3>✅ Expected Results:</h3>
+            <ul>
+                <li><strong>Desktop (>768px):</strong> Shows Hero homepage</li>
+                <li><strong>Mobile (≤768px):</strong> Shows Tailwind homepage</li>
+                <li><strong>Vendors:</strong> Real Firebase data, not mock placeholders</li>
+                <li><strong>Categories:</strong> Modern Heroicons (truck, map pin, etc.)</li>
+                <li><strong>Navigation:</strong> Vendor cards go to /vendor/dashboard/{id}</li>
+                <li><strong>Images:</strong> Business-specific fallbacks when needed</li>
+            </ul>
+        </div>
+
+        <button class="test-button" onclick="openMainApp()">
+            🚀 Open Main App (localhost:3001)
+        </button>
+
+        <button class="test-button" onclick="openDevTools()">
+            🔧 Open with DevTools (Mobile View)
+        </button>
+
+        <button class="test-button" onclick="testFirebase()">
+            🔥 Test Firebase Connection
+        </button>
+
+        <div class="result">
+            <h3>🐛 Debug Checklist:</h3>
+            <p>If vendors don't load, check browser console for:</p>
+            <ul>
+                <li>🔥 Firebase connection logs</li>
+                <li>📊 Vendor query results</li>
+                <li>🖼️ Image loading errors</li>
+                <li>🔗 Navigation click events</li>
+                <li>📱 Device detection logs</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openMainApp() {
+            window.open('http://localhost:3001', '_blank');
+        }
+
+        function openDevTools() {
+            alert('Right-click → Inspect → Toggle device toolbar (Ctrl+Shift+M) → Select mobile device');
+            window.open('http://localhost:3001', '_blank');
+        }
+
+        function testFirebase() {
+            const testUrl = 'http://localhost:3001';
+            alert(`
+🔥 Firebase Test Steps:
+1. Open ${testUrl}
+2. Press F12 for DevTools
+3. Go to Console tab
+4. Look for Firebase logs:
+   - "🔥 Firebase initialized successfully"
+   - "📊 Fetched X vendors from Firebase"
+   - "🏪 Processed vendor: [vendor name]"
+5. Check Network tab for Firestore requests
+            `);
+            window.open(testUrl, '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+/* LiveAreasAbeokuta Component Styles */
+
+.live-areas-card {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  background-color: #fff;
+  position: relative;
+}
+
+.live-areas-card .map-container {
+  height: 380px;
+  width: 100%;
+  position: relative;
+  background-color: #f8f4ec; /* Warm background if tiles fail to load */
+}
+
+.live-areas-card .leaflet-container {
+  height: 100%;
+  width: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Pill marker styles */
+.pill-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.pill-label {
+  padding: 6px 12px;
+  margin: 4px;
+  border-radius: 20px; /* Capsule shape */
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Subtle drop shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: system-ui, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border: 2px solid rgba(0, 0, 0, 0.3); /* Dark border around each pill */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FF6B00; /* Orange dot */
+  margin-right: 6px;
+}
+
+.pill-label:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Pill color variants */
+.pill-orange .pill-label { background-color: #ff7043; }
+.pill-blue .pill-label { background-color: #42a5f5; }
+.pill-green .pill-label { background-color: #66bb6a; }
+.pill-mint .pill-label { background-color: #26a69a; }
+.pill-yellow .pill-label { background-color: #ffca28; }
+.pill-violet .pill-label { background-color: #ab47bc; }
+.pill-pink .pill-label { background-color: #ec407a; }
+
+/* Tile error overlay */
+.tile-error-overlay {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.retry-button {
+  background-color: #E53935;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.retry-button:hover {
+  opacity: 1;
+}
+
+/* Section wrapper styles */
+#live-areas {
+  padding: 2rem 0;
+  background-color: #f9f9f9;
+}
+
+#live-areas .section-heading {
+  color: #E53935;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+#live-areas .section-subtext {
+  color: #666;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .pill-label {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  #live-areas .section-heading {
+    font-size: 1.5rem;
+  }
+  
+  #live-areas .section-subtext {
+    font-size: 0.9rem;
+  }
+}

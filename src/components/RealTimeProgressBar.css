@@ -1,0 +1,505 @@
+/* Real-Time Progress Bar Styles */
+/* Production-ready styling for live tracking interface */
+
+.realtime-progress-bar {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Section */
+.progress-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+/* ETA Section */
+.eta-section {
+  flex: 1;
+}
+
+.eta-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.eta-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.route-info {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Rider Section */
+.rider-section {
+  text-align: right;
+  flex: 1;
+}
+
+.rider-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rider-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.rider-zone {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Progress Section */
+.progress-section {
+  margin: 24px 0;
+}
+
+.status-message {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  background: #f8fafc;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Progress Track */
+.progress-track-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+.progress-track {
+  position: relative;
+  height: 10px;
+  background: #f1f5f9;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #22c55e;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+/* Shimmer Animation */
+.progress-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+}
+
+/* Milestone Dots */
+.milestone-dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.milestone-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.milestone-dot .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #cbd5e1;
+  transition: all 0.3s ease;
+}
+
+.milestone-dot.active .dot {
+  border-color: #22c55e;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+  transform: scale(1.1);
+}
+
+/* Progress Percentage */
+.progress-percent {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: #1e293b;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.progress-percent::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: 12px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #1e293b;
+}
+
+/* Journey Stages */
+.journey-stages {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
+  padding: 0 10px;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.4;
+  transition: all 0.4s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.stage.completed {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.stage-icon {
+  font-size: 20px;
+  margin-bottom: 2px;
+  filter: grayscale(1);
+  transition: filter 0.3s ease;
+}
+
+.stage.completed .stage-icon {
+  filter: grayscale(0);
+}
+
+.stage-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stage.completed .stage-text {
+  color: #1e293b;
+}
+
+/* Additional Info */
+.additional-info {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.info-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.info-value {
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Order Summary */
+.order-summary {
+  margin-top: 12px;
+}
+
+.summary-header {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.items-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.item-preview {
+  background: #e2e8f0;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.more-items {
+  background: #ddd6fe;
+  color: #6b21a8;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Call Rider Button */
+.call-rider-btn {
+  width: 100%;
+  background: #22c55e;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+}
+
+.call-rider-btn:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+/* Active Pulse Overlay */
+.active-pulse-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid #22c55e;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .realtime-progress-bar {
+    padding: 16px;
+    margin: 12px 0;
+  }
+  
+  .progress-header-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .rider-section {
+    text-align: center;
+  }
+  
+  .eta-value {
+    font-size: 24px;
+  }
+  
+  .rider-name {
+    font-size: 16px;
+  }
+  
+  .journey-stages {
+    margin-top: 20px;
+    padding: 0 5px;
+  }
+  
+  .stage-icon {
+    font-size: 18px;
+  }
+  
+  .stage-text {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .eta-value {
+    font-size: 22px;
+  }
+  
+  .status-message {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  .progress-track {
+    height: 8px;
+  }
+  
+  .milestone-dot .dot {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .items-preview {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .call-rider-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .realtime-progress-bar {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+  
+  .eta-value,
+  .rider-name {
+    color: #f1f5f9;
+  }
+  
+  .eta-label,
+  .rider-label,
+  .info-label {
+    color: #94a3b8;
+  }
+  
+  .status-message {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-color: #1e293b;
+  }
+  
+  .progress-track {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  
+  .milestone-dot .dot {
+    background: #1e293b;
+    border-color: #4b5563;
+  }
+  
+  .progress-percent {
+    background: #f1f5f9;
+    color: #1e293b;
+  }
+  
+  .stage.completed .stage-text {
+    color: #f1f5f9;
+  }
+  
+  .additional-info {
+    background: #0f172a;
+    border-color: #1e293b;
+  }
+  
+  .info-value {
+    color: #f1f5f9;
+  }
+  
+  .item-preview {
+    background: #374151;
+    color: #e5e7eb;
+  }
+}
+
+/* Performance Optimizations */
+.progress-fill,
+.stage,
+.milestone-dot .dot {
+  will-change: transform, opacity;
+}
+
+/* Accessibility */
+.realtime-progress-bar:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.call-rider-btn:focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .progress-shimmer,
+  .active-pulse-overlay {
+    display: none;
+  }
+  
+  .stage,
+  .progress-fill,
+  .milestone-dot .dot {
+    transition: none;
+  }
+}

@@ -1,0 +1,223 @@
+/* Native app safe areas — Android/iOS via Capacitor + mobile web shell */
+:root {
+  --go7-safe-top: env(safe-area-inset-top, 0px);
+  --go7-safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* Icon row + pt/pb on BottomNav (~72px before safe-area) */
+  --go7-bottom-nav-height: 72px;
+  --go7-support-bar-height: 72px;
+  --go7-bottom-nav-clearance: calc(
+    var(--go7-bottom-nav-height) + var(--go7-safe-bottom) + 1.25rem
+  );
+}
+
+.capacitor-native {
+  /* Dynamic viewport — avoids 100vh bugs on mobile browsers */
+  min-height: 100dvh;
+}
+
+.capacitor-native body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Fixed bottom navigation — respect iOS home indicator (keeps ~pb-6 on non-notch) */
+.go7-bottom-nav,
+.go7-native-bottom-nav {
+  padding-bottom: max(1.5rem, var(--go7-safe-bottom)) !important;
+}
+
+/* App shell used by FigmaApp — single outer frame */
+.go7-app-shell {
+  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sole vertical scroller for most screens */
+.go7-app-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+}
+
+/* When a page owns its own scroll (vendor sticky, tracking map) */
+.go7-app-scroll--locked {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+.go7-app-content {
+  padding-bottom: var(--go7-bottom-nav-clearance);
+}
+
+/* Checkout / fixed-footer pages — extra room under scroll content */
+.go7-app-content--checkout {
+  padding-bottom: var(--go7-safe-bottom);
+}
+
+.go7-checkout-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  /* Clear fixed Place Order bar */
+  padding-bottom: calc(10rem + var(--go7-safe-bottom));
+}
+
+
+.go7-app-content--onboarding {
+  padding-bottom: calc(1.5rem + var(--go7-safe-bottom));
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+/* Avoid double-nested page scrollers inside the shell */
+body.go7-mobile-shell .go7-page-flow {
+  min-height: 0;
+  height: auto;
+  overflow: visible;
+}
+
+body.go7-mobile-shell .go7-page-flow--fill {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.go7-mobile-shell .go7-page-flow--fill > .sticky {
+  flex-shrink: 0;
+}
+
+body.go7-mobile-shell .go7-page-flow--fill > .overflow-y-auto {
+  min-height: 0;
+  min-width: 0;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+body.go7-mobile-shell .go7-page-flow--fill > .overflow-y-auto > .sticky {
+  top: 0;
+  scroll-margin-top: 0;
+}
+
+body.go7-mobile-shell .go7-page-flow--fill .flex-1.min-w-0 > .flex.items-center.justify-between {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+body.go7-mobile-shell .go7-page-flow--fill .flex-1.min-w-0 h3 {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+
+/* Red headers (Track, etc.) */
+.go7-safe-area-header {
+  padding-top: calc(12px + var(--go7-safe-top));
+}
+
+/* Onboarding / full-screen pages */
+.capacitor-native .onboarding-screen {
+  min-height: 100dvh;
+  height: auto;
+  padding-bottom: var(--go7-safe-bottom);
+}
+
+.capacitor-native .onboarding-header {
+  padding-top: calc(12px + var(--go7-safe-top));
+}
+
+.capacitor-native .action-buttons {
+  padding-bottom: calc(24px + var(--go7-safe-bottom));
+}
+
+/* Prevent content hiding under fixed BottomNav (web shell + native) */
+.capacitor-native .page-with-bottom-nav,
+body.go7-mobile-shell .page-with-bottom-nav {
+  padding-bottom: var(--go7-bottom-nav-clearance);
+}
+
+/* Keyboard-friendly: inputs stay selectable inside locked shell */
+body.go7-mobile-shell input,
+body.go7-mobile-shell textarea,
+body.go7-mobile-shell select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+
+/* ── Full-screen tracking / map pages ── */
+.go7-tracking-screen {
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.go7-tracking-header {
+  padding-top: calc(12px + var(--go7-safe-top));
+}
+
+.go7-tracking-eta {
+  top: calc(5rem + var(--go7-safe-top));
+}
+
+.go7-tracking-back-btn {
+  top: calc(1rem + var(--go7-safe-top));
+}
+
+.go7-tracking-status-chip {
+  top: calc(1rem + var(--go7-safe-top));
+}
+
+.go7-tracking-sheet-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+.go7-tracking-bottom-sheet {
+  padding-bottom: var(--go7-safe-bottom);
+}
+
+.go7-tracking-sheet-actions {
+  padding-bottom: calc(12px + var(--go7-safe-bottom));
+}
+
+.go7-tracking-map-overlay-top {
+  top: calc(3.5rem + var(--go7-safe-top));
+}
+
+.go7-tracking-chat-fab {
+  bottom: calc(6rem + var(--go7-safe-bottom));
+}
+
+.capacitor-native .track-delivery-container {
+  height: 100dvh;
+  max-height: 100dvh;
+}
+
+.capacitor-native .tracking-map {
+  height: 100dvh;
+}
+
+.capacitor-native .track-delivery-container .back-button {
+  top: calc(20px + var(--go7-safe-top));
+}
+
+.capacitor-native .track-delivery-container .bottom-sheet,
+.capacitor-native .track-delivery-container .tracking-panel {
+  padding-bottom: var(--go7-safe-bottom);
+}

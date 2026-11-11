@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Infobip Response</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Infobip WhatsApp Response</h1>
+    
+    <button onclick="testInfobip()">Send Test Message & Show Full Response</button>
+    
+    <div id="result"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.firebasestorage.app",
+            messagingSenderId: "232009015458",
+            appId: "1:232009015458:web:49dbb63a5a67112325f7fb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const functions = getFunctions(app);
+
+        window.testInfobip = async function() {
+            const result = document.getElementById('result');
+            result.textContent = '⏳ Sending test message...\n\n';
+            
+            try {
+                const testFunction = httpsCallable(functions, 'testInfobipWhatsApp');
+                const response = await testFunction({
+                    phoneNumber: '08166205600',
+                    testMessage: 'GO7 Test: If you receive this, WhatsApp integration is working!'
+                });
+                
+                result.textContent += '📥 FUNCTION RESPONSE:\n';
+                result.textContent += JSON.stringify(response.data, null, 2);
+                result.textContent += '\n\n';
+                
+                if (response.data.success) {
+                    result.textContent += '✅ Function returned success\n\n';
+                    result.textContent += '📊 INFOBIP RESPONSE DETAILS:\n';
+                    result.textContent += JSON.stringify(response.data.details, null, 2);
+                    result.textContent += '\n\n';
+                    result.textContent += '🔍 CHECK THESE:\n';
+                    result.textContent += '1. Message ID: ' + (response.data.details?.messageId || 'N/A') + '\n';
+                    result.textContent += '2. Status: ' + (response.data.details?.status || 'N/A') + '\n';
+                    result.textContent += '3. To: ' + (response.data.details?.to || 'N/A') + '\n';
+                    result.textContent += '4. Did you receive WhatsApp on 08166205600?\n';
+                } else {
+                    result.textContent += '❌ Function returned error:\n';
+                    result.textContent += response.data.message;
+                }
+                
+            } catch (error) {
+                result.textContent += '❌ ERROR:\n\n';
+                result.textContent += error.message + '\n\n';
+                result.textContent += JSON.stringify(error, null, 2);
+            }
+        };
+    </script>
+</body>
+</html>

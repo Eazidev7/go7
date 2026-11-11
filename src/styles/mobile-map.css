@@ -1,0 +1,106 @@
+/**
+ * Mobile map touch optimizations
+ */
+
+/* General touch optimizations */
+.is-mobile .leaflet-container {
+  touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Make interactive elements larger for touch */
+.is-mobile .leaflet-control-zoom a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 18px !important;
+}
+
+/* Make popups more touch-friendly */
+.is-mobile .leaflet-popup-content {
+  min-width: 200px;
+  font-size: 16px;
+  padding: 8px;
+}
+
+.is-mobile .leaflet-popup-close-button {
+  padding: 8px !important;
+  font-size: 20px !important;
+}
+
+/* Increase tap target size for markers */
+.is-mobile .leaflet-marker-icon {
+  margin-left: -16px !important;
+  margin-top: -32px !important;
+}
+
+/* Visual touch feedback for markers */
+.is-mobile .pillLabel,
+.is-mobile .leaflet-marker-icon {
+  transition: transform 0.2s ease;
+}
+
+.is-mobile .pillLabel:active,
+.is-mobile .leaflet-marker-icon:active {
+  transform: scale(1.1);
+}
+
+/* Better pillLabel sizing on mobile */
+.is-mobile .pillLabel {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+/* Touch ripple effect */
+@keyframes touch-ripple {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+.map-touch-ripple {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 1000;
+  animation: touch-ripple 0.8s ease-out forwards;
+}
+
+/* Disable text selection when interacting with the map */
+.is-mobile .leaflet-container,
+.is-mobile .mapShell {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Disable pinch zoom on map container */
+.is-mobile .mapShell {
+  touch-action: pan-x pan-y;
+}
+
+/* Custom scroll behavior for popups */
+.is-mobile .leaflet-popup-content-wrapper {
+  overflow-y: auto;
+  max-height: 300px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improved controls positioning */
+.is-mobile .leaflet-control-zoom {
+  margin-bottom: 20px !important;
+  margin-right: 20px !important;
+}
+
+/* Adjust attribution position */
+.is-mobile .leaflet-control-attribution {
+  padding: 4px 8px;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}

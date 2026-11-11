@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GO7 Vendor Menu Onboarding Guide</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm; }
+    * { box-sizing: border-box; }
+    body { font-family: "Segoe UI", system-ui, sans-serif; color: #1f2937; line-height: 1.55; margin: 0; }
+    .page { page-break-after: always; padding-bottom: 24px; }
+    .page:last-child { page-break-after: auto; }
+    .cover { min-height: 250mm; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+      background: linear-gradient(160deg, #fff7ed, #fff, #fef2f2); border: 2px solid #fbbf24; border-radius: 16px; padding: 40px; }
+    .logo { width: 88px; height: 88px; border-radius: 20px; background: linear-gradient(135deg, #f59e0b, #dc2626); color: #fff;
+      font-weight: 800; font-size: 28px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+    h1 { font-size: 32px; margin: 0 0 12px; }
+    h2 { font-size: 22px; color: #b45309; border-bottom: 2px solid #fde68a; padding-bottom: 8px; }
+    h3 { font-size: 16px; margin: 16px 0 8px; }
+    p, li { font-size: 13.5px; }
+    .subtitle { font-size: 16px; color: #4b5563; max-width: 520px; }
+    .callout { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 14px; border-radius: 8px; margin: 14px 0; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; background: #fafafa; }
+    .card h4 { margin: 0 0 6px; font-size: 14px; }
+    .card p { margin: 0; font-size: 12.5px; color: #4b5563; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 12px 0; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #fef3c7; }
+    .diagram { display: block; margin: 16px auto; max-width: 100%; }
+    .steps { counter-reset: step; list-style: none; padding: 0; }
+    .steps li { counter-increment: step; padding-left: 42px; position: relative; margin: 12px 0; }
+    .steps li::before { content: counter(step); position: absolute; left: 0; width: 28px; height: 28px; border-radius: 50%;
+      background: #f59e0b; color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+    .faq dt { font-weight: 700; margin-top: 10px; }
+    .faq dd { margin: 4px 0 0; color: #4b5563; }
+    .footer { font-size: 11px; color: #9ca3af; text-align: center; margin-top: 20px; }
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+  </style>
+</head>
+<body>
+<section class="page"><div class="cover">
+  <div class="logo">GO7</div>
+  <h1>Vendor Menu Onboarding Guide</h1>
+  <p class="subtitle">Pictorial handbook for onboarding agents — how vendors list food and how customers order rice, beans, egg, water, and more.</p>
+  <svg class="diagram" width="420" height="180" viewBox="0 0 420 180">
+    <rect x="10" y="20" width="115" height="65" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="67" y="48" text-anchor="middle" font-size="11" font-weight="700">Main product</text>
+    <text x="67" y="68" text-anchor="middle" font-size="10">Rice &amp; Beans ₦1,200</text>
+    <text x="200" y="55" text-anchor="middle" font-size="18" fill="#9ca3af">→</text>
+    <rect x="230" y="20" width="100" height="65" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+    <text x="280" y="48" text-anchor="middle" font-size="11" font-weight="700">Add-ons</text>
+    <text x="280" y="68" text-anchor="middle" font-size="10">Egg, Water</text>
+    <text x="360" y="55" text-anchor="middle" font-size="18" fill="#9ca3af">→</text>
+    <rect x="380" y="28" width="30" height="50" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="395" y="58" text-anchor="middle" font-size="9" font-weight="700">Cart</text>
+    <text x="210" y="120" text-anchor="middle" font-size="12" font-weight="600">Customer uses &quot;Add extras&quot; for optional items</text>
+    <text x="210" y="140" text-anchor="middle" font-size="11" fill="#6b7280">Or &quot;Add to Cart&quot; for simple items</text>
+  </svg>
+  <p style="font-size:12px;color:#6b7280">GO7 Nigeria · go7.ng · Version 1.0</p>
+</div></section>
+
+<section class="page">
+  <h2>1. Three building blocks</h2>
+  <div class="grid-3">
+    <div class="card"><h4>Main product</h4><p>One plate or drink with a price. Example: Rice &amp; Beans — ₦1,200.</p></div>
+    <div class="card"><h4>Add-ons (extras)</h4><p>Items that go with that plate. Example: Fried Egg +₦200, Water +₦150.</p></div>
+    <div class="card"><h4>Separate products</h4><p>Standalone items. Customer adds each alone: Rice, Beans, Egg, Water.</p></div>
+  </div>
+  <div class="callout"><strong>Agent tip:</strong> One plate = one main product. Things with that plate = add-ons. Things ordered alone = separate products.</div>
+  <svg class="diagram" width="480" height="150" viewBox="0 0 480 150">
+    <text x="120" y="20" text-anchor="middle" font-size="11" font-weight="700">Option A: Combo + extras</text>
+    <rect x="20" y="30" width="200" height="100" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+    <text x="120" y="55" text-anchor="middle" font-size="10">Rice &amp; Beans (main)</text>
+    <text x="120" y="75" text-anchor="middle" font-size="9">+ Fried Egg (extra)</text>
+    <text x="120" y="92" text-anchor="middle" font-size="9">+ Water (extra)</text>
+    <text x="120" y="115" text-anchor="middle" font-size="9" fill="#dc2626">Button: Add extras</text>
+    <text x="360" y="20" text-anchor="middle" font-size="11" font-weight="700">Option B: Separate items</text>
+    <rect x="260" y="30" width="200" height="100" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+    <text x="360" y="55" text-anchor="middle" font-size="9">Rice ₦500 · Beans ₦400</text>
+    <text x="360" y="75" text-anchor="middle" font-size="9">Egg ₦200 · Water ₦150</text>
+    <text x="360" y="115" text-anchor="middle" font-size="9" fill="#dc2626">Button: Add to Cart each</text>
+  </svg>
+</section>
+
+<section class="page">
+  <h2>2. Vendor dashboard steps</h2>
+  <ol class="steps">
+    <li>Login at go7.ng/vendor/login → Dashboard → <strong>Products</strong>.</li>
+    <li>Tap <strong>Add Product</strong>. Enter name, price (₦), description, category, photo.</li>
+    <li>Under <strong>Extras for this dish</strong>, add Fried Egg, Water, Extra Portion if needed.</li>
+    <li>Save. Menu goes live at go7.ng/vendor/[vendor-id].</li>
+  </ol>
+  <svg class="diagram" width="460" height="170" viewBox="0 0 460 170">
+    <rect x="30" y="20" width="400" height="130" rx="10" fill="#fff" stroke="#e5e7eb" stroke-width="2"/>
+    <text x="50" y="42" font-size="10" font-weight="600">Product Name</text>
+    <rect x="50" y="48" width="360" height="22" rx="4" fill="#f9fafb" stroke="#d1d5db"/>
+    <text x="58" y="63" font-size="9" fill="#6b7280">Rice &amp; Beans</text>
+    <text x="50" y="88" font-size="10" font-weight="600">Extras (add-ons)</text>
+    <rect x="50" y="94" width="160" height="20" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+    <text x="58" y="108" font-size="8">Fried Egg ₦200</text>
+    <rect x="220" y="94" width="190" height="20" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+    <text x="228" y="108" font-size="8">Bottled Water ₦150</text>
+    <rect x="50" y="122" width="90" height="22" rx="6" fill="#f59e0b"/>
+    <text x="95" y="137" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Save</text>
+  </svg>
+</section>
+
+<section class="page">
+  <h2>3. Example: Rice, beans, egg &amp; water</h2>
+  <h3>Option A — Combo plate</h3>
+  <table>
+    <tr><th>Field</th><th>Value</th></tr>
+    <tr><td>Main product</td><td>Rice &amp; Beans — ₦1,200</td></tr>
+    <tr><td>Add-on</td><td>Fried Egg — ₦200</td></tr>
+    <tr><td>Add-on</td><td>Bottled Water — ₦150</td></tr>
+    <tr><td>Customer total</td><td>₦1,550 (one cart line)</td></tr>
+  </table>
+  <h3>Option B — À la carte</h3>
+  <table>
+    <tr><th>Product</th><th>Price</th></tr>
+    <tr><td>White Rice (1 plate)</td><td>₦500</td></tr>
+    <tr><td>Stewed Beans</td><td>₦400</td></tr>
+    <tr><td>Fried Egg</td><td>₦200</td></tr>
+    <tr><td>Bottled Water</td><td>₦150</td></tr>
+  </table>
+  <svg class="diagram" width="440" height="130" viewBox="0 0 440 130">
+    <rect x="20" y="20" width="180" height="90" rx="10" fill="#111827"/>
+    <rect x="28" y="28" width="164" height="74" rx="6" fill="#fff"/>
+    <text x="110" y="48" text-anchor="middle" font-size="9" font-weight="700">Rice &amp; Beans</text>
+    <rect x="36" y="58" width="70" height="22" rx="4" fill="#dc2626"/>
+    <text x="71" y="73" text-anchor="middle" font-size="7" fill="#fff">Add to Cart</text>
+    <rect x="112" y="58" width="70" height="22" rx="4" fill="#fff" stroke="#dc2626"/>
+    <text x="147" y="73" text-anchor="middle" font-size="7" fill="#dc2626">Add extras</text>
+    <text x="240" y="70" font-size="20" fill="#9ca3af">→</text>
+    <rect x="270" y="20" width="150" height="90" rx="10" fill="#fff" stroke="#e5e7eb"/>
+    <text x="345" y="42" text-anchor="middle" font-size="9" font-weight="700">Add Extras screen</text>
+    <text x="345" y="58" text-anchor="middle" font-size="8">☑ Egg +₦200</text>
+    <text x="345" y="74" text-anchor="middle" font-size="8">☑ Water +₦150</text>
+    <text x="345" y="96" text-anchor="middle" font-size="8" fill="#dc2626">Add to Cart ₦1,550</text>
+  </svg>
+</section>
+
+<section class="page">
+  <h2>4. Agent checklist</h2>
+  <table>
+    <tr><th>#</th><th>Task</th><th>Done</th></tr>
+    <tr><td>1</td><td>Ask: combo plates or separate items?</td><td>☐</td></tr>
+    <tr><td>2</td><td>Create Categories (Rice, Drinks, etc.)</td><td>☐</td></tr>
+    <tr><td>3</td><td>Add 3+ products with photos and prices</td><td>☐</td></tr>
+    <tr><td>4</td><td>Add extras on combo products (egg, water)</td><td>☐</td></tr>
+    <tr><td>5</td><td>Test public menu as a customer</td><td>☐</td></tr>
+    <tr><td>6</td><td>Confirm vendor visible after approval + live products</td><td>☐</td></tr>
+  </table>
+  <div class="callout">Sample script: &quot;Your Rice &amp; Beans is one product. Egg and water are <strong>extras</strong> customers pick with Add extras. If you sell rice alone, we make separate products.&quot;</div>
+  <h2>5. FAQ</h2>
+  <dl class="faq">
+    <dt>No &quot;Add extras&quot; button for customer?</dt>
+    <dd>Product has no add-ons — vendor must add extras and save.</dd>
+    <dt>Vendor not on homepage?</dt>
+    <dd>Must be admin-approved with at least one active product.</dd>
+    <dt>Water — add-on or separate?</dt>
+    <dd>With a meal → add-on. Sold alone often → separate product.</dd>
+    <dt>Why &quot;Add extras&quot; not &quot;Customize&quot;?</dt>
+    <dd>Clearer for Nigerian customers — optional items with a dish.</dd>
+  </dl>
+  <p class="footer">GO7 · npm run docs:menu-pdf to regenerate · go7.ng</p>
+</section>
+</body>
+</html>

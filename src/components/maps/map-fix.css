@@ -1,0 +1,62 @@
+/* Leaflet map CSS fixes for reliable loading */
+
+/* Ensure map container is always visible */
+.mapShell, .mapContainer, .leaflet-container {
+  display: block !important;
+  min-height: 200px !important;
+}
+
+/* Hide loader when map is loading */
+.leaflet-container::before {
+  content: 'Map is loading...';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f5f5f5;
+  z-index: 1000;
+}
+
+/* Hide loader once tiles are loaded */
+.leaflet-container.leaflet-fade-anim .leaflet-tile-loaded ~ .leaflet-container::before {
+  display: none;
+}
+
+/* Fix for tiles not loading */
+.leaflet-tile {
+  visibility: inherit !important;
+}
+
+/* Fix attribution panel */
+.leaflet-control-attribution {
+  font-size: 10px !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  padding: 2px 5px !important;
+}
+
+/* Ensure controls are visible */
+.leaflet-control-zoom {
+  border: 1px solid #ccc !important;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4) !important;
+}
+
+/* Fix for SVG rendering issues */
+.leaflet-container svg {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Fix for marker icons not loading */
+.leaflet-marker-icon {
+  display: block !important;
+}
+
+/* Fix for OpenStreetMap tiles */
+.leaflet-tile-container img {
+  width: 256px !important;
+  height: 256px !important;
+}

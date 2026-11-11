@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Track Order Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #1f2937;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 16px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .section h3 {
+            color: #374151;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            color: #4b5563;
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #d90429;
+            box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #d90429 0%, #ef233c 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(217, 4, 41, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.secondary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        button.danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .current-value {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            color: #92400e;
+            word-break: break-all;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .badge.empty {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .demo-orders {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .demo-order-btn {
+            background: white;
+            color: #374151;
+            border: 2px solid #d1d5db;
+            padding: 10px;
+            font-size: 13px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .demo-order-btn:hover {
+            border-color: #d90429;
+            color: #d90429;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #10b981;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+        
+        .alert {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 12px;
+            border-radius: 8px;
+            color: #1e40af;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚚 Go7 Track Order Tester</h1>
+        <p class="subtitle">Test localStorage order tracking integration</p>
+        
+        <!-- Current Status -->
+        <div class="section">
+            <h3>📊 Current Active Order</h3>
+            <div class="current-value" id="currentOrderId">
+                No active order set
+            </div>
+            <span class="badge empty" id="statusBadge">Empty</span>
+        </div>
+        
+        <!-- Set Custom Order ID -->
+        <div class="section">
+            <h3>✏️ Set Custom Order ID</h3>
+            <div class="input-group">
+                <label for="orderIdInput">Enter Order ID:</label>
+                <input 
+                    type="text" 
+                    id="orderIdInput" 
+                    placeholder="e.g., go7-NTX72PK"
+                    value="go7-NTX72PK"
+                />
+            </div>
+            <button onclick="setOrderId()">Set Order ID</button>
+            
+            <div class="alert">
+                💡 After setting the order ID, click "Track Order" in Go7 homepage to see the tracking page with your order ID.
+            </div>
+        </div>
+        
+        <!-- Quick Demo Orders -->
+        <div class="section">
+            <h3>⚡ Quick Demo Orders</h3>
+            <div class="demo-orders">
+                <button class="demo-order-btn" onclick="setDemoOrder('go7-NTX72PK')">
+                    <span>🍕 Pizza Delivery</span>
+                    <code>go7-NTX72PK</code>
+                </button>
+                <button class="demo-order-btn" onclick="setDemoOrder('go7-ABC123')">
+                    <span>🛒 Market Order</span>
+                    <code>go7-ABC123</code>
+                </button>
+                <button class="demo-order-btn" onclick="setDemoOrder('go7-XYZ789')">
+                    <span>💊 Pharmacy Order</span>
+                    <code>go7-XYZ789</code>
+                </button>
+                <button class="demo-order-btn" onclick="setDemoOrder('go7-TEST001')">
+                    <span>📦 Book Delivery</span>
+                    <code>go7-TEST001</code>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navigation Actions -->
+        <div class="section">
+            <h3>🔗 Navigation Actions</h3>
+            <button onclick="openHomepage()">
+                Open Go7 Homepage
+            </button>
+            <button class="secondary" onclick="openTracking()">
+                Open Tracking Page Directly
+            </button>
+            <button class="danger" onclick="clearOrderId()">
+                Clear Order ID
+            </button>
+        </div>
+        
+        <!-- Developer Console -->
+        <div class="section">
+            <h3>👨‍💻 Developer Console</h3>
+            <div class="code-block">
+                <div>// Get current order ID</div>
+                <div>localStorage.getItem("activeOrderId")</div>
+                <div style="margin-top: 8px;">// Set order ID</div>
+                <div>localStorage.setItem("activeOrderId", "go7-NTX72PK")</div>
+                <div style="margin-top: 8px;">// Clear order ID</div>
+                <div>localStorage.removeItem("activeOrderId")</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update UI on load
+        updateUI();
+
+        function updateUI() {
+            const orderId = localStorage.getItem("activeOrderId");
+            const currentOrderEl = document.getElementById("currentOrderId");
+            const statusBadge = document.getElementById("statusBadge");
+            
+            if (orderId) {
+                currentOrderEl.textContent = orderId;
+                statusBadge.textContent = "Active";
+                statusBadge.classList.remove("empty");
+            } else {
+                currentOrderEl.textContent = "No active order set";
+                statusBadge.textContent = "Empty";
+                statusBadge.classList.add("empty");
+            }
+        }
+
+        function setOrderId() {
+            const input = document.getElementById("orderIdInput");
+            const orderId = input.value.trim();
+            
+            if (!orderId) {
+                alert("❌ Please enter an order ID");
+                return;
+            }
+            
+            localStorage.setItem("activeOrderId", orderId);
+            alert(`✅ Order ID set to: ${orderId}`);
+            updateUI();
+        }
+
+        function setDemoOrder(orderId) {
+            localStorage.setItem("activeOrderId", orderId);
+            document.getElementById("orderIdInput").value = orderId;
+            alert(`✅ Demo order set: ${orderId}`);
+            updateUI();
+        }
+
+        function clearOrderId() {
+            if (confirm("Clear the active order ID?")) {
+                localStorage.removeItem("activeOrderId");
+                alert("🗑️ Order ID cleared");
+                updateUI();
+            }
+        }
+
+        function openHomepage() {
+            const baseUrl = window.location.origin;
+            window.open(baseUrl, '_blank');
+        }
+
+        function openTracking() {
+            const orderId = localStorage.getItem("activeOrderId") || "go7-NTX72PK";
+            const baseUrl = window.location.origin;
+            window.open(`${baseUrl}/live-tracking/${orderId}`, '_blank');
+        }
+
+        // Auto-refresh every 2 seconds
+        setInterval(updateUI, 2000);
+    </script>
+</body>
+</html>

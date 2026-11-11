@@ -1,0 +1,16 @@
+{
+  "name": "go7-v1-to-v2-migration",
+  "version": "1.0.0",
+  "description": "Migration script to convert GO7 V1 vendor menu items to V2 products",
+  "main": "migrateV1ToV2.js",
+  "scripts": {
+    "migrate": "node migrateV1ToV2.js",
+    "migrate-single": "node migrateV1ToV2.js single",
+    "test-migration": "node migrateV1ToV2.js single TEST_VENDOR_ID"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  },
+  "keywords": ["go7", "migration", "firebase", "vendor"],
+  "author": "GO7 Team"
+}

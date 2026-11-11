@@ -1,0 +1,488 @@
+/**
+ * Motion Design System
+ * Reusable transition properties for consistent animations
+ */
+
+:root {
+  /* Core transition timings */
+  --elevate: cubic-bezier(.2, .8, .2, 1) 180ms;
+  --fade: 160ms ease;
+
+  /* Stagger timing for sequential animations */
+  --stagger-delay: 60ms;
+  --stagger-max-items: 6;
+
+  /* Accessibility tokens */
+  --focus-color: #0066cc;
+  --focus-outline-width: 2px;
+  --focus-outline-offset: 2px;
+  --focus-shadow: 0 0 0 1px #fff, 0 0 0 4px var(--focus-color);
+}
+
+/* Base animation classes */
+.animate-elevate {
+  transition: transform var(--elevate), box-shadow var(--elevate);
+}
+
+.animate-fade {
+  transition: opacity var(--fade);
+}
+
+/* BookDelivery Specific Animations */
+@keyframes deliverySlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes markerBounce {
+
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    transform: translate3d(0, -10px, 0);
+  }
+
+  70% {
+    transform: translate3d(0, -5px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+@keyframes priceCalculating {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes paymentPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(227, 6, 19, 0.4);
+  }
+}
+
+@keyframes trackingProgress {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.delivery-slide-up {
+  animation: deliverySlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.marker-bounce {
+  animation: markerBounce 1s ease-in-out;
+}
+
+.price-calculating {
+  animation: priceCalculating 1.5s ease-in-out infinite;
+}
+
+.payment-pulse {
+  animation: paymentPulse 2s ease-in-out infinite;
+}
+
+.tracking-progress {
+  animation: trackingProgress 2s ease-in-out forwards;
+}
+
+/* Enhanced Focus Glow Animations */
+@keyframes focusGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(227, 6, 19, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(227, 6, 19, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(227, 6, 19, 0);
+  }
+}
+
+@keyframes inputFocus {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+
+  50% {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+}
+
+@keyframes buttonHover {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  100% {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes cardFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  50% {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Form Enhancement Classes */
+.form-input-enhanced {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-input-enhanced:focus {
+  animation: inputFocus 0.4s ease-out;
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.button-enhanced {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.button-enhanced:hover {
+  animation: buttonHover 0.3s ease-out forwards;
+}
+
+.button-enhanced:active {
+  transform: scale(0.98);
+}
+
+.card-float {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-float:hover {
+  animation: cardFloat 2s ease-in-out infinite;
+}
+
+.focus-glow {
+  position: relative;
+}
+
+.focus-glow:focus::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  animation: focusGlow 1.5s infinite;
+  pointer-events: none;
+}
+
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn var(--fade) ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Staggered fade-in animations */
+.stagger-fade-in>* {
+  opacity: 0;
+  animation: fadeIn var(--fade) ease forwards;
+}
+
+.stagger-fade-in>*:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.stagger-fade-in>*:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.stagger-fade-in>*:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.stagger-fade-in>*:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.stagger-fade-in>*:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+.stagger-fade-in>*:nth-child(6) {
+  animation-delay: 300ms;
+}
+
+/* Additional items beyond 6 have no additional delay */
+.stagger-fade-in>*:nth-child(n+7) {
+  animation-delay: 300ms;
+}
+
+/* Button animations */
+.btn-motion {
+  transition:
+    transform var(--elevate),
+    box-shadow var(--elevate),
+    background-color var(--fade),
+    border-color var(--fade),
+    color var(--fade);
+}
+
+.btn-motion:hover {
+  transform: translateY(-1px);
+}
+
+.btn-motion:active {
+  transform: translateY(0);
+}
+
+/* Card animations */
+.card-motion {
+  transition:
+    transform var(--elevate),
+    box-shadow var(--elevate),
+    border-color var(--fade);
+}
+
+.card-motion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Chip/Badge animations */
+.chip-motion {
+  transition:
+    transform var(--elevate),
+    background-color var(--fade),
+    border-color var(--fade),
+    color var(--fade);
+}
+
+.chip-motion:hover {
+  transform: translateY(-1px);
+}
+
+.chip-motion:active {
+  transform: scale(0.98);
+}
+
+/* Interactive element common styles */
+.interactive-motion {
+  transition:
+    transform var(--elevate),
+    opacity var(--fade),
+    background-color var(--fade);
+}
+
+.interactive-motion:hover {
+  transform: translateY(-1px);
+}
+
+.interactive-motion:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Focus states */
+.focus-motion:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: var(--focus-outline-offset);
+  box-shadow: var(--focus-shadow);
+  transition: outline-color var(--fade), box-shadow var(--fade);
+}
+
+/* Enhanced focus for interactive elements */
+.chip-motion:focus-visible,
+.interactive-motion:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: var(--focus-outline-offset);
+  box-shadow: var(--focus-shadow);
+  transform: translateY(-1px);
+  transition:
+    outline-color var(--fade),
+    box-shadow var(--fade),
+    transform var(--elevate);
+}
+
+/* Button focus states with enhanced visibility */
+.btn-motion:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: var(--focus-outline-offset);
+  box-shadow: var(--focus-shadow);
+  transform: translateY(-1px);
+}
+
+/* Card focus states */
+.card-motion:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: var(--focus-outline-offset);
+  box-shadow: var(--focus-shadow);
+  transform: translateY(-2px);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --elevate: 0ms;
+    --fade: 0ms;
+    --stagger-delay: 0ms;
+  }
+
+  .stagger-fade-in>*,
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .animate-elevate,
+  .animate-fade,
+  .btn-motion,
+  .card-motion,
+  .chip-motion,
+  .interactive-motion {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Keep focus states for accessibility */
+  .focus-motion:focus-visible,
+  .chip-motion:focus-visible,
+  .interactive-motion:focus-visible,
+  .btn-motion:focus-visible,
+  .card-motion:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-color);
+    outline-offset: var(--focus-outline-offset);
+    box-shadow: var(--focus-shadow);
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --focus-color: #000;
+    --focus-shadow: 0 0 0 1px #fff, 0 0 0 4px #000;
+  }
+
+  .btn-motion,
+  .card-motion,
+  .chip-motion {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Keyboard navigation indicators */
+body.keyboard-navigation .focusable-element:focus {
+  position: relative;
+}
+
+body.keyboard-navigation .focusable-element:focus::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px solid var(--focus-color);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Mobile-only viewport styles */
+.mobile-homepage-container {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-homepage-container {
+    display: none;
+  }
+}
+
+/* QuickActions button styles */
+.quick-action-button {
+  transition: all 0.2s ease;
+  transform: scale(1);
+}
+
+.quick-action-button:hover {
+  transform: scale(1.05);
+}
+
+.quick-action-button:active {
+  transform: scale(0.95);
+}
+
+/* GoBuy button special styling */
+.gobuy-button {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.39);
+}
+
+.gobuy-button:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.5);
+}

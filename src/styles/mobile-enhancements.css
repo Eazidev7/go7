@@ -1,0 +1,304 @@
+/* 📱 GO7 MOBILE APP ENHANCEMENTS - NATIVE APP FEEL */
+
+/* Smooth page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+/* Premium mobile scrolling */
+@media (max-width: 768px) {
+  * {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Better touch feedback */
+  button, a, .clickable {
+    -webkit-tap-highlight-color: rgba(217, 4, 41, 0.1);
+    cursor: pointer;
+  }
+
+  /* Prevent pull-to-refresh interference */
+  body {
+    overscroll-behavior-y: contain;
+  }
+
+  /* Content area with proper bottom spacing */
+  .mobile-content {
+    padding-bottom: 90px; /* Space for bottom nav + extra margin */
+    min-height: 100vh;
+  }
+
+  /* Page container */
+  .page-container {
+    padding: 16px;
+    padding-bottom: 90px;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* Mobile-optimized cards */
+  .mobile-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mobile-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Mobile headers */
+  .mobile-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .mobile-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  /* Premium buttons */
+  .mobile-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    background: linear-gradient(135deg, #d90429 0%, #c20320 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(217, 4, 41, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .mobile-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(217, 4, 41, 0.3);
+  }
+
+  /* Mobile input fields */
+  .mobile-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    font-size: 1rem;
+    background: #fafafa;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-input:focus {
+    outline: none;
+    border-color: #d90429;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1);
+  }
+
+  /* Loading states */
+  .mobile-skeleton {
+    background: linear-gradient(
+      90deg,
+      #f0f0f0 0%,
+      #e0e0e0 50%,
+      #f0f0f0 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Pull-to-refresh indicator */
+  .pull-to-refresh {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    color: #d90429;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+  }
+
+  .pull-to-refresh.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Floating Action Button */
+  .mobile-fab {
+    position: fixed;
+    bottom: 85px; /* Above bottom nav */
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d90429 0%, #c20320 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 6px 20px rgba(217, 4, 41, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+  }
+
+  .mobile-fab:active {
+    transform: scale(0.9);
+    box-shadow: 0 3px 10px rgba(217, 4, 41, 0.4);
+  }
+
+  /* Status badge */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-badge.active {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .status-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-badge.completed {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+
+  /* List items with native feel */
+  .mobile-list-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: white;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s ease;
+    cursor: pointer;
+  }
+
+  .mobile-list-item:active {
+    background: #fafafa;
+  }
+
+  .mobile-list-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Swipeable action hint */
+  .swipe-hint {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 16px;
+    background: #d90429;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: #8e8e93;
+  }
+
+  .empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+
+  .empty-state-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+
+  .empty-state-text {
+    font-size: 0.95rem;
+    color: #8e8e93;
+    line-height: 1.5;
+  }
+}
+
+/* Haptic feedback simulation */
+@media (hover: none) and (pointer: coarse) {
+  .haptic-light:active {
+    animation: haptic-pulse 0.1s ease-out;
+  }
+
+  @keyframes haptic-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.98);
+    }
+  }
+}

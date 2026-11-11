@@ -1,0 +1,291 @@
+/* Send as Gift Styles */
+.send-as-gift {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Toggle Section */
+.gift-toggle-section {
+  margin-bottom: 0;
+}
+
+.toggle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.gift-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.toggle-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.toggle-text p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.3s ease;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .toggle-slider {
+  background-color: #D72638;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Gift Form */
+.gift-form {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gift-form-header {
+  margin-bottom: 20px;
+}
+
+.gift-form-header h5 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.gift-form-header p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #f0f0f0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #D72638;
+  box-shadow: 0 0 0 3px rgba(215, 38, 56, 0.1);
+}
+
+.field-note {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 6px;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+  margin-top: 6px;
+}
+
+/* Gift Notice */
+.gift-notice {
+  display: flex;
+  gap: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.notice-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.notice-text {
+  flex: 1;
+}
+
+.notice-text strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.notice-text ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.notice-text li {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.notice-text li:last-child {
+  margin-bottom: 0;
+}
+
+/* Error States */
+.form-group.error input,
+.form-group.error textarea {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .send-as-gift {
+    border-radius: 12px;
+    padding: 16px;
+  }
+  
+  .toggle-header {
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .toggle-info {
+    gap: 12px;
+  }
+  
+  .gift-icon {
+    font-size: 28px;
+  }
+  
+  .toggle-text h4 {
+    font-size: 15px;
+  }
+  
+  .toggle-text p {
+    font-size: 13px;
+  }
+  
+  .toggle-switch {
+    width: 50px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  
+  .toggle-slider:before {
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+  }
+  
+  input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+  }
+  
+  .gift-form {
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+  
+  .gift-notice {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .notice-icon {
+    align-self: flex-start;
+  }
+}

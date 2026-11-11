@@ -1,0 +1,55 @@
+/* 
+Quick CSS fix for potential Paystack button issues 
+Add this to ensure buttons are clickable and visible
+*/
+
+/* Ensure PaystackPopup buttons are visible and clickable */
+.paystack-button, 
+[class*="paystack"], 
+button[class*="pay"] {
+  position: relative !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix any overlay or modal issues */
+.wallet-topup-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure payment buttons are not hidden */
+.payment-button-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Debug: Highlight PaystackPopup buttons */
+.debug-paystack-button {
+  border: 2px solid #ff0000 !important;
+  background-color: #ffeeee !important;
+}
+
+/* Loading overlay should not block buttons when not active */
+.loading-overlay {
+  pointer-events: auto;
+  z-index: 9999;
+}
+
+.loading-overlay.hidden {
+  pointer-events: none;
+  display: none;
+}
+
+/* Mobile touch fixes */
+@media (max-width: 768px) {
+  .paystack-button, 
+  [class*="paystack"], 
+  button[class*="pay"] {
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+  }
+}

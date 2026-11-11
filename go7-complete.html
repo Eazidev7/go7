@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./public/favicon.ico" />
+    <link rel="icon" type="image/png" href="./public/go7-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./public/manifest.json" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#e60023" />
+    <meta name="background-color" content="#ffffff" />
+    <meta name="display" content="standalone" />
+    <meta name="orientation" content="portrait-primary" />
+    <meta name="start_url" content="/" />
+    <meta name="scope" content="/" />
+
+    <!-- App Meta Tags -->
+    <title>Go7 - Fast Delivery in Abeokuta | GoBuy Shopping</title>
+    <meta name="description"
+        content="Order food, book deliveries, shop with GoBuy, and track packages in Abeokuta with Go7. Fast, reliable, and affordable." />
+    <meta name="keywords" content="delivery, food, shopping, gobuy, abeokuta, logistics, go7, nigeria" />
+    <meta name="author" content="Go7 Delivery" />
+
+    <!-- iOS Safari PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Go7" />
+    <link rel="apple-touch-icon" href="./public/go7-logo.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'go7-red': '#dc2626',
+                        'go7-red-dark': '#b91c1c',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.3s;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gobuy-button {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .gobuy-button:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .action-button {
+            transition: all 0.2s ease;
+            background: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .vendor-card {
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .vendor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-pill {
+            transition: all 0.2s ease;
+        }
+
+        .category-pill:hover {
+            transform: scale(1.05);
+        }
+
+        .category-pill.active {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-container {
+                max-width: 400px;
+                margin: 0 auto;
+                box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- Header/Navigation -->
+    <div class="mobile-container">
+        <div class="bg-gradient-to-br from-red-600 to-red-800 text-white">
+            <!-- Top Navigation -->
+            <div class="flex items-center justify-between p-4">
+                <div class="flex items-center space-x-3">
+                    <div class="text-2xl font-bold">Go7</div>
+                    <div class="bg-white bg-opacity-20 px-2 py-1 rounded-full text-xs">
+                        v2.0
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-xs opacity-90">Delivering to</div>
+                    <div class="font-medium text-sm">📍 Abeokuta, NG</div>
+                </div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="px-4 pb-8 text-center">
+                <h1 class="text-3xl font-bold mb-2">Fast Delivery</h1>
+                <p class="text-red-100 text-lg">Food, groceries, shopping & more</p>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="px-4 -mt-4 relative z-10">
+            <div class="bg-white rounded-2xl shadow-lg p-4">
+                <div class="flex items-center space-x-3">
+                    <div class="text-gray-400">🔍</div>
+                    <input type="text" placeholder="Search for food, shops, or services..."
+                        class="flex-1 outline-none text-gray-700" id="searchInput" />
+                    <button class="text-go7-red font-medium">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GoBuy Integration - QuickActions -->
+        <div class="p-4">
+            <div class="fade-in fade-in-delay-1 bg-white rounded-2xl shadow-lg p-6 mb-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <span class="mr-2">⚡</span>
+                    Quick Actions
+                </h2>
+                <div class="grid grid-cols-2 gap-3">
+
+                    <!-- Book Delivery -->
+                    <button
+                        class="action-button bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl text-center"
+                        onclick="handleAction('book-delivery')">
+                        <div class="text-2xl mb-2">📦</div>
+                        <div class="text-sm font-medium">Book Delivery</div>
+                    </button>
+
+                    <!-- Order Food -->
+                    <button
+                        class="action-button bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl text-center"
+                        onclick="handleAction('order-food')">
+                        <div class="text-2xl mb-2">🍕</div>
+                        <div class="text-sm font-medium">Order Food</div>
+                    </button>
+
+                    <!-- Pharmacy -->
+                    <button
+                        class="action-button bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-xl text-center"
+                        onclick="handleAction('pharmacy')">
+                        <div class="text-2xl mb-2">💊</div>
+                        <div class="text-sm font-medium">Pharmacy</div>
+                    </button>
+
+                    <!-- GoBuy Button (Prominent) -->
+                    <button class="gobuy-button text-white p-4 rounded-xl text-center" onclick="handleAction('gobuy')">
+                        <div class="text-2xl mb-2">🛒</div>
+                        <div class="text-sm font-medium">GoBuy</div>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- GoBuy Promo Banner -->
+            <div
+                class="fade-in fade-in-delay-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl p-6 mb-4 shadow-lg relative overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-white bg-opacity-10 rounded-full -translate-y-16 translate-x-16">
+                </div>
+                <div class="relative">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold mb-1 flex items-center">
+                                <span class="mr-2">🛒</span>
+                                Shop with GoBuy
+                            </h3>
+                            <p class="text-red-100 text-sm mb-2">
+                                Your favorite shopping experience
+                            </p>
+                            <div class="bg-red-800 bg-opacity-50 rounded-lg px-3 py-2 inline-block">
+                                <span class="text-xs">Use code</span>
+                                <span class="font-bold text-white ml-1">GOBUY10</span>
+                                <span class="text-xs ml-1">for 10% off!</span>
+                            </div>
+                        </div>
+                        <div class="text-4xl">🎉</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="fade-in fade-in-delay-2 mb-4">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Categories</h3>
+                <div class="flex space-x-3 overflow-x-auto pb-2">
+                    <button class="category-pill bg-gray-200 text-gray-700 px-4 py-2 rounded-full whitespace-nowrap"
+                        onclick="setCategory('all')">
+                        🏪 All Shops
+                    </button>
+                    <button class="category-pill active px-4 py-2 rounded-full whitespace-nowrap text-white"
+                        onclick="setCategory('food')">
+                        🍕 Food
+                    </button>
+                    <button class="category-pill bg-gray-200 text-gray-700 px-4 py-2 rounded-full whitespace-nowrap"
+                        onclick="setCategory('market')">
+                        🛒 Market
+                    </button>
+                    <button class="category-pill bg-gray-200 text-gray-700 px-4 py-2 rounded-full whitespace-nowrap"
+                        onclick="setCategory('pharmacy')">
+                        💊 Pharmacy
+                    </button>
+                    <button class="category-pill bg-gray-200 text-gray-700 px-4 py-2 rounded-full whitespace-nowrap"
+                        onclick="setCategory('gobuy')">
+                        🛍️ GoBuy
+                    </button>
+                </div>
+            </div>
+
+            <!-- Featured Vendors -->
+            <div class="fade-in fade-in-delay-3">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Featured Near You</h3>
+                <div class="space-y-3">
+
+                    <!-- Burger Haven -->
+                    <div class="vendor-card bg-white rounded-xl p-4 shadow-lg">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center text-2xl">
+                                🍔
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">Burger Haven</h4>
+                                <p class="text-sm text-gray-600">Premium burgers & fries</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">15-25 min</span>
+                                    <span class="text-xs text-gray-500">⭐ 4.8</span>
+                                    <span class="text-xs text-gray-500">₦200 delivery</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ibara Market -->
+                    <div class="vendor-card bg-white rounded-xl p-4 shadow-lg">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center text-2xl">
+                                🏪
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">Ibara Market</h4>
+                                <p class="text-sm text-gray-600">Fresh groceries & essentials</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">10-20 min</span>
+                                    <span class="text-xs text-gray-500">⭐ 4.6</span>
+                                    <span class="text-xs text-gray-500">₦150 delivery</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MedPlus Pharmacy -->
+                    <div class="vendor-card bg-white rounded-xl p-4 shadow-lg">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center text-2xl">
+                                💊
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">MedPlus Pharmacy</h4>
+                                <p class="text-sm text-gray-600">Medicines & health products</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">5-15 min</span>
+                                    <span class="text-xs text-gray-500">⭐ 4.9</span>
+                                    <span class="text-xs text-gray-500">₦100 delivery</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Quick Services -->
+            <div class="fade-in fade-in-delay-3 mt-6 bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Services</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg text-left transition-colors"
+                        onclick="handleAction('track-order')">
+                        <div class="text-2xl mb-1">📍</div>
+                        <div class="text-sm font-medium text-gray-800">Track Order</div>
+                    </button>
+                    <button class="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg text-left transition-colors"
+                        onclick="handleAction('wallet')">
+                        <div class="text-2xl mb-1">💳</div>
+                        <div class="text-sm font-medium text-gray-800">Wallet</div>
+                    </button>
+                    <button class="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg text-left transition-colors"
+                        onclick="handleAction('history')">
+                        <div class="text-2xl mb-1">📋</div>
+                        <div class="text-sm font-medium text-gray-800">Order History</div>
+                    </button>
+                    <button class="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg text-left transition-colors"
+                        onclick="handleAction('support')">
+                        <div class="text-2xl mb-1">🆘</div>
+                        <div class="text-sm font-medium text-gray-800">Help & Support</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 pb-8 text-center">
+                <div class="text-gray-500 text-sm mb-4">
+                    © 2025 Go7 Delivery. Fast, reliable, everywhere.
+                </div>
+                <div class="flex justify-center space-x-4 text-xs text-gray-400">
+                    <a href="#" class="hover:text-go7-red">About</a>
+                    <a href="#" class="hover:text-go7-red">Privacy</a>
+                    <a href="#" class="hover:text-go7-red">Terms</a>
+                    <a href="#" class="hover:text-go7-red">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Handle actions
+        function handleAction(action) {
+            const messages = {
+                'gobuy': '🛒 Opening GoBuy shopping marketplace...\n\n🎉 Welcome to GoBuy! Browse thousands of products from local and international sellers.',
+                'book-delivery': '📦 Opening delivery booking...\n\nBook same-day delivery for your packages and documents.',
+                'order-food': '🍕 Opening food ordering...\n\nBrowse restaurants and order your favorite meals.',
+                'pharmacy': '💊 Opening pharmacy section...\n\nOrder medicines and health products with prescription.',
+                'track-order': '📍 Opening order tracking...\n\nTrack your deliveries in real-time with live GPS.',
+                'wallet': '💳 Opening wallet dashboard...\n\nManage your payments, cards, and transaction history.',
+                'history': '📋 Opening order history...\n\nView all your past orders and reorder favorites.',
+                'support': '🆘 Opening support center...\n\n24/7 customer support via chat, call, or email.'
+            };
+
+            alert(messages[action] || `Opening ${action}...`);
+            console.log(`🚀 Action triggered: ${action}`);
+
+            // Special handling for GoBuy
+            if (action === 'gobuy') {
+                console.log('🛒 GoBuy integration activated!');
+                // Here you would typically navigate to the GoBuy interface
+                // For demo purposes, we'll show additional info
+                setTimeout(() => {
+                    alert('🛒 GoBuy Features:\n\n• Browse 10,000+ products\n• Compare prices from multiple sellers\n• Same-day delivery available\n• Secure payment options\n• Order tracking included\n\nUse code GOBUY10 for 10% off! 🎉');
+                }, 1500);
+            }
+        }
+
+        // Category switching
+        function setCategory(category) {
+            // Remove active class from all pills
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.classList.remove('active');
+                pill.classList.add('bg-gray-200', 'text-gray-700');
+                pill.classList.remove('text-white');
+            });
+
+            // Add active class to clicked pill
+            event.target.classList.add('active');
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('text-white');
+
+            console.log(`📂 Category selected: ${category}`);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = this.value;
+                if (query.trim()) {
+                    alert(`🔍 Searching for: "${query}"\n\nResults would include restaurants, shops, and products matching your search.`);
+                    console.log(`🔍 Search query: ${query}`);
+                }
+            }
+        });
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Go7 App with GoBuy Integration loaded successfully!');
+            console.log('📱 Features: Food delivery, shopping (GoBuy), pharmacy, package delivery');
+
+            // Add subtle animation to elements
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 200 + 100);
+            });
+        });
+    </script>
+</body>
+
+</html>

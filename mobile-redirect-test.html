@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Redirect Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .button {
+            display: block;
+            background: #E30613;
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .mobile { background: #d4edda; color: #155724; }
+        .desktop { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>📱 Mobile Redirect Test</h1>
+        
+        <div id="status" class="status">
+            Checking device...
+        </div>
+        
+        <div id="info">
+            <p><strong>Screen:</strong> <span id="screenSize"></span></p>
+            <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+            <p><strong>Should be Mobile:</strong> <span id="shouldBeMobile"></span></p>
+        </div>
+        
+        <h3>Test Links:</h3>
+        <a href="http://localhost:5173/" class="button">🏠 Homepage (Auto Redirect)</a>
+        <a href="http://localhost:5173/mobile" class="button">📱 Mobile Route (Direct)</a>
+        <a href="http://localhost:5173/?forceMobile=true" class="button">🔧 Force Mobile</a>
+        <a href="http://localhost:5173/?forceMobile=false" class="button">🖥️ Force Desktop</a>
+    </div>
+
+    <script>
+        function updateInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const userAgent = navigator.userAgent;
+            const isMobile = width <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+            
+            document.getElementById('screenSize').textContent = `${width}x${height}px`;
+            document.getElementById('userAgent').textContent = userAgent.substring(0, 50) + '...';
+            document.getElementById('shouldBeMobile').textContent = isMobile ? 'YES' : 'NO';
+            
+            const statusDiv = document.getElementById('status');
+            if (isMobile) {
+                statusDiv.textContent = '📱 Mobile Device Detected';
+                statusDiv.className = 'status mobile';
+            } else {
+                statusDiv.textContent = '🖥️ Desktop Device Detected';
+                statusDiv.className = 'status desktop';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', updateInfo);
+        window.addEventListener('resize', updateInfo);
+    </script>
+</body>
+</html>

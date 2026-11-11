@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Mobile Homepage Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            line-height: 1.6;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #E30613;
+            margin-bottom: 10px;
+        }
+        .button {
+            display: block;
+            background: linear-gradient(45deg, #E30613, #ff4757);
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(227, 6, 19, 0.3);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(227, 6, 19, 0.4);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .mobile { 
+            background: linear-gradient(45deg, #00b894, #00cec9); 
+            color: white;
+        }
+        .desktop { 
+            background: linear-gradient(45deg, #fdcb6e, #e17055); 
+            color: white;
+        }
+        .feature-list {
+            background: rgba(116, 185, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #74b9ff;
+            margin: 15px 0;
+        }
+        .success {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 4px solid #00b894;
+            color: #00b894;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="logo">Go7</div>
+            <h2>📱 Mobile Homepage Test</h2>
+        </div>
+        
+        <div id="status" class="status">
+            🔍 Checking mobile detection...
+        </div>
+        
+        <div class="feature-list">
+            <h3>✅ New Mobile Features:</h3>
+            <ul>
+                <li>📍 Location header with geolocation</li>
+                <li>🔍 Search bar with Go7 branding</li>
+                <li>🎁 Animated promo banner (₦200 off)</li>
+                <li>🏷️ Horizontal categories with scroll snap</li>
+                <li>🏪 Top vendors carousel</li>
+                <li>📱 Bottom navigation tabs</li>
+                <li>🎯 Floating Track Order button</li>
+            </ul>
+        </div>
+        
+        <div class="success">
+            ✅ <strong>All components built and integrated!</strong><br>
+            Mobile homepage should render for screens < 768px
+        </div>
+        
+        <h3>🧪 Test Mobile Homepage:</h3>
+        <a href="http://localhost:5173/" class="button">
+            📱 Open Go7 Homepage
+        </a>
+        <a href="http://localhost:5173/?forceMobile=true" class="button">
+            🔧 Force Mobile View
+        </a>
+        
+        <div style="margin-top: 30px;">
+            <h3>📱 Mobile Preview:</h3>
+            <iframe src="http://localhost:5173/?forceMobile=true"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus() {
+            const width = window.innerWidth;
+            const isMobile = width <= 768;
+            const statusDiv = document.getElementById('status');
+            
+            if (isMobile) {
+                statusDiv.innerHTML = '📱 <strong>Mobile Screen Detected</strong><br>New mobile homepage should be active';
+                statusDiv.className = 'status mobile';
+            } else {
+                statusDiv.innerHTML = '🖥️ <strong>Desktop Screen Detected</strong><br>Use "Force Mobile View" to test';
+                statusDiv.className = 'status desktop';
+            }
+            
+            console.log('Screen width:', width, 'Mobile:', isMobile);
+        }
+        
+        document.addEventListener('DOMContentLoaded', updateStatus);
+        window.addEventListener('resize', updateStatus);
+    </script>
+</body>
+</html>

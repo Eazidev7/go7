@@ -1,0 +1,396 @@
+/* Measurement Unit Configuration Component Styles */
+.measurement-unit-config {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.config-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.config-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 8px 0;
+}
+
+.config-header p {
+  font-size: 16px;
+  color: #666666;
+  margin: 0;
+}
+
+.config-section {
+  margin-bottom: 32px;
+}
+
+.section-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 12px;
+}
+
+.required {
+  color: #E83A2E;
+  font-weight: 700;
+}
+
+.optional {
+  color: #777777;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* Unit Type Grid */
+.unit-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.unit-type-card {
+  padding: 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #FFFFFF;
+}
+
+.unit-type-card:hover {
+  border-color: #E83A2E;
+  background: #FFF5F5;
+}
+
+.unit-type-card.selected {
+  border-color: #E83A2E;
+  background: #E83A2E;
+  color: #FFFFFF;
+}
+
+.unit-type-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.unit-type-card p {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Form Inputs */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #FFFFFF;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #E83A2E;
+}
+
+.form-input.small {
+  width: 120px;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #FFFFFF;
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #E83A2E;
+}
+
+/* Quantity Limits */
+.quantity-limits {
+  display: flex;
+  gap: 16px;
+}
+
+.limit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.limit-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+/* Variants Section */
+.variants-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.add-variant-btn {
+  padding: 8px 16px;
+  background: #E83A2E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-variant-btn:hover {
+  background: #C73027;
+}
+
+.variants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.variant-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #F8F8F8;
+  border-radius: 8px;
+  border: 1px solid #E0E0E0;
+}
+
+.variant-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0 0 4px 0;
+}
+
+.variant-info p {
+  font-size: 16px;
+  font-weight: 700;
+  color: #E83A2E;
+  margin: 0 0 4px 0;
+}
+
+.variant-description {
+  font-size: 13px;
+  color: #666666;
+}
+
+.variant-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn {
+  background: #FFFFFF;
+  color: #4A4A4A;
+}
+
+.edit-btn:hover {
+  border-color: #E83A2E;
+  color: #E83A2E;
+}
+
+.delete-btn {
+  background: #FFFFFF;
+  color: #DC3545;
+  border-color: #DC3545;
+}
+
+.delete-btn:hover {
+  background: #DC3545;
+  color: #FFFFFF;
+}
+
+.variants-required-notice {
+  padding: 16px;
+  background: #FFF8E1;
+  border: 1px solid #FFD54F;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.variants-required-notice p {
+  margin: 0;
+  color: #F57C00;
+  font-weight: 500;
+}
+
+/* Variant Form Modal */
+.variant-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.variant-form {
+  background: #FFFFFF;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.variant-form h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 24px 0;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+/* Action Buttons */
+.config-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  padding-top: 24px;
+  border-top: 1px solid #E0E0E0;
+}
+
+.save-btn {
+  padding: 12px 24px;
+  background: #E83A2E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #C73027;
+}
+
+.save-btn:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  padding: 12px 24px;
+  background: #FFFFFF;
+  color: #4A4A4A;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  border-color: #CCCCCC;
+  background: #F8F8F8;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .measurement-unit-config {
+    padding: 16px;
+    margin: 16px;
+  }
+  
+  .unit-type-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .quantity-limits {
+    flex-direction: column;
+  }
+  
+  .variants-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .variant-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .variant-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .config-actions {
+    flex-direction: column;
+  }
+  
+  .variant-form {
+    padding: 20px;
+    margin: 16px;
+  }
+}

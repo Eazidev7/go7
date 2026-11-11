@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug User Data</title>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtYbvOb0xb6yH0KMp05xAHEkePIHrJqJY",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.appspot.com",
+            messagingSenderId: "706871474772",
+            appId: "1:706871474772:web:90d32b5a0d4d92b1a92c48"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        window.checkUserData = async function() {
+            const output = document.getElementById('output');
+            
+            try {
+                const user = auth.currentUser;
+                if (!user) {
+                    output.innerHTML = '❌ Not logged in! Please log in first.\n\n';
+                    output.innerHTML += 'Go to: http://localhost:9999 and log in, then come back here.';
+                    return;
+                }
+
+                output.innerHTML = '✅ AUTHENTICATED USER:\n';
+                output.innerHTML += `📧 Email: ${user.email}\n`;
+                output.innerHTML += `🆔 UID: ${user.uid}\n`;
+                output.innerHTML += `📞 Phone (Auth): ${user.phoneNumber || 'N/A'}\n\n`;
+
+                // Get user document
+                output.innerHTML += '📡 Fetching user document from Firestore...\n\n';
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    output.innerHTML += '✅ USER DOCUMENT:\n';
+                    output.innerHTML += JSON.stringify(userData, null, 2) + '\n\n';
+
+                    if (userData.virtualAccount) {
+                        output.innerHTML += '💳 VIRTUAL ACCOUNT DETAILS:\n';
+                        output.innerHTML += `Account Number: ${userData.virtualAccount.account_number || 'N/A'}\n`;
+                        output.innerHTML += `Account Name: ${userData.virtualAccount.account_name || 'N/A'}\n`;
+                        output.innerHTML += `Bank Name: ${userData.virtualAccount.bank_name || 'N/A'}\n`;
+                        output.innerHTML += `Bank Code: ${userData.virtualAccount.bank_code || 'N/A'}\n`;
+                        output.innerHTML += `Paystack Customer: ${userData.virtualAccount.customer_code || 'N/A'}\n\n`;
+                    } else {
+                        output.innerHTML += '⚠️ NO VIRTUAL ACCOUNT FOUND\n\n';
+                    }
+                } else {
+                    output.innerHTML += '❌ User document does not exist!\n\n';
+                }
+
+                // Get wallet document
+                output.innerHTML += '📡 Fetching wallet document...\n\n';
+                const walletDoc = await getDoc(doc(db, 'wallets', user.uid));
+                
+                if (walletDoc.exists()) {
+                    const walletData = walletDoc.data();
+                    output.innerHTML += '💰 WALLET DOCUMENT:\n';
+                    output.innerHTML += JSON.stringify(walletData, null, 2) + '\n\n';
+                } else {
+                    output.innerHTML += '⚠️ NO WALLET DOCUMENT FOUND\n\n';
+                }
+
+            } catch (error) {
+                output.innerHTML += '\n❌ ERROR:\n';
+                output.innerHTML += error.toString() + '\n';
+                output.innerHTML += JSON.stringify(error, null, 2);
+            }
+        };
+
+        // Auto-check on load
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.checkUserData();
+            } else {
+                document.getElementById('output').innerHTML = '❌ Not logged in\n\nPlease log in at http://localhost:9999 first.';
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #00ff00;
+        }
+        h1 {
+            color: #ff0000;
+            text-align: center;
+            text-shadow: 0 0 10px #ff0000;
+        }
+        button {
+            background: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px auto;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        #output {
+            background: #000;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #00ff00;
+            white-space: pre-wrap;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 USER DATA DEBUGGER</h1>
+    
+    <button onclick="checkUserData()">🔄 Refresh User Data</button>
+
+    <div id="output">Loading...</div>
+</body>
+</html>

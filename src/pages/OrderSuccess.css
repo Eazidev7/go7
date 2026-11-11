@@ -1,0 +1,223 @@
+.order-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 16px;
+  min-height: 100vh;
+  background: #fff;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.success-anim {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.order-success h2 {
+  color: #E0001B;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-size: 28px;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.desc {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 32px;
+  max-width: 400px;
+  line-height: 1.6;
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+
+.summary {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px 24px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.6s ease 0.4s both;
+}
+
+.summary p {
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary p:first-child {
+  margin-top: 0;
+}
+
+.summary p:last-child {
+  margin-bottom: 0;
+}
+
+.summary strong {
+  color: #E0001B;
+  font-weight: 600;
+}
+
+/* New delivery estimate styles */
+.delivery-estimate {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  width: 90%;
+  animation: fadeInUp 0.6s ease 0.5s both;
+}
+
+.delivery-estimate h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+
+.delivery-time {
+  font-size: 24px;
+  font-weight: 700;
+  color: #D72638;
+  margin: 0 0 8px 0;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeInUp 0.6s ease 0.6s both;
+}
+
+.go7-btn-secondary {
+  background: transparent;
+  color: #E0001B;
+  border: 2px solid #E0001B;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.go7-btn-secondary:hover {
+  background: #E0001B;
+  color: white;
+}
+
+.go7-btn {
+  background: #E0001B;
+  color: #fff;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+  width: 85%;
+  max-width: 340px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: fadeInUp 0.6s ease 0.5s both;
+}
+
+.go7-btn:hover {
+  background: #C90018;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(224, 0, 27, 0.3);
+}
+
+.go7-btn:active {
+  transform: translateY(0);
+}
+
+.track-btn {
+  font-size: 16px;
+  animation: fadeInUp 0.6s ease 0.6s both;
+}
+
+.home-btn {
+  background: #555;
+  animation: fadeInUp 0.6s ease 0.7s both;
+}
+
+.home-btn:hover {
+  background: #333;
+  box-shadow: 0 4px 12px rgba(51, 51, 51, 0.3);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .order-success {
+    padding: 32px 16px;
+  }
+
+  .success-anim {
+    width: 120px;
+    height: 120px;
+  }
+
+  .order-success h2 {
+    font-size: 24px;
+  }
+
+  .desc {
+    font-size: 14px;
+  }
+
+  .summary {
+    padding: 16px 20px;
+    font-size: 14px;
+  }
+
+  .go7-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+}

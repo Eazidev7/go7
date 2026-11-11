@@ -1,0 +1,614 @@
+// Premium Add-On Modal Styles
+// Modern, accessible, responsive modal with premium visual design
+
+// ==========================================
+// VARIABLES & MIXINS
+// ==========================================
+
+$modal-border-radius: 28px;
+$addon-border-radius: 20px;
+$button-border-radius: 16px;
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// Color palette
+$primary-red: #e74c3c;
+$primary-red-dark: #c0392b;
+$success-green: #27ae60;
+$success-green-dark: #229954;
+$gray-50: #f8f9fa;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Shadow system
+@mixin shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+@mixin shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+@mixin shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+@mixin shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+@mixin shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+
+// Responsive breakpoints
+@mixin mobile { @media (max-width: 480px) { @content; } }
+@mixin tablet { @media (max-width: 768px) { @content; } }
+@mixin desktop { @media (min-width: 769px) { @content; } }
+
+// ==========================================
+// MODAL OVERLAY & CONTAINER
+// ==========================================
+
+.premium-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: modalOverlayFadeIn 0.3s ease-out;
+
+  @include mobile {
+    padding: 12px;
+    align-items: flex-end;
+  }
+}
+
+@keyframes modalOverlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.premium-modal-card {
+  background: white;
+  border-radius: $modal-border-radius;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+  position: relative;
+  @include shadow-2xl;
+  animation: modalCardSlideIn $transition-bounce;
+  transform-origin: center;
+
+  @include mobile {
+    max-height: 90vh;
+    border-radius: 24px 24px 0 0;
+    margin-bottom: 0;
+  }
+
+  // Focus ring for accessibility
+  &:focus {
+    outline: 3px solid rgba($primary-red, 0.3);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes modalCardSlideIn {
+  from {
+    transform: translateY(100px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+// ==========================================
+// CLOSE BUTTON
+// ==========================================
+
+.premium-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  z-index: 10;
+  transition: $transition-smooth;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1) rotate(90deg);
+  }
+
+  &:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+// ==========================================
+// PRODUCT IMAGE
+// ==========================================
+
+.premium-modal__image {
+  width: 100%;
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+
+  @include mobile {
+    height: 200px;
+  }
+
+  // Gradient overlay for better text readability
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+    pointer-events: none;
+  }
+}
+
+// ==========================================
+// MODAL BODY
+// ==========================================
+
+.premium-modal__body {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(85vh - 240px);
+
+  @include mobile {
+    padding: 20px;
+    max-height: calc(90vh - 200px);
+  }
+}
+
+.premium-modal__header {
+  margin-bottom: 24px;
+}
+
+.premium-modal__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $gray-900;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+
+  @include mobile {
+    font-size: 20px;
+  }
+}
+
+.premium-modal__subtitle {
+  color: $gray-600;
+  font-size: 15px;
+  margin: 0;
+  font-weight: 500;
+}
+
+// ==========================================
+// ADD-ONS SECTION
+// ==========================================
+
+.premium-modal__addons {
+  margin-bottom: 24px;
+}
+
+.premium-modal__no-addons {
+  padding: 20px;
+  background: linear-gradient(135deg, $gray-50 0%, white 100%);
+  border-radius: $addon-border-radius;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.premium-modal__empty-state {
+  text-align: center;
+  padding: 20px 0;
+
+  .premium-modal__empty-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: $gray-500;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+// ==========================================
+// ADD-ON ROWS
+// ==========================================
+
+.premium-modal__addon-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, $gray-50 0%, white 100%);
+  border-radius: $addon-border-radius;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: $transition-smooth;
+  position: relative;
+  overflow: hidden;
+
+  @include mobile {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 16px;
+  }
+
+  // Hover effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    @include shadow-lg;
+    border-color: rgba(0, 0, 0, 0.1);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+// ==========================================
+// ADD-ON IMAGE
+// ==========================================
+
+.premium-modal__addon-image {
+  flex-shrink: 0;
+
+  img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    @include shadow-sm;
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+  }
+}
+
+// ==========================================
+// ADD-ON INFO
+// ==========================================
+
+.premium-modal__addon-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.premium-modal__addon-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: $gray-900;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.premium-modal__addon-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.premium-modal__unit-label {
+  color: $gray-600;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.premium-modal__addon-price {
+  color: $primary-red;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+// ==========================================
+// QUANTITY CONTROLS
+// ==========================================
+
+.premium-modal__quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.premium-modal__qty-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-smooth;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+
+  @include mobile {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover::before {
+    opacity: 0.1;
+  }
+
+  &--minus {
+    background: linear-gradient(135deg, $gray-100, $gray-200);
+    color: $gray-600;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, $gray-200, $gray-300);
+      transform: scale(1.05);
+    }
+  }
+
+  &--plus {
+    background: linear-gradient(135deg, $primary-red, $primary-red-dark);
+    color: white;
+    border: 1px solid rgba($primary-red, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, $primary-red-dark, darken($primary-red-dark, 10%));
+      transform: scale(1.05);
+      @include shadow-md;
+    }
+  }
+}
+
+.premium-modal__qty-display {
+  font-size: 18px;
+  font-weight: 700;
+  color: $gray-900;
+  min-width: 24px;
+  text-align: center;
+  user-select: none;
+}
+
+// ==========================================
+// FOOTER
+// ==========================================
+
+.premium-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 8px;
+
+  @include mobile {
+    gap: 12px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.premium-modal__total {
+  font-size: 20px;
+  font-weight: 800;
+  color: $gray-900;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  @include mobile {
+    text-align: center;
+    font-size: 18px;
+  }
+}
+
+.premium-modal__add-to-cart {
+  background: linear-gradient(135deg, $success-green 0%, $success-green-dark 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: $button-border-radius;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: $transition-smooth;
+  @include shadow-md;
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
+  text-align: center;
+
+  @include mobile {
+    width: 100%;
+    padding: 18px;
+    font-size: 18px;
+  }
+
+  // Shine effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    @include shadow-lg;
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+  }
+
+  &:focus {
+    outline: 3px solid rgba($success-green, 0.3);
+    outline-offset: 2px;
+  }
+}
+
+// ==========================================
+// ACCESSIBILITY IMPROVEMENTS
+// ==========================================
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .premium-modal-card {
+    border: 2px solid;
+  }
+
+  .premium-modal__addon-row {
+    border: 1px solid;
+  }
+
+  .premium-modal__close {
+    border: 2px solid white;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .premium-modal-overlay,
+  .premium-modal-card,
+  .premium-modal__close,
+  .premium-modal__addon-row,
+  .premium-modal__qty-btn,
+  .premium-modal__add-to-cart {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .premium-modal-card {
+    background: #1a1a1a;
+    @include shadow-2xl;
+  }
+
+  .premium-modal__title {
+    color: white;
+  }
+
+  .premium-modal__subtitle {
+    color: #a0a0a0;
+  }
+
+  .premium-modal__addon-row {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .premium-modal__addon-name {
+    color: white;
+  }
+
+  .premium-modal__unit-label {
+    background: rgba(255, 255, 255, 0.1);
+    color: #a0a0a0;
+  }
+
+  .premium-modal__qty-display {
+    color: white;
+  }
+
+  .premium-modal__total {
+    color: white;
+  }
+
+  .premium-modal__footer {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .premium-modal__no-addons {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .premium-modal__empty-state p {
+    color: #a0a0a0;
+  }
+}

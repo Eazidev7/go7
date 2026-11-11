@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase API Key Debug</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #00ff00;
+        }
+        .box {
+            background: #2d2d2d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #e61e25;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff4444; }
+        .warning { color: #ffaa00; }
+        h1 { color: #e61e25; }
+        pre {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase API Key Debug Tool</h1>
+    
+    <div class="box">
+        <h2>Environment Variables Check</h2>
+        <pre id="env-check">Loading...</pre>
+    </div>
+    
+    <div class="box">
+        <h2>Firebase Config Loaded</h2>
+        <pre id="firebase-config">Loading...</pre>
+    </div>
+    
+    <div class="box">
+        <h2>Authentication Test</h2>
+        <button onclick="testAuth()" style="background: #e61e25; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+            Test Firebase Auth
+        </button>
+        <pre id="auth-test">Click button to test...</pre>
+    </div>
+
+    <script type="module">
+        // Check environment variables
+        const envVars = {
+            'VITE_FIREBASE_API_KEY': import.meta.env.VITE_FIREBASE_API_KEY,
+            'VITE_FIREBASE_AUTH_DOMAIN': import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+            'VITE_FIREBASE_PROJECT_ID': import.meta.env.VITE_FIREBASE_PROJECT_ID,
+            'VITE_FIREBASE_STORAGE_BUCKET': import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+            'VITE_FIREBASE_MESSAGING_SENDER_ID': import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+            'VITE_FIREBASE_APP_ID': import.meta.env.VITE_FIREBASE_APP_ID,
+        };
+
+        let output = '';
+        for (const [key, value] of Object.entries(envVars)) {
+            const status = value ? '<span class="success">✅</span>' : '<span class="error">❌</span>';
+            const displayValue = value ? (key.includes('API_KEY') ? `${value.substring(0, 15)}...` : value) : 'MISSING';
+            output += `${status} ${key}: ${displayValue}\n`;
+        }
+        document.getElementById('env-check').innerHTML = output;
+
+        // Try to import and initialize Firebase
+        import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js').then(({ initializeApp }) => {
+            import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ getAuth }) => {
+                
+                const firebaseConfig = {
+                    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+                    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+                    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+                    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+                    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+                    appId: import.meta.env.VITE_FIREBASE_APP_ID
+                };
+
+                let configOutput = 'Firebase Configuration Object:\n\n';
+                configOutput += JSON.stringify(firebaseConfig, null, 2);
+                
+                document.getElementById('firebase-config').textContent = configOutput;
+
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    const auth = getAuth(app);
+                    
+                    window.testAuth = async () => {
+                        const testOutput = document.getElementById('auth-test');
+                        testOutput.innerHTML = '<span class="warning">⏳ Testing Firebase Authentication...</span>\n\n';
+                        
+                        try {
+                            // Try to create a test connection
+                            testOutput.innerHTML += '<span class="success">✅ Firebase Auth initialized successfully!</span>\n';
+                            testOutput.innerHTML += `<span class="success">✅ Auth Domain: ${auth.config.apiHost}</span>\n`;
+                            testOutput.innerHTML += `<span class="success">✅ API Key Active: ${auth.config.apiKey.substring(0, 15)}...</span>\n\n`;
+                            testOutput.innerHTML += '<span class="success">🎉 No API key errors detected!</span>\n';
+                            testOutput.innerHTML += '<span class="warning">Note: If you still see errors in your app, clear browser cache (Ctrl+Shift+Delete)</span>';
+                        } catch (error) {
+                            testOutput.innerHTML += `<span class="error">❌ Error: ${error.message}</span>\n`;
+                            testOutput.innerHTML += `<span class="error">Code: ${error.code || 'unknown'}</span>\n`;
+                        }
+                    };
+                    
+                    document.getElementById('firebase-config').innerHTML = 
+                        '<span class="success">✅ Firebase App Initialized Successfully!</span>\n\n' +
+                        configOutput +
+                        '\n\n<span class="success">✅ Auth Service Ready</span>';
+                        
+                } catch (error) {
+                    document.getElementById('firebase-config').innerHTML = 
+                        `<span class="error">❌ Firebase Initialization Failed!</span>\n\n` +
+                        `Error: ${error.message}\n\n` +
+                        configOutput;
+                }
+            });
+        }).catch(error => {
+            document.getElementById('firebase-config').innerHTML = 
+                `<span class="error">❌ Failed to load Firebase SDK</span>\n\nError: ${error.message}`;
+        });
+    </script>
+</body>
+</html>

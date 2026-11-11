@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Admin Role - GO7</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #90caf9;
+        }
+        .status.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #81c784;
+        }
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        .status.warning {
+            background: #fff3e0;
+            color: #ef6c00;
+            border: 1px solid #ffb74d;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .user-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .user-info strong {
+            color: #333;
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Grant Admin Role</h1>
+        <p class="subtitle">Add admin privileges to your GO7 account</p>
+
+        <div id="status" class="status info">
+            <strong>ℹ️ Status:</strong> Checking authentication...
+        </div>
+
+        <div id="userInfo" class="user-info hidden"></div>
+
+        <button id="grantBtn" onclick="grantAdminRole()" disabled>
+            <span id="btnText">Grant Admin Role</span>
+        </button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getFirestore, doc, getDoc, updateDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDJHYe3EZ3hfHaQdQwLvqMXyL2wJsInqiw",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.firebasestorage.app",
+            messagingSenderId: "1049137948429",
+            appId: "1:1049137948429:web:09acdbad3d7a6c14ec3aa8",
+            measurementId: "G-B3KKTNWQYK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const statusDiv = document.getElementById('status');
+        const userInfoDiv = document.getElementById('userInfo');
+        const grantBtn = document.getElementById('grantBtn');
+        const btnText = document.getElementById('btnText');
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                console.log('✅ User authenticated:', user.uid);
+
+                // Check if user already has admin role
+                try {
+                    const userRef = doc(db, 'users', user.uid);
+                    const userDoc = await getDoc(userRef);
+
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        
+                        userInfoDiv.innerHTML = `
+                            <strong>👤 User:</strong> ${user.email}<br>
+                            <strong>🆔 UID:</strong> ${user.uid}<br>
+                            <strong>🎭 Current Role:</strong> ${userData.role || 'user'}
+                        `;
+                        userInfoDiv.classList.remove('hidden');
+
+                        if (userData.role === 'admin') {
+                            statusDiv.className = 'status success';
+                            statusDiv.innerHTML = '<strong>✅ Already Admin:</strong> You already have admin privileges!';
+                            grantBtn.disabled = true;
+                            btnText.textContent = 'Already Admin ✓';
+                        } else {
+                            statusDiv.className = 'status warning';
+                            statusDiv.innerHTML = '<strong>⚠️ Not Admin:</strong> Click below to grant admin role';
+                            grantBtn.disabled = false;
+                        }
+                    } else {
+                        statusDiv.className = 'status warning';
+                        statusDiv.innerHTML = '<strong>⚠️ User Document Not Found:</strong> Will create user document with admin role';
+                        userInfoDiv.innerHTML = `
+                            <strong>👤 User:</strong> ${user.email}<br>
+                            <strong>🆔 UID:</strong> ${user.uid}<br>
+                            <strong>🎭 Current Role:</strong> none (new user)
+                        `;
+                        userInfoDiv.classList.remove('hidden');
+                        grantBtn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('❌ Error checking user document:', error);
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = `<strong>❌ Error:</strong> ${error.message}`;
+                }
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '<strong>❌ Not Authenticated:</strong> Please log in to GO7 first';
+                grantBtn.disabled = true;
+            }
+        });
+
+        window.grantAdminRole = async function() {
+            if (!currentUser) {
+                alert('❌ Please log in first');
+                return;
+            }
+
+            grantBtn.disabled = true;
+            btnText.innerHTML = '<span class="spinner"></span> Granting Admin Role...';
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = '<strong>⏳ Processing...</strong> Adding admin role to your account';
+
+            try {
+                const userRef = doc(db, 'users', currentUser.uid);
+                const userDoc = await getDoc(userRef);
+
+                if (userDoc.exists()) {
+                    // Update existing document
+                    await updateDoc(userRef, {
+                        role: 'admin',
+                        adminGrantedAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    });
+                    console.log('✅ Admin role granted (updated)');
+                } else {
+                    // Create new document
+                    await setDoc(userRef, {
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                        role: 'admin',
+                        adminGrantedAt: new Date().toISOString(),
+                        createdAt: new Date().toISOString()
+                    });
+                    console.log('✅ Admin role granted (created)');
+                }
+
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <strong>✅ Success!</strong> Admin role granted successfully!<br>
+                    <small>You can now access admin functions like createTestVendors.</small>
+                `;
+                btnText.textContent = 'Admin Role Granted ✓';
+
+                // Update user info display
+                userInfoDiv.innerHTML = `
+                    <strong>👤 User:</strong> ${currentUser.email}<br>
+                    <strong>🆔 UID:</strong> ${currentUser.uid}<br>
+                    <strong>🎭 Current Role:</strong> admin ✅
+                `;
+
+                setTimeout(() => {
+                    statusDiv.innerHTML += '<br><br><small>You can close this window now.</small>';
+                }, 2000);
+
+            } catch (error) {
+                console.error('❌ Error granting admin role:', error);
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `<strong>❌ Error:</strong> ${error.message}`;
+                btnText.textContent = 'Try Again';
+                grantBtn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>

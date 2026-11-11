@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 React Debug Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2 {
+            border-bottom: 2px solid #eaecef;
+            padding-bottom: 0.3em;
+            margin-top: 24px;
+        }
+        .success {
+            color: #22863a;
+            background-color: #f0fff4;
+            border: 1px solid #34d058;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .error {
+            color: #b31d28;
+            background-color: #ffeef0;
+            border: 1px solid #d73a49;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .warning {
+            color: #735c0f;
+            background-color: #fffbdd;
+            border: 1px solid #b08800;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .info {
+            color: #003c8f;
+            background-color: #e6f7ff;
+            border: 1px solid #2196f3;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f6f8fa;
+        }
+        #reactRoot {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 4px;
+            padding: 16px;
+            overflow: auto;
+        }
+        button {
+            background-color: #0366d6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0255c2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Go7 React Debug Tool</h1>
+    <p>This tool helps diagnose issues with React in your Go7 application.</p>
+
+    <div class="test-section">
+        <h2>1. React Detection</h2>
+        <div id="reactDetectionResult" class="info">Detecting React...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. React Version</h2>
+        <div id="reactVersionResult" class="info">Checking React version...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. React DOM Test</h2>
+        <p>Tests if React can render to the DOM.</p>
+        <div id="reactDomTestResult" class="info">Testing React DOM rendering...</div>
+        <div id="reactRoot"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. React Error Boundary Test</h2>
+        <p>Tests if React error boundaries are working.</p>
+        <div id="errorBoundaryTestResult" class="info">Error boundary not tested yet.</div>
+        <button id="triggerErrorBtn">Trigger Error</button>
+    </div>
+
+    <script>
+        // 1. React Detection
+        function detectReact() {
+            setTimeout(() => {
+                if (window.React) {
+                    document.getElementById('reactDetectionResult').className = 'success';
+                    document.getElementById('reactDetectionResult').textContent = 
+                        'Success! React is loaded in the global scope.';
+                } else {
+                    document.getElementById('reactDetectionResult').className = 'error';
+                    document.getElementById('reactDetectionResult').innerHTML = 
+                        'Error: React is not detected in the global scope.<br>' +
+                        'This could mean React is not loaded or it\'s using modules without exposing to window.';
+                }
+            }, 1000); // Give time for any async React loading
+        }
+
+        // 2. React Version
+        function checkReactVersion() {
+            setTimeout(() => {
+                if (window.React && window.React.version) {
+                    document.getElementById('reactVersionResult').className = 'success';
+                    document.getElementById('reactVersionResult').textContent = 
+                        `Success! React version: ${window.React.version}`;
+                } else {
+                    document.getElementById('reactVersionResult').className = 'error';
+                    document.getElementById('reactVersionResult').textContent = 
+                        'Error: Cannot detect React version.';
+                }
+            }, 1500);
+        }
+
+        // Helper function to load scripts
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        // Load React from CDN for testing
+        async function loadReactForTesting() {
+            try {
+                await loadScript('https://unpkg.com/react@17/umd/react.development.js');
+                await loadScript('https://unpkg.com/react-dom@17/umd/react-dom.development.js');
+                
+                // Run React tests after loading
+                detectReact();
+                checkReactVersion();
+                testReactDom();
+                setupErrorBoundaryTest();
+            } catch (error) {
+                document.getElementById('reactDetectionResult').className = 'error';
+                document.getElementById('reactDetectionResult').textContent = 
+                    `Error loading React from CDN: ${error.message}`;
+            }
+        }
+
+        // 3. React DOM Test
+        function testReactDom() {
+            setTimeout(() => {
+                if (window.React && window.ReactDOM) {
+                    try {
+                        // Create a simple React element
+                        const element = React.createElement(
+                            'div', 
+                            { className: 'test-element' },
+                            React.createElement('h3', null, 'React Render Test'),
+                            React.createElement('p', null, 'This paragraph was rendered by React.')
+                        );
+                        
+                        // Render it
+                        ReactDOM.render(element, document.getElementById('reactRoot'));
+                        
+                        document.getElementById('reactDomTestResult').className = 'success';
+                        document.getElementById('reactDomTestResult').textContent = 
+                            'Success! React DOM rendering is working.';
+                    } catch (error) {
+                        document.getElementById('reactDomTestResult').className = 'error';
+                        document.getElementById('reactDomTestResult').textContent = 
+                            `Error rendering with React DOM: ${error.message}`;
+                        console.error('React DOM error:', error);
+                    }
+                } else {
+                    document.getElementById('reactDomTestResult').className = 'error';
+                    document.getElementById('reactDomTestResult').textContent = 
+                        'Error: React DOM is not available.';
+                }
+            }, 2000);
+        }
+
+        // 4. Error Boundary Test
+        function setupErrorBoundaryTest() {
+            setTimeout(() => {
+                if (window.React && window.ReactDOM) {
+                    // Create Error Boundary component
+                    class ErrorBoundary extends React.Component {
+                        constructor(props) {
+                            super(props);
+                            this.state = { hasError: false, error: null };
+                        }
+                        
+                        static getDerivedStateFromError(error) {
+                            return { hasError: true, error };
+                        }
+                        
+                        render() {
+                            if (this.state.hasError) {
+                                return React.createElement(
+                                    'div',
+                                    { className: 'error' },
+                                    'Error caught by boundary: ' + (this.state.error ? this.state.error.message : 'Unknown error')
+                                );
+                            }
+                            return this.props.children;
+                        }
+                    }
+                    
+                    // Component that can trigger an error
+                    class ErrorTrigger extends React.Component {
+                        constructor(props) {
+                            super(props);
+                            this.state = { shouldError: false };
+                            this.triggerError = this.triggerError.bind(this);
+                        }
+                        
+                        triggerError() {
+                            this.setState({ shouldError: true });
+                        }
+                        
+                        render() {
+                            if (this.state.shouldError) {
+                                throw new Error('This is a test error');
+                            }
+                            
+                            return React.createElement(
+                                'div',
+                                null,
+                                'Click the button to test error boundaries'
+                            );
+                        }
+                    }
+                    
+                    // Render the test component
+                    let errorTriggerComponent;
+                    ReactDOM.render(
+                        React.createElement(
+                            ErrorBoundary,
+                            null,
+                            React.createElement(ErrorTrigger, {
+                                ref: (component) => { errorTriggerComponent = component; }
+                            })
+                        ),
+                        document.getElementById('reactRoot')
+                    );
+                    
+                    // Set up the button to trigger errors
+                    document.getElementById('triggerErrorBtn').onclick = function() {
+                        if (errorTriggerComponent) {
+                            errorTriggerComponent.triggerError();
+                            document.getElementById('errorBoundaryTestResult').className = 'success';
+                            document.getElementById('errorBoundaryTestResult').textContent = 
+                                'Error boundary test triggered. Check if the error was caught.';
+                        }
+                    };
+                    
+                    document.getElementById('errorBoundaryTestResult').className = 'info';
+                    document.getElementById('errorBoundaryTestResult').textContent = 
+                        'Error boundary test ready. Click "Trigger Error" to test.';
+                }
+            }, 2500);
+        }
+
+        // Start the tests
+        loadReactForTesting();
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<svg width="400" height="200" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="200" fill="url(#gradient)"/>
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="400" y2="200">
+      <stop offset="0%" stop-color="#E61E26"/>
+      <stop offset="100%" stop-color="#c71920"/>
+    </linearGradient>
+  </defs>
+  <text x="200" y="110" font-family="Arial" font-size="48" fill="white" text-anchor="middle" font-weight="bold">GO7</text>
+  <text x="200" y="140" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Premium Delivery Experience</text>
+</svg>

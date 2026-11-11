@@ -1,0 +1,10 @@
+{
+  "name": "go7-direct-server",
+  "version": "1.0.0",
+  "description": "Simple direct server to bypass service worker issues",
+  "main": "direct-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node direct-server.js"
+  }
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet CSS Preload Diagnostic</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; padding: 2rem; max-width: 800px; margin: 0 auto; }
+    h1 { color: #E53935; }
+    pre { background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    .result { margin-top: 1rem; padding: 1rem; border-radius: 4px; }
+    .success { background: #e8f5e9; border: 1px solid #a5d6a7; }
+    .warning { background: #fff8e1; border: 1px solid #ffe082; }
+    .error { background: #ffebee; border: 1px solid #ef9a9a; }
+    button { background: #E53935; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #D32F2F; }
+  </style>
+</head>
+<body>
+  <h1>Leaflet CSS Preload Diagnostic</h1>
+  
+  <div>
+    <button id="checkLinks">Check for Preload Links</button>
+    <button id="fixLinks">Fix Preload Issues</button>
+  </div>
+  
+  <div id="results"></div>
+  
+  <script>
+    const resultsDiv = document.getElementById('results');
+    
+    function addResult(message, type = 'info') {
+      const div = document.createElement('div');
+      div.className = `result ${type}`;
+      div.innerHTML = message;
+      resultsDiv.appendChild(div);
+    }
+    
+    document.getElementById('checkLinks').addEventListener('click', function() {
+      resultsDiv.innerHTML = '';
+      addResult('<h2>Checking link elements in head...</h2>');
+      
+      const links = document.querySelectorAll('link');
+      let leafletCssPreloadFound = false;
+      
+      addResult(`<p>Found ${links.length} link elements in document head</p>`);
+      
+      links.forEach((link, index) => {
+        const rel = link.getAttribute('rel');
+        const href = link.getAttribute('href');
+        
+        if (href && href.includes('leaflet.css')) {
+          const asValue = link.getAttribute('as');
+          
+          if (rel === 'preload') {
+            leafletCssPreloadFound = true;
+            addResult(`
+              <p><strong>Leaflet CSS preload found (link #${index + 1}):</strong></p>
+              <pre>rel: "${rel}"
+href: "${href}"
+as: "${asValue || 'not set'}"</pre>
+            `, 'warning');
+          } else {
+            addResult(`
+              <p><strong>Leaflet CSS link found (link #${index + 1}):</strong></p>
+              <pre>rel: "${rel}"
+href: "${href}"</pre>
+            `, 'success');
+          }
+        }
+      });
+      
+      if (!leafletCssPreloadFound) {
+        addResult('<p><strong>No Leaflet CSS preload links found!</strong> This is good.</p>', 'success');
+      }
+      
+      // Check for programmatically added links
+      addResult('<h2>Checking for dynamic preload handlers...</h2>');
+      
+      const preloadFunctions = [
+        'preloadLeafletCSS',
+        'preloadMapResources',
+        'preloadLeafletAssets'
+      ];
+      
+      preloadFunctions.forEach(funcName => {
+        if (window[funcName] || typeof eval(`typeof ${funcName} !== 'undefined'`) !== 'undefined') {
+          addResult(`<p>Found potential preload function: ${funcName}</p>`, 'warning');
+        }
+      });
+      
+      // Check if Leaflet CSS is actually loaded
+      const styleSheets = document.styleSheets;
+      let leafletCssLoaded = false;
+      
+      for (let i = 0; i < styleSheets.length; i++) {
+        try {
+          const href = styleSheets[i].href;
+          if (href && href.includes('leaflet.css')) {
+            leafletCssLoaded = true;
+            addResult(`<p>Leaflet CSS is properly loaded as stylesheet: ${href}</p>`, 'success');
+          }
+        } catch (e) {
+          // CORS restrictions might prevent accessing some stylesheets
+        }
+      }
+      
+      if (!leafletCssLoaded) {
+        addResult('<p>Leaflet CSS not found in loaded stylesheets!</p>', 'error');
+      }
+    });
+    
+    document.getElementById('fixLinks').addEventListener('click', function() {
+      resultsDiv.innerHTML = '';
+      
+      // Find and fix any preload links
+      const links = document.querySelectorAll('link[rel="preload"][href*="leaflet.css"]');
+      
+      if (links.length === 0) {
+        addResult('<p>No Leaflet CSS preload links found to fix!</p>', 'success');
+        return;
+      }
+      
+      addResult(`<p>Found ${links.length} Leaflet CSS preload links to fix.</p>`);
+      
+      links.forEach((link, index) => {
+        // Remove the preload link
+        link.parentNode.removeChild(link);
+        addResult(`<p>Removed preload link #${index + 1}</p>`, 'success');
+      });
+      
+      // Check if stylesheet exists, if not add it
+      const styleLinks = document.querySelectorAll('link[href*="leaflet.css"][rel="stylesheet"]');
+      
+      if (styleLinks.length === 0) {
+        addResult('<p>No Leaflet CSS stylesheet found, adding one...</p>');
+        
+        const newLink = document.createElement('link');
+        newLink.rel = 'stylesheet';
+        newLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(newLink);
+        
+        addResult('<p>Added Leaflet CSS as proper stylesheet</p>', 'success');
+      } else {
+        addResult('<p>Leaflet CSS already loaded as stylesheet</p>', 'success');
+      }
+      
+      addResult('<p><strong>Fix completed!</strong> Refresh the page to verify.</p>', 'success');
+    });
+  </script>
+</body>
+</html>

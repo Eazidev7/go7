@@ -1,0 +1,205 @@
+/* Measurement Selector Component Styles */
+.measurement-selector {
+  margin: 16px 0;
+  padding: 16px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #F0F0F0;
+}
+
+.measurement-header {
+  margin-bottom: 16px;
+}
+
+.measurement-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.measurement-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4A4A4A;
+  margin-bottom: 8px;
+}
+
+/* Variant Selector */
+.measurement-variant-selector {
+  margin-bottom: 16px;
+}
+
+.variant-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.variant-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.variant-btn:hover {
+  border-color: #E83A2E;
+  background: #FFF5F5;
+}
+
+.variant-btn.selected {
+  border-color: #E83A2E;
+  background: #E83A2E;
+  color: #FFFFFF;
+}
+
+.variant-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.variant-label {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.variant-price {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Quantity Selectors */
+.measurement-quantity-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spoon-stepper,
+.tuber-stepper,
+.pack-stepper,
+.piece-stepper,
+.custom-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px;
+}
+
+.stepper-btn {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #E83A2E;
+  background: #FFFFFF;
+  color: #E83A2E;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper-btn:hover:not(:disabled) {
+  background: #E83A2E;
+  color: #FFFFFF;
+}
+
+.stepper-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quantity-display {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1A1A1A;
+  min-width: 60px;
+  text-align: center;
+  padding: 12px 16px;
+  background: #F8F8F8;
+  border-radius: 8px;
+}
+
+.quantity-hint {
+  font-size: 12px;
+  color: #777777;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* KG Input */
+.kg-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.kg-input-field {
+  width: 120px;
+  padding: 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  background: #FFFFFF;
+  transition: border-color 0.2s ease;
+}
+
+.kg-input-field:focus {
+  outline: none;
+  border-color: #E83A2E;
+}
+
+.unit-suffix {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .measurement-selector {
+    margin: 12px 0;
+    padding: 12px;
+  }
+  
+  .variant-buttons {
+    gap: 6px;
+  }
+  
+  .variant-btn {
+    padding: 10px 12px;
+  }
+  
+  .stepper-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .quantity-display {
+    font-size: 20px;
+    min-width: 50px;
+    padding: 10px 12px;
+  }
+  
+  .kg-input-field {
+    width: 100px;
+    padding: 10px 12px;
+  }
+}

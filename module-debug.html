@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Module Debug Tool</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2 {
+            border-bottom: 2px solid #eaecef;
+            padding-bottom: 0.3em;
+            margin-top: 24px;
+        }
+        .success {
+            color: #22863a;
+            background-color: #f0fff4;
+            border: 1px solid #34d058;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .error {
+            color: #b31d28;
+            background-color: #ffeef0;
+            border: 1px solid #d73a49;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .warning {
+            color: #735c0f;
+            background-color: #fffbdd;
+            border: 1px solid #b08800;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .info {
+            color: #003c8f;
+            background-color: #e6f7ff;
+            border: 1px solid #2196f3;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f6f8fa;
+        }
+        .hidden {
+            display: none;
+        }
+        .test-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: 10px;
+        }
+        .flex-row {
+            display: flex;
+            align-items: center;
+        }
+        button {
+            background-color: #0366d6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0255c2;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 4px;
+            padding: 16px;
+            overflow: auto;
+        }
+        #moduleLoader {
+            margin-top: 20px;
+        }
+        #scriptUrl {
+            padding: 8px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .icon-item {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #eaecef;
+            border-radius: 4px;
+        }
+        .icon-item img {
+            max-width: 64px;
+            max-height: 64px;
+        }
+        .icon-item p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+        }
+        #manifestJson {
+            max-height: 300px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Go7 Module Debug Tool</h1>
+    <p>This tool helps diagnose issues with ES modules, manifest files, and icons in your Go7 application.</p>
+
+    <div class="test-section">
+        <h2>1. Server Configuration Test</h2>
+        <div id="serverConfigResult" class="info">Testing server configuration...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. MIME Type Test</h2>
+        <p>Tests if the server is correctly serving JavaScript files with the proper MIME types.</p>
+        <div id="mimeTypeResult" class="info">Testing MIME types...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. ES Module Test</h2>
+        <p>Tests if ES modules can be properly imported.</p>
+        <div id="moduleTestResult" class="info">Testing ES modules...</div>
+        <div id="moduleOutput"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Web Manifest Test</h2>
+        <p>Tests if the web manifest file is properly loaded.</p>
+        <div id="manifestTestResult" class="info">Testing web manifest...</div>
+        <pre id="manifestJson" class="hidden"></pre>
+        <div id="manifestIcons" class="hidden">
+            <h3>Icons from Manifest</h3>
+            <div class="icon-grid" id="iconGrid"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Custom Module Loader</h2>
+        <p>Test loading a specific module:</p>
+        <div>
+            <input type="text" id="scriptUrl" placeholder="Path to module (e.g., /components/app.jsx)">
+            <button onclick="loadCustomModule()">Load Module</button>
+        </div>
+        <div id="customModuleResult" class="hidden"></div>
+    </div>
+
+    <script type="module">
+        // 1. Server Configuration Test
+        async function testServerConfig() {
+            try {
+                const response = await fetch('/server-info');
+                if (response.ok) {
+                    const info = await response.json();
+                    document.getElementById('serverConfigResult').className = 'success';
+                    document.getElementById('serverConfigResult').innerHTML = 
+                        `<strong>Success!</strong> Server is correctly configured.<br>
+                        Version: ${info.version || 'Unknown'}<br>
+                        MIME types configured: ${info.mimeTypes ? 'Yes' : 'No'}`;
+                } else {
+                    document.getElementById('serverConfigResult').className = 'warning';
+                    document.getElementById('serverConfigResult').textContent = 
+                        `Server info endpoint not available. This is not critical but indicates the server may not have the latest debugging features.`;
+                }
+            } catch (error) {
+                document.getElementById('serverConfigResult').className = 'error';
+                document.getElementById('serverConfigResult').textContent = 
+                    `Error checking server configuration: ${error.message}`;
+            }
+        }
+        
+        // 2. MIME Type Test
+        async function testMimeTypes() {
+            try {
+                // Test a plain JS file
+                const jsResponse = await fetch('/mime-test.js');
+                const jsContentType = jsResponse.headers.get('content-type');
+                
+                // Test a JSX file
+                const jsxResponse = await fetch('/mime-test.jsx');
+                const jsxContentType = jsxResponse.headers.get('content-type');
+                
+                let status = 'success';
+                let message = '<strong>Success!</strong> All MIME types are correctly configured:<br>';
+                
+                if (!jsContentType || !jsContentType.includes('javascript')) {
+                    status = 'error';
+                    message = 'Error: JavaScript files are not served with the correct MIME type.<br>';
+                    message += `Expected: application/javascript, Got: ${jsContentType || 'none'}<br>`;
+                } else {
+                    message += `.js files: ${jsContentType}<br>`;
+                }
+                
+                if (!jsxContentType || !jsxContentType.includes('javascript')) {
+                    status = status === 'success' ? 'warning' : 'error';
+                    message += 'Warning: JSX files are not served with the correct MIME type.<br>';
+                    message += `Expected: application/javascript, Got: ${jsxContentType || 'none'}<br>`;
+                } else {
+                    message += `.jsx files: ${jsxContentType}<br>`;
+                }
+                
+                document.getElementById('mimeTypeResult').className = status;
+                document.getElementById('mimeTypeResult').innerHTML = message;
+            } catch (error) {
+                document.getElementById('mimeTypeResult').className = 'error';
+                document.getElementById('mimeTypeResult').innerHTML = 
+                    `Error testing MIME types: ${error.message}<br>
+                    This may happen if the mime-test.js and mime-test.jsx files don't exist in your root directory.`;
+            }
+        }
+        
+        // 3. ES Module Test
+        async function testEsModules() {
+            try {
+                const module = await import('./test-module.js');
+                if (module && typeof module.default === 'function') {
+                    const result = module.default();
+                    document.getElementById('moduleTestResult').className = 'success';
+                    document.getElementById('moduleTestResult').textContent = 
+                        'Success! ES modules are working correctly.';
+                    document.getElementById('moduleOutput').innerHTML = 
+                        `<pre>Module output: ${result}</pre>`;
+                } else {
+                    document.getElementById('moduleTestResult').className = 'warning';
+                    document.getElementById('moduleTestResult').textContent = 
+                        'Module loaded but does not have the expected structure.';
+                }
+            } catch (error) {
+                document.getElementById('moduleTestResult').className = 'error';
+                document.getElementById('moduleTestResult').innerHTML = 
+                    `Error loading ES module: ${error.message}<br>
+                    <small>This may happen if test-module.js doesn't exist in your root directory or if there's a MIME type issue.</small>`;
+                console.error('Module loading error:', error);
+            }
+        }
+        
+        // 4. Web Manifest Test
+        async function testWebManifest() {
+            try {
+                const manifestLink = document.querySelector('link[rel="manifest"]');
+                if (!manifestLink) {
+                    document.getElementById('manifestTestResult').className = 'error';
+                    document.getElementById('manifestTestResult').textContent = 
+                        'Error: No manifest link found in the HTML.';
+                    return;
+                }
+                
+                const manifestUrl = manifestLink.href;
+                const response = await fetch(manifestUrl);
+                
+                if (!response.ok) {
+                    document.getElementById('manifestTestResult').className = 'error';
+                    document.getElementById('manifestTestResult').textContent = 
+                        `Error: Failed to load manifest from ${manifestUrl}. Status: ${response.status}`;
+                    return;
+                }
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    document.getElementById('manifestTestResult').className = 'warning';
+                    document.getElementById('manifestTestResult').textContent = 
+                        `Warning: Manifest is not served with the correct MIME type. Expected: application/json, Got: ${contentType || 'none'}`;
+                }
+                
+                const manifest = await response.json();
+                document.getElementById('manifestJson').textContent = JSON.stringify(manifest, null, 2);
+                document.getElementById('manifestJson').classList.remove('hidden');
+                
+                if (manifest.icons && manifest.icons.length > 0) {
+                    document.getElementById('manifestTestResult').className = 'success';
+                    document.getElementById('manifestTestResult').textContent = 
+                        `Success! Manifest loaded correctly with ${manifest.icons.length} icons.`;
+                    
+                    // Display icons
+                    document.getElementById('manifestIcons').classList.remove('hidden');
+                    const iconGrid = document.getElementById('iconGrid');
+                    iconGrid.innerHTML = '';
+                    
+                    manifest.icons.forEach(icon => {
+                        const iconItem = document.createElement('div');
+                        iconItem.className = 'icon-item';
+                        
+                        const img = document.createElement('img');
+                        img.src = icon.src;
+                        img.alt = `Icon ${icon.sizes}`;
+                        img.onerror = function() {
+                            this.src = '/fallback-icon.png';
+                            this.alt = 'Failed to load';
+                            this.style.opacity = '0.3';
+                        };
+                        
+                        const size = document.createElement('p');
+                        size.textContent = icon.sizes;
+                        
+                        const path = document.createElement('p');
+                        path.textContent = icon.src;
+                        
+                        iconItem.appendChild(img);
+                        iconItem.appendChild(size);
+                        iconItem.appendChild(path);
+                        iconGrid.appendChild(iconItem);
+                    });
+                } else {
+                    document.getElementById('manifestTestResult').className = 'warning';
+                    document.getElementById('manifestTestResult').textContent = 
+                        'Warning: Manifest loaded but no icons found in the manifest.';
+                }
+            } catch (error) {
+                document.getElementById('manifestTestResult').className = 'error';
+                document.getElementById('manifestTestResult').textContent = 
+                    `Error testing web manifest: ${error.message}`;
+                console.error('Manifest error:', error);
+            }
+        }
+
+        // Run all tests
+        testServerConfig();
+        testMimeTypes();
+        testEsModules();
+        testWebManifest();
+    </script>
+
+    <script>
+        // 5. Custom Module Loader
+        async function loadCustomModule() {
+            const url = document.getElementById('scriptUrl').value.trim();
+            if (!url) {
+                alert('Please enter a module path');
+                return;
+            }
+
+            const resultDiv = document.getElementById('customModuleResult');
+            resultDiv.classList.remove('hidden');
+            resultDiv.className = 'info';
+            resultDiv.textContent = 'Loading module...';
+
+            try {
+                // Create a dynamic script element
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.textContent = `
+                    try {
+                        const mod = await import('${url}');
+                        document.getElementById('customModuleResult').className = 'success';
+                        document.getElementById('customModuleResult').innerHTML = 
+                            '<strong>Success!</strong> Module loaded correctly.<br>' +
+                            'Module exports: ' + Object.keys(mod).join(', ');
+                    } catch (err) {
+                        document.getElementById('customModuleResult').className = 'error';
+                        document.getElementById('customModuleResult').innerHTML = 
+                            '<strong>Error loading module:</strong> ' + err.message;
+                        console.error('Custom module error:', err);
+                    }
+                `;
+                document.body.appendChild(script);
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = `Error setting up module loader: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

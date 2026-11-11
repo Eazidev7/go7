@@ -1,0 +1,375 @@
+/* Go7Map.css - Chowdeck-style map component styling */
+
+.go7-map-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fef7ed; /* Cream background */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 2px solid #fbbf24;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.go7-leaflet-map {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Remove default Leaflet styles */
+.go7-leaflet-map .leaflet-control-container {
+  display: none;
+}
+
+.go7-leaflet-map .leaflet-top,
+.go7-leaflet-map .leaflet-bottom {
+  z-index: 500;
+}
+
+/* Custom tooltip styling */
+.go7-tooltip {
+  background: #1f2937 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.go7-tooltip::before {
+  border-top-color: #1f2937 !important;
+}
+
+/* Price pill overlay */
+.go7-price-pill {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 24px;
+  padding: 12px 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 2px solid #f59e0b;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 0 0 0 rgba(245, 158, 11, 0.4);
+  }
+  50% { 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 0 0 8px rgba(245, 158, 11, 0.1);
+  }
+}
+
+.price-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.price-label {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Rider profile chip */
+.go7-rider-chip {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 2px solid #e5e7eb;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 280px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.98);
+  transition: all 0.3s ease;
+}
+
+.go7-rider-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  border-color: #f59e0b;
+}
+
+.rider-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E30613 0%, #ff4757 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(227, 6, 19, 0.3);
+}
+
+.rider-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rider-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.rider-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.stars {
+  font-size: 12px;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.deliveries {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.rider-status {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.whatsapp-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25d366 0%, #20ba5a 100%);
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-btn:focus {
+  outline: 2px solid #25d366;
+  outline-offset: 2px;
+}
+
+.whatsapp-btn:focus-visible {
+  outline: 2px solid #25d366;
+  outline-offset: 2px;
+}
+
+/* Status bar */
+.go7-status-bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.status-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.eta {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #E30613 0%, #ff4757 100%);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .go7-price-pill {
+    bottom: 80px;
+    padding: 10px 16px;
+  }
+  
+  .price-amount {
+    font-size: 16px;
+  }
+  
+  .price-label {
+    font-size: 10px;
+  }
+  
+  .go7-rider-chip {
+    bottom: 15px;
+    right: 15px;
+    left: 15px;
+    max-width: none;
+    padding: 12px;
+  }
+  
+  .rider-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .rider-name {
+    font-size: 13px;
+  }
+  
+  .go7-status-bar {
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 10px 12px;
+  }
+  
+  .eta {
+    font-size: 13px;
+  }
+  
+  .progress-text {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .go7-map-container {
+    border-radius: 12px;
+  }
+  
+  .go7-price-pill {
+    bottom: 60px;
+    padding: 8px 14px;
+  }
+  
+  .price-amount {
+    font-size: 15px;
+  }
+  
+  .go7-rider-chip {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .rider-info {
+    min-width: 0;
+  }
+  
+  .rider-name {
+    font-size: 12px;
+  }
+  
+  .whatsapp-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}
+
+/* Animation for marker movement */
+.go7-leaflet-map .leaflet-marker-icon {
+  transition: none !important; /* Let our animation handle movement */
+}
+
+/* Custom polyline dash animation */
+.go7-leaflet-map .leaflet-interactive {
+  stroke-dashoffset: 0;
+  animation: dash-flow 3s linear infinite;
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -14; /* Length of one dash cycle (6 + 8) */
+  }
+}
+
+/* Custom marker styling */
+.go7-custom-marker {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.go7-custom-marker:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}

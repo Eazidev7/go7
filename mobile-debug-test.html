@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            font-size: 14px;
+        }
+        .debug-box {
+            background: #111;
+            border: 1px solid #0f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            background: #E30613;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        .warning { color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Go7 Mobile Debug Test</h1>
+    
+    <div class="debug-box">
+        <h3>Current Status:</h3>
+        <div id="status">Checking...</div>
+    </div>
+    
+    <div class="debug-box">
+        <h3>Direct Test Links:</h3>
+        <a href="http://localhost:5173/" class="button">Normal Homepage</a>
+        <a href="http://localhost:5173/?forceMobile=true" class="button">Force Mobile</a>
+        <a href="http://localhost:5173/?forceMobile=false" class="button">Force Desktop</a>
+    </div>
+    
+    <div class="debug-box">
+        <h3>Cache Clearing Actions:</h3>
+        <button onclick="clearCaches()" class="button">Clear Browser Cache</button>
+        <button onclick="hardRefresh()" class="button">Hard Refresh</button>
+        <button onclick="checkConsole()" class="button">Check Console</button>
+    </div>
+    
+    <div class="debug-box">
+        <h3>Debug Info:</h3>
+        <div id="debugInfo">Loading...</div>
+    </div>
+
+    <script>
+        function updateStatus() {
+            const width = window.innerWidth;
+            const isMobile = width < 768;
+            const statusDiv = document.getElementById('status');
+            const debugDiv = document.getElementById('debugInfo');
+            
+            const info = `
+Screen Width: ${width}px
+Should be Mobile: ${isMobile ? 'YES' : 'NO'}
+User Agent: ${navigator.userAgent}
+Timestamp: ${new Date().toLocaleTimeString()}
+            `.trim();
+            
+            statusDiv.innerHTML = `
+                <span class="${isMobile ? 'success' : 'warning'}">
+                    ${isMobile ? '📱 MOBILE DETECTED' : '🖥️ DESKTOP DETECTED'}
+                </span>
+            `;
+            
+            debugDiv.innerHTML = info.replace(/\\n/g, '<br>');
+            
+            console.log('🐛 Debug Info:', {
+                width,
+                isMobile,
+                userAgent: navigator.userAgent,
+                href: window.location.href
+            });
+        }
+        
+        async function clearCaches() {
+            try {
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(
+                        cacheNames.map(cacheName => caches.delete(cacheName))
+                    );
+                    console.log('✅ Browser caches cleared');
+                    alert('Browser caches cleared! Refresh the page.');
+                } else {
+                    alert('Cache API not supported');
+                }
+            } catch (error) {
+                console.error('❌ Error clearing caches:', error);
+                alert('Error clearing caches: ' + error.message);
+            }
+        }
+        
+        function hardRefresh() {
+            window.location.reload(true);
+        }
+        
+        function checkConsole() {
+            console.clear();
+            console.log('🐛 MOBILE DEBUG CHECK');
+            console.log('Screen width:', window.innerWidth);
+            console.log('Should be mobile:', window.innerWidth < 768);
+            console.log('Current URL:', window.location.href);
+            console.log('Opening Go7 app...');
+            window.open('http://localhost:5173/?forceMobile=true', '_blank');
+        }
+        
+        // Update on load and resize
+        document.addEventListener('DOMContentLoaded', updateStatus);
+        window.addEventListener('resize', updateStatus);
+        
+        // Auto-refresh every 5 seconds
+        setInterval(updateStatus, 5000);
+    </script>
+</body>
+</html>

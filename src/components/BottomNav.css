@@ -1,0 +1,85 @@
+/* 🎨 GO7 BOTTOM NAVIGATION - ORIGINAL DESIGN */
+/* Exact replica matching the Go7 mobile app screenshot */
+/* White bar, red active tab with rounded corners, icon above text */
+
+nav.go7-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  display: none; /* Hidden on desktop by default */
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid #e5e5e5;
+  z-index: 10000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Show only on mobile screens */
+@media (max-width: 768px) {
+  nav.go7-bottom-nav {
+    display: flex;
+  }
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #555555;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  padding: 6px 12px;
+  min-width: 60px;
+  font-weight: 500;
+}
+
+/* Active state - Red background with white text/icon */
+.nav-item.active {
+  background: #d90429;
+  color: #ffffff;
+}
+
+.nav-item.active svg {
+  color: #ffffff;
+}
+
+/* Icon styling */
+.nav-item svg {
+  font-size: 20px;
+  margin-bottom: 3px;
+  color: #555555;
+  transition: color 0.3s ease;
+}
+
+/* Text label */
+.nav-item span {
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* Hover effect for non-active items */
+.nav-item:not(.active):hover {
+  color: #d90429;
+}
+
+.nav-item:not(.active):hover svg {
+  color: #d90429;
+}
+
+/* Tap effect */
+.nav-item:active {
+  transform: scale(0.95);
+}
+
+/* Safe area padding for iOS notch */
+@media (max-width: 768px) {
+  nav.go7-bottom-nav {
+    padding-bottom: calc(10px + var(--go7-safe-bottom, env(safe-area-inset-bottom, 0px)));
+  }
+}

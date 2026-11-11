@@ -1,0 +1,215 @@
+{
+  "fetchedAt": "2026-07-11T21:53:26.326Z",
+  "balance": [
+    {
+      "currency": "NGN",
+      "amount": "₦0"
+    }
+  ],
+  "transferBalance": null,
+  "recentTransfers": [],
+  "recentTransactions": [
+    {
+      "reference": "go7_1783060454719",
+      "amount": "₦850",
+      "channel": "bank_transfer",
+      "customer": "maryamabdulmalik330@gmail.com",
+      "paidAt": "2026-07-03T06:35:12.000Z"
+    },
+    {
+      "reference": "go7_1782818385201",
+      "amount": "₦1,950",
+      "channel": "bank_transfer",
+      "customer": "feyisetantobiloba@gmail.com",
+      "paidAt": "2026-06-30T11:20:19.000Z"
+    },
+    {
+      "reference": "go7_order_payment_1768581766748_M8Gol8PxRJbvhVincONS8FJRdFE3",
+      "amount": "₦1,886",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2026-01-16T16:43:50.000Z"
+    },
+    {
+      "reference": "go7_order_payment_1767623133658_aXOuD9NzauRS5bf9Ue5YoJSSGsE2",
+      "amount": "₦2,266",
+      "channel": "bank_transfer",
+      "customer": "feyisetantobiloba@gmail.com",
+      "paidAt": "2026-01-05T14:27:29.000Z"
+    },
+    {
+      "reference": "go7_order_payment_1767405071042_M8Gol8PxRJbvhVincONS8FJRdFE3",
+      "amount": "₦2,810",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2026-01-03T01:52:40.000Z"
+    },
+    {
+      "reference": "go7_order_payment_1767404234077_M8Gol8PxRJbvhVincONS8FJRdFE3",
+      "amount": "₦2,810",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2026-01-03T01:38:40.000Z"
+    },
+    {
+      "reference": "go7_order_payment_1767364333754_M8Gol8PxRJbvhVincONS8FJRdFE3",
+      "amount": "₦7,550",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2026-01-02T14:33:18.000Z"
+    },
+    {
+      "reference": "go7_order_payment_1767362525150_M8Gol8PxRJbvhVincONS8FJRdFE3",
+      "amount": "₦7,550",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2026-01-02T14:03:16.000Z"
+    },
+    {
+      "reference": "090267251204123505934002286688",
+      "amount": "₦500",
+      "channel": "dedicated_nuban",
+      "customer": "7linkz01@gmail.com",
+      "paidAt": "2025-12-04T12:35:12.000Z"
+    },
+    {
+      "reference": "090267251203212314715002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "7linkz01@gmail.com",
+      "paidAt": "2025-12-03T21:23:21.000Z"
+    },
+    {
+      "reference": "090267251203212048507002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "7linkz01@gmail.com",
+      "paidAt": "2025-12-03T21:20:55.000Z"
+    },
+    {
+      "reference": "090267251202235407883002286688",
+      "amount": "₦200",
+      "channel": "dedicated_nuban",
+      "customer": "7linkz01@gmail.com",
+      "paidAt": "2025-12-02T23:54:14.000Z"
+    },
+    {
+      "reference": "090267251128140717143002286688",
+      "amount": "₦300",
+      "channel": "dedicated_nuban",
+      "customer": "7linkz01@gmail.com",
+      "paidAt": "2025-11-28T14:07:24.000Z"
+    },
+    {
+      "reference": "go7_1762105669718",
+      "amount": "₦1,100",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-11-02T17:48:59.000Z"
+    },
+    {
+      "reference": "GO7_1762093209350_M8Gol8PxRJbvhVincONS8FJRdFE3",
+      "amount": "₦1,350",
+      "channel": "bank_transfer",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-11-02T14:24:47.000Z"
+    },
+    {
+      "reference": "090267251101034325591002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-11-01T03:43:32.000Z"
+    },
+    {
+      "reference": "090267251101013808724002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-11-01T01:38:15.000Z"
+    },
+    {
+      "reference": "090267251101010853332002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-11-01T01:08:59.000Z"
+    },
+    {
+      "reference": "090267251031233255314002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-10-31T23:33:02.000Z"
+    },
+    {
+      "reference": "090267251031233203807002286688",
+      "amount": "₦100",
+      "channel": "dedicated_nuban",
+      "customer": "feyistantobiloba@gmail.com",
+      "paidAt": "2025-10-31T23:32:10.000Z"
+    }
+  ],
+  "transferRecipients": [
+    {
+      "code": "RCP_vd0fuy8putdp4g9",
+      "name": "GO7 LOGISTICS LTD",
+      "bank": "OPay Digital Services Limited (OPay)",
+      "account": "****3672"
+    }
+  ],
+  "settlements": [
+    {
+      "status": "success",
+      "amount": "₦837.25",
+      "settledAt": "2026-07-04T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦1,920.75",
+      "settledAt": "2026-07-01T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦1,857.71",
+      "settledAt": "2026-01-17T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦2,232.01",
+      "settledAt": "2026-01-06T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦5,335.7",
+      "settledAt": "2026-01-04T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦14,673.5",
+      "settledAt": "2026-01-03T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦495",
+      "settledAt": "2025-12-05T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦396",
+      "settledAt": "2025-12-04T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦297",
+      "settledAt": "2025-11-29T00:00:00.000Z"
+    },
+    {
+      "status": "success",
+      "amount": "₦2,413.25",
+      "settledAt": "2025-11-03T00:00:00.000Z"
+    }
+  ],
+  "errors": [],
+  "ledgerSample": []
+}

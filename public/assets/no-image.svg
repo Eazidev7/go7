@@ -1,0 +1,15 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="40" cy="40" r="40" fill="#F3F4F6"/>
+  
+  <!-- Food Icon -->
+  <path d="M35 25C35 23.34 36.34 22 38 22C39.66 22 41 23.34 41 25V32H35V25Z" fill="#D1D5DB"/>
+  <path d="M43 25V32H51C52.1 32 53 32.9 53 34V36C53 37.1 52.1 38 51 38H29C27.9 38 27 37.1 27 36V34C27 32.9 27.9 32 29 32H33V25C33 21.13 36.13 18 40 18C43.87 18 47 21.13 47 25V32H43V25Z" fill="#9CA3AF"/>
+  <rect x="35" y="38" width="10" height="20" rx="2" fill="#9CA3AF"/>
+  <circle cx="40" cy="52" r="3" fill="#D1D5DB"/>
+  
+  <!-- "No Image" Text -->
+  <text x="40" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="8" fill="#9CA3AF" text-anchor="middle" font-weight="500">
+    No Image
+  </text>
+</svg>

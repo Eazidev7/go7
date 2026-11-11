@@ -1,0 +1,399 @@
+/* Go7 Live Route + ETA Tracking Styles */
+/* Production-ready CSS with Go7 branding and smooth animations */
+
+.map-tracking {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(230, 30, 37, 0.1);
+  border: 1px solid rgba(230, 30, 37, 0.2);
+  background: #ffffff;
+}
+
+/* Loading State */
+.map-tracking.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.map-loading {
+  text-align: center;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid #e61e25;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.map-loading p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Error State */
+.map-tracking.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fdf2f2;
+  border-color: #e61e25;
+}
+
+.map-error {
+  text-align: center;
+  color: #e61e25;
+}
+
+.error-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.map-error p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Map Markers */
+.rider-marker {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.rider-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  background: rgba(230, 30, 37, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.rider-icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: #e61e25;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 12px rgba(230, 30, 37, 0.4);
+  z-index: 2;
+}
+
+/* Pickup and Dropoff Markers */
+.pickup-marker,
+.dropoff-marker {
+  position: relative;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 8;
+}
+
+.marker-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 4px;
+}
+
+.marker-icon.pickup {
+  background: #28a745;
+}
+
+.marker-icon.dropoff {
+  background: #e61e25;
+}
+
+.marker-label {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Route Points */
+.route-point {
+  width: 4px;
+  height: 4px;
+  background: #e61e25;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.route-point.first,
+.route-point.last {
+  width: 6px;
+  height: 6px;
+  opacity: 0.8;
+  background: #1e1e1e;
+}
+
+/* ETA Banner */
+.eta-banner {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(230, 30, 37, 0.1);
+  z-index: 20;
+}
+
+.eta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.eta-item,
+.distance-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #1e1e1e;
+}
+
+.eta-icon,
+.distance-icon {
+  font-size: 16px;
+}
+
+.eta-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.eta-value,
+.distance-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e61e25;
+}
+
+.traffic-indicator {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+/* Live Indicator */
+.live-indicator {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(230, 30, 37, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(230, 30, 37, 0.3);
+  z-index: 25;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .eta-banner {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 10px 12px;
+  }
+
+  .eta-content {
+    gap: 12px;
+  }
+
+  .eta-value,
+  .distance-value {
+    font-size: 13px;
+  }
+
+  .live-indicator {
+    top: 12px;
+    right: 12px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .rider-marker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .rider-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .rider-pulse {
+    width: 48px;
+    height: 48px;
+  }
+
+  .marker-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .map-tracking {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .map-loading {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    color: #ccc;
+  }
+
+  .eta-banner {
+    background: rgba(30, 30, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .eta-item,
+  .distance-item {
+    color: #ffffff;
+  }
+
+  .eta-label {
+    color: #aaa;
+  }
+}
+
+/* Animation Performance Optimizations */
+.rider-pulse,
+.loading-spinner,
+.live-dot {
+  will-change: transform, opacity;
+}
+
+/* Google Maps Controls Styling */
+.map-tracking .gm-style-cc {
+  display: none !important;
+}
+
+.map-tracking .gm-bundled-control {
+  margin: 8px !important;
+}
+
+.map-tracking .gm-bundled-control > div {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Accessibility */
+.map-tracking {
+  outline: none;
+}
+
+.map-tracking:focus-visible {
+  outline: 2px solid #e61e25;
+  outline-offset: 2px;
+}
+
+.eta-banner,
+.live-indicator {
+  user-select: none;
+}
+
+/* Performance: Reduce animations on slow devices */
+@media (prefers-reduced-motion: reduce) {
+  .rider-pulse,
+  .loading-spinner,
+  .live-dot {
+    animation: none;
+  }
+
+  .live-dot {
+    opacity: 1;
+  }
+}

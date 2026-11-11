@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Debug</title>
+</head>
+<body>
+    <h1>Firebase Environment Debug</h1>
+    <div id="debug"></div>
+
+    <script type="module">
+        const debugDiv = document.getElementById('debug');
+        
+        function log(message) {
+            debugDiv.innerHTML += message + '<br>';
+            console.log(message);
+        }
+        
+        log('🔍 Environment Variables:');
+        log('VITE_FIREBASE_API_KEY: ' + import.meta.env.VITE_FIREBASE_API_KEY);
+        log('VITE_FIREBASE_PROJECT_ID: ' + import.meta.env.VITE_FIREBASE_PROJECT_ID);
+        log('VITE_FIREBASE_AUTH_DOMAIN: ' + import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
+        
+        // Import Firebase config
+        import('./src/firebase/config.js').then(firebase => {
+            log('🔥 Firebase Config Loaded:');
+            log('Auth app options: ' + JSON.stringify(firebase.auth?.app?.options || {}, null, 2));
+            
+            if (firebase.auth?.app?.options?.apiKey) {
+                if (firebase.auth.app.options.apiKey.includes('AIzaSyBsSb4R07PGojhCJ9-zFr7DgGh8xk_0b9k')) {
+                    log('❌ WRONG API KEY DETECTED!');
+                } else if (firebase.auth.app.options.apiKey.includes('AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg')) {
+                    log('✅ CORRECT API KEY DETECTED!');
+                } else {
+                    log('⚠️ UNKNOWN API KEY: ' + firebase.auth.app.options.apiKey);
+                }
+            }
+        }).catch(err => {
+            log('❌ Error loading Firebase: ' + err.message);
+        });
+    </script>
+</body>
+</html>

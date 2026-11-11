@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced DeliveryMap Component - Real-time GPS Tracking</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .feature-table th,
+        .feature-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .feature-table th {
+            background-color: #E30613;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .feature-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            list-style: none;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #E30613;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: -15px;
+            top: 15px;
+            background: #E30613;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        h1 { color: #E30613; border-bottom: 3px solid #E30613; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        h3 { color: #555; }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        
+        .tech-item strong {
+            display: block;
+            color: #E30613;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info-card">
+            <h1>🗺️ Enhanced DeliveryMap Component</h1>
+            <p class="success">✅ Real-time GPS Tracking with Firebase Firestore Integration</p>
+            <p>The DeliveryMap component has been enhanced to support real-time rider GPS updates using Firebase Firestore, replacing the previous simulation with live data streaming.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>🚀 What's New</h2>
+            <div class="highlight">
+                <strong>🔥 Real-time GPS Tracking:</strong> Live rider position updates from Firebase Firestore<br>
+                <strong>📊 Dynamic Status Updates:</strong> Order status changes based on real rider data<br>
+                <strong>🎯 Smooth Animation:</strong> Seamless marker movement with requestAnimationFrame<br>
+                <strong>📡 Connection Status:</strong> Visual indicator for live GPS connectivity<br>
+                <strong>🛠️ Developer Tools:</strong> Testing utilities and GPS simulation functions
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>📋 Component Interface</h2>
+            <div class="code-block">
+interface DeliveryMapProps {
+  pickup: [number, number];    // [longitude, latitude]
+  dropoff: [number, number];   // [longitude, latitude] 
+  fee: string;                 // e.g., "₦1450"
+  riderId: string;             // e.g., "AKEEM01" - Must match Firestore document ID
+}
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🔧 Technology Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <strong>React + TypeScript</strong>
+                    Component framework with type safety
+                </div>
+                <div class="tech-item">
+                    <strong>MapLibre GL</strong>
+                    Interactive map rendering
+                </div>
+                <div class="tech-item">
+                    <strong>Firebase Firestore</strong>
+                    Real-time database for GPS updates
+                </div>
+                <div class="tech-item">
+                    <strong>MapTiler API</strong>
+                    Cartoon-style map tiles
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🏗️ Architecture Overview</h2>
+            <table class="feature-table">
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>Frontend Component</td>
+                    <td>React + TypeScript</td>
+                    <td>Map rendering, state management, UI interactions</td>
+                </tr>
+                <tr>
+                    <td>Real-time Data</td>
+                    <td>Firebase Firestore</td>
+                    <td>Live GPS coordinates and rider status</td>
+                </tr>
+                <tr>
+                    <td>Map Engine</td>
+                    <td>MapLibre GL</td>
+                    <td>Interactive map, markers, animations</td>
+                </tr>
+                <tr>
+                    <td>Map Style</td>
+                    <td>MapTiler</td>
+                    <td>Cartoon-style map tiles and styling</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="info-card">
+            <h2>📊 Firestore Database Structure</h2>
+            <p>The component expects rider data in the following Firestore structure:</p>
+            <div class="code-block">
+Collection: riders
+Document ID: {riderId}
+
+Document Structure:
+{
+  "lat": 7.1475,          // Rider latitude (number)
+  "lng": 3.3619,          // Rider longitude (number)
+  "status": "en_route",   // Order status (string)
+  "timestamp": [Firestore ServerTimestamp],
+  "riderId": "AKEEM01"    // Rider identifier (optional)
+}
+
+Status Values:
+- "accepted"    → Order Accepted
+- "picked_up"   → Order Picked Up  
+- "en_route"    → Rider En Route
+- "delivered"   → Order Delivered
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🚀 Usage Example</h2>
+            <div class="code-block">
+import DeliveryMap from './components/DeliveryMap';
+
+function App() {
+  return (
+    &lt;DeliveryMap 
+      pickup={[3.3619, 7.1475]}    // Pickup coordinates (Abeokuta)
+      dropoff={[3.3700, 7.1530]}   // Dropoff coordinates  
+      fee="₦1450"                  // Delivery fee
+      riderId="AKEEM01"            // Must match Firestore document ID
+    /&gt;
+  );
+}
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🔥 Real-time Features</h2>
+            <table class="feature-table">
+                <tr>
+                    <th>Feature</th>
+                    <th>Description</th>
+                    <th>Implementation</th>
+                </tr>
+                <tr>
+                    <td>📡 Live GPS Updates</td>
+                    <td>Real-time rider position from Firestore</td>
+                    <td>onSnapshot() listener with automatic reconnection</td>
+                </tr>
+                <tr>
+                    <td>🎯 Smooth Animation</td>
+                    <td>Seamless marker movement between coordinates</td>
+                    <td>requestAnimationFrame with interpolation</td>
+                </tr>
+                <tr>
+                    <td>📊 Status Tracking</td>
+                    <td>Dynamic order status updates</td>
+                    <td>Firestore status field mapping to UI steps</td>
+                </tr>
+                <tr>
+                    <td>🔌 Connection Status</td>
+                    <td>Visual indicator for GPS connectivity</td>
+                    <td>Real-time connection state with error handling</td>
+                </tr>
+                <tr>
+                    <td>📍 Custom Markers</td>
+                    <td>PNG icons for pickup, dropoff, rider, landmarks</td>
+                    <td>HTML elements with hover effects and popups</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="info-card">
+            <h2>⚙️ Setup Instructions</h2>
+            <ol class="step-list">
+                <li>
+                    <strong>Firebase Configuration</strong><br>
+                    Ensure your Firebase project is configured with Firestore enabled
+                </li>
+                <li>
+                    <strong>Environment Variables</strong><br>
+                    Set up Firebase config in your environment variables
+                </li>
+                <li>
+                    <strong>Firestore Collection</strong><br>
+                    Create a collection named <code>riders</code> in your Firestore database
+                </li>
+                <li>
+                    <strong>Install Dependencies</strong><br>
+                    <code>npm install maplibre-gl firebase</code>
+                </li>
+                <li>
+                    <strong>Import Component</strong><br>
+                    Import and use the DeliveryMap component in your app
+                </li>
+            </ol>
+        </div>
+
+        <div class="info-card">
+            <h2>🧪 Testing & Development</h2>
+            <p>The component includes comprehensive testing utilities:</p>
+            
+            <h3>📄 Test Files Created:</h3>
+            <ul>
+                <li><strong>RealTimeDeliveryMapTest.tsx</strong> - Interactive test page with simulation controls</li>
+                <li><strong>firestore-rider-gps.ts</strong> - Utility functions for GPS updates and journey simulation</li>
+            </ul>
+
+            <h3>🛠️ Testing Functions:</h3>
+            <div class="code-block">
+// Simulate complete rider journey
+import { simulateRiderJourney } from './utils/firestore-rider-gps';
+await simulateRiderJourney('AKEEM01');
+
+// Manual GPS update
+import { updateRiderGPS } from './utils/firestore-rider-gps';
+await updateRiderGPS('AKEEM01', 7.1500, 3.3660, 'en_route');
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>📱 UI Enhancements</h2>
+            <table class="feature-table">
+                <tr>
+                    <th>UI Element</th>
+                    <th>Purpose</th>
+                    <th>Location</th>
+                </tr>
+                <tr>
+                    <td>🔴 Connection Status</td>
+                    <td>Shows "Live GPS" or "Disconnected"</td>
+                    <td>Top-right corner with pulsing indicator</td>
+                </tr>
+                <tr>
+                    <td>📊 Order Status Tracker</td>
+                    <td>Progress: Accepted → Picked Up → En Route → Delivered</td>
+                    <td>Top center with step progression</td>
+                </tr>
+                <tr>
+                    <td>👤 Rider Info Panel</td>
+                    <td>Displays rider ID and current status</td>
+                    <td>Bottom-left with real-time status updates</td>
+                </tr>
+                <tr>
+                    <td>💰 Fee Display</td>
+                    <td>Delivery fee at route midpoint</td>
+                    <td>Route center with hover effects</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="info-card">
+            <h2>🔧 Production Considerations</h2>
+            <div class="highlight">
+                <h3>⚡ Performance:</h3>
+                <ul>
+                    <li>Automatic cleanup of Firestore listeners</li>
+                    <li>Optimized animation with requestAnimationFrame</li>
+                    <li>Efficient marker updates without re-rendering</li>
+                </ul>
+
+                <h3>🛡️ Error Handling:</h3>
+                <ul>
+                    <li>Connection state monitoring</li>
+                    <li>Graceful fallback for missing rider data</li>
+                    <li>Comprehensive error logging</li>
+                </ul>
+
+                <h3>📊 Monitoring:</h3>
+                <ul>
+                    <li>Console logging for GPS updates</li>
+                    <li>Visual connection status indicator</li>
+                    <li>Status change notifications</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🎯 Next Steps</h2>
+            <ol class="step-list">
+                <li>
+                    <strong>Deploy to Production</strong><br>
+                    The component is production-ready with real-time GPS tracking
+                </li>
+                <li>
+                    <strong>Set up Rider App</strong><br>
+                    Create a rider mobile app that updates GPS coordinates to Firestore
+                </li>
+                <li>
+                    <strong>Add Analytics</strong><br>
+                    Track delivery performance and rider efficiency metrics
+                </li>
+                <li>
+                    <strong>Implement Notifications</strong><br>
+                    Add push notifications for status changes and delivery updates
+                </li>
+            </ol>
+        </div>
+
+        <div class="info-card">
+            <h2>✅ Completion Summary</h2>
+            <p class="success">🎉 The DeliveryMap component has been successfully enhanced with real-time GPS tracking!</p>
+            
+            <h3>📁 Files Created/Updated:</h3>
+            <ul>
+                <li>✅ <strong>src/components/DeliveryMap.tsx</strong> - Enhanced component with Firestore integration</li>
+                <li>✅ <strong>src/utils/firestore-rider-gps.ts</strong> - GPS update utilities and testing functions</li>
+                <li>✅ <strong>src/RealTimeDeliveryMapTest.tsx</strong> - Interactive test page</li>
+                <li>✅ <strong>real-time-delivery-map-docs.html</strong> - This documentation</li>
+            </ul>
+
+            <h3>🚀 Ready for Integration:</h3>
+            <p>The component can be immediately used in any Next.js application with the provided props. It will automatically connect to Firebase Firestore and display real-time rider GPS updates with smooth animations and status tracking.</p>
+        </div>
+    </div>
+</body>
+</html>

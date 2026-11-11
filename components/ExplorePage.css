@@ -1,0 +1,161 @@
+/* GO7 Explore Page - Mobile First Design System */
+
+/* CSS Variables - GO7 Design System */
+:root {
+  /* Primary Colors */
+  --go7-primary: #E83A2E;
+  --go7-primary-light: #FF6B5E;
+  --go7-primary-dark: #C62D22;
+  
+  /* Secondary Colors */
+  --go7-mint: #A8E6C3;
+  --go7-peach: #FFEFE7;
+  --go7-neutral-dark: #202124;
+  
+  /* Grayscale */
+  --go7-white: #FFFFFF;
+  --go7-gray-50: #FAFAFA;
+  --go7-gray-100: #F5F5F5;
+  --go7-gray-200: #EEEEEE;
+  --go7-gray-300: #E0E0E0;
+  --go7-gray-400: #BDBDBD;
+  --go7-gray-500: #9E9E9E;
+  --go7-gray-600: #757575;
+  --go7-gray-700: #616161;
+  --go7-gray-800: #424242;
+  --go7-gray-900: #212121;
+  
+  /* Spacing - 16px base grid */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Typography */
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-md: 16px;
+  --font-lg: 18px;
+  --font-xl: 20px;
+  --font-xxl: 24px;
+  --font-xxxl: 28px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  
+  /* Z-index layers */
+  --z-dropdown: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--go7-gray-50);
+  color: var(--go7-neutral-dark);
+  line-height: 1.5;
+}
+
+/* Explore Page Layout */
+.explore-page {
+  min-height: 100vh;
+  background-color: var(--go7-white);
+}
+
+.explore-content {
+  padding: 0 var(--spacing-md);
+  padding-bottom: var(--spacing-xxl);
+}
+
+.section-spacer {
+  height: var(--spacing-xxl);
+}
+
+/* Section Titles */
+.section-title {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--go7-neutral-dark);
+  margin: 0 0 var(--spacing-md) 0;
+  line-height: 1.3;
+}
+
+/* Loading States */
+.explore-page.loading {
+  padding: var(--spacing-md);
+}
+
+.loading-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.skeleton-header,
+.skeleton-hero,
+.skeleton-categories,
+.skeleton-vendors {
+  background: linear-gradient(90deg, var(--go7-gray-200) 25%, var(--go7-gray-100) 50%, var(--go7-gray-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-lg);
+}
+
+.skeleton-header {
+  height: 60px;
+}
+
+.skeleton-hero {
+  height: 160px;
+}
+
+.skeleton-categories {
+  height: 120px;
+}
+
+.skeleton-vendors {
+  height: 220px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .explore-content {
+    padding: 0 var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .explore-content {
+    padding: 0 var(--spacing-xl);
+  }
+  
+  .section-title {
+    font-size: var(--font-xxl);
+  }
+}

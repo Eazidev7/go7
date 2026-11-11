@@ -1,0 +1,100 @@
+/* Mobile-first responsive design for homepage components */
+
+/* Default: Show desktop hero by default */
+.mobile-home {
+  display: none;
+}
+
+.desktop-hero {
+  display: block;
+}
+
+/* Desktop and larger screens - Show desktop hero */
+@media screen and (min-width: 769px) {
+  .mobile-home {
+    display: none !important;
+  }
+
+  .desktop-hero {
+    display: block !important;
+  }
+}
+
+/* Mobile screens - Show mobile homepage */
+@media screen and (max-width: 768px) {
+  .mobile-home {
+    display: block !important;
+    width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  .desktop-hero {
+    display: none !important;
+  }
+
+  /* Mobile-specific optimizations */
+  .mobile-homepage-container {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure proper touch targets */
+  button,
+  .touchable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* BookDelivery Mobile Optimizations */
+  .book-delivery-container {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .delivery-map-container {
+    height: 60vh !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  .delivery-form-section {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: 40vh !important;
+    overflow-y: auto !important;
+    background: white !important;
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
+    z-index: 1000 !important;
+  }
+
+  .mobile-form-handle {
+    width: 40px !important;
+    height: 4px !important;
+    background: #d1d5db !important;
+    border-radius: 2px !important;
+    margin: 8px auto !important;
+    cursor: pointer !important;
+  }
+
+  .address-input-mobile {
+    font-size: 16px !important;
+    /* Prevent zoom on iOS */
+    padding: 12px 16px !important;
+  }
+
+  .suggestions-list-mobile {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1001 !important;
+    max-height: 200px !important;
+    overflow-y: auto !important;
+  }
+}

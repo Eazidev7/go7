@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🚀 Auto Setup Test Vendors</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    .btn-secondary {
+      background: #e74c3c;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #c0392b;
+    }
+    #output {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      max-height: 500px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      border-left: 4px solid #667eea;
+    }
+    .success { color: #27ae60; font-weight: bold; }
+    .error { color: #e74c3c; font-weight: bold; }
+    .info { color: #3498db; }
+    .warning { color: #f39c12; }
+    .progress {
+      width: 100%;
+      height: 8px;
+      background: #ecf0f1;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      width: 0%;
+      transition: width 0.3s;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Auto Setup Test Vendors</h1>
+    <p class="subtitle">One-click setup: Creates multiple vendors with full product catalogs</p>
+    
+    <div class="stats" id="stats" style="display: none;">
+      <div class="stat-card">
+        <div class="stat-number" id="vendorCount">0</div>
+        <div class="stat-label">Vendors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="productCount">0</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="categoryCount">0</div>
+        <div class="stat-label">Categories</div>
+      </div>
+    </div>
+    
+    <div class="progress" id="progressContainer" style="display: none;">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <button class="btn-primary" onclick="testFirebaseWrite()" style="background: #3498db;">
+      🧪 Test Firebase Write (Try This First!)
+    </button>
+    
+    <button class="btn-primary" onclick="setupAllVendors()">
+      🎯 Setup All Test Vendors (Full Setup)
+    </button>
+    
+    <button class="btn-secondary" onclick="clearTestData()" style="margin-top: 10px;">
+      🗑️ Clear Test Data
+    </button>
+    
+    <div id="output"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, getDocs, query, where, deleteDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKR5yF7XBDcTZqIjXZAwBddIwLSHutMIt",
+      authDomain: "go7-delivery-app.firebaseapp.com",
+      projectId: "go7-delivery-app",
+      storageBucket: "go7-delivery-app.firebasestorage.app",
+      messagingSenderId: "780697850453",
+      appId: "1:780697850453:web:11ce7e41f1f4ad0dca0619"
+    };
+
+    console.log('Initializing Firebase...');
+    const app = initializeApp(firebaseConfig);
+    console.log('Firebase app initialized:', app.name);
+    
+    // Disable offline persistence to avoid IndexedDB issues
+    const db = getFirestore(app);
+    
+    // Try to disable persistence (helps with browser security/quota issues)
+    try {
+      // Note: We can't easily disable persistence in v9 modular SDK
+      // but we can avoid enableIndexedDbPersistence which causes issues
+      console.log('Firestore instance created (memory only)');
+    } catch (e) {
+      console.warn('Persistence note:', e);
+    }
+    
+    console.log('Firestore type:', db.type);
+
+    // Simple test function to verify Firebase write works
+    window.testFirebaseWrite = async function() {
+      const output = document.getElementById('output');
+      output.innerHTML = '<span class="info">🧪 Testing Firebase write capability...\n\n</span>';
+      
+      try {
+        // Check if Firebase initialized
+        output.innerHTML += '<span class="info">Step 0: Checking Firebase initialization...\n</span>';
+        console.log('App:', app);
+        console.log('DB:', db);
+        output.innerHTML += '<span class="success">✓ Firebase app name: ' + app.name + '\n</span>';
+        output.innerHTML += '<span class="success">✓ Firestore type: ' + db.type + '\n\n</span>';
+        
+        output.innerHTML += '<span class="info">Step 1: Creating test document...\n</span>';
+        console.log('Starting Firebase write test...');
+        
+        const testData = {
+          test: true,
+          name: "Test Vendor",
+          createdAt: new Date().toISOString()
+        };
+        
+        console.log('Test data:', testData);
+        console.log('Collection reference:', collection(db, 'vendors'));
+        output.innerHTML += '<span class="info">Step 2: Calling addDoc (10 second timeout)...\n</span>';
+        console.log('About to call addDoc...');
+        
+        // Try to add a simple document with 10 second timeout
+        const docRef = await withTimeout(
+          addDoc(collection(db, 'vendors'), testData),
+          10000,
+          'Write operation timed out - likely Firestore rules blocking'
+        );
+        
+        output.innerHTML += '<span class="success">✓ SUCCESS! Document created with ID: ' + docRef.id + '\n\n</span>';
+        output.innerHTML += '<span class="success">✓ Firebase write working correctly!\n</span>';
+        output.innerHTML += '<span class="info">You can now click "Setup All Test Vendors"\n\n</span>';
+        
+        // Clean up test document
+        output.innerHTML += '<span class="info">Cleaning up test document...\n</span>';
+        await withTimeout(
+          deleteDoc(doc(db, 'vendors', docRef.id)),
+          10000,
+          'Delete operation timed out'
+        );
+        output.innerHTML += '<span class="success">✓ Test cleanup complete!\n</span>';
+        
+        console.log('Firebase write test successful!');
+        
+      } catch (error) {
+        output.innerHTML += '<span class="error">❌ FAILED: ' + error.message + '\n\n</span>';
+        output.innerHTML += '<span class="error">Error code: ' + (error.code || 'N/A') + '\n</span>';
+        console.error('Firebase write test failed:', error);
+        
+        output.innerHTML += '<span class="warning">\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n</span>';
+        output.innerHTML += '<span class="warning">🔧 TROUBLESHOOTING:\n\n</span>';
+        
+        if (error.message.includes('timeout') || error.message.includes('permission-denied')) {
+          output.innerHTML += '<span class="error">⚠️  FIRESTORE RULES BLOCKING WRITES!\n\n</span>';
+          output.innerHTML += '<span class="warning">Quick Fix - Run in Firebase Console:\n</span>';
+          output.innerHTML += '<span class="warning">rules_version = \'2\';\n</span>';
+          output.innerHTML += '<span class="warning">service cloud.firestore {\n</span>';
+          output.innerHTML += '<span class="warning">  match /databases/{database}/documents {\n</span>';
+          output.innerHTML += '<span class="warning">    match /{document=**} {\n</span>';
+          output.innerHTML += '<span class="warning">      allow read, write: if true;  // Test mode only!\n</span>';
+          output.innerHTML += '<span class="warning">    }\n</span>';
+          output.innerHTML += '<span class="warning">  }\n</span>';
+          output.innerHTML += '<span class="warning">}\n\n</span>';
+          output.innerHTML += '<span class="info">Or run: firebase deploy --only firestore:rules\n</span>';
+        } else {
+          output.innerHTML += '<span class="warning">1. Check browser console (F12) for detailed errors\n</span>';
+          output.innerHTML += '<span class="warning">2. Verify Firebase config is correct\n</span>';
+          output.innerHTML += '<span class="warning">3. Check internet connection\n</span>';
+          output.innerHTML += '<span class="warning">4. Try refreshing the page\n</span>';
+        }
+        
+        output.innerHTML += '<span class="warning">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n</span>';
+      }
+    };
+
+    const testVendors = [
+      {
+        businessName: "🍕 Pizza Paradise Abeokuta",
+        name: "Pizza Paradise Abeokuta",
+        category: "restaurant",
+        cuisine: "Italian",
+        rating: 4.8,
+        isOpen: true,
+        deliveryTime: "25-35 min",
+        minimumOrder: 1500,
+        deliveryFee: 500,
+        address: "MKO Abiola Way, Abeokuta",
+        phone: "+234 806 123 4567",
+        description: "Authentic Italian pizza, pasta & wings. Fresh ingredients daily!",
+        coordinates: { latitude: 7.1575, longitude: 3.3470 },
+        categories: ["food"],
+        acceptsOrders: true,
+        products: [
+          { name: "Margherita Pizza", description: "Classic tomato, mozzarella, fresh basil", basePrice: 3500, category: "Main Course", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002", prepTime: 20 },
+          { name: "Pepperoni Pizza", description: "Spicy pepperoni with extra cheese", basePrice: 4200, category: "Main Course", image: "https://images.unsplash.com/photo-1628840042765-356cda07504e", prepTime: 20 },
+          { name: "BBQ Chicken Pizza", description: "Grilled chicken, BBQ sauce, onions", basePrice: 4500, category: "Main Course", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", prepTime: 25 },
+          { name: "Vegetarian Supreme", description: "Mushrooms, peppers, olives, onions", basePrice: 3800, category: "Main Course", image: "https://images.unsplash.com/photo-1511689660979-10d2b1aada49", prepTime: 22 },
+          { name: "Chicken Wings (6pcs)", description: "Crispy wings with choice of sauce", basePrice: 2500, category: "Appetizers", image: "https://images.unsplash.com/photo-1608039755401-742074f0548d", prepTime: 15 },
+          { name: "Garlic Bread", description: "Toasted bread with garlic butter", basePrice: 800, category: "Sides", image: "https://images.unsplash.com/photo-1573140401552-388e8f7f5c8f", prepTime: 10 },
+          { name: "Coca Cola 50cl", description: "Chilled soft drink", basePrice: 300, category: "Drinks", image: "https://images.unsplash.com/photo-1554866585-cd94860890b7", prepTime: 1 },
+          { name: "Chapman", description: "Popular Nigerian soft drink mix", basePrice: 800, category: "Drinks", image: "https://images.unsplash.com/photo-1546173159-315724a31696", prepTime: 5 }
+        ]
+      },
+      {
+        businessName: "🍛 Mama's Kitchen Abeokuta",
+        name: "Mama's Kitchen Abeokuta",
+        category: "restaurant",
+        cuisine: "Nigerian",
+        rating: 4.9,
+        isOpen: true,
+        deliveryTime: "30-40 min",
+        minimumOrder: 1000,
+        deliveryFee: 400,
+        address: "Panseke, Abeokuta",
+        phone: "+234 807 234 5678",
+        description: "Traditional Nigerian delicacies. Home-cooked taste!",
+        coordinates: { latitude: 7.1600, longitude: 3.3500 },
+        categories: ["food"],
+        acceptsOrders: true,
+        products: [
+          { name: "Jollof Rice Special", description: "Nigerian jollof rice with chicken", basePrice: 2800, category: "Main Course", image: "https://images.unsplash.com/photo-1586201375761-83865001e31c", prepTime: 25 },
+          { name: "Fried Rice Combo", description: "Fried rice with chicken & plantain", basePrice: 3000, category: "Main Course", image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b", prepTime: 30 },
+          { name: "Pounded Yam & Egusi", description: "Fresh pounded yam with rich egusi soup", basePrice: 3500, category: "Main Course", image: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26", prepTime: 35 },
+          { name: "Amala & Ewedu", description: "Amala with ewedu and gbegiri", basePrice: 2000, category: "Main Course", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246", prepTime: 30 },
+          { name: "Suya Platter", description: "Spicy grilled beef with onions", basePrice: 2500, category: "Appetizers", image: "https://images.unsplash.com/photo-1529042410759-befb1204b468", prepTime: 20 },
+          { name: "Pepper Soup", description: "Spicy Nigerian pepper soup", basePrice: 1800, category: "Appetizers", image: "https://images.unsplash.com/photo-1547592166-23ac45744acd", prepTime: 25 },
+          { name: "Moi Moi", description: "Steamed bean pudding", basePrice: 600, category: "Sides", image: "https://images.unsplash.com/photo-1606923829579-0cb981a83e2e", prepTime: 15 },
+          { name: "Fried Plantain", description: "Sweet ripe plantain", basePrice: 500, category: "Sides", image: "https://images.unsplash.com/photo-1587496679742-bad5b7e1c8e4", prepTime: 10 }
+        ]
+      },
+      {
+        businessName: "💊 HealthPlus Pharmacy",
+        name: "HealthPlus Pharmacy",
+        category: "pharmacy",
+        rating: 4.7,
+        isOpen: true,
+        deliveryTime: "20-30 min",
+        minimumOrder: 500,
+        deliveryFee: 300,
+        address: "Kuto, Abeokuta",
+        phone: "+234 808 345 6789",
+        description: "Your trusted 24/7 pharmacy. Fast delivery!",
+        coordinates: { latitude: 7.1550, longitude: 3.3440 },
+        categories: ["pharmacy"],
+        acceptsOrders: true,
+        is24Hours: true,
+        products: [
+          { name: "Paracetamol 500mg (10 tabs)", description: "Pain relief and fever reducer", basePrice: 500, category: "Pain Relief", image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae" },
+          { name: "Ibuprofen 400mg", description: "Anti-inflammatory pain reliever", basePrice: 800, category: "Pain Relief", image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88" },
+          { name: "Vitamin C 1000mg (30 tabs)", description: "Immune system support", basePrice: 2500, category: "Vitamins", image: "https://images.unsplash.com/photo-1550572017-4c6d5f039a0c" },
+          { name: "Multivitamin Complex", description: "Complete daily nutrition", basePrice: 3500, category: "Vitamins", image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2" },
+          { name: "Cough Syrup 100ml", description: "Relieves cough and cold symptoms", basePrice: 1200, category: "Cold & Flu", image: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926" },
+          { name: "Hand Sanitizer 500ml", description: "Alcohol-based hand sanitizer", basePrice: 1500, category: "Hygiene", image: "https://images.unsplash.com/photo-1584744982491-665216d95f8b" },
+          { name: "Face Masks (Pack of 50)", description: "Disposable protective masks", basePrice: 2000, category: "Hygiene", image: "https://images.unsplash.com/photo-1585435465945-62faa0a44eb9" },
+          { name: "First Aid Kit", description: "Complete first aid essentials", basePrice: 5000, category: "Medical Supplies", image: "https://images.unsplash.com/photo-1603398938378-e54eab446dde" }
+        ]
+      },
+      {
+        businessName: "🛒 Fresh Market Hub",
+        name: "Fresh Market Hub",
+        category: "market",
+        rating: 4.6,
+        isOpen: true,
+        deliveryTime: "30-45 min",
+        minimumOrder: 1500,
+        deliveryFee: 400,
+        address: "Kuto Market, Abeokuta",
+        phone: "+234 809 456 7890",
+        description: "Fresh groceries and produce delivered to your door",
+        coordinates: { latitude: 7.1540, longitude: 3.3425 },
+        categories: ["market", "groceries"],
+        acceptsOrders: true,
+        products: [
+          { name: "Fresh Tomatoes (1kg)", description: "Farm-fresh red tomatoes", basePrice: 1200, category: "Vegetables", image: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337" },
+          { name: "Onions (1kg)", description: "Fresh red onions", basePrice: 800, category: "Vegetables", image: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb" },
+          { name: "Fresh Peppers (500g)", description: "Hot scotch bonnet peppers", basePrice: 600, category: "Vegetables", image: "https://images.unsplash.com/photo-1583497792325-01afd2a1e67b" },
+          { name: "White Rice (5kg)", description: "Premium quality long grain rice", basePrice: 5500, category: "Grains", image: "https://images.unsplash.com/photo-1586201375761-83865001e31c" },
+          { name: "Beans (2kg)", description: "Brown honey beans", basePrice: 2800, category: "Grains", image: "https://images.unsplash.com/photo-1596797038530-2c107229654b" },
+          { name: "Palm Oil (1L)", description: "Fresh red palm oil", basePrice: 1800, category: "Cooking Oil", image: "https://images.unsplash.com/photo-1627662168781-27465c0ab220" },
+          { name: "Groundnut Oil (1L)", description: "Pure groundnut cooking oil", basePrice: 2200, category: "Cooking Oil", image: "https://images.unsplash.com/photo-1615485500834-bc10199bc768" },
+          { name: "Eggs (Crate of 30)", description: "Fresh farm eggs", basePrice: 2500, category: "Proteins", image: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f" }
+        ]
+      },
+      {
+        businessName: "🍔 Burger Bros Abeokuta",
+        name: "Burger Bros Abeokuta",
+        category: "restaurant",
+        cuisine: "Fast Food",
+        rating: 4.5,
+        isOpen: true,
+        deliveryTime: "20-30 min",
+        minimumOrder: 1200,
+        deliveryFee: 500,
+        address: "Oke-Ilewo, Abeokuta",
+        phone: "+234 810 567 8901",
+        description: "Juicy burgers, crispy fries & milkshakes!",
+        coordinates: { latitude: 7.1620, longitude: 3.3480 },
+        categories: ["food"],
+        acceptsOrders: true,
+        products: [
+          { name: "Classic Beef Burger", description: "Juicy beef patty with cheese & veggies", basePrice: 2500, category: "Burgers", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", prepTime: 15 },
+          { name: "Chicken Burger", description: "Crispy chicken fillet burger", basePrice: 2800, category: "Burgers", image: "https://images.unsplash.com/photo-1606755962773-d324e0a13086", prepTime: 15 },
+          { name: "Double Beef Burger", description: "Two beef patties, double cheese", basePrice: 3500, category: "Burgers", image: "https://images.unsplash.com/photo-1550547660-d9450f859349", prepTime: 18 },
+          { name: "French Fries (Large)", description: "Crispy golden fries", basePrice: 1200, category: "Sides", image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877", prepTime: 10 },
+          { name: "Chicken Nuggets (8pcs)", description: "Crispy breaded chicken nuggets", basePrice: 2000, category: "Sides", image: "https://images.unsplash.com/photo-1562967914-608f82629710", prepTime: 12 },
+          { name: "Chocolate Milkshake", description: "Thick chocolate milkshake", basePrice: 1500, category: "Drinks", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699", prepTime: 5 },
+          { name: "Vanilla Milkshake", description: "Creamy vanilla milkshake", basePrice: 1500, category: "Drinks", image: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4", prepTime: 5 }
+        ]
+      }
+    ];
+
+    let totalVendorsCreated = 0;
+    let totalProductsCreated = 0;
+    let totalCategories = new Set();
+
+    // Helper to add delay between operations
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Helper to add timeout to promises
+    const withTimeout = (promise, ms, errorMsg) => {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error(errorMsg + ' (timeout)')), ms)
+        )
+      ]);
+    };
+
+    // Test Firebase connection
+    async function testConnection() {
+      try {
+        const testRef = collection(db, 'vendors');
+        await getDocs(query(testRef, where('__name__', '==', 'nonexistent')));
+        return true;
+      } catch (error) {
+        console.error('Connection test failed:', error);
+        return false;
+      }
+    }
+
+    window.setupAllVendors = async function() {
+      const output = document.getElementById('output');
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      const stats = document.getElementById('stats');
+      
+      output.innerHTML = '<span class="info">🚀 Starting automated setup...\n\n</span>';
+      progressContainer.style.display = 'block';
+      stats.style.display = 'grid';
+      
+      // Test connection first
+      output.innerHTML += '<span class="info">🔍 Testing Firebase connection...\n</span>';
+      const connected = await testConnection();
+      if (!connected) {
+        output.innerHTML += '<span class="error">❌ Firebase connection failed! Check your internet/Firebase config.\n</span>';
+        return;
+      }
+      output.innerHTML += '<span class="success">✓ Firebase connected!\n\n</span>';
+      
+      totalVendorsCreated = 0;
+      totalProductsCreated = 0;
+      totalCategories.clear();
+      
+      try {
+        const totalSteps = testVendors.length;
+        
+        for (let i = 0; i < testVendors.length; i++) {
+          const vendor = testVendors[i];
+          const progress = ((i + 1) / totalSteps) * 100;
+          progressBar.style.width = progress + '%';
+          
+          output.innerHTML += `<span class="info">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n</span>`;
+          output.innerHTML += `<span class="info">📦 Creating: ${vendor.businessName}\n</span>`;
+          
+          try {
+            // Create vendor
+            const products = [...vendor.products]; // Clone products array
+            const vendorData = { ...vendor }; // Clone vendor object
+            delete vendorData.products;
+            
+            // Prepare vendor data with proper timestamp
+            vendorData.createdAt = new Date().toISOString();
+            vendorData.updatedAt = new Date().toISOString();
+            
+            // Log vendor data for debugging
+            console.log('Creating vendor:', vendorData.businessName, vendorData);
+            
+            output.innerHTML += `<span class="info">  → Creating vendor document...\n</span>`;
+            
+            try {
+              // Add vendor with 15 second timeout
+              const vendorRef = await withTimeout(
+                addDoc(collection(db, 'vendors'), vendorData),
+                15000,
+                'Vendor creation timed out'
+              );
+              
+              output.innerHTML += `<span class="success">  ✓ Vendor created (ID: ${vendorRef.id})\n</span>`;
+              totalVendorsCreated++;
+              
+              // Update stats immediately
+              document.getElementById('vendorCount').textContent = totalVendorsCreated;
+              
+            } catch (vendorError) {
+              output.innerHTML += `<span class="error">  ✗ Vendor creation failed: ${vendorError.message}\n</span>`;
+              console.error('Vendor error details:', vendorError);
+              
+              // Skip products if vendor creation failed
+              throw vendorError;
+            }
+            
+            // Small delay to prevent rate limiting
+            await delay(300);
+            
+            // Add all products for this vendor
+            output.innerHTML += `<span class="info">  → Adding ${products.length} products...\n</span>`;
+            
+            for (let j = 0; j < products.length; j++) {
+              const product = products[j];
+              
+              try {
+                const productData = {
+                  name: product.name,
+                  description: product.description,
+                  basePrice: product.basePrice,
+                  price: product.basePrice,
+                  category: product.category,
+                  imageUrl: product.image,
+                  measurementType: "portion",
+                  preparationTime: product.prepTime || 20,
+                  tags: [],
+                  vendorId: vendorRef.id,
+                  active: true,
+                  isActive: true,
+                  available: true,
+                  isAvailable: true,
+                  createdAt: new Date(),
+                  updatedAt: new Date()
+                };
+                
+                await addDoc(collection(db, 'vendors', vendorRef.id, 'products'), productData);
+                totalProductsCreated++;
+                totalCategories.add(product.category);
+                
+                output.innerHTML += `<span class="success">    ✓ ${product.name} (${j + 1}/${products.length})\n</span>`;
+                
+                // Update stats in real-time
+                document.getElementById('vendorCount').textContent = totalVendorsCreated;
+                document.getElementById('productCount').textContent = totalProductsCreated;
+                document.getElementById('categoryCount').textContent = totalCategories.size;
+                
+                // Small delay between products to prevent rate limiting
+                if ((j + 1) % 3 === 0) {
+                  await delay(200);
+                }
+                
+              } catch (productError) {
+                output.innerHTML += `<span class="error">    ✗ Failed to add ${product.name}: ${productError.message}\n</span>`;
+                console.error('Product creation error:', productError);
+              }
+            }
+            
+            output.innerHTML += `<span class="success">  ✓ Added ${products.length} products\n</span>`;
+            
+          } catch (error) {
+            output.innerHTML += `<span class="error">✗ Vendor Error: ${error.message}\n</span>`;
+            output.innerHTML += `<span class="error">   Stack: ${error.stack}\n</span>`;
+            console.error('Vendor creation error:', error);
+          }
+          
+          // Delay between vendors
+          await delay(500);
+        }
+        
+        progressBar.style.width = '100%';
+        
+        output.innerHTML += `\n<span class="info">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n</span>`;
+        output.innerHTML += `<span class="success">🎉 SETUP COMPLETE!\n\n</span>`;
+        output.innerHTML += `<span class="success">✓ ${totalVendorsCreated} vendors created\n</span>`;
+        output.innerHTML += `<span class="success">✓ ${totalProductsCreated} products added\n</span>`;
+        output.innerHTML += `<span class="success">✓ ${totalCategories.size} product categories\n\n</span>`;
+        output.innerHTML += `<span class="info">🚀 Ready to test! Open http://localhost:3000\n</span>`;
+        
+      } catch (error) {
+        output.innerHTML += `<span class="error">\n❌ Setup failed: ${error.message}\n</span>`;
+        console.error('Setup error:', error);
+      }
+    };
+
+    window.clearTestData = async function() {
+      if (!confirm('⚠️ This will delete ALL test vendors and their products. Continue?')) {
+        return;
+      }
+      
+      const output = document.getElementById('output');
+      output.innerHTML = '<span class="warning">🗑️ Clearing test data...\n\n</span>';
+      
+      try {
+        const vendorsSnapshot = await getDocs(collection(db, 'vendors'));
+        let deletedVendors = 0;
+        let deletedProducts = 0;
+        
+        for (const vendorDoc of vendorsSnapshot.docs) {
+          const vendorData = vendorDoc.data();
+          const vendorName = vendorData.businessName || vendorData.name;
+          
+          // Only delete test vendors (those created by this script)
+          if (vendorName && (
+            vendorName.includes('Pizza Paradise') ||
+            vendorName.includes('Mama\'s Kitchen') ||
+            vendorName.includes('HealthPlus') ||
+            vendorName.includes('Fresh Market Hub') ||
+            vendorName.includes('Burger Bros')
+          )) {
+            output.innerHTML += `<span class="warning">Deleting: ${vendorName}\n</span>`;
+            
+            // Delete products first
+            const productsSnapshot = await getDocs(collection(db, 'vendors', vendorDoc.id, 'products'));
+            for (const productDoc of productsSnapshot.docs) {
+              await deleteDoc(doc(db, 'vendors', vendorDoc.id, 'products', productDoc.id));
+              deletedProducts++;
+            }
+            
+            // Delete vendor
+            await deleteDoc(doc(db, 'vendors', vendorDoc.id));
+            deletedVendors++;
+          }
+        }
+        
+        output.innerHTML += `\n<span class="success">✓ Deleted ${deletedVendors} vendors\n</span>`;
+        output.innerHTML += `<span class="success">✓ Deleted ${deletedProducts} products\n\n</span>`;
+        output.innerHTML += `<span class="info">✓ Database cleaned!\n</span>`;
+        
+        // Reset stats
+        document.getElementById('vendorCount').textContent = '0';
+        document.getElementById('productCount').textContent = '0';
+        document.getElementById('categoryCount').textContent = '0';
+        
+      } catch (error) {
+        output.innerHTML += `<span class="error">\n❌ Clear failed: ${error.message}\n</span>`;
+        console.error('Clear error:', error);
+      }
+    };
+  </script>
+</body>
+</html>

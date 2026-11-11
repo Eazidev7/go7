@@ -1,0 +1,6 @@
+<!-- Placeholder for addon thumbnails -->
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="48" height="48" rx="12" fill="#f3f4f6"/>
+  <circle cx="24" cy="20" r="6" fill="#9ca3af"/>
+  <path d="M12 36c0-6.627 5.373-12 12-12s12 5.373 12 12H12z" fill="#9ca3af"/>
+</svg>

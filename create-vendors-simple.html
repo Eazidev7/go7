@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Test Vendors - GO7</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .success { color: #10b981; font-weight: 600; }
+    .error { color: #ef4444; font-weight: 600; }
+    .info { color: #3b82f6; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      border-radius: 12px;
+      color: white;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Create Test Vendors</h1>
+    <p class="subtitle">Create 5 test vendors with products, categories, and addons</p>
+    
+    <button id="createBtn" onclick="createVendors()">
+      Create Test Vendors
+    </button>
+    
+    <div id="stats" class="stats" style="display: none;">
+      <div class="stat-card">
+        <div class="stat-number" id="vendorCount">0</div>
+        <div class="stat-label">Vendors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="productCount">0</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="categoryCount">0</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="addonCount">0</div>
+        <div class="stat-label">Addons</div>
+      </div>
+    </div>
+    
+    <div id="output"></div>
+  </div>
+
+  <script>
+    async function createVendors() {
+      const button = document.getElementById('createBtn');
+      const output = document.getElementById('output');
+      const stats = document.getElementById('stats');
+      
+      button.disabled = true;
+      button.textContent = '⏳ Creating vendors...';
+      output.innerHTML = '<span class="info">🔄 Calling Cloud Function...\n\n</span>';
+      stats.style.display = 'none';
+      
+      try {
+        const response = await fetch('https://us-central1-go7-delivery.cloudfunctions.net/createTestVendors', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          output.innerHTML += `<span class="success">✅ SUCCESS!\n\n</span>`;
+          output.innerHTML += `<span class="info">Created:\n</span>`;
+          output.innerHTML += `<span class="success">  • ${result.vendorsCreated} vendors\n</span>`;
+          output.innerHTML += `<span class="success">  • ${result.productsCreated} products\n</span>`;
+          output.innerHTML += `<span class="success">  • ${result.categoriesCreated} categories\n</span>`;
+          output.innerHTML += `<span class="success">  • ${result.addonsCreated} addons\n\n</span>`;
+          output.innerHTML += `<span class="info">You can now test the full vendor ordering flow!</span>`;
+          
+          // Update stats
+          document.getElementById('vendorCount').textContent = result.vendorsCreated;
+          document.getElementById('productCount').textContent = result.productsCreated;
+          document.getElementById('categoryCount').textContent = result.categoriesCreated;
+          document.getElementById('addonCount').textContent = result.addonsCreated;
+          stats.style.display = 'grid';
+          
+          button.textContent = '✓ Vendors Created!';
+          button.style.background = '#10b981';
+        } else {
+          throw new Error(result.error || 'Unknown error');
+        }
+        
+      } catch (error) {
+        output.innerHTML += `<span class="error">❌ FAILED: ${error.message}\n\n</span>`;
+        output.innerHTML += `<span class="info">Troubleshooting:\n</span>`;
+        output.innerHTML += `<span class="info">1. Check Firebase Console for function logs\n</span>`;
+        output.innerHTML += `<span class="info">2. Ensure function is deployed\n</span>`;
+        output.innerHTML += `<span class="info">3. Check Firestore rules allow writes\n</span>`;
+        
+        button.disabled = false;
+        button.textContent = 'Retry';
+        button.style.background = '#ef4444';
+      }
+    }
+  </script>
+</body>
+</html>

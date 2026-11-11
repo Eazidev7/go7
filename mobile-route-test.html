@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Route Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            background: #E30613;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            font-weight: bold;
+        }
+        .button:hover {
+            background: #c40510;
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .loading { background: #fff3cd; border-color: #ffeaa7; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔧 Mobile Route Test</h1>
+        <p>Testing React Router mobile route functionality</p>
+        
+        <div id="status" class="status loading">
+            🔄 Testing routes...
+        </div>
+        
+        <div id="results"></div>
+        
+        <h3>Manual Tests:</h3>
+        <a href="/" class="button">🏠 Home Route</a>
+        <a href="/mobile" class="button">📱 Mobile Route</a>
+        <a href="/mobile-simple.html" class="button">📄 Static Mobile</a>
+        
+        <hr>
+        
+        <h3>Forced Tests:</h3>
+        <a href="/?forceMobile=true" class="button">Force Mobile → Home</a>
+        <a href="/mobile?forceMobile=false" class="button">Force Desktop → Mobile</a>
+        
+        <div id="logs" style="background: #000; color: #0f0; padding: 15px; margin-top: 20px; font-family: monospace; font-size: 12px; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+        const logsDiv = document.getElementById('logs');
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logsDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function updateStatus(message, type = 'loading') {
+            statusDiv.innerHTML = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        async function testRoute(path, description) {
+            log(`Testing ${description}: ${path}`);
+            try {
+                const response = await fetch(path, { 
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                    }
+                });
+                
+                const status = response.status;
+                const statusText = response.statusText;
+                const contentType = response.headers.get('content-type');
+                
+                log(`${description}: ${status} ${statusText} (${contentType})`);
+                
+                if (status === 200) {
+                    const text = await response.text();
+                    const isReact = text.includes('root') && text.includes('React');
+                    const hasError = text.includes('Cannot GET') || text.includes('404');
+                    
+                    if (hasError) {
+                        return { success: false, message: `404 - Route not found` };
+                    } else if (isReact) {
+                        return { success: true, message: `✅ React app loaded` };
+                    } else {
+                        return { success: true, message: `✅ Page loaded (${text.length} chars)` };
+                    }
+                } else {
+                    return { success: false, message: `❌ ${status} ${statusText}` };
+                }
+            } catch (error) {
+                log(`${description} ERROR: ${error.message}`);
+                return { success: false, message: `❌ Network error: ${error.message}` };
+            }
+        }
+        
+        async function runTests() {
+            updateStatus('🔄 Running route tests...', 'loading');
+            
+            const tests = [
+                { path: '/', description: 'Home Route' },
+                { path: '/mobile', description: 'Mobile Route' },
+                { path: '/mobile-simple.html', description: 'Static Mobile' },
+                { path: '/nonexistent', description: 'Invalid Route (should 404)' }
+            ];
+            
+            let results = '';
+            let allPassed = true;
+            
+            for (const test of tests) {
+                const result = await testRoute(test.path, test.description);
+                const status = result.success ? '✅' : '❌';
+                results += `<p><strong>${status} ${test.description}:</strong> ${result.message}</p>`;
+                
+                if (!result.success && test.description !== 'Invalid Route (should 404)') {
+                    allPassed = false;
+                }
+            }
+            
+            resultsDiv.innerHTML = results;
+            
+            if (allPassed) {
+                updateStatus('✅ All essential routes working!', 'success');
+                log('SUCCESS: All routes are accessible');
+            } else {
+                updateStatus('❌ Some routes have issues', 'error');
+                log('ERROR: Some routes failed to load');
+            }
+            
+            // Test mobile detection
+            log('Testing mobile detection...');
+            const isMobile = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+            log(`Current screen: ${window.innerWidth}x${window.innerHeight}`);
+            log(`Mobile detected: ${isMobile}`);
+            log(`Current URL: ${window.location.href}`);
+            log(`Current path: ${window.location.pathname}`);
+            
+        }
+        
+        // Start tests when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Mobile Route Test started');
+            log(`User Agent: ${navigator.userAgent}`);
+            log(`Screen size: ${window.innerWidth}x${window.innerHeight}`);
+            
+            runTests();
+        });
+    </script>
+</body>
+</html>

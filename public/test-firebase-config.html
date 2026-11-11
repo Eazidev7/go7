@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Config Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .config-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .config-box h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .config-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+        }
+        .error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        .success {
+            border-left-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .test-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .test-btn:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="config-box">
+        <h2>🔥 Firebase Configuration Test</h2>
+        <p>This page checks if Firebase environment variables are loading correctly.</p>
+    </div>
+
+    <div class="config-box">
+        <h3>Environment Variables (from Vite)</h3>
+        <div id="env-vars"></div>
+    </div>
+
+    <div class="config-box">
+        <h3>Firebase Initialization Test</h3>
+        <button class="test-btn" onclick="testFirebaseInit()">Test Firebase Connection</button>
+        <div id="result"></div>
+    </div>
+
+    <script type="module">
+        // Display environment variables
+        const envVars = {
+            'VITE_FIREBASE_API_KEY': import.meta.env.VITE_FIREBASE_API_KEY,
+            'VITE_FIREBASE_AUTH_DOMAIN': import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+            'VITE_FIREBASE_PROJECT_ID': import.meta.env.VITE_FIREBASE_PROJECT_ID,
+            'VITE_FIREBASE_STORAGE_BUCKET': import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+            'VITE_FIREBASE_MESSAGING_SENDER_ID': import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+            'VITE_FIREBASE_APP_ID': import.meta.env.VITE_FIREBASE_APP_ID
+        };
+
+        const envContainer = document.getElementById('env-vars');
+        
+        Object.entries(envVars).forEach(([key, value]) => {
+            const div = document.createElement('div');
+            div.className = value ? 'config-item success' : 'config-item error';
+            
+            if (value) {
+                // Show first 30 chars and last 10 chars for security
+                const masked = value.length > 40 
+                    ? value.substring(0, 30) + '...' + value.substring(value.length - 10)
+                    : value;
+                div.innerHTML = `<strong>${key}:</strong> <code>${masked}</code> ✅`;
+            } else {
+                div.innerHTML = `<strong>${key}:</strong> <span style="color: red;">Missing ❌</span>`;
+            }
+            
+            envContainer.appendChild(div);
+        });
+
+        // Test Firebase initialization
+        window.testFirebaseInit = async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing Firebase initialization...</p>';
+
+            try {
+                // Import Firebase
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+                const { getAuth, connectAuthEmulator } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+
+                const firebaseConfig = {
+                    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+                    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+                    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+                    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+                    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+                    appId: import.meta.env.VITE_FIREBASE_APP_ID
+                };
+
+                console.log('Firebase Config:', firebaseConfig);
+
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+
+                resultDiv.innerHTML = `
+                    <div class="config-item success">
+                        <h3>✅ Firebase Initialized Successfully!</h3>
+                        <p><strong>Project ID:</strong> ${firebaseConfig.projectId}</p>
+                        <p><strong>Auth Domain:</strong> ${firebaseConfig.authDomain}</p>
+                        <p><strong>API Key (first 20 chars):</strong> ${firebaseConfig.apiKey.substring(0, 20)}...</p>
+                        <p style="color: green; font-weight: bold;">No API key errors! 🎉</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Firebase initialization error:', error);
+                resultDiv.innerHTML = `
+                    <div class="config-item error">
+                        <h3>❌ Firebase Initialization Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Code:</strong> ${error.code || 'N/A'}</p>
+                        <pre style="background: #333; color: #0f0; padding: 10px; border-radius: 4px; overflow-x: auto;">${error.stack || error.toString()}</pre>
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>

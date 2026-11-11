@@ -1,0 +1,185 @@
+/* src/components/maps/LiveAreasMap.module.css */
+
+/* Map container with guaranteed height */
+.go7-map-wrap { 
+  position: relative; 
+  min-height: 420px; 
+  isolation: isolate;
+}
+
+.go7-map-wrap .leaflet-container { 
+  height: 420px; 
+  border-radius: 12px; 
+  overflow: hidden; 
+}
+
+.go7-map-wrap * { 
+  z-index: auto; 
+}
+
+/* Prevent decorative elements from blocking interaction */
+.decorative, 
+.mesh-bg, 
+.hero-overlay { 
+  pointer-events: none; 
+}
+
+@media (min-width: 1024px) { 
+  .go7-map-wrap .leaflet-container { 
+    height: 520px; 
+  } 
+}
+
+.mapContainer {
+  height: 100%;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.areaPill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.areaPill:hover, .areaPill:focus {
+  transform: scale(1.02);
+  outline: none;
+}
+
+.areaPill:focus-visible {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.livePoint {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.vendor {
+  background-color: #10b981; /* green */
+}
+
+.rider {
+  background-color: #8b5cf6; /* purple */
+}
+
+.instructionBar {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.instructionContent {
+  background-color: white;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.drawer {
+  position: fixed;
+  z-index: 40;
+  background-color: white;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.drawerMobile {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.drawerDesktop {
+  width: 24rem;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.dragHandle {
+  width: 3rem;
+  height: 0.25rem;
+  background-color: #d1d5db;
+  border-radius: 9999px;
+  margin: 0.5rem auto;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.25rem solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorToast {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.errorContent {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  font-size: 0.875rem;
+}
+
+/* Color classes for area pills */
+.blue { color: #3b82f6; }
+.green { color: #10b981; }
+.orange { color: #f97316; }
+.purple { color: #8b5cf6; }
+.pink { color: #ec4899; }
+.gray { color: #6b7280; }

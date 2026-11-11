@@ -1,0 +1,24 @@
+[
+  {
+    "origin": [
+      "https://go7.ng",
+      "https://www.go7.ng",
+      "http://localhost:5173",
+      "http://localhost:4173",
+      "http://127.0.0.1:5173",
+      "http://localhost:3000"
+    ],
+    "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": [
+      "Content-Type",
+      "Authorization",
+      "Content-Length",
+      "User-Agent",
+      "X-Requested-With",
+      "x-goog-resumable",
+      "x-goog-meta-*",
+      "x-firebase-storage-version"
+    ]
+  }
+]

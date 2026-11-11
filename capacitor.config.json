@@ -1,0 +1,21 @@
+{
+  "appId": "g.go7.app",
+  "appName": "Go7",
+  "webDir": "dist",
+  "includePlugins": ["@capacitor/app", "@capacitor/geolocation", "@capacitor/push-notifications", "@capacitor/status-bar"],
+  "server": {
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#111827"
+  },
+  "plugins": {
+    "Geolocation": {
+      "permissions": {
+        "location": "Go7 needs your location for live delivery navigation."
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f0f0f0;
+        }
+        .test-card {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #059669;
+        }
+    </style>
+</head>
+<body>
+    <h1>GO7 Currency Display Test</h1>
+    
+    <div class="test-card">
+        <h3>Test 1: Direct HTML</h3>
+        <div class="price">₦2,500</div>
+    </div>
+    
+    <div class="test-card">
+        <h3>Test 2: JavaScript Generated</h3>
+        <div class="price" id="js-price"></div>
+    </div>
+    
+    <div class="test-card">
+        <h3>Test 3: Product Data Simulation</h3>
+        <div id="product-test"></div>
+    </div>
+    
+    <script>
+        // Test 2
+        document.getElementById('js-price').textContent = '₦' + (2500).toLocaleString();
+        
+        // Test 3
+        const product = {
+            name: "Jollof Rice",
+            price: 2500,
+            image: "https://source.unsplash.com/400x300/?jollof-rice"
+        };
+        
+        const productHTML = `
+            <h4>${product.name}</h4>
+            <img src="${product.image}" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px;">
+            <div class="price">₦${product.price.toLocaleString()}</div>
+        `;
+        
+        document.getElementById('product-test').innerHTML = productHTML;
+        
+        console.log('✅ Currency Test Page Loaded');
+        console.log('Product price:', '₦' + product.price.toLocaleString());
+    </script>
+</body>
+</html>

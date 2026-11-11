@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background grid with subtle road-like pattern -->
+  <defs>
+    <!-- Main road grid pattern -->
+    <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+      <!-- Horizontal roads -->
+      <line x1="0" y1="25" x2="100" y2="25" stroke="white" stroke-width="1" opacity="0.15"/>
+      <line x1="0" y1="75" x2="100" y2="75" stroke="white" stroke-width="1" opacity="0.15"/>
+      
+      <!-- Vertical roads -->
+      <line x1="25" y1="0" x2="25" y2="100" stroke="white" stroke-width="1" opacity="0.15"/>
+      <line x1="75" y1="0" x2="75" y2="100" stroke="white" stroke-width="1" opacity="0.15"/>
+      
+      <!-- Main intersection points -->
+      <circle cx="25" cy="25" r="1.5" fill="white" opacity="0.2"/>
+      <circle cx="75" cy="25" r="1.5" fill="white" opacity="0.2"/>
+      <circle cx="25" cy="75" r="1.5" fill="white" opacity="0.2"/>
+      <circle cx="75" cy="75" r="1.5" fill="white" opacity="0.2"/>
+      
+      <!-- Main arteries (slightly thicker) -->
+      <line x1="0" y1="50" x2="100" y2="50" stroke="white" stroke-width="2" opacity="0.2"/>
+      <line x1="50" y1="0" x2="50" y2="100" stroke="white" stroke-width="2" opacity="0.2"/>
+      <circle cx="50" cy="50" r="2" fill="white" opacity="0.25"/>
+    </pattern>
+    
+    <!-- Diagonal connections for more complexity -->
+    <pattern id="diagonals" width="100" height="100" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="100" y2="100" stroke="white" stroke-width="0.8" opacity="0.1"/>
+      <line x1="100" y1="0" x2="0" y2="100" stroke="white" stroke-width="0.8" opacity="0.1"/>
+    </pattern>
+  </defs>
+  
+  <!-- Apply the patterns -->
+  <rect width="400" height="400" fill="url(#grid)"/>
+  <rect width="400" height="400" fill="url(#diagonals)"/>
+</svg>

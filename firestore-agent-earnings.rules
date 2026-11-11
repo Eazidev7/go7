@@ -1,0 +1,130 @@
+/**
+ * ====================================================================
+ * FIRESTORE SECURITY RULES - AGENT EARNINGS SYSTEM
+ * ====================================================================
+ * 
+ * Add these rules to your firestore.rules file
+ * 
+ * These rules ensure:
+ * - Agents can only see their own data
+ * - Only admins can approve earnings and mark withdrawals as paid
+ * - System functions can create automated earnings
+ * - Proper validation on all operations
+ */
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ================================================================
+    // HELPER FUNCTIONS
+    // ================================================================
+    
+    // Check if user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // Check if user is admin
+    function isAdmin() {
+      return isSignedIn() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Check if user owns the resource
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // ================================================================
+    // AGENTS COLLECTION
+    // ================================================================
+    
+    match /agents/{agentId} {
+      // Agents can read their own profile
+      allow read: if isOwner(agentId) || isAdmin();
+      
+      // Only admins can create new agents
+      allow create: if isAdmin();
+      
+      // Agents can update their own profile (limited fields)
+      // Admins can update all fields
+      allow update: if isAdmin() || 
+        (isOwner(agentId) && 
+         !request.resource.data.keys().hasAny(['totalEarnings', 'availableBalance', 'pendingBalance']));
+    }
+    
+    // ================================================================
+    // VENDORS COLLECTION
+    // ================================================================
+    
+    match /vendors/{vendorId} {
+      // Public read access (for marketplace)
+      allow read: if true;
+      
+      // Authenticated users (agents) can create vendors
+      allow create: if isSignedIn() && 
+        request.resource.data.agentId is string &&
+        request.resource.data.name is string;
+      
+      // Only admins can update critical fields (isLive, hasFirstOrder)
+      allow update: if isAdmin();
+    }
+    
+    // ================================================================
+    // AGENT EARNINGS COLLECTION
+    // ================================================================
+    
+    match /agentEarnings/{earningId} {
+      // Agents can read their own earnings
+      // Admins can read all earnings
+      allow read: if isOwner(resource.data.agentId) || isAdmin();
+      
+      // Only Cloud Functions can create earnings (not direct client access)
+      // This prevents agents from creating fake earnings
+      allow create: if false;
+      
+      // Only admins can update earnings (for approval)
+      allow update: if isAdmin() &&
+        // Ensure status transition is valid
+        (resource.data.status == 'pending' && request.resource.data.status == 'approved');
+    }
+    
+    // ================================================================
+    // WITHDRAWALS COLLECTION
+    // ================================================================
+    
+    match /withdrawals/{withdrawalId} {
+      // Agents can read their own withdrawals
+      // Admins can read all withdrawals
+      allow read: if isOwner(resource.data.agentId) || isAdmin();
+      
+      // Agents can create withdrawal requests
+      allow create: if isSignedIn() &&
+        request.resource.data.agentId == request.auth.uid &&
+        request.resource.data.amount >= 5000 &&
+        request.resource.data.status == 'pending';
+      
+      // Only admins can update (mark as paid)
+      allow update: if isAdmin() &&
+        resource.data.status == 'pending' &&
+        request.resource.data.status == 'paid';
+    }
+    
+    // ================================================================
+    // NOTIFICATIONS COLLECTION
+    // ================================================================
+    
+    match /notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if isOwner(resource.data.userId);
+      
+      // Cloud Functions can create notifications
+      allow create: if isAdmin(); // Or use service account
+      
+      // Users can mark their own notifications as read
+      allow update: if isOwner(resource.data.userId) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+    }
+  }
+}

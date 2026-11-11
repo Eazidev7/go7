@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Placeholder</title>
+</head>
+<body>
+    <canvas id="canvas" width="48" height="48" style="border: 1px solid #ccc;"></canvas>
+    <br>
+    <button onclick="download()">Download PNG</button>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Fill with light gray background
+        ctx.fillStyle = '#f3f4f6';
+        ctx.fillRect(0, 0, 48, 48);
+        
+        // Draw rounded rectangle (simulate border-radius)
+        ctx.fillStyle = '#e5e7eb';
+        ctx.beginPath();
+        ctx.roundRect(2, 2, 44, 44, 8);
+        ctx.fill();
+        
+        // Draw placeholder icon (utensils)
+        ctx.fillStyle = '#9ca3af';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('🍴', 24, 30);
+        
+        function download() {
+            const link = document.createElement('a');
+            link.download = 'placeholder.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules for GO7
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Match Firestore vendor ownership (uid == vendorId OR vendors/{id}.userId)
+    function isVendorOwner(vendorId) {
+      return isAuthenticated() && (
+        request.auth.uid == vendorId ||
+        (
+          firestore.exists(/databases/(default)/documents/vendors/$(vendorId)) &&
+          firestore.get(/databases/(default)/documents/vendors/$(vendorId)).data.userId == request.auth.uid
+        )
+      );
+    }
+
+    function isValidImageUpload() {
+      return request.resource.size < 10 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/.*') ||
+          request.resource.contentType == 'application/octet-stream'
+        );
+    }
+
+    function isAdmin() {
+      return request.auth != null &&
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Vendor uploads: auth + size only (browsers may omit MIME on .jfif etc.)
+    function vendorCanWriteImage(vendorId) {
+      return isVendorOwner(vendorId) && request.resource.size < 10 * 1024 * 1024;
+    }
+
+    match /vendors/{vendorId}/addons/{addonId}/{fileName=**} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /vendors/{vendorId}/categories/{categoryId}/addons/{fileName=**} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /vendors/{vendorId}/menu/{imageId} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /vendors/{vendorId}/products/{productId}/{fileName=**} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /vendors/{vendorId}/profile/{fileName=**} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    // Vendor combo images (vendor dashboard → customer Combo Rush)
+    match /vendors/{vendorId}/combos/{fileName=**} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /vendors/{vendorId}/logo {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /vendors/{vendorId}/{fileName} {
+      allow read: if fileName.matches('logo_.*');
+      allow create, update: if isVendorOwner(vendorId) && fileName.matches('logo_.*') && isValidImageUpload();
+      allow delete: if isVendorOwner(vendorId) && fileName.matches('logo_.*');
+    }
+
+    match /vendors/{vendorId}/logo/{imageId} {
+      allow read: if true;
+      allow create, update: if vendorCanWriteImage(vendorId);
+      allow delete: if isVendorOwner(vendorId);
+    }
+
+    match /users/{userId}/profile/{imageId} {
+      allow read: if true;
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    match /riders/{riderId}/{fileName=**} {
+      allow read: if isAuthenticated();
+      allow create, update: if isOwner(riderId) && isValidImageUpload();
+      allow delete: if isOwner(riderId);
+    }
+
+    match /deliveries/{deliveryId}/proof/{imageId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated() && isValidImageUpload();
+    }
+
+    match /orders/{orderId}/images/{imageId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated() && isValidImageUpload();
+    }
+
+    // Customer package photos used by the callable AI analyzer.
+    // UID scoping prevents customers reading or overwriting another user's image.
+    match /package-detection/{userId}/{fileName} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    match /promo-banners/{bannerId}/{fileName=**} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidImageUpload();
+      allow delete: if isAdmin();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

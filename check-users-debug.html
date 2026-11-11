@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Users - Phone Debug</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #dc2626;
+      margin-bottom: 30px;
+    }
+    .search-box {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+    input {
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      width: 300px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 12px 24px;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      background: #b91c1c;
+    }
+    .user-card {
+      background: #f9fafb;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid #dc2626;
+    }
+    .field {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .field strong {
+      color: #374151;
+      display: inline-block;
+      width: 150px;
+    }
+    .highlight {
+      background: yellow;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .error {
+      color: #dc2626;
+      background: #fef2f2;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .success {
+      color: #059669;
+      background: #f0fdf4;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 User Phone Number Checker</h1>
+    
+    <div class="search-box">
+      <input type="text" id="phoneInput" placeholder="08012345678" />
+      <button onclick="searchByPhone()">Search by Phone</button>
+      <button onclick="listAllUsers()" style="background: #059669; margin-left: 10px;">List All Users</button>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCxhP46HTw_dvGc4vdM3MBqz9MaF_zrJQ",
+      authDomain: "go7-delivery.firebaseapp.com",
+      projectId: "go7-delivery",
+      storageBucket: "go7-delivery.firebasestorage.app",
+      messagingSenderId: "776987424461",
+      appId: "1:776987424461:web:79cff23868e30e1e857c54",
+      measurementId: "G-6G63FQJNJY"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function formatPhoneNumber(phone) {
+      let cleaned = phone.replace(/\D/g, '');
+      if (cleaned.startsWith('234')) {
+        cleaned = '0' + cleaned.substring(3);
+      }
+      if (!cleaned.startsWith('0')) {
+        cleaned = '0' + cleaned;
+      }
+      return cleaned;
+    }
+
+    window.searchByPhone = async function() {
+      const phoneInput = document.getElementById('phoneInput').value.trim();
+      if (!phoneInput) {
+        document.getElementById('results').innerHTML = '<div class="error">Please enter a phone number</div>';
+        return;
+      }
+
+      document.getElementById('results').innerHTML = '<div class="loading">Searching...</div>';
+
+      const formattedPhone = formatPhoneNumber(phoneInput);
+      console.log('🔍 Searching for:', formattedPhone);
+
+      try {
+        const usersRef = collection(db, 'users');
+        
+        // Search in phoneNumber field
+        let q = query(usersRef, where('phoneNumber', '==', formattedPhone));
+        let querySnapshot = await getDocs(q);
+        
+        console.log('phoneNumber field results:', querySnapshot.size);
+        
+        if (querySnapshot.empty) {
+          // Try phone field
+          q = query(usersRef, where('phone', '==', formattedPhone));
+          querySnapshot = await getDocs(q);
+          console.log('phone field results:', querySnapshot.size);
+        }
+
+        if (querySnapshot.empty) {
+          document.getElementById('results').innerHTML = `
+            <div class="error">
+              ❌ No user found with phone: <strong>${formattedPhone}</strong><br>
+              <small>Tried both 'phoneNumber' and 'phone' fields</small>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '<div class="success">✅ Found ' + querySnapshot.size + ' user(s)</div>';
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          html += `
+            <div class="user-card">
+              <div class="field"><strong>User ID:</strong> ${doc.id}</div>
+              <div class="field"><strong>Name:</strong> ${data.name || data.displayName || 'N/A'}</div>
+              <div class="field"><strong>Email:</strong> ${data.email || 'N/A'}</div>
+              <div class="field"><strong>phoneNumber:</strong> <span class="highlight">${data.phoneNumber || 'NOT SET'}</span></div>
+              <div class="field"><strong>phone:</strong> <span class="highlight">${data.phone || 'NOT SET'}</span></div>
+              <div class="field"><strong>Created:</strong> ${data.createdAt || 'N/A'}</div>
+              <div class="field"><strong>Role:</strong> ${data.role || 'N/A'}</div>
+              <div class="field"><strong>Auth Provider:</strong> ${data.authProvider || 'email'}</div>
+            </div>
+          `;
+        });
+        document.getElementById('results').innerHTML = html;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results').innerHTML = `<div class="error">Error: ${error.message}</div>`;
+      }
+    };
+
+    window.listAllUsers = async function() {
+      document.getElementById('results').innerHTML = '<div class="loading">Loading all users...</div>';
+
+      try {
+        const usersRef = collection(db, 'users');
+        const querySnapshot = await getDocs(usersRef);
+
+        console.log('📊 Total users:', querySnapshot.size);
+
+        let html = '<div class="success">📊 Total Users: ' + querySnapshot.size + '</div>';
+        
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          html += `
+            <div class="user-card">
+              <div class="field"><strong>User ID:</strong> ${doc.id}</div>
+              <div class="field"><strong>Name:</strong> ${data.name || data.displayName || 'N/A'}</div>
+              <div class="field"><strong>Email:</strong> ${data.email || 'N/A'}</div>
+              <div class="field"><strong>phoneNumber:</strong> <span class="highlight">${data.phoneNumber || 'NOT SET'}</span></div>
+              <div class="field"><strong>phone:</strong> <span class="highlight">${data.phone || 'NOT SET'}</span></div>
+              <div class="field"><strong>Created:</strong> ${data.createdAt || 'N/A'}</div>
+              <div class="field"><strong>Auth Provider:</strong> ${data.authProvider || 'email'}</div>
+            </div>
+          `;
+        });
+
+        document.getElementById('results').innerHTML = html;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results').innerHTML = `<div class="error">Error: ${error.message}</div>`;
+      }
+    };
+  </script>
+</body>
+</html>

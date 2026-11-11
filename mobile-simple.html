@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Mobile - Simple Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .header {
+            background-color: #E30613;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .success {
+            background-color: #E5FFE5;
+            border: 1px solid #00CC00;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .button {
+            display: inline-block;
+            background-color: #E30613;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .categories {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+        .category {
+            flex-shrink: 0;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 80px;
+        }
+        .category.active {
+            background: #E30613;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📱 Go7 Mobile</h1>
+        <p>Mobile Interface Working!</p>
+    </div>
+    
+    <div class="card">
+        <h2>Mobile Detection Success</h2>
+        <div class="success">
+            <strong>✅ Mobile interface is working!</strong><br>
+            You have successfully accessed the mobile version of Go7.
+        </div>
+        
+        <div id="deviceInfo">
+            <h3>Device Information:</h3>
+            <ul id="infoList"></ul>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Categories</h2>
+        <div class="categories">
+            <div class="category">
+                <div style="font-size: 24px;">🍔</div>
+                <div>Food</div>
+            </div>
+            <div class="category active">
+                <div style="font-size: 24px;">🛒</div>
+                <div>Market</div>
+            </div>
+            <div class="category">
+                <div style="font-size: 24px;">💊</div>
+                <div>Pharmacy</div>
+            </div>
+            <div class="category">
+                <div style="font-size: 24px;">📦</div>
+                <div>Package</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Navigation</h2>
+        <a href="/" class="button">Go to Desktop Version</a>
+        <a href="/?forceMobile=false" class="button">Force Desktop View</a>
+        <a href="/mobile-access.html" class="button">Mobile Access Portal</a>
+    </div>
+    
+    <script>
+        // Display device information
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoList = document.getElementById('infoList');
+            const screenWidth = window.innerWidth;
+            const isMobile = screenWidth <= 768;
+            const userAgent = navigator.userAgent;
+            const touchEnabled = 'ontouchstart' in window;
+            
+            const info = [
+                `Screen Width: ${screenWidth}px (${isMobile ? 'Mobile' : 'Desktop'} size)`,
+                `Touch Enabled: ${touchEnabled ? 'Yes' : 'No'}`,
+                `Current Path: ${window.location.pathname}`,
+                `User Agent: ${userAgent.substring(0, 50)}...`
+            ];
+            
+            info.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                infoList.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+# Vite ignore file - exclude problematic files causing performance issues
+
+# Parent directory files
+../
+../../
+../auto-sync-test.html
+../emergency-server.js
+../go7-map-test.html
+../*.html
+../*.js
+../*.bat
+../*.ps1
+
+# Other project directories
+../go7_backup_*/
+../go7-delivery-app/
+../alai-network-production-ready/
+../botit/
+
+# Development files
+**/node_modules/
+**/dist/
+**/.git/
+**/.cache/
+**/.vite/
+**/coverage/
+**/tmp/
+**/temp/
+
+# Large asset directories
+**/public/assets/
+**/public/icons/
+**/src/assets/images/
+
+# Log files
+**/*.log
+**/logs/
+
+# OS files
+**/.DS_Store
+**/Thumbs.db
+**/desktop.ini
+
+# IDE files
+**/.vscode/
+**/.idea/
+
+# Test and diagnostic files
+**/test*.html
+**/diagnostic*.html
+**/*-test.html
+**/*-diagnostic.html

@@ -1,0 +1,264 @@
+{
+  "vendorsData": [
+    {
+      "id": "vendor_001",
+      "businessName": "Fresh Harvest Market",
+      "name": "John Adeyemi",
+      "email": "john@freshharvest.ng",
+      "phone": "+2348012345678",
+      "category": "Groceries & Food",
+      "businessLogo": "/assets/vendors/fresh-harvest-logo.jpg",
+      "profileImage": "/assets/vendors/fresh-harvest-profile.jpg",
+      "rating": 4.8,
+      "deliveryTime": "20-30 mins",
+      "isOnline": true,
+      "isVerified": true,
+      "description": "Your trusted source for fresh farm produce and local delicacies",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "products": [
+        {
+          "id": "prod_001",
+          "name": "Fresh Yam Tubers",
+          "description": "Premium quality white yam tubers from Benue farms. Perfect for pounded yam, boiled yam, or fries.",
+          "price": 3500,
+          "measureType": "per_tuber",
+          "category": "Groceries & Food",
+          "imageUrl": "/assets/products/yam-tubers.jpg",
+          "rating": 4.9,
+          "popularityScore": 245,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-20T09:00:00Z",
+          "addons": [
+            {
+              "id": "addon_001",
+              "name": "Extra Large Tuber",
+              "price": 500,
+              "measureType": "per_tuber",
+              "imageUrl": "/assets/addons/extra-large-yam.jpg",
+              "description": "Add extra large tuber for family portions",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 3,
+              "createdAt": "2024-01-20T09:30:00Z"
+            },
+            {
+              "id": "addon_002",
+              "name": "Peeling Service",
+              "price": 200,
+              "measureType": "per_tuber",
+              "description": "We'll peel your yam before delivery",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 5,
+              "createdAt": "2024-01-20T09:35:00Z"
+            }
+          ]
+        },
+        {
+          "id": "prod_002",
+          "name": "Fresh Spinach Bunch",
+          "description": "Organically grown fresh spinach. Rich in iron and vitamins.",
+          "price": 500,
+          "measureType": "per_bunch",
+          "category": "Groceries & Food",
+          "imageUrl": "/assets/products/spinach-bunch.jpg",
+          "rating": 4.7,
+          "popularityScore": 198,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-22T08:00:00Z",
+          "addons": [
+            {
+              "id": "addon_003",
+              "name": "Extra Bunch",
+              "price": 400,
+              "measureType": "per_bunch",
+              "imageUrl": "/assets/addons/extra-spinach.jpg",
+              "description": "Add extra bunches for bigger families",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 5,
+              "createdAt": "2024-01-22T08:30:00Z"
+            }
+          ]
+        },
+        {
+          "id": "prod_003",
+          "name": "Premium Rice",
+          "description": "Imported long grain basmati rice. Fragrant and perfectly fluffy.",
+          "price": 1200,
+          "measureType": "kg",
+          "category": "Groceries & Food",
+          "imageUrl": "/assets/products/basmati-rice.jpg",
+          "rating": 4.9,
+          "popularityScore": 312,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-18T10:00:00Z",
+          "addons": []
+        }
+      ]
+    },
+    {
+      "id": "vendor_002",
+      "businessName": "Mama Ngozi's Kitchen",
+      "name": "Ngozi Okafor",
+      "email": "ngozi@mamangozi.ng",
+      "phone": "+2348098765432",
+      "category": "Restaurants & Dining",
+      "businessLogo": "/assets/vendors/mama-ngozi-logo.jpg",
+      "profileImage": "/assets/vendors/mama-ngozi-profile.jpg",
+      "rating": 4.9,
+      "deliveryTime": "25-35 mins",
+      "isOnline": true,
+      "isVerified": true,
+      "description": "Authentic Nigerian home cooking with love from Mama Ngozi",
+      "createdAt": "2024-01-10T12:00:00Z",
+      "products": [
+        {
+          "id": "prod_004",
+          "name": "Jollof Rice Portion",
+          "description": "Our famous party jollof rice made with secret spices. Served with chicken or beef.",
+          "price": 2500,
+          "measureType": "portion",
+          "category": "Restaurants & Dining",
+          "imageUrl": "/assets/products/jollof-rice.jpg",
+          "rating": 5.0,
+          "popularityScore": 456,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-12T14:00:00Z",
+          "addons": [
+            {
+              "id": "addon_004",
+              "name": "Extra Chicken",
+              "price": 800,
+              "measureType": "portion",
+              "imageUrl": "/assets/addons/grilled-chicken.jpg",
+              "description": "Grilled chicken drumstick",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 3,
+              "createdAt": "2024-01-12T14:30:00Z"
+            },
+            {
+              "id": "addon_005",
+              "name": "Extra Beef",
+              "price": 600,
+              "measureType": "portion",
+              "imageUrl": "/assets/addons/beef-chunks.jpg",
+              "description": "Tender beef chunks",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 3,
+              "createdAt": "2024-01-12T14:35:00Z"
+            },
+            {
+              "id": "addon_006",
+              "name": "Plantain Slices",
+              "price": 400,
+              "measureType": "portion",
+              "imageUrl": "/assets/addons/fried-plantain.jpg",
+              "description": "Perfectly fried sweet plantain",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 2,
+              "createdAt": "2024-01-12T14:40:00Z"
+            }
+          ]
+        },
+        {
+          "id": "prod_005",
+          "name": "Egusi Soup with Pounded Yam",
+          "description": "Rich egusi soup with assorted meat and fish. Served with smooth pounded yam.",
+          "price": 3200,
+          "measureType": "portion",
+          "category": "Restaurants & Dining",
+          "imageUrl": "/assets/products/egusi-soup.jpg",
+          "rating": 4.8,
+          "popularityScore": 389,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-14T11:00:00Z",
+          "addons": [
+            {
+              "id": "addon_007",
+              "name": "Extra Pounded Yam",
+              "price": 500,
+              "measureType": "portion",
+              "description": "Additional wrap of pounded yam",
+              "isActive": true,
+              "minQty": 1,
+              "maxQty": 2,
+              "createdAt": "2024-01-14T11:30:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vendor_003",
+      "businessName": "QuickMart Express",
+      "name": "Ahmed Ibrahim",
+      "email": "ahmed@quickmart.ng",
+      "phone": "+2348076543210",
+      "category": "Groceries & Food",
+      "businessLogo": "/assets/vendors/quickmart-logo.jpg",
+      "profileImage": "/assets/vendors/quickmart-profile.jpg",
+      "rating": 4.6,
+      "deliveryTime": "15-25 mins",
+      "isOnline": true,
+      "isVerified": true,
+      "description": "Fast delivery of groceries and household items",
+      "createdAt": "2024-01-25T09:00:00Z",
+      "products": [
+        {
+          "id": "prod_006",
+          "name": "Tomato Pack (Medium)",
+          "description": "Fresh roma tomatoes in convenient pack. Perfect for stews and sauces.",
+          "price": 1500,
+          "measureType": "per_pack",
+          "category": "Groceries & Food",
+          "imageUrl": "/assets/products/tomato-pack.jpg",
+          "rating": 4.5,
+          "popularityScore": 267,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-26T10:00:00Z",
+          "addons": []
+        },
+        {
+          "id": "prod_007",
+          "name": "Sugar Bag (1kg)",
+          "description": "Refined white sugar in sealed 1kg bag. Sweet and pure.",
+          "price": 800,
+          "measureType": "bag",
+          "category": "Groceries & Food",
+          "imageUrl": "/assets/products/sugar-bag.jpg",
+          "rating": 4.7,
+          "popularityScore": 178,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-27T08:00:00Z",
+          "addons": []
+        },
+        {
+          "id": "prod_008",
+          "name": "Fresh Onions",
+          "description": "Farm-fresh red onions. Essential for every Nigerian kitchen.",
+          "price": 600,
+          "measureType": "kg",
+          "category": "Groceries & Food",
+          "imageUrl": "/assets/products/onions.jpg",
+          "rating": 4.6,
+          "popularityScore": 201,
+          "active": true,
+          "inStock": true,
+          "createdAt": "2024-01-28T07:00:00Z",
+          "addons": []
+        }
+      ]
+    }
+  ]
+}

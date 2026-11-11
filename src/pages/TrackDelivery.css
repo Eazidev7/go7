@@ -1,0 +1,871 @@
+/* ========================================
+   GO7 UBER-STYLE TRACKING PAGE - CSS
+   ======================================== */
+
+/* Container */
+.track-delivery-container {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Map Styles */
+.tracking-map {
+  height: 100dvh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: #e5e7eb;
+  /* Fallback pattern if tiles don't load */
+  background-image: 
+    linear-gradient(45deg, #f3f4f6 25%, transparent 25%),
+    linear-gradient(-45deg, #f3f4f6 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f3f4f6 75%),
+    linear-gradient(-45deg, transparent 75%, #f3f4f6 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Ensure Leaflet container gets proper height */
+.tracking-map .leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+}
+
+/* Remove Leaflet attribution */
+.tracking-map .leaflet-control-attribution {
+  display: none;
+}
+
+/* Back Button */
+.back-button {
+  position: absolute;
+  top: calc(20px + var(--go7-safe-top, env(safe-area-inset-top, 0px)));
+  left: 20px;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #1f2937;
+}
+
+.back-button:hover {
+  background: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
+
+/* Status Bar */
+.status-bar {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 24px;
+  border-radius: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.status-indicator {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
+.status-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Order ID Badge */
+.order-id-badge {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.order-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.order-number {
+  font-size: 13px;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #E53935;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Custom Markers */
+.custom-marker {
+  background: transparent;
+  border: none;
+}
+
+.marker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.marker-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  border: 3px solid white;
+}
+
+.pickup-marker .marker-icon {
+  background: #10b981;
+  color: white;
+}
+
+.dropoff-marker .marker-icon {
+  background: #E53935;
+  color: white;
+}
+
+.marker-label {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Rider Marker */
+.rider-marker {
+  position: relative;
+}
+
+.rider-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(229, 57, 53, 0.3);
+  animation: rider-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes rider-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.5;
+  }
+}
+
+.rider-icon {
+  background: #E53935 !important;
+  color: white !important;
+  width: 50px !important;
+  height: 50px !important;
+  z-index: 10;
+  position: relative;
+}
+
+/* Floating Info Card */
+.tracking-info-card {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  padding: 18px 22px;
+  width: 92%;
+  text-align: center;
+  z-index: 1000;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Rider Info Section */
+.rider-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.rider-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E53935 0%, #ef5350 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 3px 12px rgba(229, 57, 53, 0.3);
+}
+
+.rider-details {
+  flex: 1;
+}
+
+.rider-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.rider-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.star {
+  font-size: 16px;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.rider-vehicle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.vehicle-icon {
+  font-size: 24px;
+}
+
+.plate-number {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+/* Delivery Stats */
+.delivery-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 16px;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-icon {
+  font-size: 24px;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #E53935;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: #d1d5db;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.call-btn, .chat-btn, .fcm-test-btn {
+  background: #E53935;
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.fcm-test-btn {
+  background: #6366f1;
+  font-size: 12px;
+  padding: 8px 14px;
+}
+
+.call-btn:hover, .chat-btn:hover {
+  background: #c62828;
+  transform: scale(1.02);
+}
+
+.fcm-test-btn:hover {
+  background: #4f46e5;
+  transform: scale(1.02);
+}
+
+.call-btn:active, .chat-btn:active, .fcm-test-btn:active {
+  transform: scale(0.98);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .tracking-info-card {
+    padding: 20px 16px;
+  }
+
+  .rider-info {
+    gap: 12px;
+  }
+
+  .rider-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .rider-name {
+    font-size: 16px;
+  }
+
+  .delivery-stats {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .stat-value {
+    font-size: 16px;
+  }
+
+  .action-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .status-bar {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .back-button {
+    width: 40px;
+    height: 40px;
+    top: 16px;
+    left: 16px;
+  }
+
+  .order-id-badge {
+    top: 70px;
+    left: 16px;
+    padding: 6px 12px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tracking-info-card {
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 24px;
+    bottom: 20px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .tracking-info-card {
+    max-width: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 24px;
+    bottom: 30px;
+  }
+}
+
+/* Toast Notification Overrides */
+.Toaster__toast {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+}
+
+/* ========================================
+   NEW: LIVE RIDER ASSIGNMENT & ETA TRACKER
+   ======================================== */
+
+/* Rider Status Card */
+.rider-status {
+  position: absolute;
+  top: 90px;
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  border: 1px solid rgba(230, 30, 37, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.rider-status h5 {
+  color: #e61e25;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.rider-status p {
+  color: #1e1e1e;
+  font-size: 13px;
+  margin: 4px 0 0 0;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Enhanced Live Rider Marker */
+.live-rider-icon {
+  filter: drop-shadow(0 2px 8px rgba(230, 30, 37, 0.4));
+  animation: riderBounce 2s infinite;
+}
+
+/* Rider Name Tooltip */
+.rider-name-tooltip {
+  background: #1e1e1e !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  white-space: nowrap !important;
+}
+
+.rider-name-tooltip:before {
+  border-bottom-color: #1e1e1e !important;
+}
+
+/* Rider Icon Bounce Animation */
+@keyframes riderBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Rider Pulse Animation */
+@keyframes riderPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* Mobile Responsiveness for Rider Status */
+@media (max-width: 640px) {
+  .rider-status {
+    top: 80px;
+    left: 15px;
+    right: 15px;
+    padding: 10px 14px;
+  }
+  
+  .rider-status h5 {
+    font-size: 14px;
+  }
+  
+  .rider-status p {
+    font-size: 12px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .rider-status {
+    max-width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .rider-status {
+    max-width: 350px;
+    left: 30px;
+    right: auto;
+    top: 110px;
+  }
+}
+
+/* Real-Time Progress Bar Integration */
+.track-delivery-container .realtime-progress-bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 500;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile adjustments for progress bar */
+@media (max-width: 640px) {
+  .track-delivery-container .realtime-progress-bar {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    max-width: none;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .track-delivery-container .realtime-progress-bar {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 480px;
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1025px) {
+  .track-delivery-container .realtime-progress-bar {
+    left: 30px;
+    right: auto;
+    width: 450px;
+  }
+}
+
+/* ========================================
+   LIVE LOCATION OVERLAY STYLES
+   ======================================== */
+
+.live-location-overlay {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-width: 280px;
+  max-width: 320px;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.location-icon {
+  display: flex;
+  align-items: center;
+  color: #E0001B;
+}
+
+.location-status {
+  display: flex;
+  align-items: center;
+}
+
+.movement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.movement-stationary {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.movement-walking {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.movement-cycling {
+  background: #e0e7ff;
+  color: #5b21b6;
+}
+
+.movement-driving {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.movement-fast_driving {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.location-details {
+  margin-bottom: 12px;
+}
+
+.street-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.neighborhood {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.coordinates {
+  font-size: 11px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  color: #9ca3af;
+  background: #f9fafb;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+.location-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.last-updated {
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* Mobile adjustments for location overlay */
+@media (max-width: 768px) {
+  .live-location-overlay {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+    padding: 12px;
+  }
+
+  .street-name {
+    font-size: 14px;
+  }
+
+  .location-header {
+    margin-bottom: 8px;
+  }
+
+  .location-details {
+    margin-bottom: 8px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .live-location-overlay {
+    top: 15px;
+    right: 15px;
+    min-width: 300px;
+  }
+}

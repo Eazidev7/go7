@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Go7 React Test</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    .app {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #e61e25;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .success {
+      color: #28a745;
+      font-weight: bold;
+    }
+    .button {
+      background-color: #e61e25;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function MapTracking() {
+      return (
+        <div className="card">
+          <h3>MapTracking Component</h3>
+          <p>Live ETA: 15 minutes</p>
+          <p>Distance: 3.2 km</p>
+        </div>
+      );
+    }
+
+    function App() {
+      const [showMap, setShowMap] = React.useState(false);
+      const [time, setTime] = React.useState(new Date().toLocaleString());
+      
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          setTime(new Date().toLocaleString());
+        }, 1000);
+        
+        return () => clearInterval(timer);
+      }, []);
+      
+      return (
+        <div className="app">
+          <h1>🚀 Go7 React Test</h1>
+          
+          <div className="card">
+            <p className="success">✅ React is working correctly!</p>
+            <p>Current Time: {time}</p>
+          </div>
+          
+          {showMap ? (
+            <MapTracking />
+          ) : (
+            <p>Click the button below to test the MapTracking component</p>
+          )}
+          
+          <button 
+            className="button"
+            onClick={() => setShowMap(!showMap)}
+          >
+            {showMap ? 'Hide Map Component' : 'Show Map Component'}
+          </button>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+    
+    console.log('✅ React test app mounted successfully');
+  </script>
+</body>
+</html>

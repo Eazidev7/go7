@@ -1,0 +1,87 @@
+/* Custom Leaflet styles - base styles are imported in main.jsx */
+/* DO NOT import leaflet.css here - it's already imported in main.jsx */
+
+/* Custom marker styles */
+.delivery-marker {
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pickup-marker {
+  background-color: #10b981;
+}
+
+.dropoff-marker {
+  background-color: #ef4444;
+}
+
+/* Route line styling */
+.delivery-route {
+  stroke: #ef4444;
+  stroke-width: 4;
+  stroke-opacity: 0.8;
+  fill: none;
+}
+
+/* Loading states for map */
+.map-loading {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+  max-height: 200px;
+  overflow-y: auto;
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+  
+  /* Ensure smooth scrolling behavior on all browsers */
+  scroll-behavior: smooth;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Focus styles for better accessibility */
+.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+  border-color: #ef4444;
+}
+
+/* Price loading shimmer */
+.price-loading {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.375rem;
+  height: 1.25rem;
+  width: 100%;
+}

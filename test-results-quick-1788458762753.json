@@ -1,0 +1,236 @@
+{
+  "timestamp": "2026-09-03T18:06:02.753Z",
+  "baseUrl": "https://go7.ng",
+  "summary": {
+    "total": 32,
+    "passed": 32,
+    "failed": 0,
+    "passRate": "100.00%"
+  },
+  "tests": [
+    {
+      "category": "Server",
+      "testName": "Response Time",
+      "passed": true,
+      "details": "2853ms - slow",
+      "timestamp": "2026-09-03T18:05:37.455Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Homepage",
+      "passed": true,
+      "details": "Found: go7, delivery, order, home",
+      "timestamp": "2026-09-03T18:05:38.454Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Book Delivery",
+      "passed": true,
+      "details": "Redirect: 301",
+      "timestamp": "2026-09-03T18:05:39.189Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "GoBuy Shopping",
+      "passed": true,
+      "details": "Found: items, list",
+      "timestamp": "2026-09-03T18:05:47.175Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Restaurants",
+      "passed": true,
+      "details": "Found: restaurant, food, order",
+      "timestamp": "2026-09-03T18:05:47.952Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Shops",
+      "passed": true,
+      "details": "Found: shop",
+      "timestamp": "2026-09-03T18:05:49.100Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Pharmacy",
+      "passed": true,
+      "details": "Found: pharmacy",
+      "timestamp": "2026-09-03T18:05:51.991Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Markets",
+      "passed": true,
+      "details": "Found: market",
+      "timestamp": "2026-09-03T18:05:52.505Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Checkout",
+      "passed": true,
+      "details": "Found: payment, order, summary",
+      "timestamp": "2026-09-03T18:05:52.995Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Track Order",
+      "passed": true,
+      "details": "Redirect: 301",
+      "timestamp": "2026-09-03T18:05:53.199Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Profile",
+      "passed": true,
+      "details": "Redirect: 301",
+      "timestamp": "2026-09-03T18:05:53.413Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Vendor Portal",
+      "passed": true,
+      "details": "Redirect: 301",
+      "timestamp": "2026-09-03T18:05:53.629Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Rider Dashboard",
+      "passed": true,
+      "details": "Redirect: 301",
+      "timestamp": "2026-09-03T18:05:54.104Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Admin Dashboard",
+      "passed": true,
+      "details": "Redirect: 301",
+      "timestamp": "2026-09-03T18:05:55.047Z"
+    },
+    {
+      "category": "React App",
+      "testName": "Bundle Scripts",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:55.785Z"
+    },
+    {
+      "category": "React App",
+      "testName": "React Structure",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:55.785Z"
+    },
+    {
+      "category": "React App",
+      "testName": "Vite Dev",
+      "passed": true,
+      "details": "Production mode",
+      "timestamp": "2026-09-03T18:05:55.785Z"
+    },
+    {
+      "category": "Assets",
+      "testName": "CSS Loading",
+      "passed": true,
+      "details": "4 linked, 2 inline",
+      "timestamp": "2026-09-03T18:05:56.904Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Title Tag",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:57.458Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Viewport Meta",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:57.458Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Description Meta",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:57.459Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Charset",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:57.459Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Favicon",
+      "passed": true,
+      "details": "",
+      "timestamp": "2026-09-03T18:05:57.459Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/health",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-09-03T18:05:58.594Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/status",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-09-03T18:05:59.060Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/products",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-09-03T18:05:59.573Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/vendors",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-09-03T18:06:00.327Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/restaurants",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-09-03T18:06:01.767Z"
+    },
+    {
+      "category": "Security",
+      "testName": "X-Content-Type-Options",
+      "passed": true,
+      "details": "Not set",
+      "timestamp": "2026-09-03T18:06:02.751Z"
+    },
+    {
+      "category": "Security",
+      "testName": "X-Frame-Options",
+      "passed": true,
+      "details": "Not set",
+      "timestamp": "2026-09-03T18:06:02.752Z"
+    },
+    {
+      "category": "Security",
+      "testName": "Content-Security-Policy",
+      "passed": true,
+      "details": "upgrade-insecure-requests",
+      "timestamp": "2026-09-03T18:06:02.752Z"
+    },
+    {
+      "category": "Security",
+      "testName": "Strict-Transport-Security",
+      "passed": true,
+      "details": "Not set",
+      "timestamp": "2026-09-03T18:06:02.752Z"
+    }
+  ]
+}

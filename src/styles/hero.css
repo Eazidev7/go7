@@ -1,0 +1,330 @@
+/* HERO SECTION - Exact Reference Layout */
+:root{
+  --go7-red:#E10600;
+  --go7-red-dark:#C50500;
+  --go7-white:#ffffff;
+  --go7-shadow:0 6px 18px rgba(0,0,0,.15);
+  --go7-shadow-soft:0 2px 8px rgba(0,0,0,.12);
+}
+
+.hero{
+  background:#D92D27; /* Go7 red */
+  color:#fff;
+}
+.hero-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:88px min(6vw, 48px) 96px;
+  display:grid;
+  grid-template-columns: 1fr 560px; /* text | art */
+  align-items:end; /* align bottoms */
+  gap:24px;
+  position:relative;
+  z-index:2; /* above background graphics */
+}
+.hero-left{ position:relative; z-index:2; }
+.hero-right{
+  position:relative;
+  min-height:520px; /* canvas for images */
+  overflow:visible;
+}
+
+/* Burger: positioned on the left side, visible and properly sized */
+.hero-burger{
+  position:absolute !important;
+  left:-20px !important;            /* slightly off-screen for effect but visible */
+  bottom:20px !important;           /* lifted from bottom edge */
+  height:380px !important;          /* good size for hero */
+  transform:none !important;
+  z-index:3 !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3)) !important; /* subtle shadow */
+}
+
+/* Scooter: positioned on the right side, visible and properly sized */
+.hero-scooter{
+  position:absolute !important;
+  right:20px !important;            /* inset from right edge */
+  bottom:20px !important;           /* lifted from bottom edge */
+  width:450px !important;           /* good size for hero */
+  z-index:3 !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4)) !important;
+}
+
+/* navigation map background behind scooter */
+.hero-right::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:580px;
+  height:520px;
+  background-image: url("/assets/hero/nav-map.svg");
+  background-size: 120% 120%;
+  background-position: center;
+  opacity:0.3;
+  z-index:1;
+  pointer-events:none;
+  transform: rotate(-5deg); /* slight rotation for more organic feel */
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+}
+
+/* Buttons don't overlap */
+.hero-left .cta-row{ display:flex; gap:16px; margin-top:24px; }
+
+.hero-left h1 {
+  font-weight: 800;
+  line-height: 1.05;
+  font-size: 56px;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+.hero-left p {
+  color: #FFECEC;
+  font-size: 18px;
+  margin: 0 0 24px;
+}
+
+.hero-cta-wrap{
+  position:relative;
+  z-index:3;              /* above background graphics */
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:18px;
+}
+
+.go7-btn{
+  appearance:none;
+  border:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:50px;
+  padding:12px 22px;
+  border-radius:14px;
+  font:600 16px/1.1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform .06s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  will-change:transform;
+}
+
+.go7-btn:active{ transform:translateY(1px); }
+
+/* PRIMARY: white on red background */
+.go7-btn--primary{
+  background:var(--go7-white);
+  color:var(--go7-red);
+  box-shadow:var(--go7-shadow-soft);
+}
+.go7-btn--primary:hover{
+  box-shadow:var(--go7-shadow);
+}
+
+/* SECONDARY: solid red */
+.go7-btn--secondary{
+  background:var(--go7-red);
+  color:var(--go7-white);
+  box-shadow:var(--go7-shadow-soft);
+}
+.go7-btn--secondary:hover{
+  background:var(--go7-red-dark);
+  box-shadow:var(--go7-shadow);
+}
+
+/* OUTLINE: white background with red text */
+.go7-btn--outline{
+  background:var(--go7-white);
+  color:var(--go7-red);
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:var(--go7-shadow-soft);
+}
+.go7-btn--outline:hover{
+  background:var(--go7-white);
+  box-shadow:var(--go7-shadow);
+}
+
+/* icon slot (optional emoji or svg) */
+.go7-btn .icon{
+  display:inline-flex; width:1.2em; height:1.2em;
+}
+
+/* Focus ring for keyboard users */
+.go7-btn:focus-visible{
+  outline:3px solid rgba(255,255,255,.9);
+  outline-offset:2px;
+}
+
+/* Responsive */
+@media (max-width: 640px){
+  .go7-btn{ flex:1 1 auto; min-width: 45%; }
+}
+
+/* Ensure background elements stay behind buttons */
+.hero-burger, .hero-scooter {
+  z-index: 1 !important;
+}
+
+.hero-right {
+  z-index: 1;
+}
+
+/* Responsive tuning */
+@media (max-width:1200px){
+  .hero-inner{ grid-template-columns: 1fr 520px; }
+  .hero-scooter{ width:480px; right:24px; }
+  .hero-burger{ height:420px; left:-28px; }
+  .hero-right::after{ width:520px; height:480px; }
+}
+@media (max-width:1024px){
+  .hero-inner{ grid-template-columns: 1fr 420px; }
+  .hero-scooter{ width:400px; right:16px; bottom:0; }
+  .hero-burger{ height:360px; left:-20px; bottom:0; }
+  .hero-right{ min-height:440px; }
+}
+@media (max-width:768px){
+  .hero-inner{ grid-template-columns: 1fr; }
+  .hero-right{ min-height:360px; }
+  .hero-burger{ display:none; }     /* hide burger on small screens */
+  .hero-scooter{ right:8px; width:340px; }
+  .hero-right::after{ width:380px; height:360px; }
+}
+
+.hero-cta .btn.primary {
+  background: #fff;
+  color: #111;
+  padding: 14px 20px;
+  border-radius: 12px;
+}
+
+.hero-cta .btn.ghost {
+  background: transparent;
+  color: #111;
+  border: 2px solid #710000;
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin-left: 12px;
+}
+
+.hero-cta .btn:hover {
+  transform: translateY(-1px);
+}
+
+.hero-right {
+  position: relative;
+  min-height: 460px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url("/assets/hero/bg-network.svg") center/cover no-repeat;
+  opacity: 0.12;
+  filter: contrast(0.9);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-burger {
+  position: absolute !important;
+  bottom: 22px !important;
+  left: 10% !important;
+  height: 360px !important;
+  object-fit: contain !important;
+  z-index: 1 !important;
+  transform: none !important;
+}
+
+.hero-scooter {
+  position: absolute !important;
+  bottom: 18px !important;
+  right: 6% !important;
+  width: 420px !important;
+  object-fit: contain !important;
+  z-index: 1 !important;
+}
+
+/* RESPONSIVE */
+
+/* Prevent burger from touching text on very wide screens */
+@media (min-width: 1400px) {
+  .hero-burger {
+    left: 6%;
+    height: 400px;
+  }
+  
+  .hero-scooter {
+    right: 8%;
+    width: 460px;
+  }
+}
+
+/* Safety: never overlap text column */
+@media (min-width: 1200px) {
+  .hero-inner {
+    grid-template-columns: 520px 1fr;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .hero-right {
+    min-height: 380px;
+  }
+  
+  .hero-burger {
+    left: 6%;
+    height: 300px;
+    bottom: 16px;
+  }
+  
+  .hero-scooter {
+    right: 4%;
+    width: 340px;
+    bottom: 14px;
+  }
+  
+  .hero-left h1 {
+    font-size: 44px;
+  }
+}
+
+/* Mobile stack (images still side-by-side but smaller) */
+@media (max-width: 640px) {
+  .hero {
+    padding: 40px 0;
+  }
+  
+  .hero-left h1 {
+    font-size: 36px;
+  }
+  
+  .hero-right {
+    min-height: 280px;
+  }
+  
+  .hero-burger {
+    left: 3%;
+    height: 220px;
+    bottom: 10px;
+  }
+  
+  .hero-scooter {
+    right: 2%;
+    width: 250px;
+    bottom: 8px;
+  }
+  
+  .hero-cta .btn.ghost {
+    margin-left: 8px;
+  }
+}

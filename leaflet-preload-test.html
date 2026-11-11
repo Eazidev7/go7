@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet Preload Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.5; }
+    h1 { color: #E53935; }
+    .output { background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-top: 1rem; white-space: pre-wrap; }
+    button { background: #E53935; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-right: 0.5rem; }
+    button:hover { background: #D32F2F; }
+  </style>
+</head>
+<body>
+  <h1>Leaflet Preload Test</h1>
+  <p>This page will help diagnose issues with Leaflet preload warnings.</p>
+  
+  <div>
+    <button id="testPreload">Test Preload</button>
+    <button id="simulateApp">Simulate App</button>
+    <button id="fixWarnings">Fix Warnings</button>
+  </div>
+  
+  <h2>Output:</h2>
+  <div id="output" class="output">Click a button to start...</div>
+  
+  <script>
+    const output = document.getElementById('output');
+    
+    function log(message) {
+      output.textContent += message + '\n';
+    }
+    
+    function clear() {
+      output.textContent = '';
+    }
+    
+    // Function to check for preload links
+    function checkPreloadLinks() {
+      const links = document.querySelectorAll('link');
+      log(`Found ${links.length} link elements in document head`);
+      
+      let leafletCssPreloadLinks = 0;
+      let leafletJsPreloadLinks = 0;
+      
+      links.forEach(link => {
+        if (link.rel === 'preload' && link.href.includes('leaflet.css')) {
+          leafletCssPreloadLinks++;
+          log(`Found Leaflet CSS preload link: ${link.href}`);
+        }
+        if (link.rel === 'preload' && link.href.includes('leaflet.js')) {
+          leafletJsPreloadLinks++;
+          log(`Found Leaflet JS preload link: ${link.href}`);
+        }
+      });
+      
+      if (leafletCssPreloadLinks === 0 && leafletJsPreloadLinks === 0) {
+        log('No Leaflet preload links found in document head.');
+      }
+      
+      return { leafletCssPreloadLinks, leafletJsPreloadLinks };
+    }
+    
+    // Function to add our fix script
+    function addFixScript() {
+      log('Adding Leaflet preload fix script...');
+      
+      // Create the fix script
+      const fixScript = document.createElement('script');
+      fixScript.textContent = `
+        (function() {
+          // Remove any Leaflet preload links
+          function removeLeafletPreloadLinks() {
+            const preloadLinks = document.querySelectorAll('link[rel="preload"][href*="leaflet.css"], link[rel="preload"][href*="leaflet.js"]');
+            console.log('Found and removing', preloadLinks.length, 'Leaflet preload links');
+            preloadLinks.forEach(link => link.remove());
+            return preloadLinks.length > 0;
+          }
+          
+          // Set up monitoring for future preload links
+          function setupPreloadMonitor() {
+            const observer = new MutationObserver(mutations => {
+              mutations.forEach(mutation => {
+                if (mutation.type === 'childList') {
+                  mutation.addedNodes.forEach(node => {
+                    if (node.nodeName === 'LINK' && 
+                        node.rel === 'preload' && 
+                        node.href && 
+                        (node.href.includes('leaflet.css') || node.href.includes('leaflet.js'))) {
+                      console.log('Caught dynamic Leaflet preload link, removing it');
+                      node.remove();
+                    }
+                  });
+                }
+              });
+            });
+            
+            observer.observe(document.head, { childList: true, subtree: true });
+            return observer;
+          }
+          
+          // Run fix immediately
+          removeLeafletPreloadLinks();
+          const observer = setupPreloadMonitor();
+          
+          // Run fix again after page load
+          window.addEventListener('load', removeLeafletPreloadLinks);
+          
+          // Expose to global scope for testing
+          window.leafletPreloadFix = {
+            removeLeafletPreloadLinks,
+            observer
+          };
+        })();
+      `;
+      
+      document.head.appendChild(fixScript);
+      log('Fix script added.');
+    }
+    
+    // Test Preload button click handler
+    document.getElementById('testPreload').addEventListener('click', function() {
+      clear();
+      log('Checking for potential Leaflet preload issues...');
+      
+      // Initial check
+      checkPreloadLinks();
+      
+      // Create a test div to catch any dynamically added preload links
+      log('\nWatching for dynamic link elements...');
+      
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeName === 'LINK') {
+                const link = node;
+                if (link.rel === 'preload' && link.href && 
+                    (link.href.includes('leaflet.css') || link.href.includes('leaflet.js'))) {
+                  log(`Dynamic Leaflet preload link added: ${link.href}`);
+                  try {
+                    throw new Error();
+                  } catch(e) {
+                    const stack = e.stack.split('\n');
+                    // Try to extract the caller
+                    for (let i = 0; i < stack.length; i++) {
+                      const line = stack[i].trim();
+                      if (line.includes('http') && !line.includes('leaflet-preload-test.html')) {
+                        log(`Added by: ${line}`);
+                        break;
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+        });
+      });
+      
+      observer.observe(document.head, { childList: true, subtree: true });
+      
+      // Add a preload link for Leaflet CSS to test removal
+      log('\nAdding test Leaflet CSS preload link...');
+      const cssLink = document.createElement('link');
+      cssLink.rel = 'preload';
+      cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      cssLink.as = 'style';
+      document.head.appendChild(cssLink);
+      
+      // Add a preload link for Leaflet JS to test removal
+      log('Adding test Leaflet JS preload link...');
+      const jsLink = document.createElement('link');
+      jsLink.rel = 'preload';
+      jsLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      jsLink.as = 'script';
+      document.head.appendChild(jsLink);
+      
+      // Check again
+      log('\nRechecking after adding test preload links:');
+      checkPreloadLinks();
+      
+      // Check console warnings
+      log('\nChecking for console warnings:');
+      setTimeout(() => {
+        if (window.preloadWarnings && window.preloadWarnings.length > 0) {
+          log(`Found ${window.preloadWarnings.length} preload warnings:`);
+          window.preloadWarnings.forEach(warning => {
+            log(`- ${warning}`);
+          });
+        } else {
+          log('No preload warnings captured (yet). Warnings may appear in a few seconds.');
+        }
+        
+        observer.disconnect();
+        log('\nTest completed. Check browser console for any warnings.');
+      }, 2000);
+    });
+    
+    // Simulate App button click handler
+    document.getElementById('simulateApp').addEventListener('click', function() {
+      clear();
+      log('Simulating application initialization...');
+      
+      // Import Leaflet CSS directly like in main.jsx
+      log('Importing Leaflet CSS directly');
+      
+      const styleLink = document.createElement('link');
+      styleLink.rel = 'stylesheet';
+      styleLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(styleLink);
+      
+      log('Added Leaflet CSS as stylesheet');
+      
+      // Simulate the MapPreloader component's behavior
+      log('\nSimulating MapPreloader behavior (with preloading)');
+      
+      const leafletJsLink = document.createElement('link');
+      leafletJsLink.rel = 'preload';
+      leafletJsLink.as = 'script';
+      leafletJsLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      document.head.appendChild(leafletJsLink);
+      
+      log('Added Leaflet JS preload link (this should trigger a warning)');
+      
+      // Check for preload links
+      log('\nChecking for preload links:');
+      checkPreloadLinks();
+      
+      // Wait for potential warnings
+      setTimeout(() => {
+        log('\nChecking for preload warnings after 2 seconds:');
+        
+        if (window.preloadWarnings && window.preloadWarnings.length > 0) {
+          log(`Found ${window.preloadWarnings.length} preload warnings:`);
+          window.preloadWarnings.forEach(warning => {
+            log(`- ${warning}`);
+          });
+        } else {
+          log('No preload warnings captured yet. They may appear in a few more seconds.');
+          log('Check browser console for any warnings.');
+        }
+        
+        log('\nSimulation completed.');
+      }, 2000);
+    });
+    
+    // Fix Warnings button click handler
+    document.getElementById('fixWarnings').addEventListener('click', function() {
+      clear();
+      log('Applying Leaflet preload fixes...');
+      
+      // First check for existing preload links
+      log('\nBefore fix:');
+      const before = checkPreloadLinks();
+      
+      // Apply the fix
+      addFixScript();
+      
+      // Check again after fix
+      log('\nAfter fix:');
+      const after = checkPreloadLinks();
+      
+      // Report results
+      log('\nFix results:');
+      if (before.leafletCssPreloadLinks > 0 || before.leafletJsPreloadLinks > 0) {
+        log(`Removed ${before.leafletCssPreloadLinks} Leaflet CSS preload links`);
+        log(`Removed ${before.leafletJsPreloadLinks} Leaflet JS preload links`);
+      } else {
+        log('No preload links were present to remove');
+      }
+      
+      // Test if the fix prevents new additions
+      log('\nTesting if fix prevents new preload links...');
+      
+      const testCssLink = document.createElement('link');
+      testCssLink.rel = 'preload';
+      testCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      testCssLink.as = 'style';
+      document.head.appendChild(testCssLink);
+      
+      const testJsLink = document.createElement('link');
+      testJsLink.rel = 'preload';
+      testJsLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      testJsLink.as = 'script';
+      document.head.appendChild(testJsLink);
+      
+      log('Attempted to add test preload links');
+      
+      // Check if links were removed
+      log('\nFinal check:');
+      const final = checkPreloadLinks();
+      
+      if (final.leafletCssPreloadLinks === 0 && final.leafletJsPreloadLinks === 0) {
+        log('SUCCESS: Fix successfully prevented new preload links');
+      } else {
+        log('WARNING: Fix did not prevent all new preload links');
+      }
+      
+      log('\nFix test completed.');
+    });
+    
+    // Capture console warnings about preload resources
+    window.preloadWarnings = [];
+    const originalWarn = console.warn;
+    console.warn = function(...args) {
+      const message = args.join(' ');
+      if (message.includes('preload') && message.includes('leaflet')) {
+        window.preloadWarnings.push(message);
+      }
+      originalWarn.apply(console, args);
+    };
+  </script>
+</body>
+</html>

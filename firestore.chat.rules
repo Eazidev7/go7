@@ -1,0 +1,71 @@
+// GO7 Firestore Security Rules - Chat System
+// Only delivery participants (rider + customer) can access chat
+// Requires Firebase Authentication for all operations
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Chat collection rules - Secure delivery-based access
+    match /chats/{deliveryId} {
+      // Allow read/write only if user is authenticated and involved in the delivery
+      allow read, write: if request.auth != null && 
+        isDeliveryParticipant(deliveryId, request.auth.uid);
+      
+      // Chat messages subcollection
+      match /messages/{messageId} {
+        // Allow read/write only for delivery participants
+        allow read, write: if request.auth != null && 
+          isDeliveryParticipant(deliveryId, request.auth.uid);
+        
+        // Additional security for message creation
+        allow create: if request.auth != null && 
+          isDeliveryParticipant(deliveryId, request.auth.uid) &&
+          request.resource.data.senderId == request.auth.uid &&
+          request.resource.data.deliveryId == deliveryId &&
+          request.resource.data.timestamp == request.time;
+      }
+    }
+    
+    // Chat metadata collection (for unread counts, last messages)
+    match /chat_metadata/{deliveryId} {
+      allow read, write: if request.auth != null && 
+        isDeliveryParticipant(deliveryId, request.auth.uid);
+    }
+    
+    // Deliveries collection - Read access for participants
+    match /deliveries/{deliveryId} {
+      // Allow read for delivery participants to verify access
+      allow read: if request.auth != null && 
+        (resource.data.customerId == request.auth.uid || 
+         resource.data.riderId == request.auth.uid);
+      
+      // Allow write for specific operations (booking, accepting, completing)
+      allow write: if request.auth != null && 
+        (resource.data.customerId == request.auth.uid || 
+         resource.data.riderId == request.auth.uid ||
+         request.resource.data.customerId == request.auth.uid);
+    }
+    
+    // Rider collection - Read access for riders
+    match /riders/{riderId} {
+      allow read: if request.auth != null && 
+        (resource.data.userId == request.auth.uid || 
+         request.auth.uid == riderId);
+      allow write: if request.auth != null && 
+        request.auth.uid == riderId;
+    }
+    
+    // Helper function to check if user is participant in delivery
+    function isDeliveryParticipant(deliveryId, userId) {
+      let delivery = get(/databases/$(database)/documents/deliveries/$(deliveryId));
+      return delivery.data.customerId == userId || 
+             delivery.data.riderId == userId;
+    }
+    
+    // Block all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

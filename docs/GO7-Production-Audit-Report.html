@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>GO7.ng Production Security &amp; Architecture Audit</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.5; font-size: 10pt; margin: 0; }
+  .cover {
+    min-height: 255mm; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; background: #121212; color: #fff; page-break-after: always; padding: 40px;
+  }
+  .cover img { width: 120px; margin-bottom: 24px; }
+  .cover h1 { font-size: 26pt; margin: 0 0 10px; }
+  .cover .subtitle { font-size: 12pt; opacity: 0.92; max-width: 520px; }
+  .cover .meta { margin-top: 28px; font-size: 10pt; opacity: 0.85; }
+  .scores { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 36px; width: 100%; max-width: 520px; }
+  .score-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); padding: 12px; border-radius: 6px; }
+  .score-box .n { font-size: 22pt; font-weight: 700; color: #E1251B; }
+  .score-box .l { font-size: 8pt; opacity: 0.85; margin-top: 4px; }
+  h2 { color: #E1251B; font-size: 14pt; margin: 22px 0 8px; border-bottom: 2px solid #E1251B; padding-bottom: 3px; page-break-after: avoid; }
+  h3 { color: #333; font-size: 11pt; margin: 14px 0 6px; page-break-after: avoid; }
+  p { margin: 6px 0; }
+  ul { margin: 6px 0 10px 18px; }
+  li { margin: 3px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; font-size: 8.5pt; page-break-inside: auto; }
+  tr { page-break-inside: avoid; page-break-after: auto; }
+  th, td { border: 1px solid #ddd; padding: 5px 7px; text-align: left; vertical-align: top; }
+  th { background: #FFF4F3; color: #E1251B; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 7.5pt; font-weight: 700; }
+  .ok { background: #e8f5e9; color: #1b5e20; }
+  .partial { background: #fff8e1; color: #e65100; }
+  .missing, .unsafe { background: #ffebee; color: #b71c1c; }
+  .callout { background: #FFF4F3; border-left: 4px solid #E1251B; padding: 10px 12px; margin: 10px 0; }
+  .callout.warn { background: #fff8e1; border-left-color: #f9a825; }
+  .callout.info { background: #e3f2fd; border-left-color: #1565c0; }
+  .footer-note { font-size: 8pt; color: #666; margin-top: 16px; }
+  .page-break { page-break-before: always; }
+  ol.top10 { margin: 8px 0 12px 20px; }
+  ol.top10 li { margin: 5px 0; }
+  code { font-size: 8pt; background: #f5f5f5; padding: 1px 4px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img src="file:///C:/Users/7linkz/Desktop/go7/public/go7-logo.png" alt="GO7 Logo"/>
+  <h1>Production Security &amp; Architecture Audit</h1>
+  <p class="subtitle">Read-only inspection of the GO7 codebase, Firestore rules, Cloud Functions, payments, and operations. No production code was modified during this audit.</p>
+  <p class="meta">Project: go7-app-209e4 &nbsp;|&nbsp; Live: go7.ng &nbsp;|&nbsp; Audit date: 2026-08-08<br/>Evidence standard: path / rule / function — not generic checklists</p>
+  <div class="scores">
+    <div class="score-box"><div class="n">38</div><div class="l">Production readiness</div></div>
+    <div class="score-box"><div class="n">28</div><div class="l">Security</div></div>
+    <div class="score-box"><div class="n">52</div><div class="l">Reliability</div></div>
+    <div class="score-box"><div class="n">34</div><div class="l">Payment security</div></div>
+    <div class="score-box"><div class="n">30</div><div class="l">Data protection</div></div>
+    <div class="score-box"><div class="n">18</div><div class="l">Testing</div></div>
+  </div>
+</div>
+
+<div>
+  <h2>Executive verdict</h2>
+  <div class="callout">
+    <strong>GO7 is live but not security-production-ready.</strong>
+    The product operates at go7.ng with real payments, but critical access-control and payment-trust failures mean a motivated client can forge paid status, mutate fees/earnings, and access cross-tenant data. Treat P0 as urgent production hardening.
+  </div>
+  <ol class="top10">
+    <li>Rotate Paystack <code>sk_live</code> + Infobip; scrub repo/history</li>
+    <li>Auth-gate or remove open money CFs (<code>verifyPayment</code>, <code>backfillPayment</code>, <code>updateOrderOnPaymentVerification</code>, agent earnings)</li>
+    <li>HMAC on <code>onPaystackTransferUpdate</code></li>
+    <li>Stop client <code>paymentStatus: paid</code> — server verify + amount bind</li>
+    <li><code>debitWalletForDelivery</code>: ignore client fee; server fare</li>
+    <li>Remove Firestore catch-all; lock bookings/orders fields + transitions</li>
+    <li>CF-only vendor/rider balances; field denylist</li>
+    <li>Deploy participant chat rules; scope rider updates to assigned</li>
+    <li><code>users</code> get own/admin only; lock addresses; Storage proof party-only</li>
+    <li>Scheduled Firestore export + restore runbook; enable Sentry</li>
+  </ol>
+
+  <h2>1. Architecture (summary)</h2>
+  <table>
+    <tr><th>Area</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td>Frontend</td><td><span class="badge ok">IMPLEMENTED</span></td><td>React 18 + Vite 7 SPA; Hostinger FTP deploy</td></tr>
+    <tr><td>Cloud Functions</td><td><span class="badge ok">IMPLEMENTED</span></td><td>functions/ Node 22: wallet, Paystack, OTP, bills</td></tr>
+    <tr><td>Firestore</td><td><span class="badge ok">IMPLEMENTED</span></td><td>Live rules match repo firestore.rules</td></tr>
+    <tr><td>Client vs server trust</td><td><span class="badge unsafe">UNSAFE</span></td><td>Orders/bookings/status/fees largely client-written</td></tr>
+    <tr><td>Deploy</td><td><span class="badge ok">IMPLEMENTED</span></td><td>npm run deploy:hostinger zero-downtime FTP</td></tr>
+  </table>
+
+  <h2>2–4. Auth / RBAC / conceptual access</h2>
+  <table>
+    <tr><th>Test</th><th>Prevented?</th><th>Evidence</th></tr>
+    <tr><td>Customer reads another order</td><td>NO</td><td>orders Go7-* public read; any-auth + catch-all</td></tr>
+    <tr><td>Customer sets paymentStatus paid</td><td>NO</td><td>Popup callback writes paid without server verify</td></tr>
+    <tr><td>Any rider updates any order</td><td>NO</td><td>isRider() with no assignment check</td></tr>
+    <tr><td>Vendor product cross-write</td><td>YES (path)</td><td>vendors/{id}/products requires isOwner</td></tr>
+    <tr><td>Vendor inflate balance / payout</td><td>NO</td><td>Unrestricted vendor write + client withdrawal</td></tr>
+    <tr><td>Client sets role=admin</td><td>YES</td><td>users create/update block admin self-promote</td></tr>
+    <tr><td>Duplicate wallet webhook</td><td>YES</td><td>wallet.js reference idempotency + HMAC</td></tr>
+    <tr><td>Duplicate verifyPayment HTTP</td><td>NO</td><td>Weak/no lock on legacy path</td></tr>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>5. Firestore security (highlights)</h2>
+  <div class="callout">
+    <strong>Catch-all:</strong> <code>match /{document=**} { allow read, write: if request.auth != null; }</code> (firestore.rules ~726–728)
+  </div>
+  <table>
+    <tr><th>Collection</th><th>Issue</th></tr>
+    <tr><td>bookings</td><td>World read/create; any auth update</td></tr>
+    <tr><td>orders</td><td>Public Go7-* read; rider/owner/vendor update no field lock</td></tr>
+    <tr><td>users</td><td>get: if true (world); list: authenticated</td></tr>
+    <tr><td>chats/messages</td><td>Any authenticated read/write</td></tr>
+    <tr><td>vendors</td><td>Owner write unrestricted (balances included)</td></tr>
+    <tr><td>riders</td><td>Self update all fields; read any auth</td></tr>
+    <tr><td>wallets</td><td>Balance fields protected for owner (better island)</td></tr>
+  </table>
+
+  <h2>6–9. API / payments / PCI</h2>
+  <table>
+    <tr><th>Control</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td>Wallet Paystack webhook</td><td><span class="badge ok">OK</span></td><td>HMAC + re-verify + idempotent docs (wallet.js)</td></tr>
+    <tr><td>Transfer webhook</td><td><span class="badge unsafe">UNSAFE</span></td><td>onPaystackTransferUpdate — no HMAC</td></tr>
+    <tr><td>verifyPayment / backfillPayment</td><td><span class="badge unsafe">UNSAFE</span></td><td>Unauthenticated credit paths</td></tr>
+    <tr><td>Client payment amount/status/fee</td><td><span class="badge unsafe">UNSAFE</span></td><td>BookDelivery / FoodCheckout / debit fee trust</td></tr>
+    <tr><td>PCI raw card data</td><td><span class="badge ok">OK</span></td><td>Paystack Popup only — no CVV/PAN forms</td></tr>
+    <tr><td>Secrets in repo</td><td><span class="badge unsafe">UNSAFE</span></td><td>sk_live in test-dva-webhook.js; Infobip tracked</td></tr>
+    <tr><td>Currency NGN assert</td><td><span class="badge missing">MISSING</span></td><td>Client sends NGN; server does not reject mismatch</td></tr>
+  </table>
+
+  <h2>Public vs secret keys</h2>
+  <table>
+    <tr><th>Credential</th><th>Class</th><th>OK to expose?</th></tr>
+    <tr><td>Paystack pk_*</td><td>PUBLIC</td><td>Yes (domain-restrict)</td></tr>
+    <tr><td>Paystack sk_* / webhook HMAC</td><td>SECRET</td><td>NEVER</td></tr>
+    <tr><td>Firebase web apiKey</td><td>PUBLIC</td><td>Yes + App Check</td></tr>
+    <tr><td>Service account / Infobip / Termii / FTP password</td><td>SECRET</td><td>NEVER</td></tr>
+    <tr><td>MapTiler / Mapbox browser keys</td><td>PUBLIC</td><td>Yes if referrer-restricted</td></tr>
+    <tr><td>VITE_*SECRET*</td><td>SECRET (misplaced)</td><td>Never put real secrets in Vite</td></tr>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>10–14. Fraud / location / rider / vendor / customer</h2>
+  <table>
+    <tr><th>Area</th><th>Status</th><th>Key finding</th></tr>
+    <tr><td>Fraud controls</td><td><span class="badge missing">MISSING</span></td><td>No App Check, velocity, fingerprint; wallet idempotency exists</td></tr>
+    <tr><td>BookDelivery location</td><td><span class="badge ok">OK</span></td><td>GPS + Abeokuta bounds; address↔coords</td></tr>
+    <tr><td>TrackDelivery</td><td><span class="badge unsafe">UNSAFE</span></td><td>Fake riders / ETA demos still present</td></tr>
+    <tr><td>Android rider nav</td><td><span class="badge ok">OK</span></td><td>Navigation SDK follow camera</td></tr>
+    <tr><td>Rider earnings/completion</td><td><span class="badge unsafe">UNSAFE</span></td><td>Client completeDelivery credits earnings</td></tr>
+    <tr><td>Vendor wallet</td><td><span class="badge unsafe">UNSAFE</span></td><td>Client mutates availableBalance</td></tr>
+    <tr><td>Customer isolation</td><td><span class="badge unsafe">UNSAFE</span></td><td>users get world; bookings public; chats any-auth</td></tr>
+  </table>
+
+  <h2>16. Order state machine</h2>
+  <div class="callout warn">
+    <strong>No server-enforced transition graph.</strong> Status dialects are fragmented (food, GoBuy, rider, vendor, paystackConfig). Customer/vendor can mark delivered; unpaid→completed and cancelled→active are possible via rules.
+  </div>
+
+  <h2>17–22. Uploads / chat / notifications / audit / errors / secrets</h2>
+  <table>
+    <tr><th>Area</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td>Hostinger uploads</td><td><span class="badge ok">OK</span></td><td>Auth, MIME, 5MB, path owner</td></tr>
+    <tr><td>Storage proof images</td><td><span class="badge unsafe">UNSAFE</span></td><td>Any authenticated write</td></tr>
+    <tr><td>Chat rules</td><td><span class="badge unsafe">UNSAFE</span></td><td>Any auth; stricter firestore.chat.rules not deployed</td></tr>
+    <tr><td>In-app notifications</td><td><span class="badge ok">OK</span></td><td>Owner-scoped; CF create only</td></tr>
+    <tr><td>WA/OTP send callables</td><td><span class="badge unsafe">UNSAFE</span></td><td>Under-authorized / open</td></tr>
+    <tr><td>Immutable audit log</td><td><span class="badge missing">MISSING</span></td><td>adminActions/audit_logs not locked in live rules</td></tr>
+    <tr><td>Error handling</td><td><span class="badge partial">PARTIAL</span></td><td>Many CFs return error.message</td></tr>
+  </table>
+
+  <h2>23–31. Ops (deps, CI, DR, monitoring, deploy)</h2>
+  <table>
+    <tr><th>Area</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td>npm audit</td><td><span class="badge unsafe">UNSAFE</span></td><td>Root 1 critical / 15 high (snapshot 2026-08-08)</td></tr>
+    <tr><td>CI/CD</td><td><span class="badge missing">MISSING</span></td><td>No GitHub Actions; manual FTP + firebase deploy</td></tr>
+    <tr><td>Backups / DR</td><td><span class="badge missing">MISSING</span></td><td>Ad-hoc backups/ dump; no RPO/RTO/restore runbook</td></tr>
+    <tr><td>Monitoring</td><td><span class="badge missing">MISSING</span></td><td>Sentry init off/mocked; thin adminAlerts</td></tr>
+    <tr><td>Testing</td><td><span class="badge missing">MISSING</span></td><td>~10 Jest files; no rules/security/E2E suites</td></tr>
+    <tr><td>Deploy</td><td><span class="badge ok">OK</span></td><td>Zero-downtime Hostinger asset→verify→HTML cutover</td></tr>
+    <tr><td>Rollback</td><td><span class="badge partial">PARTIAL</span></td><td>Possible via prior dist / redeploy; undocumented emergency runbook</td></tr>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>32. OWASP-style review</h2>
+  <table>
+    <tr><th>Category</th><th>Status</th><th>Risk</th><th>Recommendation</th></tr>
+    <tr><td>A01 Broken access control</td><td><span class="badge unsafe">UNSAFE</span></td><td>Critical</td><td>Deny-by-default; party-scoped chats; CF authz</td></tr>
+    <tr><td>A02 Cryptographic failures</td><td><span class="badge partial">PARTIAL</span></td><td>High</td><td>Rotate secrets; timing-safe HMAC; App Check</td></tr>
+    <tr><td>A03 Injection</td><td><span class="badge partial">PARTIAL</span></td><td>Medium</td><td>Escape Swal HTML; gate OTP senders</td></tr>
+    <tr><td>A04 Insecure design</td><td><span class="badge unsafe">UNSAFE</span></td><td>Critical</td><td>Server commerce ledger + state machine</td></tr>
+    <tr><td>A05 Misconfiguration</td><td><span class="badge unsafe">UNSAFE</span></td><td>High</td><td>Catch-all / CORS / weak WA token</td></tr>
+    <tr><td>A06 Vulnerable components</td><td><span class="badge unsafe">UNSAFE</span></td><td>High</td><td>Patch critical/high; audit CI</td></tr>
+    <tr><td>A07 Auth failures</td><td><span class="badge partial">PARTIAL</span></td><td>High</td><td>Agent Auth; gate open CFs</td></tr>
+    <tr><td>A08 Integrity failures</td><td><span class="badge unsafe">UNSAFE</span></td><td>Critical</td><td>HMAC all webhooks; CF-only balances</td></tr>
+    <tr><td>A09 Logging/monitoring</td><td><span class="badge missing">MISSING</span></td><td>High</td><td>Immutable audit + Sentry</td></tr>
+    <tr><td>A10 SSRF</td><td><span class="badge partial">PARTIAL</span></td><td>Medium</td><td>Auth + rate-limit Distance Matrix</td></tr>
+  </table>
+
+  <h2>33. Final scorecard (condensed)</h2>
+  <table>
+    <tr><th>Category</th><th>Status</th><th>Risk</th><th>Required action</th></tr>
+    <tr><td>Architecture</td><td>PARTIAL</td><td>High</td><td>Server-authoritative commerce</td></tr>
+    <tr><td>Authentication</td><td>PARTIAL</td><td>High</td><td>Agent Firebase Auth</td></tr>
+    <tr><td>Authorization / Firestore / API</td><td>UNSAFE</td><td>Critical</td><td>RBAC + deny default + CF authz</td></tr>
+    <tr><td>Payments</td><td>UNSAFE</td><td>Critical</td><td>Verify + bind amount server-side</td></tr>
+    <tr><td>PCI</td><td>OK</td><td>Low</td><td>Remove VITE secret pattern</td></tr>
+    <tr><td>Order state machine</td><td>MISSING</td><td>Critical</td><td>Server transitions</td></tr>
+    <tr><td>Chat</td><td>UNSAFE</td><td>High</td><td>Deploy participant rules</td></tr>
+    <tr><td>Secrets</td><td>UNSAFE</td><td>Critical</td><td>Rotate + scrub</td></tr>
+    <tr><td>Backups / DR</td><td>MISSING</td><td>Critical</td><td>Scheduled export + runbook</td></tr>
+    <tr><td>Monitoring / Testing / CI</td><td>MISSING</td><td>High</td><td>Sentry + rules tests + CI</td></tr>
+    <tr><td>Deployment</td><td>OK</td><td>Low</td><td>Keep zero-downtime order</td></tr>
+    <tr><td>Rollback</td><td>PARTIAL</td><td>High</td><td>Document emergency rollback</td></tr>
+  </table>
+
+  <h2>34. P0 — critical findings</h2>
+  <table>
+    <tr><th>Problem</th><th>Location</th><th>Fix</th><th>Func impact?</th></tr>
+    <tr><td>Live Paystack + Infobip secrets</td><td>test-dva-webhook.js; functions/.env.infobip</td><td>Rotate; scrub; untrack</td><td>Config update only</td></tr>
+    <tr><td>Unauthenticated money CFs</td><td>index.js; agentEarnings.js</td><td>Auth+Admin or delete</td><td>Admin must use Auth</td></tr>
+    <tr><td>Unsigned transfer webhook</td><td>vendorPayouts.js:585+</td><td>HMAC like wallet.js</td><td>None if signed already</td></tr>
+    <tr><td>Client paid + fee trust</td><td>BookDelivery/FoodCheckout; wallet.js</td><td>Server verify; ignore fee</td><td>Checkout awaits verify</td></tr>
+    <tr><td>Catch-all + open bookings</td><td>firestore.rules 395–401, 726–728</td><td>Deny default; field-lock</td><td>Inventory client writes first</td></tr>
+    <tr><td>Vendor/rider financial self-write</td><td>rules + vendorWalletUtils + riderService</td><td>CF-only balances</td><td>Move credits to CF</td></tr>
+  </table>
+
+  <h2>36. Final Q&amp;A</h2>
+  <ol>
+    <li><strong>Production-ready?</strong> NO for security. YES as a running product with known critical risk.</li>
+    <li><strong>Key vulns?</strong> Catch-all rules; open money CFs; client paid/fee; unsigned transfer webhook; leaked secrets; open chats; balance self-writes.</li>
+    <li><strong>Incomplete?</strong> State machine; immutable audit; DR; App Check; CI; Sentry; rules tests; agent Auth.</li>
+    <li><strong>Unauthorized access?</strong> Cross-customer users/bookings/chats; any-rider orders; vendor self-balance; open admin CFs.</li>
+    <li><strong>Client money/status?</strong> YES.</li>
+    <li><strong>Firestore rules secure?</strong> NO.</li>
+    <li><strong>Paystack webhooks?</strong> Wallet YES (HMAC+idempotent). Transfer NO. Legacy verify NO.</li>
+    <li><strong>Secrets protected?</strong> NO.</li>
+    <li><strong>Location reliable?</strong> BookDelivery mostly yes; TrackDelivery demos undermine trust.</li>
+    <li><strong>Rider nav ready?</strong> Android SDK yes; GPS spoof via rules; web tracking mixed.</li>
+    <li><strong>Logging / monitoring / DR / tests?</strong> All insufficient.</li>
+    <li><strong>Must fix?</strong> Entire P0 list.</li>
+    <li><strong>After?</strong> CI, Sentry, DR drills, App Check, status unification, pagination, docs.</li>
+  </ol>
+
+  <div class="callout info">
+    <strong>Audit-only:</strong> No code, rules, payments, auth, dependencies, deploy, or environment variables were modified.
+    Interactive evidence tables also live in the Cursor canvas: go7-production-audit.canvas.tsx
+  </div>
+  <p class="footer-note">GO7.ng Production Audit · 2026-08-08 · go7-app-209e4 · Generated from repository evidence</p>
+</div>
+
+</body>
+</html>

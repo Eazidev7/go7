@@ -1,0 +1,372 @@
+/* Modern Chowdeck-style Map Component */
+
+/* Base styles for map labels */
+.map-label {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-label div {
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  letter-spacing: 0.5px;
+}
+
+.map-label div:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  filter: brightness(1.1);
+}
+
+.map-label div:active {
+  transform: scale(1.1) translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Neighborhood label colors */
+.label-blue div { background: #007bff; color: white; }
+.label-green div { background: #28a745; color: white; }
+.label-red div { background: #dc3545; color: white; }
+.label-purple div { background: #6f42c1; color: white; }
+.label-orange div { background: #fd7e14; color: white; }
+.label-yellow div { background: #ffc107; color: black; }
+.label-brown div { background: #8b4513; color: white; }
+.label-darkred div { background: #900C3F; color: white; }
+.label-teal div { background: #20c997; color: white; }
+.label-lblue div { background: #17a2b8; color: white; }
+
+/* Active state for selected labels */
+.label-active div {
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+/* Main container */
+.neighborhood-map-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Responsive layout container */
+.map-vendor-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Desktop layout: map left, vendors right */
+@media (min-width: 1024px) {
+  .map-vendor-container {
+    flex-direction: row;
+  }
+  
+  .map-section {
+    flex: 1;
+    min-height: 100vh;
+  }
+  
+  .vendor-section {
+    width: 400px;
+    background: white;
+    border-left: 1px solid #e9ecef;
+    overflow-y: auto;
+  }
+}
+
+/* Map section styling */
+.map-section {
+  position: relative;
+  flex: 1;
+}
+
+.neighborhood-map {
+  height: 100%;
+  min-height: 50vh;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .neighborhood-map {
+    min-height: 100vh;
+  }
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+}
+
+.map-instructions {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 1000;
+}
+
+/* Vendor section styling */
+.vendor-section {
+  padding: 24px;
+  background: white;
+  min-height: 50vh;
+}
+
+@media (min-width: 1024px) {
+  .vendor-section {
+    min-height: 100vh;
+  }
+}
+
+.vendor-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f1f3f4;
+}
+
+/* Loading state */
+.vendor-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #6c757d;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f1f3f4;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modern vendor cards grid */
+.vendor-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 1400px) {
+  .vendor-section {
+    width: 500px;
+  }
+  
+  .vendor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Individual vendor card */
+.vendor-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #f1f3f4;
+}
+
+.vendor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* Vendor image */
+.vendor-image {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vendor-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.vendor-card:hover .vendor-image img {
+  transform: scale(1.05);
+}
+
+/* Vendor info section */
+.vendor-info {
+  padding: 16px;
+}
+
+.vendor-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.vendor-description {
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Vendor metadata */
+.vendor-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.vendor-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.vendor-rating-star {
+  width: 14px;
+  height: 14px;
+  color: #ffc107;
+}
+
+.rating-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.vendor-delivery {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.delivery-icon {
+  width: 14px;
+  height: 14px;
+  color: #6c757d;
+}
+
+.delivery-time {
+  font-size: 13px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.vendor-fee {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.fee-label {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.fee-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #28a745;
+}
+
+/* Order button */
+.order-button {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.order-button:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.order-button:active {
+  transform: translateY(0);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .vendor-section {
+    padding: 16px;
+  }
+  
+  .vendor-section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .vendor-card {
+    border-radius: 12px;
+  }
+  
+  .vendor-info {
+    padding: 12px;
+  }
+  
+  .vendor-name {
+    font-size: 15px;
+  }
+  
+  .vendor-meta {
+    gap: 12px;
+  }
+  
+  .map-instructions {
+    left: 12px;
+    bottom: 12px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}

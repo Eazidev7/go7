@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Access Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2563eb;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Direct Access Test Page</h1>
+        
+        <div class="success">
+            <strong>Connection Successful!</strong> If you're seeing this page, your browser can successfully 
+            access static content served by your system.
+        </div>
+        
+        <h2>What This Means</h2>
+        <p>
+            This HTML file is being loaded directly by your browser without any server processing. 
+            Since this works, the issue with your Vite React application is likely related to:
+        </p>
+        
+        <ul>
+            <li>The Vite development server specifically</li>
+            <li>WebSocket connections needed for Hot Module Replacement</li>
+            <li>Browser cache or CORS issues</li>
+        </ul>
+        
+        <h2>Next Steps</h2>
+        <p>Try these approaches to fix your Vite ERR_FAILED issue:</p>
+        
+        <ol>
+            <li>Clear your browser cache completely</li>
+            <li>Try using IP address 127.0.0.1 instead of localhost</li>
+            <li>Try accessing in a private/incognito window</li>
+            <li>Try a different browser</li>
+        </ol>
+        
+        <div class="warning">
+            <strong>Important:</strong> For more reliable access, use the specialized fix server 
+            created for your project. Run <code>FIX-ERR-FAILED.bat</code> from your desktop.
+        </div>
+        
+        <button onclick="testFetch()">Test Fetch API</button>
+        <div id="fetchResult"></div>
+    </div>
+    
+    <script>
+        // Test if fetch API works (useful for diagnosing CORS issues)
+        function testFetch() {
+            const resultDiv = document.getElementById('fetchResult');
+            resultDiv.innerHTML = 'Testing fetch API...';
+            
+            fetch('https://httpbin.org/get')
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = '<div class="success" style="margin-top: 15px;">' + 
+                        '<strong>Fetch API working!</strong> Your browser can make external requests.' +
+                        '</div>';
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = '<div class="warning" style="margin-top: 15px;">' +
+                        '<strong>Fetch API failed:</strong> ' + error.message +
+                        '</div>';
+                });
+        }
+    </script>
+</body>
+</html>

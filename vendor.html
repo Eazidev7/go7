@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <!-- Stale-bundle self-heal: if a hashed asset 404s after a deploy, reset SW/caches once -->
+  <script>
+    (function () {
+      var KEY = 'go7-healed';
+      function heal() {
+        if (sessionStorage.getItem(KEY)) return;
+        sessionStorage.setItem(KEY, '1');
+        var sw = navigator.serviceWorker
+          ? navigator.serviceWorker.getRegistrations().then(function (rs) {
+              return Promise.all(rs.map(function (r) { return r.unregister(); }));
+            })
+          : Promise.resolve();
+        var cs = window.caches
+          ? caches.keys().then(function (ks) {
+              return Promise.all(ks.map(function (k) { return caches.delete(k); }));
+            })
+          : Promise.resolve();
+        Promise.all([sw, cs]).finally(function () { location.reload(); });
+      }
+      window.addEventListener('error', function (e) {
+        var t = e.target;
+        if (t && t.tagName === 'SCRIPT' && t.src && t.src.indexOf('/assets/') !== -1) heal();
+      }, true);
+      window.addEventListener('unhandledrejection', function (e) {
+        var m = String((e.reason && (e.reason.message || e.reason)) || '');
+        if (/dynamically imported|module script|Failed to fetch/i.test(m)) heal();
+      });
+    })();
+  </script>
+
+
+  <script>
+
+    (function () {
+
+      var p = location.pathname;
+
+      if (p.length > 1 && p.endsWith('/')) {
+
+        history.replaceState(null, '', p.slice(0, -1) + location.search + location.hash);
+
+      }
+
+    })();
+
+  </script>
+
+  <base href="/" />
+
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+
+  <meta http-equiv="Pragma" content="no-cache" />
+
+  <meta http-equiv="Expires" content="0" />
+
+  <meta name="go7-build-id" content="__GO7_BUILD_ID__" />
+
+  <title>Vendor | Go7</title>
+
+  <script src="/go7-boot.js"></script>
+
+  <script>
+
+    window.__GO7_VENDOR_ENTRY__ = true;
+
+    window.__GO7_LITE_PAGE__ = true;
+
+  </script>
+
+</head>
+
+<body>
+
+  <div id="root">
+
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;background:linear-gradient(135deg,#fef2f2,#fff,#fff7ed);color:#374151">
+
+      <div style="text-align:center;padding:24px">
+
+        <div style="width:40px;height:40px;border:3px solid #fee2e2;border-top-color:#ef4444;border-radius:50%;animation:go7spin .8s linear infinite;margin:0 auto 12px"></div>
+
+        <p style="margin:0;font-weight:600">Loading…</p>
+
+      </div>
+
+      <style>@keyframes go7spin{to{transform:rotate(360deg)}}</style>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="/src/vendor-entry.jsx"></script>
+
+</body>
+
+</html>
+
+

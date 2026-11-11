@@ -1,0 +1,123 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(customerId) {
+      return request.auth.uid == customerId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+             resource.data.role == "admin" ||
+             request.auth.token.role == "admin";
+    }
+    
+    function isCloudFunction() {
+      return request.auth.token.firebase.sign_in_provider == 'custom' &&
+             request.auth.token.aud == 'go7-cloud-functions';
+    }
+    
+    // Users collection (for role verification)
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow write: if isAuthenticated() && isOwner(userId);
+    }
+    
+    // Customer wallet data
+    match /customers/{customerId}/wallet {
+      // Customers can read their own wallet
+      // Admins can read all wallets
+      allow read: if isAuthenticated() && (isOwner(customerId) || isAdmin());
+      
+      // Only Cloud Functions can write to wallet (balance updates)
+      // Customers cannot directly modify wallet balance
+      allow write: if isCloudFunction();
+    }
+    
+    // Customer transactions
+    match /customers/{customerId}/transactions/{transactionId} {
+      // Customers can read their own transactions
+      // Admins can read all transactions
+      allow read: if isAuthenticated() && (isOwner(customerId) || isAdmin());
+      
+      // Only Cloud Functions can create transactions
+      // Transactions are immutable (no updates or deletes)
+      allow create: if isCloudFunction();
+      allow update: if false; // Never allow updates
+      allow delete: if false; // Never allow deletes
+    }
+    
+    // Top-up requests (customers can create these to initiate payments)
+    match /topUpRequests/{requestId} {
+      // Customers can create top-up requests for themselves
+      allow create: if isAuthenticated() && 
+                       isOwner(resource.data.customerId) &&
+                       resource.data.customerId == request.auth.uid;
+      
+      // Customers can read their own requests
+      // Admins can read all requests
+      allow read: if isAuthenticated() && 
+                     (isOwner(resource.data.customerId) || isAdmin());
+      
+      // Only Cloud Functions can update (to mark as processed)
+      allow update: if isCloudFunction();
+      
+      // No deletes allowed
+      allow delete: if false;
+    }
+    
+    // Admin actions log (for audit trail)
+    match /adminActions/{actionId} {
+      // Only admins can read admin actions
+      allow read: if isAuthenticated() && isAdmin();
+      
+      // Only Cloud Functions can create admin action logs
+      allow create: if isCloudFunction();
+      
+      // No updates or deletes (immutable audit trail)
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // Delivery payment requests
+    match /deliveryPayments/{paymentId} {
+      // Customers can create payment requests for their own deliveries
+      allow create: if isAuthenticated() && 
+                       isOwner(resource.data.customerId);
+      
+      // Customers can read their own payment requests
+      // Admins can read all payment requests
+      allow read: if isAuthenticated() && 
+                     (isOwner(resource.data.customerId) || isAdmin());
+      
+      // Only Cloud Functions can update (to mark as processed)
+      allow update: if isCloudFunction();
+      
+      // No deletes allowed
+      allow delete: if false;
+    }
+    
+    // Webhook logs (for debugging and monitoring)
+    match /webhookLogs/{logId} {
+      // Only admins can read webhook logs
+      allow read: if isAuthenticated() && isAdmin();
+      
+      // Only Cloud Functions can create webhook logs
+      allow create: if isCloudFunction();
+      
+      // No updates or deletes
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // Block all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

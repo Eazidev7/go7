@@ -1,0 +1,272 @@
+[
+ {
+  "name": "Old Abeokuta Road",
+  "type": "trunk",
+  "lat": 7.2001205,
+  "lng": 3.4405198
+ },
+ {
+  "name": "Abeokuta-Sagamu Expressway",
+  "type": "trunk",
+  "lat": 7.0071456,
+  "lng": 3.4673535
+ },
+ {
+  "name": "Presidential",
+  "type": "primary",
+  "lat": 7.1389144,
+  "lng": 3.3424335
+ },
+ {
+  "name": "Lagos-Abeokuta Expressway",
+  "type": "trunk",
+  "lat": 7.0466454,
+  "lng": 3.2539112
+ },
+ {
+  "name": "Lalubu Road, Oke-Ilewo",
+  "type": "primary",
+  "lat": 7.1356367,
+  "lng": 3.3362475
+ },
+ {
+  "name": "Quarry Road",
+  "type": "secondary",
+  "lat": 7.1358388,
+  "lng": 3.3266798
+ },
+ {
+  "name": "Ago-Oko Street",
+  "type": "primary",
+  "lat": 7.1424181,
+  "lng": 3.3385958
+ },
+ {
+  "name": "Obada Oko Road",
+  "type": "secondary",
+  "lat": 7.0828923,
+  "lng": 3.2989296
+ },
+ {
+  "name": "Ikija Road",
+  "type": "tertiary",
+  "lat": 7.1643536,
+  "lng": 3.3414694
+ },
+ {
+  "name": "Kuforiji Olubi Road",
+  "type": "tertiary",
+  "lat": 7.1287196,
+  "lng": 3.3216991
+ },
+ {
+  "name": "Peachtree Street",
+  "type": "residential",
+  "lat": 7.0690793,
+  "lng": 3.2934775
+ },
+ {
+  "name": "Oke-Ijemo Road",
+  "type": "residential",
+  "lat": 7.1632806,
+  "lng": 3.3454442
+ },
+ {
+  "name": "Mercy Clinic Road",
+  "type": "residential",
+  "lat": 7.1309946,
+  "lng": 3.3313459
+ },
+ {
+  "name": "Kobiti Road",
+  "type": "unclassified",
+  "lat": 7.1603524,
+  "lng": 3.3396513
+ },
+ {
+  "name": "Obasanjo way, Ita-Eko",
+  "type": "unclassified",
+  "lat": 7.1429365,
+  "lng": 3.3286898
+ },
+ {
+  "name": "olomore",
+  "type": "residential",
+  "lat": 7.1675006,
+  "lng": 3.3163373
+ },
+ {
+  "name": "Iyana Adigbe",
+  "type": "secondary",
+  "lat": 7.0699636,
+  "lng": 3.2923549
+ },
+ {
+  "name": "Surulere",
+  "type": "residential",
+  "lat": 7.1401524,
+  "lng": 3.3280975
+ },
+ {
+  "name": "Solola Street",
+  "type": "residential",
+  "lat": 7.1689291,
+  "lng": 3.3678618
+ },
+ {
+  "name": "Logbara-Magapon Road",
+  "type": "tertiary",
+  "lat": 7.1523964,
+  "lng": 3.3388719
+ },
+ {
+  "name": "Ayeni street",
+  "type": "residential",
+  "lat": 7.1206987,
+  "lng": 3.3254797
+ },
+ {
+  "name": "Gbokoniyi",
+  "type": "residential",
+  "lat": 7.1152891,
+  "lng": 3.3364952
+ },
+ {
+  "name": "Engr. Adeniran Quams Street",
+  "type": "residential",
+  "lat": 7.1129524,
+  "lng": 3.3227693
+ },
+ {
+  "name": "Onikolobo",
+  "type": "secondary",
+  "lat": 7.1337843,
+  "lng": 3.3321888
+ },
+ {
+  "name": "Opako",
+  "type": "residential",
+  "lat": 7.1057974,
+  "lng": 3.3099875
+ },
+ {
+  "name": "Olu Akinleye Close",
+  "type": "residential",
+  "lat": 7.139007,
+  "lng": 3.2873573
+ },
+ {
+  "name": "Ilupeju Street",
+  "type": "residential",
+  "lat": 7.1629472,
+  "lng": 3.323546
+ },
+ {
+  "name": "Adesina Close",
+  "type": "residential",
+  "lat": 7.139014,
+  "lng": 3.2737343
+ },
+ {
+  "name": "Ide-Ape Road",
+  "type": "unclassified",
+  "lat": 7.1592826,
+  "lng": 3.3415144
+ },
+ {
+  "name": "Adagba Street",
+  "type": "tertiary",
+  "lat": 7.1697648,
+  "lng": 3.3494837
+ },
+ {
+  "name": "Adigbe road",
+  "type": "secondary",
+  "lat": 7.1320352,
+  "lng": 3.3292925
+ },
+ {
+  "name": "Green Villa Street",
+  "type": "residential",
+  "lat": 7.1110134,
+  "lng": 3.3233837
+ },
+ {
+  "name": "Adeoye Lati Jimoh Street",
+  "type": "residential",
+  "lat": 7.1294352,
+  "lng": 3.374681
+ },
+ {
+  "name": "Abeokuta - Iseyin",
+  "type": "primary",
+  "lat": 7.5932346,
+  "lng": 3.4368914
+ },
+ {
+  "name": "Oluwatosin Street",
+  "type": "residential",
+  "lat": 7.2136743,
+  "lng": 3.3572925
+ },
+ {
+  "name": "Substation road",
+  "type": "residential",
+  "lat": 7.1041616,
+  "lng": 3.3887727
+ },
+ {
+  "name": "PHCN Substation Abeokuta New",
+  "type": "service",
+  "lat": 7.1047271,
+  "lng": 3.3913659
+ },
+ {
+  "name": "Oyinda Pedro Avenue",
+  "type": "residential",
+  "lat": 7.154709,
+  "lng": 3.3883078
+ },
+ {
+  "name": "Alubarika Street",
+  "type": "residential",
+  "lat": 7.1568104,
+  "lng": 3.4007036
+ },
+ {
+  "name": "Akinyinka Alao Street",
+  "type": "residential",
+  "lat": 7.1243806,
+  "lng": 3.3777055
+ },
+ {
+  "name": "Solanke Street",
+  "type": "residential",
+  "lat": 7.1254263,
+  "lng": 3.3772351
+ },
+ {
+  "name": "Peace Avenue",
+  "type": "residential",
+  "lat": 7.1645297,
+  "lng": 3.3808392
+ },
+ {
+  "name": "Oduntan Street",
+  "type": "residential",
+  "lat": 7.183863,
+  "lng": 3.3985131
+ },
+ {
+  "name": "Adeleke Adesina Close",
+  "type": "residential",
+  "lat": 7.1898366,
+  "lng": 3.4069342
+ },
+ {
+  "name": "Famuyiwa Mayowa Crescent",
+  "type": "residential",
+  "lat": 7.22001,
+  "lng": 3.4483599
+ }
+]

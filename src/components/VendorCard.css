@@ -1,0 +1,172 @@
+/* 🎨 VENDOR CARD STYLES — Nov 2025 */
+
+.vendor-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.vendor-card:hover:not(.offline) {
+  box-shadow: 0 4px 16px rgba(224, 0, 27, 0.15);
+  transform: translateY(-4px);
+}
+
+.vendor-card.offline {
+  opacity: 0.6;
+  filter: grayscale(50%);
+}
+
+/* Vendor Image */
+.vendor-image-container {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.vendor-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.offline-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.offline-badge {
+  background: #666;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.online-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #22c55e;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Vendor Info */
+.vendor-info {
+  padding: 12px;
+}
+
+.vendor-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vendor-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.vendor-rating,
+.vendor-delivery-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #666;
+}
+
+.vendor-rating svg {
+  flex-shrink: 0;
+}
+
+.vendor-delivery-time svg {
+  color: #999;
+  flex-shrink: 0;
+}
+
+.vendor-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vendor-location svg {
+  flex-shrink: 0;
+}
+
+.vendor-category-badge {
+  display: inline-block;
+  background: #fff5f5;
+  color: #e0001b;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-top: 8px;
+}
+
+.vendor-products-badge {
+  display: inline-block;
+  background: #e8f5e8;
+  color: #2d8f3f;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+  margin-left: 8px;
+}
+
+.unavailable-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px;
+  background: #e5e5e5;
+  color: #999;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vendor-image-container {
+    height: 140px;
+  }
+
+  .vendor-name {
+    font-size: 15px;
+  }
+}

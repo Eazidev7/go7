@@ -1,0 +1,55 @@
+// Firestore Rules for FCM Token Security
+// Add these rules to your existing firestore.rules file
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Existing rules...
+    
+    // FCM Token Collection
+    match /fcm_tokens/{tokenId} {
+      // Only authenticated users can read/write their own tokens
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      
+      // Validate token data structure
+      allow create: if request.auth != null 
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.token is string
+                    && request.resource.data.platform is string
+                    && request.resource.data.createdAt is timestamp;
+      
+      // Allow updates with validation
+      allow update: if request.auth != null 
+                    && request.auth.uid == resource.data.userId
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.token is string
+                    && request.resource.data.platform is string
+                    && request.resource.data.updatedAt is timestamp;
+    }
+    
+    // User FCM Tokens
+    match /users/{userId}/fcm_tokens/{tokenId} {
+      // Users can only read/write their own tokens
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Validate token structure
+      allow create, update: if request.auth != null 
+                            && request.auth.uid == userId
+                            && request.resource.data.token is string
+                            && request.resource.data.platform is string
+                            && request.resource.data.timestamp is timestamp;
+    }
+    
+    // Notification Settings
+    match /users/{userId}/settings/notifications {
+      // Users can only read/write their own notification settings
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Validate notification settings structure
+      allow create, update: if request.auth != null 
+                            && request.auth.uid == userId
+                            && request.resource.data.enablePush is bool
+                            && request.resource.data.updatedAt is timestamp;
+    }
+  }
+}

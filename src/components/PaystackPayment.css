@@ -1,0 +1,308 @@
+/* Paystack Payment Styles */
+.paystack-payment {
+  width: 100%;
+}
+
+.payment-info {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.amount-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.amount-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+}
+
+.amount-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #D72638;
+}
+
+.payment-security {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.security-icon {
+  font-size: 16px;
+}
+
+/* Paystack Button */
+.paystack-button {
+  width: 100%;
+  background: #D72638;
+  color: white;
+  border: none;
+  padding: 18px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  text-decoration: none;
+  outline: none;
+}
+
+.paystack-button:hover:not(.disabled):not(.loading) {
+  background: #c21e2f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(215, 38, 56, 0.3);
+}
+
+.paystack-button:active:not(.disabled):not(.loading) {
+  transform: translateY(0);
+}
+
+.paystack-button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.paystack-button.loading {
+  background: #D72638;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Payment Methods Info */
+.payment-methods-info {
+  margin-bottom: 20px;
+}
+
+.methods-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.methods-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.method-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  border: 1px solid #e9ecef;
+}
+
+/* Payment Note */
+.payment-note {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 16px;
+}
+
+.payment-note p {
+  margin: 0;
+  font-size: 13px;
+  color: #856404;
+  line-height: 1.4;
+}
+
+.payment-note strong {
+  font-weight: 600;
+}
+
+/* Mock Payment Styles */
+.mock-payment {
+  border: 2px dashed #ffc107;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff8e1;
+}
+
+.mock-payment .payment-security {
+  color: #ff8f00;
+}
+
+.paystack-button.mock {
+  background: #ffc107;
+  color: #212529;
+}
+
+.paystack-button.mock:hover:not(.disabled):not(.loading) {
+  background: #e0a800;
+}
+
+.mock-note {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 16px;
+}
+
+.mock-note p {
+  margin: 0;
+  font-size: 13px;
+  color: #856404;
+  line-height: 1.4;
+}
+
+/* Success Animation */
+@keyframes success-pulse {
+  0% {
+    transform: scale(1);
+    background: #28a745;
+  }
+  50% {
+    transform: scale(1.02);
+    background: #34ce57;
+  }
+  100% {
+    transform: scale(1);
+    background: #28a745;
+  }
+}
+
+.paystack-button.success {
+  background: #28a745;
+  animation: success-pulse 2s ease-in-out;
+}
+
+/* Error State */
+.paystack-button.error {
+  background: #dc3545;
+}
+
+.payment-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .payment-info {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .amount-display {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
+  .amount-value {
+    font-size: 28px;
+  }
+  
+  .paystack-button {
+    padding: 16px 20px;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  
+  .methods-list {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  
+  .method-item {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  .payment-note,
+  .mock-note {
+    padding: 10px 12px;
+  }
+  
+  .payment-note p,
+  .mock-note p {
+    font-size: 12px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .paystack-button {
+    border: 2px solid #000;
+  }
+  
+  .payment-info {
+    border: 2px solid #666;
+  }
+  
+  .method-item {
+    border: 2px solid #666;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .paystack-button {
+    transition: none;
+  }
+  
+  .paystack-button:hover {
+    transform: none;
+  }
+  
+  .loading-spinner {
+    animation: none;
+  }
+}

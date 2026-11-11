@@ -1,0 +1,260 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import puppeteer from 'puppeteer';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = __dirname;
+const docsDir = path.join(root, 'docs');
+const logoPath = path.join(root, 'public', 'go7-logo.png').replace(/\\/g, '/');
+const htmlPath = path.join(docsDir, 'GO7-Vendor-Partnership-Guide.html');
+const pdfPath = path.join(docsDir, 'GO7-Vendor-Partnership-Guide.pdf');
+
+fs.mkdirSync(docsDir, { recursive: true });
+
+const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>GO7 Vendor Partnership Guide</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.55; font-size: 11pt; margin: 0; }
+  .cover { min-height: 250mm; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(160deg, #121212 0%, #2a1514 55%, #E1251B 100%); color: #fff; page-break-after: always; padding: 40px; }
+  .cover img { width: 140px; margin-bottom: 28px; }
+  .cover h1 { font-size: 32pt; margin: 0 0 12px; font-weight: 700; }
+  .cover .subtitle { font-size: 14pt; opacity: 0.95; max-width: 520px; }
+  .cover .meta { margin-top: 36px; font-size: 11pt; opacity: 0.9; }
+  h2 { color: #E1251B; font-size: 16pt; margin: 28px 0 10px; border-bottom: 2px solid #E1251B; padding-bottom: 4px; page-break-after: avoid; }
+  h3 { color: #333; font-size: 12pt; margin: 18px 0 8px; page-break-after: avoid; }
+  p { margin: 8px 0; }
+  ul { margin: 8px 0 12px 20px; }
+  li { margin: 4px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 10pt; }
+  th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #FFF4F3; color: #E1251B; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  .highlight { background: #FFF4F3; border-left: 4px solid #E1251B; padding: 12px 14px; margin: 14px 0; }
+  .flow { background: #f5f5f5; padding: 14px; border-radius: 6px; font-family: Consolas, monospace; font-size: 9.5pt; white-space: pre-line; line-height: 1.7; }
+  .cta { background: #E1251B; color: #fff; padding: 16px 20px; border-radius: 8px; text-align: center; margin-top: 20px; }
+  .cta a { color: #fff; font-weight: 700; text-decoration: none; }
+  .footer-note { font-size: 9pt; color: #666; margin-top: 24px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .no-break { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img src="file:///${logoPath}" alt="GO7 Logo"/>
+  <h1>Vendor Partnership Guide</h1>
+  <p class="subtitle">Grow your business with GO7 — Abeokuta's fast delivery marketplace for food, groceries, pharmacy, and local retail.</p>
+  <p class="meta">go7.ng &nbsp;|&nbsp; Vendor signup: go7.ng/vendor/register</p>
+</div>
+
+<div class="page">
+  <h2>1. Executive Summary</h2>
+  <p><strong>GO7</strong> is an all-in-one delivery platform helping restaurants, food vendors, groceries, pharmacies, and local shops in <strong>Abeokuta, Nigeria</strong> reach more customers, take orders online, get paid securely, and have deliveries handled by GO7 riders.</p>
+  <div class="highlight">
+    <strong>For vendors, GO7 provides:</strong>
+    <ul>
+      <li>A <strong>digital storefront</strong> on the GO7 app and website</li>
+      <li><strong>Real-time order management</strong> in your dashboard</li>
+      <li><strong>Delivery &amp; logistics</strong> — riders, live GPS tracking, PIN verification</li>
+      <li><strong>Payments &amp; wallet</strong> — Paystack, earnings ledger, bank withdrawals</li>
+      <li><strong>Marketing tools</strong> — featured placement, Combo Rush flash deals</li>
+    </ul>
+  </div>
+  <p><strong>Commercial model:</strong> GO7 charges <strong>8% commission on food/product sales only</strong> (not on delivery fees). Minimum withdrawal: <strong>₦10,000</strong>.</p>
+
+  <h2>2. Problems GO7 Solves</h2>
+  <table>
+    <tr><th>Challenge</th><th>How GO7 Helps</th></tr>
+    <tr><td>Low foot traffic</td><td>Listed on Explore, search, categories, and homepage</td></tr>
+    <tr><td>Phone/WhatsApp order chaos</td><td>Central dashboard for all orders</td></tr>
+    <tr><td>No delivery fleet</td><td>GO7 riders pick up and deliver</td></tr>
+    <tr><td>Cash &amp; reconciliation issues</td><td>Digital payments, wallet, transaction history</td></tr>
+    <tr><td>No sales data</td><td>Analytics: revenue, orders, top products</td></tr>
+    <tr><td>Hard to run promos</td><td>Combo Rush limited-time deals on homepage</td></tr>
+  </table>
+</div>
+
+<div class="page">
+  <h2>3. Platform Capabilities</h2>
+
+  <h3>A. Online Presence &amp; Discovery</h3>
+  <ul>
+    <li>Vendor profile: business name, logo, address, hours, description</li>
+    <li>Product catalog with photos, prices, categories, variants, and add-ons</li>
+    <li>Categories: Food, Groceries, Pharmacy, Fashion, Electronics, Beauty, Home, and more</li>
+    <li>Real-time menu updates — changes appear for customers immediately</li>
+    <li>Customer shop page: go7.ng/vendor/{your-id}</li>
+  </ul>
+
+  <h3>B. Product &amp; Menu Management</h3>
+  <ul>
+    <li>Multi-step product creation with image upload</li>
+    <li><strong>Add-ons</strong> (extra chicken, drinks, sauce) — create once, use across products</li>
+    <li>Variants &amp; options (size, portion, etc.)</li>
+    <li>CSV bulk import for large menus</li>
+    <li>Nigerian market formats: unit, portion, bundle, weight</li>
+    <li>Stock and availability controls</li>
+  </ul>
+
+  <h3>C. Order Management</h3>
+  <ul>
+    <li>Real-time order notifications</li>
+    <li>Status workflow: New → Accepted → Ready → Picked up → Completed</li>
+    <li>Customer details, items, and special notes</li>
+    <li>Batch scheduled deliveries for multiple ready orders</li>
+    <li>Proof of delivery (POD) support</li>
+  </ul>
+
+  <h3>D. Delivery &amp; Logistics (Handled by GO7)</h3>
+  <ul>
+    <li>Automatic or manual rider assignment</li>
+    <li>Live GPS tracking for customers</li>
+    <li>Delivery PIN verification at drop-off</li>
+    <li>Coverage across Abeokuta neighborhoods</li>
+  </ul>
+</div>
+
+<div class="page">
+  <h3>E. Payments, Wallet &amp; Payouts</h3>
+  <ul>
+    <li>Paystack for secure customer payments</li>
+    <li>Vendor wallet with balance, earnings, and commission breakdown</li>
+    <li><strong>8% commission on food subtotal only</strong> — delivery fees are not commissioned</li>
+    <li>Bank withdrawal (minimum ₦10,000)</li>
+    <li>Full transaction history and payout requests</li>
+  </ul>
+
+  <h3>F. Marketing &amp; Growth</h3>
+  <ul>
+    <li><strong>GO7 Combo Rush:</strong> time-limited combo deals on homepage with countdown</li>
+    <li>Featured vendor placement on Explore and home</li>
+    <li>Ratings and reviews for customer trust</li>
+    <li>Agent/referral program — register with a GO7 agent code</li>
+  </ul>
+
+  <h3>G. Dashboard &amp; Analytics</h3>
+  <ul>
+    <li>Revenue and order metrics</li>
+    <li>Product performance and stock alerts</li>
+    <li>Order status overview</li>
+    <li>Mobile-friendly vendor dashboard</li>
+  </ul>
+
+  <h2>4. Vendor Benefits</h2>
+  <div class="two-col">
+    <div>
+      <h3>Grow Revenue</h3>
+      <ul><li>Reach customers beyond your location</li><li>24/7 online ordering (within your hours)</li><li>Combo Rush boosts slow periods</li></ul>
+    </div>
+    <div>
+      <h3>Save Time</h3>
+      <ul><li>One dashboard vs scattered WhatsApp orders</li><li>Batch delivery scheduling</li><li>Automatic menu sync</li></ul>
+    </div>
+    <div>
+      <h3>Reduce Risk</h3>
+      <ul><li>Secure digital payments</li><li>Clear 8% food-only commission</li><li>Order history &amp; audit trail</li></ul>
+    </div>
+    <div>
+      <h3>Professional Image</h3>
+      <ul><li>Branded shop page with logo &amp; photos</li><li>Live tracking &amp; PIN delivery</li><li>Built for Abeokuta &amp; Nigeria</li></ul>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <h2>5. How It Works</h2>
+  <div class="flow">1. REGISTER      →  go7.ng/vendor/register
+2. GET APPROVED  →  GO7 admin reviews your business
+3. SET UP SHOP   →  Add products, photos, prices, hours
+4. GO LIVE       →  Customers find you on GO7 app/website
+5. RECEIVE ORDERS→  Real-time notifications in dashboard
+6. PREPARE       →  Accept → Mark Ready
+7. RIDER PICKUP  →  GO7 rider collects and delivers
+8. GET PAID      →  Earnings in wallet → Withdraw to bank</div>
+
+  <h2>6. Pricing &amp; Commercial Terms</h2>
+  <table>
+    <tr><th>Item</th><th>Detail</th></tr>
+    <tr><td>Commission</td><td><strong>8%</strong> on food/product subtotal only</td></tr>
+    <tr><td>Delivery fee</td><td>Charged to customer; <strong>not</strong> part of vendor commission</td></tr>
+    <tr><td>Minimum withdrawal</td><td><strong>₦10,000</strong></td></tr>
+    <tr><td>Payment processor</td><td>Paystack (cards, bank transfer, etc.)</td></tr>
+    <tr><td>Payout</td><td>To your registered Nigerian bank account</td></tr>
+  </table>
+  <p><em>Example:</em> Order subtotal ₦5,000 → GO7 fee ₦400 → You receive ₦4,600 (confirm final terms in your vendor agreement).</p>
+
+  <h2>7. Onboarding Checklist</h2>
+  <h3>Before You Start</h3>
+  <ul>
+    <li>☐ CAC or business registration (if applicable)</li>
+    <li>☐ Valid phone number and email</li>
+    <li>☐ Bank account for payouts</li>
+    <li>☐ Clear product photos and menu with prices</li>
+    <li>☐ Pickup address in Abeokuta</li>
+  </ul>
+  <h3>After Approval</h3>
+  <ul>
+    <li>☐ Add at least 5–10 products with images</li>
+    <li>☐ Set categories and add-ons</li>
+    <li>☐ Test an order with your team</li>
+    <li>☐ Add bank details in wallet</li>
+    <li>☐ Create a Combo Rush deal (optional)</li>
+  </ul>
+</div>
+
+<div class="page">
+  <h2>8. GO7 Ecosystem</h2>
+  <table>
+    <tr><th>Service</th><th>For Customers</th><th>Vendor Relevance</th></tr>
+    <tr><td>Food delivery</td><td>Order from restaurants</td><td>Core vendor channel</td></tr>
+    <tr><td>Groceries &amp; pharmacy</td><td>Same-day essentials</td><td>Expand product categories</td></tr>
+    <tr><td>Book delivery</td><td>Send parcels across Abeokuta</td><td>B2B / bulk for some vendors</td></tr>
+    <tr><td>GoBuy</td><td>Personal shopping requests</td><td>Optional cross-sell</td></tr>
+    <tr><td>Live tracking</td><td>See rider on map</td><td>Better customer experience</td></tr>
+    <tr><td>Wallet &amp; DVA</td><td>Customer prepay</td><td>Faster, confirmed orders</td></tr>
+  </table>
+
+  <h2>9. Frequently Asked Questions</h2>
+  <div class="no-break">
+    <p><strong>Q: Do I need my own delivery riders?</strong><br/>A: No. GO7 provides riders for customer deliveries.</p>
+    <p><strong>Q: What does GO7 charge?</strong><br/>A: 8% on food sales only, not delivery fees.</p>
+    <p><strong>Q: How do I get paid?</strong><br/>A: Earnings go to your vendor wallet; withdraw to your bank (min ₦10,000).</p>
+    <p><strong>Q: Can I update my menu anytime?</strong><br/>A: Yes. Changes go live immediately for customers.</p>
+    <p><strong>Q: What areas do you cover?</strong><br/>A: Abeokuta and surrounding areas.</p>
+    <p><strong>Q: How long does approval take?</strong><br/>A: Typically 1–3 business days after complete registration.</p>
+  </div>
+
+  <div class="cta">
+    <strong>Ready to partner with GO7?</strong><br/>
+    Register today at go7.ng/vendor/register<br/>
+    Vendor login: go7.ng/vendor/login
+  </div>
+  <p class="footer-note">© GO7 — Fast delivery marketplace for Abeokuta, Nigeria. Document generated July 2026.</p>
+</div>
+
+</body>
+</html>`;
+
+fs.writeFileSync(htmlPath, html, 'utf8');
+console.log('Wrote HTML:', htmlPath);
+
+const browser = await puppeteer.launch({ headless: true });
+const page = await browser.newPage();
+await page.goto(`file:///${htmlPath.replace(/\\/g, '/')}`, { waitUntil: 'networkidle0' });
+await page.pdf({
+  path: pdfPath,
+  format: 'A4',
+  printBackground: true,
+  margin: { top: '12mm', right: '12mm', bottom: '12mm', left: '12mm' },
+});
+await browser.close();
+
+console.log('Wrote PDF:', pdfPath);

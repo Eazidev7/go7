@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO7 - Check Vendor Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #E83A2E;
+            margin-bottom: 20px;
+        }
+        .vendor-select {
+            margin: 20px 0;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #E83A2E;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #d42f22;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        .vendor-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .product-card {
+            background: white;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .product-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .price {
+            color: #E83A2E;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 GO7 Vendor Products Diagnostic</h1>
+        <p>This tool checks if vendors have products in their Firestore subcollection: <code>vendors/{vendorId}/products</code></p>
+
+        <div class="vendor-select">
+            <select id="vendorSelect">
+                <option value="">Loading vendors...</option>
+            </select>
+            <button onclick="checkProducts()">Check Products</button>
+            <button onclick="checkAllVendors()">Check All Vendors</button>
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, doc, getDoc, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase config - UPDATE WITH YOUR CONFIG
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+
+        // Load vendors on page load
+        loadVendors();
+
+        async function loadVendors() {
+            try {
+                const vendorsSnapshot = await getDocs(collection(db, 'vendors'));
+                const select = document.getElementById('vendorSelect');
+                select.innerHTML = '<option value="">-- Select a Vendor --</option>';
+                
+                vendorsSnapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = `${data.businessName || data.name} (${doc.id})`;
+                    select.appendChild(option);
+                });
+
+                if (vendorsSnapshot.empty) {
+                    select.innerHTML = '<option value="">No vendors found</option>';
+                }
+            } catch (error) {
+                console.error('Error loading vendors:', error);
+                document.getElementById('vendorSelect').innerHTML = '<option value="">Error loading vendors</option>';
+            }
+        }
+
+        window.checkProducts = async function() {
+            const vendorId = document.getElementById('vendorSelect').value;
+            if (!vendorId) {
+                alert('Please select a vendor');
+                return;
+            }
+
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading">Checking products...</div>';
+
+            try {
+                // Get vendor details
+                const vendorDoc = await getDoc(doc(db, 'vendors', vendorId));
+                if (!vendorDoc.exists()) {
+                    results.innerHTML = '<div class="error">Vendor not found!</div>';
+                    return;
+                }
+
+                const vendorData = vendorDoc.data();
+                
+                // Get products from subcollection
+                const productsSnapshot = await getDocs(collection(db, 'vendors', vendorId, 'products'));
+                
+                let html = `
+                    <div class="vendor-info">
+                        <h2>${vendorData.businessName || vendorData.name}</h2>
+                        <p><strong>ID:</strong> ${vendorId}</p>
+                        <p><strong>Type:</strong> ${vendorData.vendorType || 'N/A'}</p>
+                        <p><strong>Active:</strong> ${vendorData.isActive ? 'Yes' : 'No'}</p>
+                    </div>
+                `;
+
+                if (productsSnapshot.empty) {
+                    html += `<div class="error">
+                        <strong>❌ No products found!</strong>
+                        <p>This vendor has no products in: <code>vendors/${vendorId}/products</code></p>
+                        <p><strong>To fix:</strong> Products must be created in the vendor dashboard at the correct Firestore path.</p>
+                    </div>`;
+                } else {
+                    html += `<div class="success">
+                        <strong>✅ Found ${productsSnapshot.size} product(s)</strong>
+                    </div>`;
+
+                    productsSnapshot.forEach(productDoc => {
+                        const product = productDoc.data();
+                        html += `
+                            <div class="product-card">
+                                <h3>${product.name}</h3>
+                                <p>${product.description || 'No description'}</p>
+                                <p class="price">₦${product.basePrice || product.price || 0}</p>
+                                <p><strong>Type:</strong> ${product.measurementType}</p>
+                                <p><strong>Active:</strong> ${product.isActive ? 'Yes' : 'No'}</p>
+                                <p><strong>ID:</strong> ${productDoc.id}</p>
+                                ${product.imageUrl ? `<p><strong>Image:</strong> ${product.imageUrl}</p>` : '<p><em>No image</em></p>'}
+                            </div>
+                        `;
+                    });
+                }
+
+                results.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error checking products:', error);
+                results.innerHTML = `<div class="error">
+                    <strong>Error:</strong> ${error.message}
+                </div>`;
+            }
+        };
+
+        window.checkAllVendors = async function() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading">Checking all vendors...</div>';
+
+            try {
+                const vendorsSnapshot = await getDocs(collection(db, 'vendors'));
+                let html = '<h2>All Vendors Product Count</h2>';
+                let totalVendors = 0;
+                let vendorsWithProducts = 0;
+                let totalProducts = 0;
+
+                for (const vendorDoc of vendorsSnapshot.docs) {
+                    totalVendors++;
+                    const vendorData = vendorDoc.data();
+                    const productsSnapshot = await getDocs(collection(db, 'vendors', vendorDoc.id, 'products'));
+                    const productCount = productsSnapshot.size;
+                    
+                    if (productCount > 0) {
+                        vendorsWithProducts++;
+                        totalProducts += productCount;
+                    }
+
+                    const status = productCount > 0 ? '✅' : '❌';
+                    html += `
+                        <div class="product-card">
+                            ${status} <strong>${vendorData.businessName || vendorData.name}</strong>
+                            <br>Products: ${productCount}
+                            <br>ID: ${vendorDoc.id}
+                        </div>
+                    `;
+                }
+
+                const summary = `
+                    <div class="vendor-info">
+                        <h3>Summary</h3>
+                        <p><strong>Total Vendors:</strong> ${totalVendors}</p>
+                        <p><strong>Vendors with Products:</strong> ${vendorsWithProducts}</p>
+                        <p><strong>Total Products:</strong> ${totalProducts}</p>
+                    </div>
+                `;
+
+                results.innerHTML = summary + html;
+
+            } catch (error) {
+                console.error('Error checking all vendors:', error);
+                results.innerHTML = `<div class="error">
+                    <strong>Error:</strong> ${error.message}
+                </div>`;
+            }
+        };
+    </script>
+</body>
+</html>

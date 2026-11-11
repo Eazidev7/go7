@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./public/favicon.ico" />
+    <link rel="icon" type="image/png" href="./public/go7-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./public/manifest.json" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#e60023" />
+    <meta name="background-color" content="#ffffff" />
+
+    <!-- App Meta Tags -->
+    <title>Go7 - Fast Delivery in Abeokuta</title>
+    <meta name="description"
+        content="Order food, book deliveries, and track packages in Abeokuta with Go7. Fast, reliable, and affordable." />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS for GoBuy Integration -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gobuy-button {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        .gobuy-button:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+        }
+
+        @media (min-width: 768px) {
+            .mobile-only {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-red-600 to-red-800 text-white py-20 px-4">
+        <div class="max-w-md mx-auto text-center">
+            <h1 class="text-4xl font-bold mb-4">Go7 Delivery</h1>
+            <p class="text-red-100 text-lg">Fast, Reliable Delivery in Abeokuta</p>
+        </div>
+    </div>
+
+    <!-- GoBuy Mobile Integration -->
+    <div class="mobile-only max-w-md mx-auto p-4">
+        <!-- QuickActions Section -->
+        <div class="fade-in bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Book Delivery -->
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-xl text-center transition-colors duration-200">
+                    <div class="text-2xl mb-2">📦</div>
+                    <div class="text-sm font-medium">Book Delivery</div>
+                </button>
+
+                <!-- Order Food -->
+                <button
+                    class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-xl text-center transition-colors duration-200">
+                    <div class="text-2xl mb-2">🍕</div>
+                    <div class="text-sm font-medium">Order Food</div>
+                </button>
+
+                <!-- Pharmacy -->
+                <button
+                    class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-xl text-center transition-colors duration-200">
+                    <div class="text-2xl mb-2">💊</div>
+                    <div class="text-sm font-medium">Pharmacy</div>
+                </button>
+
+                <!-- GoBuy Button (Prominent) -->
+                <button
+                    class="gobuy-button text-white p-4 rounded-xl text-center transition-colors duration-200 shadow-lg">
+                    <div class="text-2xl mb-2">🛒</div>
+                    <div class="text-sm font-medium">GoBuy</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- GoBuy Promo Banner -->
+        <div class="fade-in bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl p-6 mb-6 shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold mb-1">🛒 Shop with GoBuy</h3>
+                    <p class="text-red-100 text-sm">Use code <span class="font-semibold text-white">GOBUY10</span> for
+                        10% off your first order!</p>
+                </div>
+                <div class="text-3xl">🎉</div>
+            </div>
+        </div>
+
+        <!-- Additional Services -->
+        <div class="fade-in bg-white rounded-2xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">More Services</h3>
+            <div class="space-y-3">
+                <button
+                    class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-lg text-left transition-colors duration-200">
+                    <span class="font-medium">Track Your Order</span>
+                </button>
+                <button
+                    class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-lg text-left transition-colors duration-200">
+                    <span class="font-medium">Payment & Wallet</span>
+                </button>
+                <button
+                    class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-lg text-left transition-colors duration-200">
+                    <span class="font-medium">Support & Help</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Message -->
+    <div class="hidden md:block max-w-2xl mx-auto text-center py-20 px-4">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Mobile Experience</h2>
+        <p class="text-gray-600">The GoBuy integration is optimized for mobile devices. Please visit on your phone for
+            the best experience.</p>
+    </div>
+
+    <script>
+        // Add fade-in animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 150);
+            });
+        });
+
+        // Button click handlers
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button')) {
+                const button = e.target.closest('button');
+                const text = button.textContent.trim();
+
+                if (text.includes('GoBuy')) {
+                    alert('🛒 GoBuy: Opening shopping interface...');
+                } else if (text.includes('Book Delivery')) {
+                    alert('📦 Opening delivery booking...');
+                } else if (text.includes('Order Food')) {
+                    alert('🍕 Opening food ordering...');
+                } else if (text.includes('Pharmacy')) {
+                    alert('💊 Opening pharmacy orders...');
+                } else if (text.includes('Track')) {
+                    alert('📍 Opening order tracking...');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

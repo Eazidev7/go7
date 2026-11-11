@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Config Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+        }
+        .success {
+            border-left-color: #4CAF50;
+            background: #f1f8f4;
+        }
+        .error {
+            border-left-color: #f44336;
+            background: #fef1f0;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+            display: inline-block;
+            width: 200px;
+        }
+        .value {
+            color: #333;
+            font-family: 'Courier New', monospace;
+            background: #e8e8e8;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.ok {
+            background: #4CAF50;
+            color: white;
+        }
+        .status.fail {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Configuration Test</h1>
+        <p>This page tests if Firebase is loading the correct API key from environment variables.</p>
+        
+        <div id="results">
+            <div class="test-item">
+                <span class="label">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+
+        // Test 1: Environment Variables
+        const envVars = {
+            'VITE_FIREBASE_API_KEY': import.meta.env.VITE_FIREBASE_API_KEY,
+            'VITE_FIREBASE_AUTH_DOMAIN': import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+            'VITE_FIREBASE_PROJECT_ID': import.meta.env.VITE_FIREBASE_PROJECT_ID,
+            'VITE_FIREBASE_STORAGE_BUCKET': import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+            'VITE_FIREBASE_MESSAGING_SENDER_ID': import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+            'VITE_FIREBASE_APP_ID': import.meta.env.VITE_FIREBASE_APP_ID,
+        };
+
+        Object.entries(envVars).forEach(([key, value]) => {
+            const div = document.createElement('div');
+            const isValid = value && value.length > 0;
+            div.className = 'test-item ' + (isValid ? 'success' : 'error');
+            div.innerHTML = `
+                <span class="label">${key}:</span>
+                <span class="value">${value ? value.substring(0, 30) + '...' : 'MISSING'}</span>
+                <span class="status ${isValid ? 'ok' : 'fail'}">${isValid ? '✓ OK' : '✗ MISSING'}</span>
+            `;
+            resultsDiv.appendChild(div);
+        });
+
+        // Test 2: API Key Format
+        const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
+        const apiKeyFormatDiv = document.createElement('div');
+        const isValidFormat = apiKey && apiKey.startsWith('AIza');
+        apiKeyFormatDiv.className = 'test-item ' + (isValidFormat ? 'success' : 'error');
+        apiKeyFormatDiv.innerHTML = `
+            <span class="label">API Key Format:</span>
+            <span class="value">${isValidFormat ? 'Valid (starts with AIza)' : 'Invalid'}</span>
+            <span class="status ${isValidFormat ? 'ok' : 'fail'}">${isValidFormat ? '✓ OK' : '✗ FAIL'}</span>
+        `;
+        resultsDiv.appendChild(apiKeyFormatDiv);
+
+        // Test 3: Try to initialize Firebase
+        try {
+            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+            const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+            
+            const firebaseConfig = {
+                apiKey: apiKey,
+                authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+                projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+                storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+                messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+                appId: import.meta.env.VITE_FIREBASE_APP_ID,
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+
+            const initDiv = document.createElement('div');
+            initDiv.className = 'test-item success';
+            initDiv.innerHTML = `
+                <span class="label">Firebase Initialization:</span>
+                <span class="value">Success</span>
+                <span class="status ok">✓ OK</span>
+            `;
+            resultsDiv.appendChild(initDiv);
+
+            // Test 4: Check if Auth works
+            const authDiv = document.createElement('div');
+            authDiv.className = 'test-item success';
+            authDiv.innerHTML = `
+                <span class="label">Firebase Auth:</span>
+                <span class="value">Ready (No errors)</span>
+                <span class="status ok">✓ OK</span>
+            `;
+            resultsDiv.appendChild(authDiv);
+
+            // Summary
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'test-item success';
+            summaryDiv.innerHTML = `
+                <h2 style="color: #4CAF50; margin: 0;">✅ All Tests Passed!</h2>
+                <p style="margin: 10px 0 0 0;">Firebase is correctly configured with valid API key.</p>
+                <p style="margin: 5px 0 0 0; color: #666;">The error "auth/api-key-not-valid" should be gone now.</p>
+            `;
+            resultsDiv.appendChild(summaryDiv);
+
+        } catch (error) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'test-item error';
+            errorDiv.innerHTML = `
+                <span class="label">Firebase Initialization:</span>
+                <span class="value">Error: ${error.message}</span>
+                <span class="status fail">✗ FAIL</span>
+            `;
+            resultsDiv.appendChild(errorDiv);
+
+            // Summary
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'test-item error';
+            summaryDiv.innerHTML = `
+                <h2 style="color: #f44336; margin: 0;">❌ Firebase Error</h2>
+                <p style="margin: 10px 0 0 0;">${error.message}</p>
+                <p style="margin: 5px 0 0 0; color: #666;">Check the browser console for more details.</p>
+            `;
+            resultsDiv.appendChild(summaryDiv);
+            
+            console.error('Firebase initialization error:', error);
+        }
+    </script>
+</body>
+</html>

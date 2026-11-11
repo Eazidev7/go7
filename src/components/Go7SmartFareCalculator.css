@@ -1,0 +1,282 @@
+/* GO7 SMART FARE CALCULATOR STYLES */
+/* Features: Fade-in animation, Go7 branding, anti-flashing protection */
+
+.go7-fare-calculator {
+  font-family: 'Poppins', sans-serif;
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  margin-bottom: 20px;
+}
+
+/* Address Input Styling */
+.address-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.address-input {
+  font-family: 'Poppins', sans-serif;
+  padding: 15px 18px;
+  border: 2px solid #e9ecef;
+  border-radius: 18px;
+  font-size: 16px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.address-input:focus {
+  border-color: #e61e25;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(230, 30, 37, 0.1);
+}
+
+.address-input::placeholder {
+  color: #6c757d;
+  font-weight: 400;
+}
+
+/* Fare Display Container */
+.fare-display-container {
+  min-height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Loading State */
+.fare-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #e61e25;
+  font-weight: 500;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid #e61e25;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Fare Result with Fade-in Animation */
+.fare-result {
+  width: 100%;
+  background: linear-gradient(135deg, #e61e25 0%, #d11a22 100%);
+  border-radius: 15px;
+  padding: 20px;
+  color: white;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fare-result.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fare-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.fare-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.fare-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fare-main {
+  text-align: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+
+.currency {
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.amount {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.fare-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.distance-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.distance-info .label {
+  opacity: 0.9;
+}
+
+.distance-info .value {
+  font-weight: 700;
+}
+
+.fare-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.breakdown-item:last-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* Error State */
+.fare-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 12px;
+  color: #c53030;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .go7-fare-calculator {
+    padding: 15px;
+  }
+  
+  .address-input {
+    padding: 12px 15px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .fare-result {
+    padding: 15px;
+  }
+  
+  .amount {
+    font-size: 32px;
+  }
+  
+  .currency {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .address-inputs {
+    gap: 12px;
+  }
+  
+  .fare-display-container {
+    min-height: 100px;
+  }
+  
+  .fare-result {
+    padding: 12px;
+  }
+  
+  .fare-header h3 {
+    font-size: 16px;
+  }
+  
+  .amount {
+    font-size: 28px;
+  }
+  
+  .breakdown-item {
+    font-size: 13px;
+  }
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Anti-flashing Protection */
+.fare-result:not(.visible) {
+  pointer-events: none;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}

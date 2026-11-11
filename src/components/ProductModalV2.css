@@ -1,0 +1,202 @@
+/* 🎨 GO7 PRODUCT MODAL V2 STYLES — Premium Design (Nov 2025) */
+
+/* Modal backdrop blur effect */
+.product-modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Premium card shadows */
+.product-modal-card {
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 10px 20px -8px rgba(224, 0, 27, 0.1);
+}
+
+/* Custom scrollbar for modal content */
+.product-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.product-modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.product-modal-content::-webkit-scrollbar-thumb {
+  background: #e0001b;
+  border-radius: 3px;
+}
+
+.product-modal-content::-webkit-scrollbar-thumb:hover {
+  background: #b80017;
+}
+
+/* Addon card hover effects */
+.addon-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.addon-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(224, 0, 27, 0.1);
+}
+
+.addon-card.selected {
+  border-color: #e0001b;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+/* Quantity controls */
+.quantity-btn {
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.quantity-btn:active {
+  transform: translateY(0);
+}
+
+/* Price animations */
+.price-display {
+  background: linear-gradient(135deg, #e0001b 0%, #b80017 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Add to cart button */
+.add-to-cart-btn {
+  background: linear-gradient(135deg, #e0001b 0%, #b80017 100%);
+  box-shadow: 
+    0 4px 15px rgba(224, 0, 27, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-to-cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(224, 0, 27, 0.4),
+    0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Badge styles */
+.premium-badge {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+/* Image effects */
+.product-image {
+  transition: transform 0.5s ease;
+}
+
+.product-image:hover {
+  transform: scale(1.02);
+}
+
+/* Loading spinner */
+@keyframes premium-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.premium-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #e0001b;
+  border-radius: 50%;
+  animation: premium-spin 1s linear infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-modal-card {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  .addon-card {
+    padding: 1rem;
+  }
+  
+  .quantity-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  .product-modal-card {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .addon-card {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  
+  .addon-card:hover {
+    background: #4b5563;
+  }
+}
+
+/* Premium animations */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Focus states for accessibility */
+.quantity-btn:focus,
+.add-to-cart-btn:focus {
+  outline: none;
+  ring: 2px solid #e0001b;
+  ring-offset: 2px;
+}
+
+/* Premium glow effect for selected items */
+.selected-addon-glow {
+  box-shadow: 
+    0 0 0 1px #e0001b,
+    0 0 20px rgba(224, 0, 27, 0.2),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+}

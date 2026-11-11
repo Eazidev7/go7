@@ -1,0 +1,343 @@
+[
+  {
+    "timestamp": "2025-11-04T00:24:35.591Z",
+    "uptime": 296,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:24:35.590Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:25:05.830Z",
+    "uptime": 30535,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:25:05.830Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:25:37.795Z",
+    "uptime": 62500,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:25:37.795Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:26:08.022Z",
+    "uptime": 92727,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:26:08.022Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:26:38.254Z",
+    "uptime": 122959,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:26:38.254Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:27:08.497Z",
+    "uptime": 153202,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:27:08.497Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:27:38.762Z",
+    "uptime": 183467,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:27:38.762Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:28:09.337Z",
+    "uptime": 214042,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:28:09.337Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:28:39.581Z",
+    "uptime": 244286,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:28:39.581Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:29:09.877Z",
+    "uptime": 274582,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:29:09.876Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:29:40.809Z",
+    "uptime": 305514,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:29:40.809Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:30:11.072Z",
+    "uptime": 335777,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:30:11.072Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:30:41.328Z",
+    "uptime": 366033,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:30:41.328Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:31:11.541Z",
+    "uptime": 396246,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:31:11.541Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:31:41.815Z",
+    "uptime": 426520,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:31:41.814Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:32:12.106Z",
+    "uptime": 456811,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:32:12.105Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:32:42.889Z",
+    "uptime": 487594,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:32:42.889Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:33:13.237Z",
+    "uptime": 517942,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:33:13.236Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:33:43.473Z",
+    "uptime": 548178,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:33:43.473Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:34:18.896Z",
+    "uptime": 583601,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:34:18.896Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:34:51.287Z",
+    "uptime": 615992,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:34:51.286Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:35:21.531Z",
+    "uptime": 646236,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:35:21.531Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:35:51.865Z",
+    "uptime": 676570,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:35:51.865Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:36:23.295Z",
+    "uptime": 708000,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:36:23.295Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:36:53.502Z",
+    "uptime": 738207,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:36:53.502Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:37:23.701Z",
+    "uptime": 768406,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:37:23.701Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:37:54.143Z",
+    "uptime": 798848,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:37:54.142Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:38:24.369Z",
+    "uptime": 829074,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:38:24.368Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:38:54.561Z",
+    "uptime": 859266,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:38:54.561Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:39:24.785Z",
+    "uptime": 889490,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:39:24.785Z"
+    },
+    "listeners": null
+  },
+  {
+    "timestamp": "2025-11-04T00:39:54.957Z",
+    "uptime": 919662,
+    "serverResponding": true,
+    "memory": {
+      "totalMemoryMB": 0,
+      "processCount": 0,
+      "timestamp": "2025-11-04T00:39:54.957Z"
+    },
+    "listeners": null
+  }
+]

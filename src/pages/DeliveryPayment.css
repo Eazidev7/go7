@@ -1,0 +1,388 @@
+/* Delivery & Payment Page Styles */
+.delivery-payment-page {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+.checkout-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 16px 120px 16px;
+}
+
+.checkout-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+}
+
+/* Delivery Address Styles */
+.selected-address {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.address-card {
+  width: 100%;
+}
+
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.address-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.change-btn {
+  background: none;
+  border: 2px solid #D72638;
+  color: #D72638;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.change-btn:hover {
+  background: #D72638;
+  color: white;
+}
+
+.address-details {
+  color: #666;
+  line-height: 1.5;
+}
+
+.address-details p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+}
+
+.phone {
+  color: #999;
+  font-size: 13px;
+}
+
+/* No Address State */
+.no-address {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.address-prompt {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.prompt-icon {
+  font-size: 40px;
+  opacity: 0.6;
+}
+
+.prompt-text {
+  flex: 1;
+}
+
+.prompt-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.prompt-text p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.add-address-btn {
+  background: #D72638;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.add-address-btn:hover {
+  background: #c21e2f;
+  transform: translateY(-1px);
+}
+
+/* Payment Methods */
+.payment-methods {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+.payment-option {
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.payment-option:last-child {
+  margin-bottom: 0;
+}
+
+.payment-option:hover {
+  border-color: #D72638;
+}
+
+.payment-option:has(input:checked) {
+  border-color: #D72638;
+  background: #fff5f6;
+}
+
+.payment-label {
+  display: block;
+  cursor: pointer;
+  padding: 16px;
+  width: 100%;
+}
+
+.payment-label input[type="radio"] {
+  display: none;
+}
+
+.payment-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.payment-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.payment-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.payment-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.payment-desc {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Payment Action */
+.payment-action {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Fixed Payment Button */
+.fixed-payment-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20px 16px;
+  border-top: 1px solid #f0f0f0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.payment-button {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: block;
+  background: #D72638;
+  color: white;
+  border: none;
+  padding: 18px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-button:hover:not(:disabled) {
+  background: #c21e2f;
+  transform: translateY(-1px);
+}
+
+.payment-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.payment-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.payment-loading {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Security Badge */
+.security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.security-icon {
+  color: #28a745;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .checkout-content {
+    padding: 0 12px 120px 12px;
+  }
+  
+  .selected-address,
+  .no-address,
+  .payment-methods,
+  .payment-action {
+    border-radius: 12px;
+    padding: 16px;
+  }
+  
+  .checkout-section {
+    margin-bottom: 16px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+  
+  .address-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .change-btn {
+    align-self: flex-end;
+  }
+  
+  .address-prompt {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .prompt-text {
+    order: -1;
+  }
+  
+  .payment-content {
+    gap: 12px;
+  }
+  
+  .payment-icon {
+    font-size: 24px;
+  }
+  
+  .payment-name {
+    font-size: 15px;
+  }
+  
+  .payment-desc {
+    font-size: 13px;
+  }
+  
+  .fixed-payment-button {
+    padding: 16px 12px;
+  }
+}
+
+/* Loading State */
+.checkout-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.checkout-loading .spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid #D72638;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.checkout-loading h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.checkout-loading p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}

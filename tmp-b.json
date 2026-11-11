@@ -1,0 +1,169 @@
+{
+  "name": "projects/go7-delivery/databases/(default)/documents/bookings/Go7-3S40VHP",
+  "fields": {
+    "itemDescription": {
+      "stringValue": "Package delivery"
+    },
+    "deliveryMode": {
+      "stringValue": "express"
+    },
+    "bookingId": {
+      "stringValue": "Go7-3S40VHP"
+    },
+    "paymentMethod": {
+      "stringValue": "wallet"
+    },
+    "customer": {
+      "mapValue": {
+        "fields": {
+          "uid": {
+            "stringValue": "aXOuD9NzauRS5bf9Ue5YoJSSGsE2"
+          },
+          "name": {
+            "stringValue": "Omotosho "
+          },
+          "phone": {
+            "stringValue": "08166205600"
+          },
+          "email": {
+            "stringValue": "Feyisetantobiloba@gmail.com"
+          }
+        }
+      }
+    },
+    "durationMin": {
+      "integerValue": "19"
+    },
+    "fare": {
+      "integerValue": "1850"
+    },
+    "packageDetails": {
+      "mapValue": {
+        "fields": {
+          "size": {
+            "stringValue": "small"
+          },
+          "name": {
+            "stringValue": "Clothes "
+          },
+          "multiplier": {
+            "integerValue": "1"
+          },
+          "weight": {
+            "stringValue": "under_5kg"
+          },
+          "type": {
+            "stringValue": "document"
+          }
+        }
+      }
+    },
+    "id": {
+      "stringValue": "Go7-3S40VHP"
+    },
+    "finalFare": {
+      "integerValue": "1850"
+    },
+    "status": {
+      "stringValue": "pending"
+    },
+    "customerId": {
+      "stringValue": "aXOuD9NzauRS5bf9Ue5YoJSSGsE2"
+    },
+    "distance": {
+      "doubleValue": 9.7407001182341233
+    },
+    "estimatedFare": {
+      "integerValue": "1850"
+    },
+    "specialNotes": {
+      "stringValue": ""
+    },
+    "paymentStatus": {
+      "stringValue": "paid"
+    },
+    "pickup": {
+      "mapValue": {
+        "fields": {
+          "lng": {
+            "doubleValue": 3.4306227
+          },
+          "lat": {
+            "doubleValue": 7.1737499
+          },
+          "address": {
+            "stringValue": "5CFH+6WM, Abeokuta 110121, Ogun State, Nigeria"
+          }
+        }
+      }
+    },
+    "createdAt": {
+      "stringValue": "2026-06-30T11:48:30.508Z"
+    },
+    "distanceKm": {
+      "doubleValue": 9.7407001182341233
+    },
+    "recipient": {
+      "mapValue": {
+        "fields": {
+          "email": {
+            "stringValue": "feyistantobiloba@gmail.com"
+          },
+          "name": {
+            "stringValue": "Yomi"
+          },
+          "phone": {
+            "stringValue": "08152793040"
+          }
+        }
+      }
+    },
+    "dropoff": {
+      "mapValue": {
+        "fields": {
+          "lng": {
+            "doubleValue": 3.3455
+          },
+          "address": {
+            "stringValue": "GTB Kuto, Abeokuta"
+          },
+          "lat": {
+            "doubleValue": 7.1505
+          }
+        }
+      }
+    },
+    "jobId": {
+      "stringValue": "Go7-3S40VHP"
+    },
+    "userId": {
+      "stringValue": "aXOuD9NzauRS5bf9Ue5YoJSSGsE2"
+    },
+    "totalKobo": {
+      "integerValue": "185000"
+    },
+    "timestamp": {
+      "timestampValue": "2026-06-30T11:48:30.509Z"
+    },
+    "sender": {
+      "mapValue": {
+        "fields": {
+          "email": {
+            "stringValue": "Feyisetantobiloba@gmail.com"
+          },
+          "name": {
+            "stringValue": "Omotosho "
+          },
+          "phone": {
+            "stringValue": "08166205600"
+          }
+        }
+      }
+    },
+    "paymentType": {
+      "stringValue": "pay_now"
+    }
+  },
+  "createTime": "2026-06-30T12:31:02.107263Z",
+  "updateTime": "2026-06-30T12:31:02.107263Z"
+}

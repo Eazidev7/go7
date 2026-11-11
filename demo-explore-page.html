@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO7 Explore Page - Mobile-First Demo</title>
+    <style>
+        /* Include all CSS variables and base styles */
+        :root {
+            --go7-primary: #E83A2E;
+            --go7-primary-light: #FF6B5E;
+            --go7-primary-dark: #C62D22;
+            --go7-mint: #A8E6C3;
+            --go7-peach: #FFEFE7;
+            --go7-neutral-dark: #202124;
+            --go7-white: #FFFFFF;
+            --go7-gray-50: #FAFAFA;
+            --go7-gray-100: #F5F5F5;
+            --go7-gray-200: #EEEEEE;
+            --go7-gray-300: #E0E0E0;
+            --go7-gray-400: #BDBDBD;
+            --go7-gray-600: #757575;
+            --go7-gray-700: #616161;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 14px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            --font-xs: 12px;
+            --font-sm: 14px;
+            --font-md: 16px;
+            --font-lg: 18px;
+            --font-xl: 20px;
+            --font-xxl: 24px;
+            --font-xxxl: 28px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--go7-gray-50);
+            color: var(--go7-neutral-dark);
+            line-height: 1.5;
+        }
+        
+        .demo-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: var(--go7-white);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background-color: var(--go7-white);
+            border-bottom: 1px solid var(--go7-gray-200);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .location-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: none;
+            border: none;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-md);
+            flex: 1;
+            max-width: 250px;
+        }
+        
+        .location-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+        
+        .location-label {
+            font-size: var(--font-xs);
+            color: var(--go7-gray-600);
+        }
+        
+        .location-name {
+            font-size: var(--font-sm);
+            font-weight: 500;
+            color: var(--go7-neutral-dark);
+        }
+        
+        .notification-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            background: none;
+            border: none;
+            border-radius: var(--radius-full);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--go7-primary);
+            color: var(--go7-white);
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Content */
+        .content {
+            padding: 0 var(--spacing-md) var(--spacing-xxl);
+        }
+        
+        /* Hero Card */
+        .hero-card {
+            height: 160px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--go7-primary) 0%, var(--go7-primary-light) 100%);
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-lg);
+            color: var(--go7-white);
+            margin: var(--spacing-md) 0 var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-text {
+            flex: 1;
+        }
+        
+        .hero-title {
+            font-size: var(--font-xl);
+            font-weight: 700;
+            margin: 0 0 var(--spacing-xs) 0;
+        }
+        
+        .hero-subtitle {
+            font-size: var(--font-sm);
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .hero-cta {
+            background-color: var(--go7-white);
+            color: var(--go7-primary);
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: var(--font-sm);
+        }
+        
+        /* Categories */
+        .section-title {
+            font-size: var(--font-xl);
+            font-weight: 600;
+            margin: 0 0 var(--spacing-md) 0;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .category-tile {
+            height: 100px;
+            border: none;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--go7-peach);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .category-tile:hover {
+            transform: translateY(-2px);
+        }
+        
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .category-name {
+            font-size: var(--font-sm);
+            font-weight: 600;
+            color: var(--go7-neutral-dark);
+        }
+        
+        /* Vendors */
+        .vendors-scroll {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .vendors-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .vendors-list {
+            display: flex;
+            gap: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .vendor-card {
+            flex-shrink: 0;
+            width: 260px;
+            background-color: var(--go7-white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--go7-gray-200);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .vendor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .vendor-image {
+            position: relative;
+            height: 120px;
+            background-color: var(--go7-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--go7-gray-500);
+        }
+        
+        .rating-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--go7-white);
+            padding: 4px var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--font-xs);
+            font-weight: 600;
+        }
+        
+        .vendor-info {
+            padding: var(--spacing-md);
+        }
+        
+        .vendor-name {
+            font-size: var(--font-md);
+            font-weight: 600;
+            margin: 0 0 4px 0;
+        }
+        
+        .delivery-info {
+            font-size: var(--font-xs);
+            color: var(--go7-gray-600);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .featured-product {
+            background-color: var(--go7-gray-50);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-name {
+            font-size: var(--font-sm);
+            font-weight: 500;
+        }
+        
+        .product-price {
+            font-size: var(--font-sm);
+            color: var(--go7-primary);
+            font-weight: 600;
+        }
+        
+        @media (min-width: 768px) {
+            .demo-container {
+                max-width: 600px;
+            }
+            
+            .categories {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .category-tile {
+                height: 90px;
+            }
+            
+            .category-icon {
+                font-size: 28px;
+            }
+            
+            .category-name {
+                font-size: var(--font-xs);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <div class="header">
+            <button class="location-btn">
+                <div style="color: var(--go7-primary);">📍</div>
+                <div class="location-text">
+                    <span class="location-label">Deliver to</span>
+                    <span class="location-name">Victoria Island, Lagos</span>
+                </div>
+                <div style="color: var(--go7-gray-600);">▼</div>
+            </button>
+            <button class="notification-btn">
+                <div style="font-size: 20px;">🔔</div>
+                <div class="notification-badge">3</div>
+            </button>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Hero Card -->
+            <div class="hero-card">
+                <div class="hero-text">
+                    <h2 class="hero-title">Free Delivery on Orders ₦5,000+</h2>
+                    <p class="hero-subtitle">Get your favorite meals delivered fast</p>
+                </div>
+                <button class="hero-cta">ORDER NOW →</button>
+            </div>
+            
+            <!-- Categories -->
+            <h3 class="section-title">What are you craving?</h3>
+            <div class="categories">
+                <button class="category-tile" style="background-color: var(--go7-peach);">
+                    <div class="category-icon">🍽️</div>
+                    <span class="category-name">Restaurants</span>
+                </button>
+                <button class="category-tile" style="background-color: var(--go7-mint);">
+                    <div class="category-icon">🛒</div>
+                    <span class="category-name">Groceries</span>
+                </button>
+                <button class="category-tile" style="background-color: #E8F4FD;">
+                    <div class="category-icon">💊</div>
+                    <span class="category-name">Pharmacy</span>
+                </button>
+                <button class="category-tile" style="background-color: #FFF0F5;">
+                    <div class="category-icon">📦</div>
+                    <span class="category-name">Errands</span>
+                </button>
+            </div>
+            
+            <!-- Trending Vendors -->
+            <h3 class="section-title">Trending Near You</h3>
+            <div class="vendors-scroll">
+                <div class="vendors-list">
+                    <div class="vendor-card">
+                        <div class="vendor-image">
+                            <span>🍛</span>
+                            <div class="rating-badge">⭐ 4.8</div>
+                        </div>
+                        <div class="vendor-info">
+                            <h4 class="vendor-name">Chowdeck Kitchen</h4>
+                            <div class="delivery-info">15-25 min • ₦500</div>
+                            <div class="featured-product">
+                                <span class="product-name">Jollof Rice Special</span>
+                                <span class="product-price">₦2,500</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="vendor-card">
+                        <div class="vendor-image">
+                            <span>🥬</span>
+                            <div class="rating-badge">⭐ 4.6</div>
+                        </div>
+                        <div class="vendor-info">
+                            <h4 class="vendor-name">Fresh Market</h4>
+                            <div class="delivery-info">20-30 min • ₦300</div>
+                            <div class="featured-product">
+                                <span class="product-name">Organic Vegetables</span>
+                                <span class="product-price">₦1,500</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="vendor-card">
+                        <div class="vendor-image">
+                            <span>💊</span>
+                            <div class="rating-badge">⭐ 4.9</div>
+                        </div>
+                        <div class="vendor-info">
+                            <h4 class="vendor-name">MedPlus Pharmacy</h4>
+                            <div class="delivery-info">10-20 min • ₦400</div>
+                            <div class="featured-product">
+                                <span class="product-name">Paracetamol Pack</span>
+                                <span class="product-price">₦800</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

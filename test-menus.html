@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Vendor Menus</title>
+</head>
+<body>
+    <h1>Testing Vendor Menus</h1>
+    <div id="results"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collectionGroup, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+            authDomain: "go7-delivery.firebaseapp.com",
+            projectId: "go7-delivery",
+            storageBucket: "go7-delivery.firebasestorage.app",
+            messagingSenderId: "232009015458",
+            appId: "1:232009015458:web:49dbb63a5a67112325f7fb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '<p>Loading...</p>';
+
+        try {
+            console.log('Fetching menus...');
+            const menusSnapshot = await getDocs(collectionGroup(db, 'menus'));
+            
+            console.log('Found menus:', menusSnapshot.size);
+            resultsDiv.innerHTML = `<h2>Found ${menusSnapshot.size} menu items</h2>`;
+            
+            if (menusSnapshot.empty) {
+                resultsDiv.innerHTML += '<p style="color: red;">No menu items found! You need to create menu items from the vendor dashboard.</p>';
+            } else {
+                resultsDiv.innerHTML += '<ul>';
+                menusSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const vendorId = doc.ref.parent.parent.id;
+                    resultsDiv.innerHTML += `
+                        <li>
+                            <strong>${data.name}</strong><br>
+                            Price: ₦${data.basePrice || 0}<br>
+                            Vendor ID: ${vendorId}<br>
+                            Available: ${data.isAvailable ? 'Yes' : 'No'}<br>
+                            Image: ${data.imageUrl ? 'Yes' : 'No'}
+                        </li>
+                    `;
+                });
+                resultsDiv.innerHTML += '</ul>';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            resultsDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        }
+    </script>
+</body>
+</html>

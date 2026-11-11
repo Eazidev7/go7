@@ -1,0 +1,914 @@
+[
+ {
+  "name": "Alawode Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.368
+ },
+ {
+  "name": "Olorunsogo",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.371
+ },
+ {
+  "name": "Femishola Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.371
+ },
+ {
+  "name": "Sanni Close",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.371
+ },
+ {
+  "name": "Olayinka Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.371
+ },
+ {
+  "name": "Shonaike Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.371
+ },
+ {
+  "name": "Popoola Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.374
+ },
+ {
+  "name": "Salamulla Kaolanawa",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.377
+ },
+ {
+  "name": "Tayo Bello Avenue",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.374
+ },
+ {
+  "name": "Adebowale",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.374
+ },
+ {
+  "name": "Gbadamosi Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.374
+ },
+ {
+  "name": "Olu Adenekan Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.377
+ },
+ {
+  "name": "Okeayo Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.38
+ },
+ {
+  "name": "Oke-Ayo Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.38
+ },
+ {
+  "name": "Ayodele Avenue",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.38
+ },
+ {
+  "name": "Abiola Way",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.371
+ },
+ {
+  "name": "Sobola Street",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.383
+ },
+ {
+  "name": "Idi-aba",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.3859999999999997
+ },
+ {
+  "name": "Oyinda Pedro Avenue",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.392
+ },
+ {
+  "name": "Area B Road Seventeen",
+  "near": "Titun",
+  "lat": 7.1530000000000005,
+  "lng": 3.392
+ },
+ {
+  "name": "Mudashiru Amolegbe Close",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.368
+ },
+ {
+  "name": "Oke Lantoro",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.374
+ },
+ {
+  "name": "Fashola Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.371
+ },
+ {
+  "name": "Goke Omolabi Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.371
+ },
+ {
+  "name": "Ogunbona Oridate Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.374
+ },
+ {
+  "name": "Sabo",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.374
+ },
+ {
+  "name": "Akinosho Street",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.377
+ },
+ {
+  "name": "Isiaka Yusuf Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.377
+ },
+ {
+  "name": "Agbelekale Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.377
+ },
+ {
+  "name": "Ajayi Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.383
+ },
+ {
+  "name": "sodeke compound",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.38
+ },
+ {
+  "name": "Abike Sodeke Street",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.38
+ },
+ {
+  "name": "Shodimu Street",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.383
+ },
+ {
+  "name": "Odo Eran",
+  "near": "Titun",
+  "lat": 7.156,
+  "lng": 3.389
+ },
+ {
+  "name": "Oke Yidi",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.368
+ },
+ {
+  "name": "Adekanmbi St",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.368
+ },
+ {
+  "name": "Elite Road",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.374
+ },
+ {
+  "name": "Shokunbi Street",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.377
+ },
+ {
+  "name": "Ima Avenue",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.38
+ },
+ {
+  "name": "Abeni Adeleye Street",
+  "near": "Titun",
+  "lat": 7.159,
+  "lng": 3.38
+ },
+ {
+  "name": "Kufile Street",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.368
+ },
+ {
+  "name": "Lantoro Road",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.368
+ },
+ {
+  "name": "Folarin Folorunsho Avenue",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.368
+ },
+ {
+  "name": "Agbedu Street",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.371
+ },
+ {
+  "name": "Oke Ibukun",
+  "near": "Titun",
+  "lat": 7.168,
+  "lng": 3.38
+ },
+ {
+  "name": "Oke Aregba Street",
+  "near": "Titun",
+  "lat": 7.162,
+  "lng": 3.374
+ },
+ {
+  "name": "Asero",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.38
+ },
+ {
+  "name": "Alabata Street",
+  "near": "Titun",
+  "lat": 7.165,
+  "lng": 3.368
+ },
+ {
+  "name": "Ilupeju Street",
+  "near": "Eleweran",
+  "lat": 7.1610000000000005,
+  "lng": 3.326
+ },
+ {
+  "name": "Oke Abetu",
+  "near": "Titun",
+  "lat": 7.168,
+  "lng": 3.368
+ },
+ {
+  "name": "Somorin Street",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.371
+ },
+ {
+  "name": "pastor adeeko close",
+  "near": "Titun",
+  "lat": 7.168,
+  "lng": 3.371
+ },
+ {
+  "name": "Shomari Street",
+  "near": "Titun",
+  "lat": 7.168,
+  "lng": 3.374
+ },
+ {
+  "name": "8 Sholola Street",
+  "near": "Titun",
+  "lat": 7.168,
+  "lng": 3.374
+ },
+ {
+  "name": "Solanke street",
+  "near": "Titun",
+  "lat": 7.168,
+  "lng": 3.374
+ },
+ {
+  "name": "Aladesanmi Road",
+  "near": "Titun",
+  "lat": 7.174,
+  "lng": 3.383
+ },
+ {
+  "name": "Beckley street",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.389
+ },
+ {
+  "name": "Friendly Avenue",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.368
+ },
+ {
+  "name": "Lakesin Street",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.368
+ },
+ {
+  "name": "Ibadan Road",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.392
+ },
+ {
+  "name": "Bola Ajibola Street",
+  "near": "Titun",
+  "lat": 7.174,
+  "lng": 3.371
+ },
+ {
+  "name": "Adatan",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.371
+ },
+ {
+  "name": "A5",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.332
+ },
+ {
+  "name": "Prof. Kamaaldeen Road",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.38
+ },
+ {
+  "name": "Sodium street",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.3859999999999997
+ },
+ {
+  "name": "Tejumola Estate",
+  "near": "Titun",
+  "lat": 7.171,
+  "lng": 3.392
+ },
+ {
+  "name": "Ayinla Sodimu Street",
+  "near": "Titun",
+  "lat": 7.174,
+  "lng": 3.368
+ },
+ {
+  "name": "Adebayo Soetan Street",
+  "near": "Titun",
+  "lat": 7.174,
+  "lng": 3.38
+ },
+ {
+  "name": "Abanise Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.368
+ },
+ {
+  "name": "Jinadu Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.371
+ },
+ {
+  "name": "Acumens Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.371
+ },
+ {
+  "name": "Car Wash",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.371
+ },
+ {
+  "name": "Chief Jiboku Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.377
+ },
+ {
+  "name": "Alanni Kayode Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.3859999999999997
+ },
+ {
+  "name": "Ijeun Str",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.377
+ },
+ {
+  "name": "Moshalasi Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.377
+ },
+ {
+  "name": "Oba Ademola",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.38
+ },
+ {
+  "name": "Chief Sodipo Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.38
+ },
+ {
+  "name": "Oba Ademola Road II",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.383
+ },
+ {
+  "name": "Abiola Keazor Street",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.3859999999999997
+ },
+ {
+  "name": "Abeokuta-Ibadan Road",
+  "near": "Titun",
+  "lat": 7.177,
+  "lng": 3.392
+ },
+ {
+  "name": "Ita Iyalode Road",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.326
+ },
+ {
+  "name": "Akin Olugbade",
+  "near": "Eleweran",
+  "lat": 7.149,
+  "lng": 3.326
+ },
+ {
+  "name": "Folarin Street",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.326
+ },
+ {
+  "name": "Matiku Street",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.329
+ },
+ {
+  "name": "OLUSEGUN OBASANJO Road",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.329
+ },
+ {
+  "name": "Ijeja Road",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.335
+ },
+ {
+  "name": "Ita Eko",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.332
+ },
+ {
+  "name": "IJEJA",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.335
+ },
+ {
+  "name": "Igbore",
+  "near": "Eleweran",
+  "lat": 7.152,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Igbore road",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.338
+ },
+ {
+  "name": "Logbara-Magbon Road",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.338
+ },
+ {
+  "name": "Oke - Ilewo Road",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Isale Igbein",
+  "near": "Eleweran",
+  "lat": 7.149,
+  "lng": 3.344
+ },
+ {
+  "name": "Arowosafe Aro Street",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.344
+ },
+ {
+  "name": "Amolaso Road",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.344
+ },
+ {
+  "name": "jamiu Soyoye Street",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.344
+ },
+ {
+  "name": "Anifowose Street",
+  "near": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.347
+ },
+ {
+  "name": "Kuto",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.347
+ },
+ {
+  "name": "Akin Olugbade Street",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.326
+ },
+ {
+  "name": "Obasanjo Lane",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.329
+ },
+ {
+  "name": "Ogbe Road",
+  "near": "Eleweran",
+  "lat": 7.149,
+  "lng": 3.338
+ },
+ {
+  "name": "Liberty road",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Oke Yeke",
+  "near": "Eleweran",
+  "lat": 7.149,
+  "lng": 3.347
+ },
+ {
+  "name": "Arowosafe Street",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.344
+ },
+ {
+  "name": "Isabo",
+  "near": "Eleweran",
+  "lat": 7.146,
+  "lng": 3.347
+ },
+ {
+  "name": "Akowonjo-Ifo-Sabo Road",
+  "near": "Eleweran",
+  "lat": 7.152,
+  "lng": 3.326
+ },
+ {
+  "name": "Agboke Close",
+  "near": "Eleweran",
+  "lat": 7.149,
+  "lng": 3.326
+ },
+ {
+  "name": "Totoro Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.332
+ },
+ {
+  "name": "NTA ROAD",
+  "near": "Eleweran",
+  "lat": 7.149,
+  "lng": 3.335
+ },
+ {
+  "name": "Aboaba Street",
+  "near": "Eleweran",
+  "lat": 7.152,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Imo",
+  "near": "Eleweran",
+  "lat": 7.152,
+  "lng": 3.344
+ },
+ {
+  "name": "Nepa Road",
+  "near": "Eleweran",
+  "lat": 7.152,
+  "lng": 3.347
+ },
+ {
+  "name": "Lafenwa Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.338
+ },
+ {
+  "name": "Sowemimo Street",
+  "near": "Eleweran",
+  "lat": 7.152,
+  "lng": 3.338
+ },
+ {
+  "name": "Tokotaya House Okeigbore",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Sapon",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.347
+ },
+ {
+  "name": "Barracks Road",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.323
+ },
+ {
+  "name": "Lagos road",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.326
+ },
+ {
+  "name": "Lafenwa",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.326
+ },
+ {
+  "name": "Gbagura Road",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.338
+ },
+ {
+  "name": "Adekunle Fajuyi Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.335
+ },
+ {
+  "name": "Olowu Road",
+  "near": "Eleweran",
+  "lat": 7.1610000000000005,
+  "lng": 3.338
+ },
+ {
+  "name": "iso tinka",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Itoku",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.347
+ },
+ {
+  "name": "Kenta Oloko",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.344
+ },
+ {
+  "name": "Shokenu Road",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.344
+ },
+ {
+  "name": "Sapon Road",
+  "near": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.344
+ },
+ {
+  "name": "Abeokuta-Imeko Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.326
+ },
+ {
+  "name": "Ayetoro Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.326
+ },
+ {
+  "name": "Ago Oka 2",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.329
+ },
+ {
+  "name": "Agura Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Sabo-Badan Road",
+  "near": "Eleweran",
+  "lat": 7.158,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "Kobiti Road",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.335
+ },
+ {
+  "name": "Idi-Ape Road",
+  "near": "Eleweran",
+  "lat": 7.1610000000000005,
+  "lng": 3.344
+ },
+ {
+  "name": "Ake",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.347
+ },
+ {
+  "name": "Kuforiji Olubi Street",
+  "near": "Eleweran",
+  "lat": 7.1610000000000005,
+  "lng": 3.323
+ },
+ {
+  "name": "Omideyi Street",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.326
+ },
+ {
+  "name": "Oke Sabo Road",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.329
+ },
+ {
+  "name": "Modashiru Street",
+  "near": "Eleweran",
+  "lat": 7.1610000000000005,
+  "lng": 3.338
+ },
+ {
+  "name": "Ikija Road",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.3409999999999997
+ },
+ {
+  "name": "OKE-PADRE, IJEMO Road",
+  "near": "Eleweran",
+  "lat": 7.1610000000000005,
+  "lng": 3.344
+ },
+ {
+  "name": "Oke-Ijemo Road",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.347
+ },
+ {
+  "name": "Ita-Bayinbo Street",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.347
+ },
+ {
+  "name": "Agbo Eran Street",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.323
+ },
+ {
+  "name": "Sabo Road",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.326
+ },
+ {
+  "name": "Ago Ika",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.335
+ },
+ {
+  "name": "Sodeke Road",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.344
+ },
+ {
+  "name": "Ijemo Alape Road",
+  "near": "Eleweran",
+  "lat": 7.164000000000001,
+  "lng": 3.347
+ },
+ {
+  "name": "Akintobi street",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.323
+ },
+ {
+  "name": "Agoka Road",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.338
+ },
+ {
+  "name": "Adagba Street",
+  "near": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.347
+ }
+]

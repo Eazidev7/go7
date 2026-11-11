@@ -1,0 +1,229 @@
+/**
+ * Vendor phone verification — standard OTP flow
+ */
+
+.vpv-page {
+  min-height: 100vh;
+  background: #f4f5f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.vpv-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.vpv-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.vpv-logo {
+  height: 32px;
+  width: auto;
+}
+
+.vpv-brand-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.vpv-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px;
+}
+
+.vpv-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.vpv-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.vpv-phone-row {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.vpv-phone-row:focus-within {
+  border-color: #E83A2E;
+  box-shadow: 0 0 0 3px rgba(232, 58, 46, 0.1);
+}
+
+.vpv-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.vpv-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 13px 14px;
+  font-size: 16px;
+  color: #111827;
+  background: transparent;
+  min-width: 0;
+}
+
+.vpv-otp {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  text-align: center;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vpv-otp:focus {
+  border-color: #E83A2E;
+  box-shadow: 0 0 0 3px rgba(232, 58, 46, 0.1);
+}
+
+.vpv-otp::placeholder {
+  color: #d1d5db;
+  letter-spacing: 8px;
+}
+
+.vpv-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #E83A2E;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.vpv-btn:hover:not(:disabled) {
+  background: #d12b20;
+}
+
+.vpv-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.vpv-message {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.vpv-message.success {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.vpv-message.error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.vpv-message.info {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.vpv-footer-links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.vpv-timer {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.vpv-link-btn {
+  background: none;
+  border: none;
+  color: #E83A2E;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+.vpv-link-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vpv-skip {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: none;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.vpv-skip:hover {
+  color: #374151;
+}
+
+@media (max-width: 480px) {
+  .vpv-card {
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .vpv-title {
+    font-size: 18px;
+  }
+
+  .vpv-otp {
+    font-size: 20px;
+    letter-spacing: 6px;
+  }
+}

@@ -1,0 +1,213 @@
+/* Add-on Selector Styles */
+.addon-selector {
+  background-color: var(--go7-white);
+  border: 1px solid var(--go7-gray-200);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  margin-bottom: var(--spacing-sm);
+}
+
+.addon-selector:last-child {
+  margin-bottom: 0;
+}
+
+.addon-selector.selected {
+  border-color: var(--go7-primary);
+  background-color: var(--go7-peach);
+}
+
+.addon-selector.disabled {
+  opacity: 0.6;
+  background-color: var(--go7-gray-50);
+}
+
+/* Add-on Main Content */
+.addon-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.addon-main:hover:not(.disabled) {
+  background-color: var(--go7-gray-50);
+}
+
+.addon-selector.selected .addon-main:hover {
+  background-color: var(--go7-peach);
+}
+
+/* Add-on Image */
+.addon-image {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--go7-gray-100);
+}
+
+.addon-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Add-on Info */
+.addon-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.addon-name {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--go7-neutral-dark);
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.addon-price {
+  font-size: var(--font-sm);
+  color: var(--go7-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.price-breakdown {
+  font-size: var(--font-xs);
+  color: var(--go7-gray-600);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Custom Checkbox */
+.addon-checkbox {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.addon-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--go7-gray-300);
+  border-radius: 4px;
+  background-color: var(--go7-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.addon-checkbox input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: var(--go7-primary);
+  border-color: var(--go7-primary);
+}
+
+.addon-checkbox input[type="checkbox"]:disabled + .checkbox-custom {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Quantity Controls */
+.addon-quantity {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--go7-gray-200);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  background-color: var(--go7-gray-100);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  max-width: 140px;
+  margin: 0 auto;
+}
+
+.quantity-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--go7-white);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--go7-neutral-dark);
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: var(--go7-primary);
+  color: var(--go7-white);
+  transform: scale(1.05);
+}
+
+.quantity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-display {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--go7-neutral-dark);
+  min-width: 30px;
+  text-align: center;
+}
+
+.quantity-display span {
+  display: block;
+}
+
+/* Unavailable State */
+.addon-unavailable {
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: center;
+  font-size: var(--font-xs);
+  color: var(--go7-gray-600);
+  font-style: italic;
+  border-top: 1px solid var(--go7-gray-200);
+  background-color: var(--go7-gray-50);
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .addon-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .addon-name {
+    font-size: var(--font-lg);
+  }
+  
+  .addon-price {
+    font-size: var(--font-md);
+  }
+  
+  .quantity-controls {
+    max-width: 160px;
+  }
+  
+  .quantity-btn {
+    width: 36px;
+    height: 36px;
+  }
+}

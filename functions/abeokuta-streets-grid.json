@@ -1,0 +1,1353 @@
+[
+ {
+  "name": "Ita Iyalode Road",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.323,
+  "type": "route"
+ },
+ {
+  "name": "Akin Olugbade",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Ita Eko",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.331,
+  "type": "route"
+ },
+ {
+  "name": "Obasanjo Lane",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "OLUSEGUN OBASANJO Road",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Ita Iyalode",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.331,
+  "type": "route"
+ },
+ {
+  "name": "IJEJA",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Ijeja Road",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Igbore",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Igbore road",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Logbara-Magbon Road",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Arowosafe Aro Street",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Arowosafe Street",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Isale Igbein",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Amolaso Road",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Anifowose Street",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Kuto",
+  "area": "Eleweran",
+  "lat": 7.143000000000001,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Unnamed Road",
+  "area": "Fajol",
+  "lat": 7.191999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Eka, Mango",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.331,
+  "type": "route"
+ },
+ {
+  "name": "Ogbe Road",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "nud road",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Awolowo Avenue",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Oke Yeke",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Nawair-Ud-Deen Road",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "jamiu Soyoye Street",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Isabo",
+  "area": "Eleweran",
+  "lat": 7.147,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Brewery Roundabout",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.323,
+  "type": "route"
+ },
+ {
+  "name": "Lafenwa Road",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Totoro Road",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.331,
+  "type": "route"
+ },
+ {
+  "name": "Sowemimo Street",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Aboaba Street",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Tokotaya House Okeigbore",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Imo",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Nepa Road",
+  "area": "Eleweran",
+  "lat": 7.151000000000001,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Barracks Road",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.323,
+  "type": "route"
+ },
+ {
+  "name": "A5",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Lafenwa",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Adekunle Fajuyi Road",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Olowu Road",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Itoku",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Shokenu Road",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Kenta Oloko",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Sapon",
+  "area": "Eleweran",
+  "lat": 7.155,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Ayetoro Road",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Abeokuta-Imeko Road",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Omideyi Street",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Road",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Gbagura Road",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Ayetoro",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Agura Road",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Ikija Road",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Idi-Ape Road",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Ita-Bayinbo Street",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Ita-Morning Street",
+  "area": "Eleweran",
+  "lat": 7.159,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Oke-Ijemo Road",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Agbo Eran Street",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.323,
+  "type": "route"
+ },
+ {
+  "name": "odo eran",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "Oke Sabo Road",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.327,
+  "type": "route"
+ },
+ {
+  "name": "Ago Ika",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Modashiru Street",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.339,
+  "type": "route"
+ },
+ {
+  "name": "Kobiti Road",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Sodeke Road",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.343,
+  "type": "route"
+ },
+ {
+  "name": "Ake",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Ijemo Alape Road",
+  "area": "Eleweran",
+  "lat": 7.163,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Akintobi street",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.323,
+  "type": "route"
+ },
+ {
+  "name": "Agoka Road",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.335,
+  "type": "route"
+ },
+ {
+  "name": "Adagba Street",
+  "area": "Eleweran",
+  "lat": 7.167,
+  "lng": 3.347,
+  "type": "route"
+ },
+ {
+  "name": "Ibadan Road",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "leso sawmill",
+  "area": "Camp",
+  "lat": 7.183000000000001,
+  "lng": 3.426,
+  "type": "route"
+ },
+ {
+  "name": "Camp",
+  "area": "Camp",
+  "lat": 7.199,
+  "lng": 3.434,
+  "type": "route"
+ },
+ {
+  "name": "Fatola Street",
+  "area": "Camp",
+  "lat": 7.183000000000001,
+  "lng": 3.434,
+  "type": "route"
+ },
+ {
+  "name": "Apakila road",
+  "area": "Camp",
+  "lat": 7.183000000000001,
+  "lng": 3.438,
+  "type": "route"
+ },
+ {
+  "name": "Osiele",
+  "area": "Camp",
+  "lat": 7.183000000000001,
+  "lng": 3.438,
+  "type": "route"
+ },
+ {
+  "name": "Kotopo",
+  "area": "Camp",
+  "lat": 7.191000000000001,
+  "lng": 3.426,
+  "type": "route"
+ },
+ {
+  "name": "Surulere Street",
+  "area": "Camp",
+  "lat": 7.191000000000001,
+  "lng": 3.438,
+  "type": "route"
+ },
+ {
+  "name": "Alabata Road",
+  "area": "Camp",
+  "lat": 7.207,
+  "lng": 3.442,
+  "type": "route"
+ },
+ {
+  "name": "Ilupeju Street",
+  "area": "Camp",
+  "lat": 7.195,
+  "lng": 3.434,
+  "type": "route"
+ },
+ {
+  "name": "Celestial Street",
+  "area": "Camp",
+  "lat": 7.195,
+  "lng": 3.418,
+  "type": "route"
+ },
+ {
+  "name": "Tarred Road",
+  "area": "Camp",
+  "lat": 7.207,
+  "lng": 3.43,
+  "type": "route"
+ },
+ {
+  "name": "OFFIKI Road",
+  "area": "Camp",
+  "lat": 7.203,
+  "lng": 3.43,
+  "type": "route"
+ },
+ {
+  "name": "Opeji Road",
+  "area": "Camp",
+  "lat": 7.207,
+  "lng": 3.426,
+  "type": "route"
+ },
+ {
+  "name": "Stadium Road",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "M.K.O. Abiola Way",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "3rd Avenue",
+  "area": "OdoEran",
+  "lat": 7.133,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Road III",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "1st Avenue",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Olajide Shittu Street",
+  "area": "OdoEran",
+  "lat": 7.133,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Olokuta Street",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Samsideen Obe Street",
+  "area": "OdoEran",
+  "lat": 7.133,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Salawu Olabode Avenue",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Salawu Olabode Avenue, Idi Aba",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "LUD SITE 5 Road I",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Ewang Road",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Idi-aba",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Ogunsanya Street",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Kemta Street",
+  "area": "OdoEran",
+  "lat": 7.137,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Oyebola Street",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.358,
+  "type": "route"
+ },
+ {
+  "name": "Somefun Street",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Bisi Akande Street",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Acolif Road",
+  "area": "OdoEran",
+  "lat": 7.141,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Olabisi Onabanjo Way",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Soluade Street",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Ekundayo Street",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Elite Road",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Ajebo-Oko-Abeokuta Road",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Sule Kusimo Street",
+  "area": "OdoEran",
+  "lat": 7.145,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Ijaye",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.358,
+  "type": "route"
+ },
+ {
+  "name": "Olorunsogo Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Olorunsogo",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Sholanke Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Adeboye Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Dele Amujo Lane",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Siji Koku Avenue",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Osoyelu Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Gbengbele Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Alhaji Lamina Ganiyu Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Alhaji Sule Sunmonu Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Lisabi",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Sobola Street",
+  "area": "OdoEran",
+  "lat": 7.148999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Oke Ejigbo",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.358,
+  "type": "route"
+ },
+ {
+  "name": "Gbangba Road",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Adeleye Ogunsolu Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Bola Enilolobo Close",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Oluolatoye Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "LALUBU STREET OKE-ILEWO",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Badru Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Oke Lantoro",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Goke Omolabi Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Alawode Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Kelani Yusuf Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.37,
+  "type": "route"
+ },
+ {
+  "name": "Popoola Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Salamulla Kaolanawa",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Tayo Bello Avenue",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Adebowale",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Gbadamosi Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Olu Adenekan Street",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Ayodele Avenue",
+  "area": "OdoEran",
+  "lat": 7.153,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Skido Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Segun Tomoh Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Wale Oriola Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Segun Ogunseye Avenue",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.362,
+  "type": "route"
+ },
+ {
+  "name": "Iyana Cele",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.366,
+  "type": "route"
+ },
+ {
+  "name": "Akinosho Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Sabo",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.374,
+  "type": "route"
+ },
+ {
+  "name": "Abike Sodeke Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Isiaka Yusuf Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Shodimu Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Ajayi Street",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "sodeke compound",
+  "area": "OdoEran",
+  "lat": 7.156999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Aladesanmi Road",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.386,
+  "type": "route"
+ },
+ {
+  "name": "Oke Ibukun",
+  "area": "Fajol",
+  "lat": 7.168,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Asero",
+  "area": "Fajol",
+  "lat": 7.191999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Beckley street",
+  "area": "Fajol",
+  "lat": 7.168,
+  "lng": 3.39,
+  "type": "route"
+ },
+ {
+  "name": "Obantoko",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "Ilugun-Ajagbohun Road",
+  "area": "Fajol",
+  "lat": 7.168,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "Prof. Kamaaldeen Road",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Sodium street",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.386,
+  "type": "route"
+ },
+ {
+  "name": "Tejumola Estate",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.39,
+  "type": "route"
+ },
+ {
+  "name": "Kolaodunlami Street",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Soji Ganzallo Close",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "somorin street",
+  "area": "Fajol",
+  "lat": 7.172,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "Shomorin Street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "Chief Sodipo Street",
+  "area": "Fajol",
+  "lat": 7.176,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Oba Ademola Road II",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Alabi Obadina Street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Olatunbosun Close",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Moshalasi Street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Abanise Street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Road Six",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Oladele Street",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.382,
+  "type": "route"
+ },
+ {
+  "name": "Alanni Kayode Street",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.386,
+  "type": "route"
+ },
+ {
+  "name": "Oluwarantimi street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.386,
+  "type": "route"
+ },
+ {
+  "name": "Musiliu Edalere Street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.39,
+  "type": "route"
+ },
+ {
+  "name": "Alogi",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Ebenezer Road",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Raofu Sanysi Street",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Oluwemimo Close",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Iyanbu Road",
+  "area": "Fajol",
+  "lat": 7.18,
+  "lng": 3.402,
+  "type": "route"
+ },
+ {
+  "name": "Tajudeen Bankole Street",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Paragon Street",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.378,
+  "type": "route"
+ },
+ {
+  "name": "Obada Oko",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.386,
+  "type": "route"
+ },
+ {
+  "name": "Olaosebikan Oladapo Street",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.386,
+  "type": "route"
+ },
+ {
+  "name": "Banjo Timothy Street",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.39,
+  "type": "route"
+ },
+ {
+  "name": "Kehinde Bello Str",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Odusola str",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Ebenezer Street",
+  "area": "Fajol",
+  "lat": 7.183999999999999,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Joseph Street",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Osara Road",
+  "area": "Fajol",
+  "lat": 7.191999999999999,
+  "lng": 3.398,
+  "type": "route"
+ },
+ {
+  "name": "Lanre Craig",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.39,
+  "type": "route"
+ },
+ {
+  "name": "Ogunsola Close",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.39,
+  "type": "route"
+ },
+ {
+  "name": "Akaluba Street",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Bolaji Dipeolu Street",
+  "area": "Fajol",
+  "lat": 7.188,
+  "lng": 3.394,
+  "type": "route"
+ },
+ {
+  "name": "Olajide Abati Street",
+  "area": "Fajol",
+  "lat": 7.191999999999999,
+  "lng": 3.402,
+  "type": "route"
+ }
+]

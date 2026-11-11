@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GO7 Product Data Inspector</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 { color: #E83A2E; margin-bottom: 20px; }
+    .info {
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border-left: 4px solid #4a9eff;
+    }
+    .console-output {
+      background: #000;
+      color: #0f0;
+      padding: 20px;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .product { 
+      margin: 15px 0;
+      padding: 15px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 5px;
+    }
+    .good { border-left: 4px solid #0f0; }
+    .bad { border-left: 4px solid #f00; }
+    .warn { border-left: 4px solid #ff0; }
+    button {
+      background: #E83A2E;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+    button:hover { background: #c6312a; }
+    input {
+      padding: 10px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: white;
+      border-radius: 5px;
+      width: 300px;
+      margin: 5px;
+    }
+    code { background: #2a2a2a; padding: 2px 6px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>🔍 GO7 Firestore Product Inspector</h1>
+  
+  <div class="info">
+    <strong>Instructions:</strong><br>
+    1. Open this page in a separate tab from your running GO7 app<br>
+    2. Make sure you're logged in to your app first<br>
+    3. Enter a vendor ID or click "Use Current URL" if you're on a vendor page<br>
+    4. Click "Scan Products" to inspect the data structure
+  </div>
+
+  <div style="margin: 20px 0;">
+    <input type="text" id="vendorId" placeholder="Enter Vendor ID">
+    <button onclick="scanProducts()">🔍 Scan Products</button>
+    <button onclick="useCurrentUrl()">📍 Use Current URL</button>
+    <button onclick="scanAllVendors()">📊 Scan All Vendors</button>
+  </div>
+
+  <div id="output" class="console-output">
+    <div style="color: #888;">Console output will appear here...</div>
+  </div>
+
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, query, limit, doc, getDoc, enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBOqK7vVNmNf0mh9CkEEzMQV7ktETQ-4q8",
+      authDomain: "go7-b69ab.firebaseapp.com",
+      projectId: "go7-b69ab",
+      storageBucket: "go7-b69ab.appspot.com",
+      messagingSenderId: "925656316430",
+      appId: "1:925656316430:web:8a2e2e2e2e2e2e2e2e2e2e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Enable offline persistence
+    try {
+      await enableIndexedDbPersistence(db);
+      log('✅ Offline persistence enabled', 'good');
+    } catch (err) {
+      if (err.code === 'failed-precondition') {
+        log('⚠️ Multiple tabs open, persistence available in first tab only', 'warn');
+      } else if (err.code === 'unimplemented') {
+        log('⚠️ Browser doesn\'t support persistence', 'warn');
+      }
+    }
+
+    function log(message, type = '') {
+      const output = document.getElementById('output');
+      const div = document.createElement('div');
+      div.className = type;
+      div.innerHTML = message;
+      output.appendChild(div);
+      output.scrollTop = output.scrollHeight;
+      console.log(message.replace(/<[^>]*>/g, ''));
+    }
+
+    function clear() {
+      document.getElementById('output').innerHTML = '';
+    }
+
+    window.useCurrentUrl = function() {
+      const urlParams = window.location.pathname.split('/');
+      const vendorIndex = urlParams.indexOf('vendor');
+      if (vendorIndex !== -1 && urlParams[vendorIndex + 1]) {
+        document.getElementById('vendorId').value = urlParams[vendorIndex + 1];
+        log('✅ Vendor ID from URL: ' + urlParams[vendorIndex + 1], 'good');
+      } else {
+        log('❌ No vendor ID in current URL', 'bad');
+      }
+    };
+
+    window.scanProducts = async function() {
+      const vendorId = document.getElementById('vendorId').value.trim();
+      if (!vendorId) {
+        alert('Please enter a Vendor ID');
+        return;
+      }
+
+      clear();
+      log('🔍 ========================================');
+      log('📊 SCANNING VENDOR: ' + vendorId);
+      log('========================================\n');
+
+      try {
+        // Get vendor info
+        log('Fetching vendor data...');
+        const vendorRef = doc(db, 'vendors', vendorId);
+        const vendorSnap = await getDoc(vendorRef);
+        
+        if (!vendorSnap.exists()) {
+          log('❌ Vendor not found!', 'bad');
+          return;
+        }
+
+        const vendorData = vendorSnap.data();
+        log(`✅ Vendor: ${vendorData.name || vendorData.title || 'Unknown'}`, 'good');
+        log('');
+
+        // Get products
+        log('Fetching products from: vendors/' + vendorId + '/products');
+        const productsRef = collection(db, 'vendors', vendorId, 'products');
+        const q = query(productsRef, limit(10));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          log('❌ No products found in this collection', 'bad');
+          log('\nTry checking if products exist at a different path.');
+          return;
+        }
+
+        log(`✅ Found ${snapshot.size} products\n`, 'good');
+
+        snapshot.docs.forEach((productDoc, index) => {
+          const data = productDoc.data();
+          
+          log(`\n📦 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+          log(`📦 PRODUCT ${index + 1}: ${productDoc.id}`);
+          log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+
+          // Field analysis
+          log('🏷️  <strong>NAMING FIELDS:</strong>');
+          log(`   name: ${data.name ? '✓ "' + data.name + '"' : '✗ NOT SET'}`, data.name ? 'good' : 'warn');
+          log(`   title: ${data.title ? '✓ "' + data.title + '"' : '✗ NOT SET'}`, data.title ? 'good' : 'warn');
+          
+          log('\n📝 <strong>DESCRIPTION FIELDS:</strong>');
+          log(`   description: ${data.description ? '✓ "' + data.description.substring(0, 40) + '..."' : '✗ NOT SET'}`, data.description ? 'good' : 'warn');
+          log(`   desc: ${data.desc ? '✓ "' + data.desc.substring(0, 40) + '..."' : '✗ NOT SET'}`, data.desc ? 'good' : 'warn');
+          
+          log('\n🖼️  <strong>IMAGE FIELDS:</strong>');
+          log(`   imageUrl: ${data.imageUrl ? '✓ SET' : '✗ NOT SET'}`, data.imageUrl ? 'good' : 'warn');
+          log(`   image: ${data.image ? '✓ SET' : '✗ NOT SET'}`, data.image ? 'good' : 'warn');
+
+          log('\n💰 <strong>PRICE ANALYSIS:</strong>');
+          log(`   Raw value: ${data.price}`);
+          log(`   Type: ${typeof data.price}`);
+          log(`   Is number: ${typeof data.price === 'number'}`);
+          log(`   Is NaN: ${isNaN(data.price)}`);
+          
+          const isValid = typeof data.price === 'number' && !isNaN(data.price);
+          if (isValid) {
+            log(`   ✅ VALID - Will display as: ₦${data.price.toLocaleString()}`, 'good');
+          } else {
+            log(`   ❌ INVALID - Will display as: NNaN cash`, 'bad');
+          }
+
+          // Check for mismatches
+          log('\n⚠️  <strong>MISMATCH CHECK:</strong>');
+          const issues = [];
+          if (!data.title && data.name) issues.push('Code expects "title" but DB has "name"');
+          if (!data.desc && data.description) issues.push('Code expects "desc" but DB has "description"');
+          if (!data.imageUrl && data.image) issues.push('Code expects "imageUrl" but DB has "image"');
+          if (!isValid) issues.push('Price is not a valid number');
+
+          if (issues.length > 0) {
+            issues.forEach(issue => log(`   🔴 ${issue}`, 'bad'));
+          } else {
+            log('   ✅ No mismatches - fields align correctly', 'good');
+          }
+
+          log('\n📋 <strong>All fields in document:</strong>');
+          log(`   ${Object.keys(data).join(', ')}`);
+        });
+
+        log('\n\n========================================');
+        log('✅ SCAN COMPLETE');
+        log('========================================');
+
+      } catch (error) {
+        log(`\n❌ ERROR: ${error.message}`, 'bad');
+        log(`\nFull error: ${error.stack}`);
+        console.error(error);
+      }
+    };
+
+    window.scanAllVendors = async function() {
+      clear();
+      log('🔍 ========================================');
+      log('📊 SCANNING ALL VENDORS');
+      log('========================================\n');
+
+      try {
+        const vendorsRef = collection(db, 'vendors');
+        const vendorsQuery = query(vendorsRef, limit(5));
+        const vendorsSnap = await getDocs(vendorsQuery);
+
+        if (vendorsSnap.empty) {
+          log('❌ No vendors found', 'bad');
+          return;
+        }
+
+        log(`✅ Found ${vendorsSnap.size} vendors\n`, 'good');
+
+        for (const vendorDoc of vendorsSnap.docs) {
+          const vendorId = vendorDoc.id;
+          const vendorData = vendorDoc.data();
+          
+          log(`\n📍 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+          log(`📍 VENDOR: ${vendorData.name || vendorData.title || vendorId}`);
+          log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+
+          const productsRef = collection(db, 'vendors', vendorId, 'products');
+          const productsQuery = query(productsRef, limit(3));
+          const productsSnap = await getDocs(productsQuery);
+
+          if (productsSnap.empty) {
+            log('   ⚠️  No products found', 'warn');
+            continue;
+          }
+
+          log(`   ✅ Found ${productsSnap.size} products`, 'good');
+
+          productsSnap.docs.forEach((productDoc, idx) => {
+            const data = productDoc.data();
+            const hasName = !!data.name;
+            const hasTitle = !!data.title;
+            const priceValid = typeof data.price === 'number' && !isNaN(data.price);
+
+            log(`\n   Product ${idx + 1}:`);
+            log(`      name: ${hasName ? '✓' : '✗'} | title: ${hasTitle ? '✓' : '✗'} | price valid: ${priceValid ? '✓' : '✗'}`, priceValid ? 'good' : 'bad');
+            
+            if (!hasTitle && hasName) {
+              log(`      🔴 MISMATCH: Uses "name" instead of "title"`, 'bad');
+            }
+            if (!priceValid) {
+              log(`      🔴 INVALID PRICE: ${data.price} (${typeof data.price})`, 'bad');
+            }
+          });
+        }
+
+        log('\n\n========================================');
+        log('✅ SCAN COMPLETE');
+        log('========================================');
+
+      } catch (error) {
+        log(`\n❌ ERROR: ${error.message}`, 'bad');
+        console.error(error);
+      }
+    };
+
+    // Log ready
+    log('✅ Inspector ready. Enter a vendor ID and click "Scan Products"', 'good');
+  </script>
+</body>
+</html>

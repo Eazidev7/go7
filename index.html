@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Stale-bundle self-heal: if a hashed asset 404s after a deploy, reset SW/caches once -->
+  <script>
+    (function () {
+      var KEY = 'go7-healed';
+      function heal() {
+        if (sessionStorage.getItem(KEY)) return;
+        sessionStorage.setItem(KEY, '1');
+        var sw = navigator.serviceWorker
+          ? navigator.serviceWorker.getRegistrations().then(function (rs) {
+              return Promise.all(rs.map(function (r) { return r.unregister(); }));
+            })
+          : Promise.resolve();
+        var cs = window.caches
+          ? caches.keys().then(function (ks) {
+              return Promise.all(ks.map(function (k) { return caches.delete(k); }));
+            })
+          : Promise.resolve();
+        Promise.all([sw, cs]).finally(function () { location.reload(); });
+      }
+      window.addEventListener('error', function (e) {
+        var t = e.target;
+        if (t && t.tagName === 'SCRIPT' && t.src && t.src.indexOf('/assets/') !== -1) heal();
+      }, true);
+      window.addEventListener('unhandledrejection', function (e) {
+        var m = String((e.reason && (e.reason.message || e.reason)) || '');
+        if (/dynamically imported|module script|Failed to fetch/i.test(m)) heal();
+      });
+    })();
+  </script>
+
+  <!-- Fix Hostinger nested paths: strip trailing slash before React Router loads -->
+  <script>
+    (function () {
+      var p = location.pathname;
+      if (p.length > 1 && p.endsWith('/')) {
+        history.replaceState(null, '', p.slice(0, -1) + location.search + location.hash);
+      }
+    })();
+  </script>
+  <base href="/" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./go7-logo.png" />
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover, interactive-widget=resizes-content" />
+  
+  <!-- iOS Safari compatibility -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="go7-build-id" content="__GO7_BUILD_ID__" />
+  <script src="/go7-boot.js?v=__GO7_BUILD_ID__"></script>
+  
+  <!-- Bootstrap: path fixes, lite auth pages -->
+  <script>
+    (function () {
+      var path = location.pathname.replace(/\/+$/, '') || '/';
+      var pathLower = path.toLowerCase();
+
+      // Customer SPA must never own vendor auth URLs — hard-switch to vendor.html
+      if (/^\/vendor\/(login|register)$/i.test(pathLower) && !window.__GO7_VENDOR_ENTRY__) {
+        location.replace('/vendor.html');
+        return;
+      }
+
+      window.__GO7_LITE_PAGE__ = /^\/(vendor|agent|admin|rider)\/(login|register|signup)/.test(pathLower)
+        || pathLower === '/admin/setup';
+
+      window.initAutocomplete = function () {
+        window.googleMapsApiReady = true;
+        if (window.initGoogleMapsInReact) window.initGoogleMapsInReact();
+        try {
+          window.dispatchEvent(new Event('go7-maps-ready'));
+        } catch (e) { /* ignore */ }
+      };
+      window.googleMapsApiFailed = false;
+
+      if (!window.__GO7_LITE_PAGE__) {
+        window.addEventListener('error', function (e) {
+          if (e.target && e.target.src && e.target.src.indexOf('maps.googleapis.com') !== -1) {
+            window.googleMapsApiFailed = true;
+          }
+        }, true);
+
+        function loadMapLibs(force) {
+          if (window.google && window.google.maps) {
+            window.googleMapsApiFailed = false;
+            try { window.dispatchEvent(new Event('go7-maps-ready')); } catch (e) { /* ignore */ }
+            return;
+          }
+          // Already injecting — Track may call ensure early; don't double-append.
+          var existing = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+          if (existing && !window.googleMapsApiFailed) return;
+          if (window.__go7MapLibsLoaded && !force && !window.googleMapsApiFailed) return;
+          window.__go7MapLibsLoaded = true;
+          window.googleMapsApiFailed = false;
+
+          var maps = document.createElement('script');
+          maps.async = true;
+          maps.defer = true;
+          maps.src = 'https://maps.googleapis.com/maps/api/js?key=%VITE_GOOGLE_MAPS_API_KEY%&libraries=places&loading=async&callback=initAutocomplete';
+          maps.onerror = function () {
+            window.googleMapsApiFailed = true;
+            window.__go7MapLibsLoaded = false;
+          };
+          document.head.appendChild(maps);
+
+          if (!document.querySelector('link[href*="leaflet@1.9.4"]')) {
+            var leafletCss = document.createElement('link');
+            leafletCss.rel = 'stylesheet';
+            leafletCss.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            leafletCss.crossOrigin = 'anonymous';
+            document.head.appendChild(leafletCss);
+          }
+
+          if (!document.querySelector('script[src*="leaflet@1.9.4/dist/leaflet.js"]')) {
+            var leafletJs = document.createElement('script');
+            leafletJs.async = true;
+            leafletJs.defer = true;
+            leafletJs.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            leafletJs.crossOrigin = 'anonymous';
+            document.head.appendChild(leafletJs);
+          }
+        }
+
+        // Track / Book Delivery can request maps immediately (avoids false "no network")
+        window.__GO7_ENSURE_MAPS__ = function () { loadMapLibs(true); };
+
+        // Map screens call __GO7_ENSURE_MAPS__ when needed.
+        // Do not bill/load Google Maps on Home, Profile, Orders, or other non-map pages.
+      } else {
+        window.googleMapsApiFailed = true;
+      }
+    })();
+  </script>
+
+  <!-- PWA Manifest (cache-busted with build id) -->
+  <link rel="manifest" href="/manifest.json?v=__GO7_BUILD_ID__" />
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#e60023" />
+  <meta name="background-color" content="#ffffff" />
+  <meta name="display" content="standalone" />
+  <meta name="orientation" content="portrait-primary" />
+  <meta name="start_url" content="/" />
+  <meta name="scope" content="/" />
+
+  <!-- App Meta Tags — food delivery + errands (Google / SEO) -->
+  <title>GO7 — Food Delivery & Errands in Abeokuta | Order Online</title>
+  <meta name="description"
+    content="GO7 is Abeokuta's food delivery and errand platform. Order meals from local restaurants, send packages, run errands, shop market & pharmacy — live tracking, fast riders, 24/7." />
+  <meta name="keywords"
+    content="food delivery Abeokuta, errand services Abeokuta, package delivery Abeokuta, GO7, go7.ng, order food Ogun, restaurant delivery Nigeria, courier Abeokuta, pharmacy delivery, local market delivery" />
+  <meta name="author" content="GO7" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="google-site-verification" content="iYXdr3SuYjWa3sAIFapE-3ND2_SEeb3bozpYoIE0Yl0" />
+  <meta name="geo.region" content="NG-OG" />
+  <meta name="geo.placename" content="Abeokuta" />
+  <link rel="canonical" href="https://go7.ng/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="GO7" />
+  <meta property="og:locale" content="en_NG" />
+  <meta property="og:url" content="https://go7.ng/" />
+  <meta property="og:title" content="GO7 — Food Delivery & Errands in Abeokuta" />
+  <meta property="og:description"
+    content="Order food, send packages, and run errands in Abeokuta. Live tracking. Fast local riders." />
+  <meta property="og:image" content="https://go7.ng/go7-logo.png" />
+  <meta property="og:image:alt" content="GO7 food delivery and errands Abeokuta" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GO7 — Food Delivery & Errands in Abeokuta" />
+  <meta name="twitter:description"
+    content="Order food, send packages, and run errands in Abeokuta with live tracking." />
+  <meta name="twitter:image" content="https://go7.ng/go7-logo.png" />
+
+  <!-- Structured data for Google (LocalDelivery / food + errands) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://go7.ng/#organization",
+        "name": "GO7",
+        "alternateName": ["Go7", "GO7 Delivery", "GO7 Abeokuta"],
+        "url": "https://go7.ng/",
+        "logo": "https://go7.ng/go7-logo.png",
+        "image": "https://go7.ng/go7-logo.png",
+        "email": "support@go7.ng",
+        "telephone": "+2347030680816",
+        "sameAs": ["https://wa.me/2347030680816"],
+        "areaServed": {
+          "@type": "City",
+          "name": "Abeokuta",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Ogun State",
+            "containedInPlace": { "@type": "Country", "name": "Nigeria" }
+          }
+        }
+      },
+      {
+        "@type": ["LocalBusiness", "DeliveryService"],
+        "@id": "https://go7.ng/#localbusiness",
+        "name": "GO7 — Food Delivery & Errands Abeokuta",
+        "description": "Food delivery and errand platform in Abeokuta. Order from restaurants, pharmacies and markets, or book package and courier errands with live rider tracking.",
+        "url": "https://go7.ng/",
+        "logo": "https://go7.ng/go7-logo.png",
+        "image": "https://go7.ng/go7-logo.png",
+        "telephone": "+2347030680816",
+        "email": "support@go7.ng",
+        "priceRange": "₦₦",
+        "currenciesAccepted": "NGN",
+        "paymentAccepted": "Cash, Card, Wallet, Bank Transfer",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "opens": "00:00",
+          "closes": "23:59"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Abeokuta",
+          "addressRegion": "Ogun",
+          "addressCountry": "NG"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 7.1475,
+          "longitude": 3.3619
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Abeokuta"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "GO7 services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Food delivery",
+                "description": "Order meals from restaurants and vendors in Abeokuta"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Errands & package delivery",
+                "description": "Book courier errands and package delivery across Abeokuta"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Pharmacy & market delivery",
+                "description": "Order pharmacy and local market items with delivery"
+              }
+            }
+          ]
+        },
+        "parentOrganization": { "@id": "https://go7.ng/#organization" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://go7.ng/#website",
+        "url": "https://go7.ng/",
+        "name": "GO7",
+        "description": "Abeokuta food delivery and errand platform",
+        "publisher": { "@id": "https://go7.ng/#organization" },
+        "inLanguage": "en-NG"
+      }
+    ]
+  }
+  </script>
+
+  <!-- iOS Safari PWA — Share → Add to Home Screen (no Chrome-style install API on iOS) -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Go7" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!-- Windows Tile -->
+  <meta name="msapplication-TileImage" content="/icons/icon-192.png" />
+  <meta name="msapplication-TileColor" content="#e60023" />
+  <meta name="msapplication-navbutton-color" content="#e60023" />
+
+  <!-- Android Chrome -->
+  <meta name="application-name" content="Go7" />
+
+  <!-- Google Fonts - Inter for modern UI and Poppins for map labels -->
+  <!-- Fallback to system fonts if Google Fonts unavailable -->
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+  </style>
+  <!-- Google Fonts — non-blocking (system font fallback shows instantly on iOS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
+  <!-- Preload critical resources (skip on lite auth pages) -->
+  <script>
+    if (!window.__GO7_LITE_PAGE__) {
+      var preload = document.createElement('link');
+      preload.rel = 'preload';
+      preload.href = '/go7-logo.png';
+      preload.as = 'image';
+      document.head.appendChild(preload);
+    }
+  </script>
+
+</head>
+
+<body>
+  <noscript>
+    <main style="max-width:40rem;margin:2rem auto;padding:1.5rem;font-family:system-ui,sans-serif;line-height:1.5;color:#111">
+      <h1>GO7 — Food Delivery &amp; Errands in Abeokuta</h1>
+      <p>GO7 is Abeokuta’s food delivery and errand platform. Order meals from local restaurants, send packages, run errands, and get pharmacy or market items delivered with live rider tracking.</p>
+      <p>Open <a href="https://go7.ng/">go7.ng</a> with JavaScript enabled, or message support on WhatsApp at <a href="https://wa.me/2347030680816">+234 703 068 0816</a>.</p>
+    </main>
+  </noscript>
+  <div id="root">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;background:#fff;color:#374151">
+      <div style="text-align:center;padding:24px">
+        <div style="width:40px;height:40px;border:3px solid #fee2e2;border-top-color:#ef4444;border-radius:50%;animation:go7spin .8s linear infinite;margin:0 auto 12px"></div>
+        <p style="margin:0;font-weight:600;font-size:15px">Loading GO7...</p>
+      </div>
+      <style>@keyframes go7spin{to{transform:rotate(360deg)}}</style>
+    </div>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    if (!window.__GO7_LITE_PAGE__) {
+      (function () {
+      function loadPaystack() {
+        if (window.PaystackPop) return;
+        const script = document.createElement('script');
+        script.src = 'https://js.paystack.co/v1/inline.js';
+        script.async = true;
+        script.onerror = function () {
+          window.PaystackPop = class PaystackPopMock {
+            newTransaction(config) {
+              if (config.onError) config.onError(new Error('Paystack script not loaded'));
+            }
+          };
+        };
+        document.head.appendChild(script);
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadPaystack, { timeout: 12000 });
+      } else {
+        setTimeout(loadPaystack, 8000);
+      }
+    })();
+    }
+  </script>
+</body>
+
+</html>

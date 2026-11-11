@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GO7 Vendor Product System - Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #E83A2E;
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(232, 58, 46, 0.2);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: #FFEFE7;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      color: #666;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 24px 0;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .code-title {
+      color: #A8E6C3;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #E83A2E;
+      color: white;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background: #d4342a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(232, 58, 46, 0.3);
+    }
+
+    .btn-secondary {
+      background: #A8E6C3;
+      color: #1a1a1a;
+    }
+
+    .btn-secondary:hover {
+      background: #95dbb0;
+    }
+
+    .demo-section {
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .demo-section h2 {
+      color: #1a1a1a;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .step-list {
+      list-style: none;
+      counter-reset: step-counter;
+    }
+
+    .step-list li {
+      counter-increment: step-counter;
+      padding: 16px 0 16px 60px;
+      position: relative;
+      border-left: 3px solid #f0f0f0;
+      margin-left: 24px;
+    }
+
+    .step-list li:before {
+      content: counter(step-counter);
+      position: absolute;
+      left: -24px;
+      top: 12px;
+      background: #E83A2E;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .step-list li:last-child {
+      border-left-color: transparent;
+    }
+
+    .tech-stack {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    .tech-badge {
+      background: #f0f0f0;
+      color: #1a1a1a;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .highlight {
+      background: #FFF5F4;
+      border-left: 4px solid #E83A2E;
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 4px;
+    }
+
+    .highlight strong {
+      color: #E83A2E;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🛍️ GO7 Vendor Product System</h1>
+      <p class="subtitle">Complete Firestore product sync + frontend with real-time updates & image uploads</p>
+      <span class="status-badge">✅ Implementation Complete</span>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <div class="feature-title">Cloud Function Mirroring</div>
+        <div class="feature-desc">
+          Automatically syncs vendor products to global /products collection with numeric price validation
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <div class="feature-title">Complete Product CRUD</div>
+        <div class="feature-desc">
+          Create, read, update, delete products and addons with image upload support
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Real-time Updates</div>
+        <div class="feature-desc">
+          Live Firestore listeners ensure UI stays in sync with database changes
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <div class="feature-title">NaN Price Fix</div>
+        <div class="feature-desc">
+          Robust price validation ensures numeric values with graceful fallbacks
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📸</div>
+        <div class="feature-title">Image Upload</div>
+        <div class="feature-desc">
+          Firebase Storage integration with download URLs for products and addons
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-title">Premium UI</div>
+        <div class="feature-desc">
+          Split-screen layout with mobile-responsive design and smooth animations
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="demo-section">
+      <h2>🚀 Quick Start</h2>
+      
+      <div class="highlight">
+        <strong>Development Server Running:</strong><br>
+        <code>http://localhost:3000/</code>
+      </div>
+
+      <ol class="step-list">
+        <li>
+          <strong>Access Vendor Products Page</strong><br>
+          Navigate to: <code>http://localhost:3000/vendor/{your-vendor-id}/products</code>
+        </li>
+        <li>
+          <strong>Deploy Cloud Functions</strong><br>
+          <code>cd functions && npm run deploy</code>
+        </li>
+        <li>
+          <strong>Create a Product</strong><br>
+          Click "Add Product", fill form with numeric price, upload image
+        </li>
+        <li>
+          <strong>Verify Global Sync</strong><br>
+          Check Firebase Console → /products collection for mirrored product
+        </li>
+        <li>
+          <strong>Add Addons</strong><br>
+          Select product, click "Add Addon", upload addon image
+        </li>
+        <li>
+          <strong>Test Real-time Updates</strong><br>
+          Change product in Firestore Console, watch UI update automatically
+        </li>
+      </ol>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="demo-section">
+      <h2>🛠️ Technology Stack</h2>
+      <div class="tech-stack">
+        <span class="tech-badge">React + TypeScript</span>
+        <span class="tech-badge">Firebase Firestore</span>
+        <span class="tech-badge">Firebase Storage</span>
+        <span class="tech-badge">Cloud Functions</span>
+        <span class="tech-badge">Real-time Listeners</span>
+        <span class="tech-badge">Mobile-First CSS</span>
+      </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="demo-section">
+      <h2>💻 Usage Example</h2>
+      
+      <div class="code-block">
+        <div class="code-title">Create Product with Image Upload</div>
+        <pre>import { VendorProductService } from './services/vendorProductService';
+
+const newProduct = await VendorProductService.createProduct(
+  vendorId,
+  {
+    name: 'Jollof Rice',
+    description: 'Delicious Nigerian jollof rice',
+    price: 1500,  // ⚠️ MUST BE NUMBER
+    currency: 'NGN',
+    measurementType: 'portion',
+    minQty: 1,
+    maxQty: 50,
+    available: true,
+    category: 'Food'
+  },
+  imageFile  // Optional File object
+);
+
+console.log('Product created:', newProduct.id);</pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-title">Real-time Product Listener</div>
+        <pre>const unsubscribe = VendorProductService.subscribeToVendorProducts(
+  vendorId,
+  (products) => {
+    console.log('Products updated:', products);
+    setProducts(products);
+  },
+  (error) => {
+    console.error('Listener error:', error);
+  }
+);
+
+// Cleanup
+return () => unsubscribe();</pre>
+      </div>
+    </div>
+
+    <!-- Files Modified -->
+    <div class="demo-section">
+      <h2>📁 Files Created/Modified</h2>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 8px 0;">✅ <code>functions/index.js</code> - Cloud Functions</li>
+        <li style="padding: 8px 0;">✅ <code>src/services/vendorProductService.ts</code> - Service Layer</li>
+        <li style="padding: 8px 0;">✅ <code>src/pages/VendorProductsPage.tsx</code> - UI Component</li>
+        <li style="padding: 8px 0;">✅ <code>src/pages/VendorProductsPage.css</code> - Styling</li>
+        <li style="padding: 8px 0;">✅ <code>src/AppRouter.jsx</code> - Route Configuration</li>
+        <li style="padding: 8px 0;">✅ <code>FIRESTORE_PRODUCT_SYNC_GUIDE.md</code> - Documentation</li>
+      </ul>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="demo-section">
+      <h2>📝 Next Steps</h2>
+      
+      <div class="action-grid">
+        <a href="http://localhost:3000/" class="btn" target="_blank">
+          Open Development Server
+        </a>
+        <a href="./FIRESTORE_PRODUCT_SYNC_GUIDE.md" class="btn btn-secondary">
+          Read Full Documentation
+        </a>
+        <button class="btn btn-secondary" onclick="window.open('https://console.firebase.google.com', '_blank')">
+          Firebase Console
+        </button>
+      </div>
+    </div>
+
+    <!-- Testing Checklist -->
+    <div class="demo-section">
+      <h2>✅ Testing Checklist</h2>
+      <div style="line-height: 2;">
+        <label><input type="checkbox"> Deploy Cloud Functions</label><br>
+        <label><input type="checkbox"> Create test product with image</label><br>
+        <label><input type="checkbox"> Verify product in /products collection</label><br>
+        <label><input type="checkbox"> Check vendor.totalProducts incremented</label><br>
+        <label><input type="checkbox"> Add addon with image</label><br>
+        <label><input type="checkbox"> Verify product.addonCount updated</label><br>
+        <label><input type="checkbox"> Test real-time listener updates</label><br>
+        <label><input type="checkbox"> Verify no NaN prices in UI</label><br>
+        <label><input type="checkbox"> Test mobile responsive layout</label><br>
+        <label><input type="checkbox"> Test image upload to Storage</label><br>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

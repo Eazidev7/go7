@@ -1,0 +1,277 @@
+/* 3D Badge Styles for Go7 Map Markers */
+
+/* CSS Variables for theming */
+:root {
+  --badge-red-start: #E32B2B;
+  --badge-red-end: #FF5A3C;
+  --badge-green-start: #00B77A;
+  --badge-green-end: #2EE6A3;
+  --badge-blue-start: #3478F6;
+  --badge-blue-end: #5AA8FF;
+  --badge-purple-start: #7F56D9;
+  --badge-purple-end: #B07CFF;
+  --badge-orange-start: #FF8A00;
+  --badge-orange-end: #FFB650;
+  
+  --badge-text-color: rgba(11, 11, 11, 0.9);
+  --badge-border-radius: 9999px;
+  --badge-transition-duration: 180ms;
+  --badge-shadow-color-soft: rgba(0, 0, 0, 0.12);
+  --badge-shadow-color-strong: rgba(0, 0, 0, 0.25);
+  --badge-highlight-color: rgba(255, 255, 255, 0.8);
+  --badge-inner-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
+  
+  --pulse-duration: 1.2s;
+  --badge-padding: 8px 16px;
+}
+
+/* Media query for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --badge-transition-duration: 0s;
+    --pulse-duration: 0s;
+  }
+}
+
+/* Base badge container */
+.go7Badge {
+  background: transparent !important;
+  border: none !important;
+  z-index: 400 !important;
+  position: absolute;
+  /* Apply offset via CSS var with smoother transition */
+  transform: translate(calc(-50% + var(--edge-adjust-x, 0px)), calc(-50% + var(--offset-y, 0px))) !important;
+  transition: transform var(--badge-transition-duration) ease-out !important;
+}
+
+/* 3D Badge - Base styles */
+.go7BadgeLabel {
+  display: flex;
+  align-items: center;
+  border-radius: var(--badge-border-radius);
+  padding: var(--badge-padding);
+  
+  /* Two-layer drop shadow for depth */
+  box-shadow: 
+    0 2px 4px var(--badge-shadow-color-soft),
+    0 4px 8px var(--badge-shadow-color-strong);
+  
+  /* Inner shadow for depth */
+  box-shadow: var(--badge-inner-shadow),
+    0 2px 4px var(--badge-shadow-color-soft),
+    0 4px 8px var(--badge-shadow-color-strong);
+  
+  font-weight: bold;
+  color: var(--badge-text-color);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  
+  /* Top-left highlight */
+  position: relative;
+  overflow: hidden;
+  
+  /* Smooth transitions for hover effects */
+  transition: 
+    transform var(--badge-transition-duration) ease-out,
+    box-shadow var(--badge-transition-duration) ease-out;
+  
+  /* Make it tabbable and clickable */
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+/* Top-left highlight gradient overlay */
+.go7BadgeLabel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(135deg, 
+    var(--badge-highlight-color) 0%, 
+    transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Badge content wrapper to ensure text is above gradient */
+.go7BadgeContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Category emoji/icon */
+.go7BadgeIcon {
+  font-size: 16px;
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Live pulse dot */
+.go7BadgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+}
+
+/* Pulse animation for the dot */
+.go7BadgeDot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: pulseDot var(--pulse-duration) ease-out infinite;
+}
+
+/* Pulse animation keyframes */
+@keyframes pulseDot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+    opacity: 0.6;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    opacity: 0.3;
+  }
+}
+
+/* Hover state */
+.go7BadgeLabel:hover, .go7BadgeLabel:focus {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 
+    var(--badge-inner-shadow),
+    0 4px 8px var(--badge-shadow-color-soft),
+    0 8px 16px var(--badge-shadow-color-strong);
+}
+
+/* Focus state (keyboard) */
+.go7BadgeLabel:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Active state (click) */
+.go7BadgeLabel:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow: 
+    var(--badge-inner-shadow),
+    0 1px 2px var(--badge-shadow-color-soft),
+    0 2px 4px var(--badge-shadow-color-strong);
+  transition-duration: 50ms;
+}
+
+/* Connector line for vertically offset badges */
+.go7BadgeConnector {
+  position: absolute;
+  width: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  /* Height and position set via inline style */
+  /* Default properties for upward connector */
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  pointer-events: none; /* Prevent interfering with clicks */
+  transition: height var(--badge-transition-duration) ease-out;
+}
+
+/* Downward connector */
+.go7BadgeConnector.downward {
+  top: 100%;
+}
+
+/* Upward connector */
+.go7BadgeConnector.upward {
+  bottom: 100%;
+}
+
+/* Color variants for connectors */
+.go7Badge.red .go7BadgeConnector { background-color: rgba(255, 90, 60, 0.4); }
+.go7Badge.green .go7BadgeConnector { background-color: rgba(46, 230, 163, 0.4); }
+.go7Badge.blue .go7BadgeConnector { background-color: rgba(90, 168, 255, 0.4); }
+.go7Badge.purple .go7BadgeConnector { background-color: rgba(176, 124, 255, 0.4); }
+.go7Badge.orange .go7BadgeConnector { background-color: rgba(255, 182, 80, 0.4); }
+
+/* Cluster badge */
+.go7BadgeCluster {
+  background: linear-gradient(to bottom right, #F0F3F7, #FFFFFF);
+  color: #333;
+}
+
+/* Color variants with gradients */
+.go7BadgeLabel.red {
+  background: linear-gradient(135deg, var(--badge-red-start), var(--badge-red-end));
+}
+
+.go7BadgeLabel.green {
+  background: linear-gradient(135deg, var(--badge-green-start), var(--badge-green-end));
+}
+
+.go7BadgeLabel.blue {
+  background: linear-gradient(135deg, var(--badge-blue-start), var(--badge-blue-end));
+}
+
+.go7BadgeLabel.purple {
+  background: linear-gradient(135deg, var(--badge-purple-start), var(--badge-purple-end));
+}
+
+.go7BadgeLabel.orange {
+  background: linear-gradient(135deg, var(--badge-orange-start), var(--badge-orange-end));
+}
+
+/* Dot colors matching badge color */
+.go7BadgeLabel.red .go7BadgeDot {
+  background-color: #FFD0CA;
+}
+
+.go7BadgeLabel.green .go7BadgeDot {
+  background-color: #C0FFE4;
+}
+
+.go7BadgeLabel.blue .go7BadgeDot {
+  background-color: #C4E0FF;
+}
+
+.go7BadgeLabel.purple .go7BadgeDot {
+  background-color: #E2D0FF;
+}
+
+.go7BadgeLabel.orange .go7BadgeDot {
+  background-color: #FFE0B3;
+}
+
+/* Animation for pulse dot based on color */
+.go7BadgeLabel.red .go7BadgeDot::after {
+  background-color: var(--badge-red-end);
+}
+
+.go7BadgeLabel.green .go7BadgeDot::after {
+  background-color: var(--badge-green-end);
+}
+
+.go7BadgeLabel.blue .go7BadgeDot::after {
+  background-color: var(--badge-blue-end);
+}
+
+.go7BadgeLabel.purple .go7BadgeDot::after {
+  background-color: var(--badge-purple-end);
+}
+
+.go7BadgeLabel.orange .go7BadgeDot::after {
+  background-color: var(--badge-orange-end);
+}

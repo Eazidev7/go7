@@ -1,0 +1,1095 @@
+{
+ "hospital": [
+  {
+   "name": "Overcomers' Medical Centre",
+   "vic": "Asero Estate, Abeokuta",
+   "lat": 7.178786100000001,
+   "lng": 3.3779454,
+   "rating": 4.7
+  },
+  {
+   "name": "Sacred Heart Hospital Old Site",
+   "vic": "Lantoro Road, Abeokuta",
+   "lat": 7.166555499999999,
+   "lng": 3.3556193,
+   "rating": 4.2
+  },
+  {
+   "name": "Avon Healthcare Elohim Eye Specialist Clinic",
+   "vic": "Abiola Way, Abẹ́òkúta",
+   "lat": 7.160779699999999,
+   "lng": 3.3704372,
+   "rating": 4.3
+  },
+  {
+   "name": "Angel & Eagle Specialist Hospital",
+   "vic": "11 Abiola Way, Abẹ́òkúta",
+   "lat": 7.160978199999999,
+   "lng": 3.3703342,
+   "rating": 4.4
+  },
+  {
+   "name": "Avon Healthcare Sacred Heart Hospital",
+   "vic": "Lantoro, Sapon, Abeokuta",
+   "lat": 7.155334299999999,
+   "lng": 3.347427199999999,
+   "rating": 4
+  },
+  {
+   "name": "Avon Healthcare Mercy Group Clinic",
+   "vic": "Mercy Road, Behind UBA, Pansheke, Ibara, Abeokuta",
+   "lat": 7.141276100000001,
+   "lng": 3.3385547
+  },
+  {
+   "name": "Avon Healthcare First Alpha Medical Centre",
+   "vic": "Kuforiji Olubi Drive, Abeokuta",
+   "lat": 7.1305561,
+   "lng": 3.3219771,
+   "rating": 4.1
+  },
+  {
+   "name": "Daverose Hospital",
+   "vic": "Federal Housing Estate Road, Abeokuta",
+   "lat": 7.1478714,
+   "lng": 3.3151468,
+   "rating": 4
+  },
+  {
+   "name": "Funaab Health Centre",
+   "vic": "6CHR+CC4, Tarred Road, Odeda",
+   "lat": 7.228517699999999,
+   "lng": 3.4410793,
+   "rating": 3.9
+  },
+  {
+   "name": "Mavreal Clinic & Maternity Center",
+   "vic": "Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356,
+   "rating": 5
+  },
+  {
+   "name": "Everich Pharmaceutical Ltd",
+   "vic": "EVERICH PHARMACEUTICAL LTD Pharm. Ayodeji, T. 8 Lisabi Avenue, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Itunu Hospital - Bode Olude Annex",
+   "vic": "Abeokuta, 70 Bode Olude, Road, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Surulere Maternity Home",
+   "vic": "50 Leme Street, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Heritage Hospital",
+   "vic": "107 Opeoluwa Street, Ita-Oshin Abeokuta abeokuta, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Hosanna Specialist Hospital and Clinics, Ilaro",
+   "vic": "49W6+XQV, Ilaro",
+   "lat": 7.147484899999999,
+   "lng": 3.361935799999999
+  },
+  {
+   "name": "Holy Cross Hospital",
+   "vic": "49X5+2FQ, Abeokuta",
+   "lat": 7.1475804,
+   "lng": 3.3587208,
+   "rating": 4
+  },
+  {
+   "name": "Atilab Healthcare Ltd.",
+   "vic": "61 Ijaye, Abẹ́òkúta",
+   "lat": 7.149198,
+   "lng": 3.3576839,
+   "rating": 1
+  },
+  {
+   "name": "Ijaiye Health Post",
+   "vic": "5924+XW8, Abeokuta",
+   "lat": 7.1524093,
+   "lng": 3.3573312
+  },
+  {
+   "name": "Isale Ijeun Health Centre",
+   "vic": "5924+WVP, Abeokuta",
+   "lat": 7.1523317,
+   "lng": 3.3572103
+  },
+  {
+   "name": "Dental Centre, Abeokuta",
+   "vic": "49X3+HF8, nawarudeen, Oke Itoku Road, Abeokuta",
+   "lat": 7.1489038,
+   "lng": 3.3537071,
+   "rating": 4
+  }
+ ],
+ "school": [
+  {
+   "name": "Crescent University, Abeokuta (CUAB)",
+   "vic": "KLM 5 Ayetoro Road, Abeokuta",
+   "lat": 7.174533,
+   "lng": 3.2862007,
+   "rating": 4.2
+  },
+  {
+   "name": "Crowther Graduate Theological Seminary, Abeokuta",
+   "vic": "Grammar School Bus Stop, CGTS Campus, beside St. John's Anglican Church, Old FUNAAB Compound, Abeokuta",
+   "lat": 7.150058,
+   "lng": 3.3441409,
+   "rating": 4.4
+  },
+  {
+   "name": "Buckswood School Nigeria",
+   "vic": "496W+R36, Eternal filling station Bus Stop before Paramount F.M, Abeokuta Sagamu expressway, Abeokuta",
+   "lat": 7.112031699999998,
+   "lng": 3.3951336
+  },
+  {
+   "name": "Lawson Group of Schools",
+   "vic": "IDB, Presidential Boulevard, Abeokuta",
+   "lat": 7.135064099999999,
+   "lng": 3.3474113
+  },
+  {
+   "name": "Mercyland International School",
+   "vic": "Oba Alake Road, Abeokuta",
+   "lat": 7.1316066,
+   "lng": 3.3456538
+  },
+  {
+   "name": "Bloomseed Elementary School",
+   "vic": "Sikiru Jimoh Street (Wenby Suites Road) Adjacent Industrial Court, Abeokuta",
+   "lat": 7.126764,
+   "lng": 3.3505686
+  },
+  {
+   "name": "Nobelhouse College",
+   "vic": "Olusegun Obasanjo Hilltop, Abeokuta",
+   "lat": 7.123014599999999,
+   "lng": 3.379343399999999,
+   "rating": 4.7
+  },
+  {
+   "name": "Paragon International Group Of Schools",
+   "vic": "59H8+V52, Abeokuta",
+   "lat": 7.179639899999999,
+   "lng": 3.3654051
+  },
+  {
+   "name": "Aptech",
+   "vic": "22 Quarry Road, Abeokuta",
+   "lat": 7.1361098,
+   "lng": 3.3286392,
+   "rating": 4.2
+  },
+  {
+   "name": "Peculiar Stars School",
+   "vic": "Agbeloba Quarry Road, Abeokuta",
+   "lat": 7.1359382,
+   "lng": 3.3265728
+  },
+  {
+   "name": "Taidob College",
+   "vic": "Alanni Kayode Street, Abeokuta",
+   "lat": 7.181006599999999,
+   "lng": 3.3831172
+  },
+  {
+   "name": "Excel Kiddz Foundation",
+   "vic": "21A Sanctuary Avenue",
+   "lat": 7.1302919,
+   "lng": 3.3254422
+  },
+  {
+   "name": "Lyceum Montessori school",
+   "vic": "Abeokuta",
+   "lat": 7.124449900000001,
+   "lng": 3.4007708
+  },
+  {
+   "name": "Comprehensive. Academy",
+   "vic": "6FV55878+3VV, Abeokuta",
+   "lat": 7.162701600000001,
+   "lng": 3.3172233
+  },
+  {
+   "name": "Moshood Abiola Polytechnic",
+   "vic": "482H+CRH, Dele Oyefesobi Way, Asha",
+   "lat": 7.1010567,
+   "lng": 3.3296175,
+   "rating": 4.1
+  },
+  {
+   "name": "TOPYDAM KIDDIES ACADEMY",
+   "vic": "Abeokuta",
+   "lat": 7.1369611,
+   "lng": 3.2983775
+  },
+  {
+   "name": "Charis Schools",
+   "vic": "47PW+JG3, Along Old Ilaro Road, Elekuro",
+   "lat": 7.1358443,
+   "lng": 3.2952617
+  },
+  {
+   "name": "FUNAAB International School",
+   "vic": "Alabata Road, Abẹ́òkúta",
+   "lat": 7.211195699999998,
+   "lng": 3.441564499999999
+  },
+  {
+   "name": "Roem Destiny Academy",
+   "vic": "ROEM Drive Federal Housing Estate, Abeokuta",
+   "lat": 7.0816225,
+   "lng": 3.2824653
+  },
+  {
+   "name": "Chares Private School",
+   "vic": "De-love Bus Stop, Agbowa Ogiuo, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  }
+ ],
+ "market": [
+  {
+   "name": "Abeokuta",
+   "vic": "Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Continental Suites Ltd.",
+   "vic": "Housing Estate, Presidential Boulevard, Abeokuta",
+   "lat": 7.1399699,
+   "lng": 3.3399504,
+   "rating": 3.9
+  },
+  {
+   "name": "Ransome Kuti Health Centre",
+   "vic": "59CG+M8R, Asero, Abẹ́òkúta",
+   "lat": 7.1717453,
+   "lng": 3.375753199999999,
+   "rating": 1.5
+  },
+  {
+   "name": "Modrow hotel and suites",
+   "vic": "597C+XRM, Abiola Way, Abẹ́òkúta",
+   "lat": 7.164973700000002,
+   "lng": 3.3720395,
+   "rating": 3
+  },
+  {
+   "name": "Caesar's Court Hotel & Suites, Abeokuta",
+   "vic": "7 Koye Majekodunmi Street, Ibara Housing Estate Road, Abeokuta",
+   "lat": 7.123691999999998,
+   "lng": 3.3479941,
+   "rating": 4
+  },
+  {
+   "name": "Wise Hotel",
+   "vic": "off Ayetoro Road, 15 New Range Street, Abeokuta",
+   "lat": 7.1641481,
+   "lng": 3.3048446,
+   "rating": 3.7
+  },
+  {
+   "name": "Ladgate Hotel",
+   "vic": "Abeokuta",
+   "lat": 7.1450605,
+   "lng": 3.386784899999999,
+   "rating": 3.2
+  },
+  {
+   "name": "BT grand hotel",
+   "vic": "Camp Junction, 1 Abeokuta-Ibadan Road, Abeokuta",
+   "lat": 7.179311199999999,
+   "lng": 3.4090159,
+   "rating": 3.9
+  },
+  {
+   "name": "Jimlat International Hotel.",
+   "vic": "5CR5+222, Abeokuta",
+   "lat": 7.190018500000002,
+   "lng": 3.4075182,
+   "rating": 3.3
+  },
+  {
+   "name": "Dusmar Presidential Hotel",
+   "vic": "1 Ibb BoulevaRoad, Abeokuta",
+   "lat": 7.137298299999999,
+   "lng": 3.3514863,
+   "rating": 3.6
+  },
+  {
+   "name": "Indices Suites and Gardens",
+   "vic": "Abeokuta",
+   "lat": 7.128127399999999,
+   "lng": 3.3339956,
+   "rating": 3.4
+  },
+  {
+   "name": "Grand Style Hotel and conference",
+   "vic": "49V9+MW4, 6 Lisabi grammar school road, Abeokuta",
+   "lat": 7.144016199999999,
+   "lng": 3.3696897,
+   "rating": 3.9
+  },
+  {
+   "name": "Micron Suites International Abeokuta",
+   "vic": "1 Wole Ogunbowale Close, Abeokuta",
+   "lat": 7.132018,
+   "lng": 3.352696,
+   "rating": 3.7
+  },
+  {
+   "name": "Mokland Hotel Annex",
+   "vic": "No. 40, Oba Olowu Street, Off Presidential Lodge, Ibara G.R.A Housing Estate, Abeokuta",
+   "lat": 7.1297876,
+   "lng": 3.3492007,
+   "rating": 3.5
+  },
+  {
+   "name": "Heritage Courtyard Abeokuta",
+   "vic": "Plot 5, Laderin Housing Estate, Block XV Olubankole Mafe Avenue, Abeokuta",
+   "lat": 7.118862000000001,
+   "lng": 3.3948877,
+   "rating": 3.9
+  },
+  {
+   "name": "Hotel De Monimo",
+   "vic": "5 Olatunji Atanda Close, Abeokuta",
+   "lat": 7.1190346,
+   "lng": 3.3200485,
+   "rating": 4.3
+  },
+  {
+   "name": "Access Bank Plc Abeokuta Branch",
+   "vic": "1-5 Adekunle Fajuyi Road, Abẹ́òkúta",
+   "lat": 7.1554125,
+   "lng": 3.3467091,
+   "rating": 4.1
+  },
+  {
+   "name": "Ogun State Television",
+   "vic": "Old OGTV Building, Km. 10 Olabisi Onabanjo Way, Abeokuta",
+   "lat": 7.142548199999998,
+   "lng": 3.421305299999999,
+   "rating": 4.1
+  },
+  {
+   "name": "First Bank - Olabisi Onabanjo University Cash Centre",
+   "vic": "Olabisi Onabanjo University Main Campus, Abeokuta",
+   "lat": 7.160833299999999,
+   "lng": 3.3483333
+  },
+  {
+   "name": "Crescent University, Abeokuta (CUAB)",
+   "vic": "KLM 5 Ayetoro Road, Abeokuta",
+   "lat": 7.174533,
+   "lng": 3.2862007,
+   "rating": 4.2
+  }
+ ],
+ "bank": [
+  {
+   "name": "Access Bank Plc Abeokuta Branch",
+   "vic": "1-5 Adekunle Fajuyi Road, Abẹ́òkúta",
+   "lat": 7.1554125,
+   "lng": 3.3467091,
+   "rating": 4.1
+  },
+  {
+   "name": "First Bank - Olabisi Onabanjo University Cash Centre",
+   "vic": "Olabisi Onabanjo University Main Campus, Abeokuta",
+   "lat": 7.160833299999999,
+   "lng": 3.3483333
+  },
+  {
+   "name": "First Bank - Abeokuta II Branch",
+   "vic": "Onikolobo, Abẹ́òkúta",
+   "lat": 7.128081399999999,
+   "lng": 3.3338672,
+   "rating": 3.5
+  },
+  {
+   "name": "Ecobank - Abeokuta",
+   "vic": "No. 75, Obafemi Awolowo Avenue, Abeokuta",
+   "lat": 7.160833299999999,
+   "lng": 3.3483333,
+   "rating": 3.7
+  },
+  {
+   "name": "Guaranty Trust Bank PLC",
+   "vic": "P. P. M. C, Kaduna",
+   "lat": 7.160817,
+   "lng": 3.3482431,
+   "rating": 2
+  },
+  {
+   "name": "Ecobank - Abeokuta Netpost",
+   "vic": "General, Abeokuta",
+   "lat": 7.1364475,
+   "lng": 3.3320078,
+   "rating": 4
+  },
+  {
+   "name": "First Bank - Abeokuta Branch",
+   "vic": "95, Obafemi Awolowo Road, PMB No. 2003, Abeokuta",
+   "lat": 7.160817,
+   "lng": 3.3482431,
+   "rating": 3.6
+  },
+  {
+   "name": "First Bank",
+   "vic": "583W+38M, Imo, Abẹ́òkúta",
+   "lat": 7.152713099999999,
+   "lng": 3.3457852,
+   "rating": 4.3
+  },
+  {
+   "name": "FCMB Abeokuta Branch",
+   "vic": "21 LALUBU STREET OKE-ILEWO, Abeokuta",
+   "lat": 7.1352927,
+   "lng": 3.3368095,
+   "rating": 4.1
+  },
+  {
+   "name": "Sterling Bank Abeokuta",
+   "vic": "Opic Round About, Oke-Ilewo, Abeokuta",
+   "lat": 7.160833299999999,
+   "lng": 3.3483333,
+   "rating": 4.8
+  },
+  {
+   "name": "United Bank For Africa - ATM",
+   "vic": "Faith City, KM 8, Atan - Agbara Road, Igbesa, Abeokuta",
+   "lat": 7.160833299999999,
+   "lng": 3.3483333,
+   "rating": 5
+  },
+  {
+   "name": "Unity Bank - Ritolq Preciours Ltd",
+   "vic": "9 A Lisabi Street, Abeokuta",
+   "lat": 7.1660939,
+   "lng": 3.3572328,
+   "rating": 4
+  },
+  {
+   "name": "Guaranty Trust Bank PLC Kuto Abeokuta",
+   "vic": "Presidential Boulevard, Abeokuta",
+   "lat": 7.1353632,
+   "lng": 3.3460733,
+   "rating": 4.1
+  },
+  {
+   "name": "Zenith Bank",
+   "vic": "beside Zenith Bank Plc, 17 Isale Igbein, Abẹ́òkúta",
+   "lat": 7.1464889,
+   "lng": 3.3416221,
+   "rating": 4.1
+  },
+  {
+   "name": "Wema Bank Oke-Ilewo",
+   "vic": "opp. CBN, 1 Ibrahim Babangida Boulevard, Abeokuta",
+   "lat": 7.138254000000001,
+   "lng": 3.3410267,
+   "rating": 3.6
+  },
+  {
+   "name": "Access Bank Plc Oke Ilewo Branch",
+   "vic": "1 Lalubu Road, Abeokuta",
+   "lat": 7.135747899999999,
+   "lng": 3.339345100000001,
+   "rating": 3.7
+  },
+  {
+   "name": "Sterling Bank",
+   "vic": "48MQ+JPG, OPIC ROUNDABOUT, Abeokuta",
+   "lat": 7.134067699999999,
+   "lng": 3.339324599999999,
+   "rating": 4.1
+  },
+  {
+   "name": "Keystone Bank",
+   "vic": "65B Ibara, Omida, Abeokuta",
+   "lat": 7.139367099999999,
+   "lng": 3.3362286,
+   "rating": 3.2
+  },
+  {
+   "name": "Mainstreet Bank Limited",
+   "vic": "PMB 2227, 65B LALUBU STREET OKE-ILEWO, Abeokuta",
+   "lat": 7.135760400000001,
+   "lng": 3.3362924
+  },
+  {
+   "name": "Mainstreet Bank Limited",
+   "vic": "4, Ibadan Road, Alugboro Car Wash, Ibadan Road, Asero, Abeokuta, Asero",
+   "lat": 7.173304700000002,
+   "lng": 3.3753087,
+   "rating": 5
+  }
+ ],
+ "restaurant": [
+  {
+   "name": "Continental Suites Ltd.",
+   "vic": "Housing Estate, Presidential Boulevard, Abeokuta",
+   "lat": 7.1399699,
+   "lng": 3.3399504,
+   "rating": 3.9
+  },
+  {
+   "name": "Chicken Republic",
+   "vic": "Ogun State Property Investment Corporation, opposite Opic Building, 16 LALUBU STREET OKE-ILEWO, Abeokuta",
+   "lat": 7.1353436,
+   "lng": 3.3391926,
+   "rating": 3.8
+  },
+  {
+   "name": "Tantalizers - Crescent University",
+   "vic": "Main Campus, Crescent University, Ayetoro, Abeokuta",
+   "lat": 7.160833299999999,
+   "lng": 3.3483333,
+   "rating": 5
+  },
+  {
+   "name": "Free Range Farms 1",
+   "vic": "Isaga Orile Village, Abeokuta North, LGA, Abeokuta",
+   "lat": 7.160957,
+   "lng": 3.3484552,
+   "rating": 3.2
+  },
+  {
+   "name": "Royal mandarin restaurant",
+   "vic": "General Gusau Legislative Quarters 2 Housing, Abeokuta",
+   "lat": 7.1312146,
+   "lng": 3.3523494,
+   "rating": 4.2
+  },
+  {
+   "name": "WokCity Restaurant Ibara Abeokuta",
+   "vic": "No 15 LALUBU STREET OKE-ILEWO, Abeokuta",
+   "lat": 7.1354071,
+   "lng": 3.3362905,
+   "rating": 4.1
+  },
+  {
+   "name": "Pizza And Pastries Bakery",
+   "vic": "1 commercial building, Abeokuta",
+   "lat": 7.1360721,
+   "lng": 3.3351139,
+   "rating": 4
+  },
+  {
+   "name": "Mr. Bigg's - Abeokuta",
+   "vic": "Plot No. 2, Obafemi Awolowo Way, Ibara - Abeokuta, Abeokuta",
+   "lat": 7.13729,
+   "lng": 3.3335604,
+   "rating": 3.2
+  },
+  {
+   "name": "Tom's Grills",
+   "vic": "Independent Park, Post Office",
+   "lat": 7.1363869,
+   "lng": 3.3318719,
+   "rating": 4.2
+  },
+  {
+   "name": "Bells Fish",
+   "vic": "2 Aregbesola Close, Abeokuta",
+   "lat": 7.138942999999998,
+   "lng": 3.3271879,
+   "rating": 3.7
+  },
+  {
+   "name": "O'LAKESIN HOTELS AND SUITES LIMITED",
+   "vic": "beside four square church, Km.5 Lagos-Abeokuta Expressway, Abeokuta",
+   "lat": 7.1334672,
+   "lng": 3.3039435,
+   "rating": 3.6
+  },
+  {
+   "name": "Important Haaza Egg Depot",
+   "vic": "19, Alapara junction, Akute-Ojoba Road, Akute, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Marhaba International Restaurant",
+   "vic": "U2 Katsina Road, Kaduna North",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Wonderfoodandgrills",
+   "vic": "opposite Inec office, behind swat office, Magbon junction, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356,
+   "rating": 5
+  },
+  {
+   "name": "Mercstel cakes and confectioneries..",
+   "vic": "off oluwa rd, 15 Lemomu ayeni street, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Kawtty's place",
+   "vic": "Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "didia country",
+   "vic": "Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "HONEYDROP BITES FOOD HUB",
+   "vic": "powerline makosa close to sap route MAPOLY, 1 olope community, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Amala junction",
+   "vic": "Abeokuta",
+   "lat": 7.147562499999999,
+   "lng": 3.3619375,
+   "rating": 3
+  },
+  {
+   "name": "Oreoluwa Food Carteen",
+   "vic": "38 Olorunsogo Street, Abẹ́òkúta",
+   "lat": 7.147380999999999,
+   "lng": 3.362045
+  }
+ ],
+ "mosque": [
+  {
+   "name": "Ajijola Anobi Mosque",
+   "vic": "48RW+FFP, 11 Ope Oluwa Close, Amolaso, Abeokuta",
+   "lat": 7.141164499999999,
+   "lng": 3.3462297,
+   "rating": 3.4
+  },
+  {
+   "name": "Central Mosque",
+   "vic": "67 Igbore, Abẹ́òkúta",
+   "lat": 7.155430000000001,
+   "lng": 3.33879,
+   "rating": 4.3
+  },
+  {
+   "name": "Kila Mosque",
+   "vic": "49X6+2Q3, Abeokuta, LG, Kila",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "JASLAT",
+   "vic": "49X6+2Q3, Oke-Ata, Moshood Isa Street, Akole, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356
+  },
+  {
+   "name": "Itaka Community Mosque Ajitadun, Abeokuta",
+   "vic": "49X6+2Q3, Itaka, Ajitaadun, Abeokuta",
+   "lat": 7.147502,
+   "lng": 3.3619356,
+   "rating": 5
+  },
+  {
+   "name": "Ijemo idi aro",
+   "vic": "49X6+RVC, Abeokuta",
+   "lat": 7.149552099999998,
+   "lng": 3.3621554
+  },
+  {
+   "name": "Mosque",
+   "vic": "49W5+68J, Abeokuta",
+   "lat": 7.1455858,
+   "lng": 3.358277,
+   "rating": 4.2
+  },
+  {
+   "name": "Gba Adua Mosque",
+   "vic": "49X8+P8R, Adeboye Street, Abeokuta",
+   "lat": 7.149373199999999,
+   "lng": 3.3657694
+  },
+  {
+   "name": "Idera Oluwa Mosque, Samba Junction.",
+   "vic": "49V5+V93, Titun",
+   "lat": 7.144635099999999,
+   "lng": 3.3584075,
+   "rating": 5
+  },
+  {
+   "name": "Iranlowo Oluwa Mosque",
+   "vic": "Ago, Ijaye, Abeokuta",
+   "lat": 7.149205799999999,
+   "lng": 3.3577036
+  },
+  {
+   "name": "Ita Adebakin mosque",
+   "vic": "Oja-ale, 29 ijaye, Oke Ejigbo, Abeokuta",
+   "lat": 7.1511285,
+   "lng": 3.3583814,
+   "rating": 4
+  },
+  {
+   "name": "Alhaji Sheu Seye Mosque",
+   "vic": "49X4+F97, Abeokuta",
+   "lat": 7.148671200000001,
+   "lng": 3.3559148,
+   "rating": 4.3
+  },
+  {
+   "name": "Isale Abese Mosque",
+   "vic": "49X4+W89, Ijaye, Abẹ́òkúta",
+   "lat": 7.149789999999999,
+   "lng": 3.3558629,
+   "rating": 4
+  },
+  {
+   "name": "Igbehin adun Mosque",
+   "vic": "49Q7+X9C, Abeokuta",
+   "lat": 7.1399396,
+   "lng": 3.3633916
+  },
+  {
+   "name": "Aleshe Loluwa Memorial Mosque",
+   "vic": "49V9+GP7, Lisabi Grammar School road, opposite Grandstyle Hotel, Idi-aba, Abeokuta",
+   "lat": 7.143777899999999,
+   "lng": 3.3692978
+  },
+  {
+   "name": "Nawarudeen Central Mosque(HQ)",
+   "vic": "49X3+24G, Abeokuta",
+   "lat": 7.147554800000001,
+   "lng": 3.3528344,
+   "rating": 5
+  },
+  {
+   "name": "Oladosu Mosque",
+   "vic": "5933+5VV, Abeokuta",
+   "lat": 7.152983300000001,
+   "lng": 3.354671,
+   "rating": 4.3
+  },
+  {
+   "name": "Nawair-Ur-Deen Abeokuta Central Mosque",
+   "vic": "49W3+G4V, Abeokuta",
+   "lat": 7.14637,
+   "lng": 3.3527833,
+   "rating": 3.9
+  },
+  {
+   "name": "Aranse oluwa mosque",
+   "vic": "49Q5+7WJ, Abeokuta",
+   "lat": 7.1382199,
+   "lng": 3.3597581,
+   "rating": 4.3
+  },
+  {
+   "name": "FADLU DEEN ISLAMIC SOCIETY OF NIGERIA",
+   "vic": "2 adikatu abeni street, Abeokuta",
+   "lat": 7.139119399999999,
+   "lng": 3.367135
+  }
+ ],
+ "church": [
+  {
+   "name": "Winners Chapel Abeokuta",
+   "vic": "31 Quary Road, Abeokuta, Ogun State., beside winners chapel, 32 Quarry Road, Abeokuta",
+   "lat": 7.136631500000001,
+   "lng": 3.3274019,
+   "rating": 4.6
+  },
+  {
+   "name": "Rock Foundation Church Refuge Centre( Precious Babies World)",
+   "vic": "Equinox 2, opposite Gbagban Market, Ijaye, Abẹ́òkúta",
+   "lat": 7.147594000000001,
+   "lng": 3.3610708,
+   "rating": 4.5
+  },
+  {
+   "name": "Christ Image Assembly, Abeokuta",
+   "vic": "49X7+434, Idi-aba, Abẹ́òkúta",
+   "lat": 7.147760799999999,
+   "lng": 3.362706,
+   "rating": 4.8
+  },
+  {
+   "name": "Communion Faith Assembly, Iyana Santuary Center",
+   "vic": "49X7+25P, Idi-aba, Abẹ́òkúta",
+   "lat": 7.147592899999999,
+   "lng": 3.3629504,
+   "rating": 4.5
+  },
+  {
+   "name": "THE AFRICAN CHURCH. ST JOHN'S PARISH, IDI ABA ABEOKUTA",
+   "vic": "49W7+W7P, Idi-aba, Abẹ́òkúta",
+   "lat": 7.1473435,
+   "lng": 3.3632148,
+   "rating": 3.6
+  },
+  {
+   "name": "The Rock Foundation Church Idi-aba Abeokuta",
+   "vic": "Idi-aba, Abẹ́òkúta",
+   "lat": 7.144078199999999,
+   "lng": 3.3709981,
+   "rating": 4.7
+  },
+  {
+   "name": "Victory Life Bible Church Abeokuta",
+   "vic": "49Q4+5HH, Abeokuta",
+   "lat": 7.137927400000001,
+   "lng": 3.3564854,
+   "rating": 4.4
+  },
+  {
+   "name": "Irewole Baptist Church",
+   "vic": "5932+57R, Abeokuta",
+   "lat": 7.1529947,
+   "lng": 3.3506444,
+   "rating": 5
+  },
+  {
+   "name": "Deeper Life Bible Church, Ogun Central",
+   "vic": "Deeper Life Bible Church, State Headquarters, beside Sam Ewang Housing Estate, Abeokuta",
+   "lat": 7.135362199999999,
+   "lng": 3.3691189,
+   "rating": 4.3
+  },
+  {
+   "name": "Croosword Instant Christian Drama Ministries International",
+   "vic": "No. 3/ 017, Ewang Estate, Abeokuta",
+   "lat": 7.1329802,
+   "lng": 3.3691442,
+   "rating": 3.7
+  },
+  {
+   "name": "The Church of Jesus Christ of Latter-day Saints",
+   "vic": "opposite Gateway Hotel Ltd, IBB Boulevard, Abeokuta",
+   "lat": 7.1361079,
+   "lng": 3.3501025,
+   "rating": 4.3
+  },
+  {
+   "name": "Irewole Baptist Church, Ijeun-Lukosi",
+   "vic": "49G8+9G5, Abeokuta",
+   "lat": 7.1258897,
+   "lng": 3.366348299999999,
+   "rating": 4.3
+  },
+  {
+   "name": "The African Church Christ Cathedral -Igbore",
+   "vic": "583Q+PHR, Abeokuta",
+   "lat": 7.154369,
+   "lng": 3.3388997,
+   "rating": 4.1
+  },
+  {
+   "name": "Owu Baptist Church",
+   "vic": "beside owu baptist church, 28 Totoro Road, Abeokuta",
+   "lat": 7.152992900000001,
+   "lng": 3.3310545,
+   "rating": 4.2
+  },
+  {
+   "name": "Foursquare Church",
+   "vic": "48HP+4Q8, Church Street, Abeokuta",
+   "lat": 7.1277846,
+   "lng": 3.3369634,
+   "rating": 4.1
+  },
+  {
+   "name": "DEEPER LIFE CAMPUS FELLOWSHIP, MOSHOOD ABIOLA POLYTECHNIC CHAPTER",
+   "vic": "Ojere, road, Abeokuta",
+   "lat": 7.1287277,
+   "lng": 3.333031699999999,
+   "rating": 5
+  },
+  {
+   "name": "Divine Purpose Ministry Int'l.",
+   "vic": "Behind Aggs, Abeokuta",
+   "lat": 7.120904499999999,
+   "lng": 3.3390654
+  },
+  {
+   "name": "Voice Of God",
+   "vic": "No. 1 B, Lagos Road, Lafenwa, Abeokuta",
+   "lat": 7.153787,
+   "lng": 3.325792,
+   "rating": 4.3
+  },
+  {
+   "name": "Grail Center",
+   "vic": "48PF+FFG, Quarry Road, Abeokuta",
+   "lat": 7.1361821,
+   "lng": 3.3236945,
+   "rating": 5
+  },
+  {
+   "name": "Glorious Liberty Church",
+   "vic": "488P+35C, Abeokuta",
+   "lat": 7.115184699999999,
+   "lng": 3.335395,
+   "rating": 4.7
+  }
+ ],
+ "lodging": [
+  {
+   "name": "Continental Suites Ltd.",
+   "vic": "Housing Estate, Presidential Boulevard, Abeokuta",
+   "lat": 7.1399699,
+   "lng": 3.3399504,
+   "rating": 3.9
+  },
+  {
+   "name": "Modrow hotel and suites",
+   "vic": "597C+XRM, Abiola Way, Abẹ́òkúta",
+   "lat": 7.164973700000002,
+   "lng": 3.3720395,
+   "rating": 3
+  },
+  {
+   "name": "Caesar's Court Hotel & Suites, Abeokuta",
+   "vic": "7 Koye Majekodunmi Street, Ibara Housing Estate Road, Abeokuta",
+   "lat": 7.123691999999998,
+   "lng": 3.3479941,
+   "rating": 4
+  },
+  {
+   "name": "Wise Hotel",
+   "vic": "off Ayetoro Road, 15 New Range Street, Abeokuta",
+   "lat": 7.1641481,
+   "lng": 3.3048446,
+   "rating": 3.7
+  },
+  {
+   "name": "Ladgate Hotel",
+   "vic": "Abeokuta",
+   "lat": 7.1450605,
+   "lng": 3.386784899999999,
+   "rating": 3.2
+  },
+  {
+   "name": "BT grand hotel",
+   "vic": "Camp Junction, 1 Abeokuta-Ibadan Road, Abeokuta",
+   "lat": 7.179311199999999,
+   "lng": 3.4090159,
+   "rating": 3.9
+  },
+  {
+   "name": "Jimlat International Hotel.",
+   "vic": "5CR5+222, Abeokuta",
+   "lat": 7.190018500000002,
+   "lng": 3.4075182,
+   "rating": 3.3
+  },
+  {
+   "name": "Dusmar Presidential Hotel",
+   "vic": "1 Ibb BoulevaRoad, Abeokuta",
+   "lat": 7.137298299999999,
+   "lng": 3.3514863,
+   "rating": 3.6
+  },
+  {
+   "name": "Indices Suites and Gardens",
+   "vic": "Abeokuta",
+   "lat": 7.128127399999999,
+   "lng": 3.3339956,
+   "rating": 3.4
+  },
+  {
+   "name": "Grand Style Hotel and conference",
+   "vic": "49V9+MW4, 6 Lisabi grammar school road, Abeokuta",
+   "lat": 7.144016199999999,
+   "lng": 3.3696897,
+   "rating": 3.9
+  },
+  {
+   "name": "Micron Suites International Abeokuta",
+   "vic": "1 Wole Ogunbowale Close, Abeokuta",
+   "lat": 7.132018,
+   "lng": 3.352696,
+   "rating": 3.7
+  },
+  {
+   "name": "Mokland Hotel Annex",
+   "vic": "No. 40, Oba Olowu Street, Off Presidential Lodge, Ibara G.R.A Housing Estate, Abeokuta",
+   "lat": 7.1297876,
+   "lng": 3.3492007,
+   "rating": 3.5
+  },
+  {
+   "name": "Heritage Courtyard Abeokuta",
+   "vic": "Plot 5, Laderin Housing Estate, Block XV Olubankole Mafe Avenue, Abeokuta",
+   "lat": 7.118862000000001,
+   "lng": 3.3948877,
+   "rating": 3.9
+  },
+  {
+   "name": "Hotel De Monimo",
+   "vic": "5 Olatunji Atanda Close, Abeokuta",
+   "lat": 7.1190346,
+   "lng": 3.3200485,
+   "rating": 4.3
+  },
+  {
+   "name": "Jonath Cottage Ventures",
+   "vic": "Sholanke Street, Abeokuta",
+   "lat": 7.1493816,
+   "lng": 3.364149099999999,
+   "rating": 3.9
+  },
+  {
+   "name": "Maria E Guest Inn",
+   "vic": "6 Wole Ogundimu Street, Abeokuta",
+   "lat": 7.1444772,
+   "lng": 3.3437306,
+   "rating": 3.7
+  },
+  {
+   "name": "Green Legacy Resort",
+   "vic": "110001 Presidential Bouleva road, Abeokuta",
+   "lat": 7.125295299999999,
+   "lng": 3.3614389,
+   "rating": 4.2
+  },
+  {
+   "name": "LAROY SUITES",
+   "vic": "M.K.O. Abiola Way, Abẹ́òkúta",
+   "lat": 7.167361800000002,
+   "lng": 3.3729066,
+   "rating": 3.6
+  },
+  {
+   "name": "Mitros Residences Abeokuta",
+   "vic": "Osoba Road, Abẹ́òkúta",
+   "lat": 7.1305725,
+   "lng": 3.3404087,
+   "rating": 4.2
+  },
+  {
+   "name": "Celia's Suites",
+   "vic": "1 Wole Soyinka Road, Abeokuta",
+   "lat": 7.128595499999999,
+   "lng": 3.3416813,
+   "rating": 4
+  }
+ ]
+}

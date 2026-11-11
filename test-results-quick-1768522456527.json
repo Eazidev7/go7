@@ -1,0 +1,173 @@
+{
+  "timestamp": "2026-01-16T00:14:16.528Z",
+  "baseUrl": "http://localhost:3000",
+  "summary": {
+    "total": 23,
+    "passed": 5,
+    "failed": 18,
+    "passRate": "21.74%"
+  },
+  "tests": [
+    {
+      "category": "Server",
+      "testName": "Response Time",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.389Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Homepage",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.399Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Book Delivery",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.407Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "GoBuy Shopping",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.413Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Restaurants",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.417Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Shops",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.424Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Pharmacy",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.427Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Markets",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.432Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Checkout",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.440Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Track Order",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.446Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Profile",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.449Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Vendor Portal",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.454Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Rider Dashboard",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.457Z"
+    },
+    {
+      "category": "Routes",
+      "testName": "Admin Dashboard",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.460Z"
+    },
+    {
+      "category": "React App",
+      "testName": "Bundle Check",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.466Z"
+    },
+    {
+      "category": "Assets",
+      "testName": "CSS Loading",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.474Z"
+    },
+    {
+      "category": "SEO",
+      "testName": "Meta Tags",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.480Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/health",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:14:16.484Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/status",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:14:16.489Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/products",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:14:16.493Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/vendors",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:14:16.496Z"
+    },
+    {
+      "category": "API",
+      "testName": "/api/restaurants",
+      "passed": true,
+      "details": "Not implemented",
+      "timestamp": "2026-01-16T00:14:16.499Z"
+    },
+    {
+      "category": "Security",
+      "testName": "Headers",
+      "passed": false,
+      "details": "socket hang up",
+      "timestamp": "2026-01-16T00:14:16.507Z"
+    }
+  ]
+}

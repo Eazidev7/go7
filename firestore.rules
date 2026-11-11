@@ -1,0 +1,1176 @@
+// Firestore Security Rules for Go7 Ultra-Premium System
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 🔒 SECURITY: Default deny-all removed - using specific rules below
+    // Default rule at bottom of file handles fallback cases
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isVendor() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/vendors/$(request.auth.uid));
+    }
+    
+    function isVendorOwner(vendorId) {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/vendors/$(vendorId)) &&
+             get(/databases/$(database)/documents/vendors/$(vendorId)).data.userId == request.auth.uid;
+    }
+    
+    function isValidProductData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['vendorId', 'name', 'desc', 'productType', 'basePrice', 'category']) &&
+             data.productType in ['food', 'market'] &&
+             data.basePrice is number &&
+             data.basePrice >= 0 &&
+             data.name is string &&
+             data.name.size() > 0 &&
+             data.desc is string &&
+             data.category is string &&
+             // Measurement system field validation (optional)
+             (!('unitType' in data.keys()) || data.unitType in ['tuber', 'pack', 'spoon', 'piece', 'kg', 'custom']) &&
+             (!('unitLabel' in data.keys()) || data.unitLabel is string) &&
+             (!('maxQty' in data.keys()) || (data.maxQty is number && data.maxQty > 0)) &&
+             (!('minQty' in data.keys()) || (data.minQty is number && data.minQty > 0)) &&
+             (!('customLabel' in data.keys()) || data.customLabel is string);
+    }
+    
+
+    
+    // Helper function to check if user is a rider
+    function isRider() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/riders/$(request.auth.uid));
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Helper functions for delivery routes
+    function isActiveDelivery() {
+      return resource.data.status in ['assigned', 'enroute', 'pickup_complete'];
+    }
+    
+    function isValidRouteData() {
+      return request.resource.data.keys().hasAll(['orderId', 'userId', 'riderId', 'startedAt']) &&
+             request.resource.data.orderId is string &&
+             request.resource.data.userId is string &&
+             request.resource.data.riderId is string &&
+             request.resource.data.startedAt is timestamp;
+    }
+
+    // Restrict which fields an update may touch
+    // Payment-authoritative fields are Functions/webhook-only — a client may
+    // never mark its own order paid, change a payment reference, or fake a
+    // verification marker. Only Admin SDK (server) writes these.
+    function paymentFieldsUnchanged() {
+      return !request.resource.data.diff(resource.data).affectedKeys()
+        .hasAny(['paymentStatus', 'paymentReference', 'paymentRef', 'paidAt',
+                 'paidAmount', 'paidAmountKobo', 'paidAmountNaira',
+                 'paymentVerifiedBy', 'paymentVerified', 'paymentMethod']);
+    }
+
+    function onlyUpdatingFields(allowedFields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowedFields);
+    }
+
+    // Rider update helpers — list queries have no resource, so split list/get.
+    function canRiderUpdate(docRiderId, reqRiderId) {
+      return isOwner(docRiderId) ||
+             ((docRiderId == null || docRiderId == '') && isOwner(reqRiderId));
+    }
+    function effectiveDeliveryRiderId() {
+      return (
+        (resource.data.riderId is string && resource.data.riderId.size() > 0)
+          ? resource.data.riderId
+          : (
+              (resource.data.rider is map && resource.data.rider.id is string && resource.data.rider.id.size() > 0)
+                ? resource.data.rider.id
+                : null
+            )
+      );
+    }
+
+    // DELIVERY TRACKING RULES - NEW PRODUCTION SYSTEM
+    match /deliveries/{deliveryId} {
+      // Allow get if user is customer, assigned rider, or admin
+      allow get: if isAuthenticated() && (
+        isOwner(resource.data.customer.uid) ||
+        isOwner(effectiveDeliveryRiderId()) ||
+        isAdmin()
+      );
+
+      // Available-job queries are limited to rider-visible pool statuses.
+      allow list: if isAuthenticated() && (
+        isAdmin() ||
+        (isAuthenticated() && resource.data.riderId == request.auth.uid) ||
+        (isRider() && resource.data.status in ['searching_rider', 'pending', 'pending_dispatch', 'requested', 'Requested', 'assigned', 'enroute', 'enroute_pickup', 'enroute_dropoff', 'at_pickup', 'at_delivery', 'picked_up', 'in_transit'])
+      );
+      
+      // Allow create if user is authenticated (when placing new delivery)
+      allow create: if isAuthenticated() && 
+                   isOwner(request.resource.data.customer.uid);
+      
+      // Allow update with restrictions:
+      allow update: if isAuthenticated() && (
+        // Admin can update anything
+        isAdmin() ||
+        // Customer can update their own delivery (limited fields)
+        (isOwner(resource.data.customer.uid) && 
+         onlyUpdatingFields(['customer', 'dropoff', 'package', 'feedback'])) ||
+        // Rider can accept/perform an assigned delivery, but cannot touch customer/userId
+        (
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['customer', 'userId']) &&
+          canRiderUpdate(effectiveDeliveryRiderId(), request.resource.data.riderId)
+        )
+      );
+    }
+    
+    // DELIVERY SECRETS - private PIN store (riders must NOT read these;
+    // they verify through the verifyDeliveryPin callable instead)
+    match /deliverySecrets/{orderId} {
+      allow get, list: if isAuthenticated() && (
+        isAdmin() ||
+        isOwner(resource.data.customerId)
+      );
+      // The order owner may create their own secret (e.g. orders that had no
+      // PIN at creation). No updates/deletes — server paths manage lifecycle.
+      allow create: if isAuthenticated() && isOwner(request.resource.data.customerId);
+      allow update, delete: if false;
+    }
+
+    // DELIVERY ROUTES COLLECTION - FOR REPLAY SYSTEM
+    match /deliveryRoutes/{orderId} {
+      // Read access: order owner, assigned rider, or admin/support
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.riderId == request.auth.uid ||
+        isAdmin()
+      );
+      
+      // Write access: only assigned rider during active delivery
+      allow write: if isAuthenticated() && 
+        resource.data.riderId == request.auth.uid &&
+        isActiveDelivery();
+      
+      // Create access: rider starting a new delivery route
+      allow create: if isAuthenticated() && 
+        request.resource.data.riderId == request.auth.uid &&
+        isValidRouteData();
+    }
+    
+    // Route Exports Collection - stores generated replay videos/GIFs
+    match /routeExports/{exportId} {
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+      
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow delete: if isAdmin();
+      
+      allow update: if isAuthenticated() && 
+                   isOwner(resource.data.rider.uid) &&
+                   onlyUpdatingFields(['riderLocation', 'lastUpdated']) &&
+                   isValidLocationUpdate();
+      
+      function isValidLocationUpdate() {
+        let location = request.resource.data.riderLocation;
+        return location is map &&
+               'latitude' in location && location.latitude is number && 
+               'longitude' in location && location.longitude is number &&
+               'timestamp' in location && location.timestamp is number &&
+               location.latitude >= -90 && location.latitude <= 90 &&
+               location.longitude >= -180 && location.longitude <= 180;
+      }
+    }
+
+    // Customer activity inbox + legacy delivery-scoped notification docs
+    match /notifications/{notificationId} {
+      // Flat inbox docs written by Cloud Functions (uid / userId)
+      allow read: if isAuthenticated() && (
+        resource.data.uid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin() ||
+        (
+          exists(/databases/$(database)/documents/deliveries/$(notificationId)) &&
+          (
+            isOwner(get(/databases/$(database)/documents/deliveries/$(notificationId)).data.customer.uid) ||
+            isOwner(get(/databases/$(database)/documents/deliveries/$(notificationId)).data.rider.uid) ||
+            isOwner(get(/databases/$(database)/documents/deliveries/$(notificationId)).data.userId)
+          )
+        )
+      );
+
+      // Customers may mark their own inbox items as read only
+      allow update: if isAuthenticated() &&
+        (resource.data.uid == request.auth.uid || resource.data.userId == request.auth.uid) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+
+      // Creates/deletes: Cloud Functions (Admin SDK) only
+      allow create, delete: if false;
+
+      match /logs/{logId} {
+        allow read: if isAuthenticated() && (
+          exists(/databases/$(database)/documents/deliveries/$(notificationId)) &&
+          (
+            isOwner(get(/databases/$(database)/documents/deliveries/$(notificationId)).data.customer.uid) ||
+            isOwner(get(/databases/$(database)/documents/deliveries/$(notificationId)).data.rider.uid) ||
+            isOwner(get(/databases/$(database)/documents/deliveries/$(notificationId)).data.userId) ||
+            isAdmin()
+          )
+        );
+        allow write: if false;
+      }
+    }
+
+    // Riders Collection Rules
+    match /riders/{riderId} {
+      // Anyone authenticated can read rider info
+      allow read: if isAuthenticated();
+
+      // Riders can register their own profile on signup; admins can create any rider
+      allow create: if isAuthenticated() && (
+        isAdmin() ||
+        (request.auth.uid == riderId &&
+         request.resource.data.uid == request.auth.uid)
+      );
+
+      // Riders can update their own profile; admins can update any rider
+      allow update: if isAuthenticated() && (isOwner(riderId) || isAdmin());
+
+      // Only admins can delete rider profiles
+      allow delete: if isAdmin();
+    }
+
+    // ================================================================
+    // AGENT EARNINGS SYSTEM RULES
+    // ================================================================
+    
+    // Agents Collection Rules
+    match /agents/{agentId} {
+      // Agents can read their own profile, admins can read all
+      allow read: if isAuthenticated() && (isOwner(agentId) || isAdmin());
+      
+      // Allow users to create their own agent profile during signup
+      // Validate that they're creating a profile with their own UID
+      allow create: if isAuthenticated() && 
+        request.auth.uid == agentId &&
+        request.resource.data.uid == request.auth.uid &&
+        request.resource.data.keys().hasAll(['uid', 'name', 'email', 'phone']) &&
+        request.resource.data.name is string &&
+        request.resource.data.email is string &&
+        request.resource.data.phone is string;
+      
+      // Agents can update their own profile (except financial fields)
+      // Admins can update all fields
+      allow update: if isAuthenticated() && (
+        isAdmin() || 
+        (isOwner(agentId) && 
+         !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+           'totalEarnings', 'availableBalance', 'pendingBalance', 'uid',
+           'walletBalance', 'totalEarned', 'totalWithdrawn',
+           'vendorsOnboarded', 'activeVendors', 'activeCustomers',
+           'referredCompletedCustomersCount', 'customerReferralBatchesPaid',
+           'monthlyScore', 'status'
+         ]))
+      );
+      
+      // Only admins can delete agent profiles
+      allow delete: if isAdmin();
+    }
+
+    // ================================================================
+    // COMMUNITY GROWTH ASSOCIATE (CGA) BACKEND RULES
+    // ================================================================
+
+    // Agent earnings ledger — Cloud Functions only write; agents/admins read
+    // NOTE: Agents in this app sign in via phone OTP + localStorage
+    // (src/pages/AgentLogin.jsx), not Firebase Auth — there is no
+    // request.auth session for agent-facing reads. Agent-side access to
+    // these collections goes through Cloud Function getters
+    // (getAgentTransactions/getAgentWithdrawalsCGA/getAgentDailyReports/
+    // getAgentPerformanceMonth in functions/agentGrowth.js), which use the
+    // Admin SDK and bypass these rules. Only the real admin dashboard
+    // (which does use Firebase Auth) reads these directly.
+    match /agentTransactions/{transactionId} {
+      allow read: if isAdmin();
+      // Only Cloud Functions (Admin SDK bypasses rules) create/update these
+      allow create, update, delete: if false;
+    }
+
+    // Agent withdrawal requests
+    match /agentWithdrawals/{withdrawalId} {
+      allow read: if isAdmin();
+      // Created via requestAgentWithdrawal Cloud Function only
+      allow create: if false;
+      allow update, delete: if false;
+    }
+
+    // Agent daily field reports
+    match /agentDailyReports/{reportId} {
+      allow read: if isAdmin();
+      // Created/updated via submitAgentDailyReport Cloud Function only
+      allow create, update: if false;
+      allow delete: if false;
+    }
+
+    // Agent monthly performance scorecards
+    match /agentPerformanceMonths/{perfId} {
+      allow read: if isAdmin();
+      // Only admins (via adjustAgentScorecard/awardMonthlyKPIBonus/markTopPerformer Cloud Functions) write these
+      allow create, update, delete: if false;
+    }
+    
+    // Agent Earnings Collection Rules
+    match /agentEarnings/{earningId} {
+      // Agents can read their own earnings, admins can read all
+      allow read: if isAuthenticated() && (
+        resource.data.agentId == request.auth.uid || 
+        isAdmin()
+      );
+      
+      // Only Cloud Functions can create earnings (prevents fake earnings)
+      // This is enforced by not allowing client-side creation
+      allow create: if false;
+      
+      // Only admins can update earnings (for approval)
+      allow update: if isAdmin() &&
+        resource.data.status == 'pending' && 
+        request.resource.data.status == 'approved';
+    }
+    
+    // Withdrawals Collection Rules (agents + riders)
+    match /withdrawals/{withdrawalId} {
+      // Agents/riders can read their own withdrawals; admins can read all
+      allow get: if isAuthenticated() && (
+        resource.data.agentId == request.auth.uid ||
+        resource.data.riderId == request.auth.uid ||
+        isAdmin()
+      );
+
+      // Withdrawal queries are limited to the signed-in user's own records.
+      allow list: if isAuthenticated() && (
+        isAdmin() ||
+        resource.data.agentId == request.auth.uid ||
+        resource.data.riderId == request.auth.uid
+      );
+
+      // Agents can create withdrawal requests
+      allow create: if isAuthenticated() && (
+        (
+          request.resource.data.agentId == request.auth.uid &&
+          request.resource.data.amount >= 5000 &&
+          request.resource.data.status == 'pending'
+        ) ||
+        (
+          request.resource.data.riderId == request.auth.uid &&
+          request.resource.data.status == 'pending' &&
+          request.resource.data.amount is number &&
+          request.resource.data.amount > 0
+        )
+      );
+
+      // Admin can process (paid/completed/failed); rider can cancel their own pending withdrawal
+      allow update: if isAuthenticated() && (
+        (
+          isAdmin() &&
+          resource.data.status == 'pending' &&
+          request.resource.data.status in ['paid', 'completed', 'failed', 'cancelled']
+        ) ||
+        (
+          resource.data.riderId == request.auth.uid &&
+          resource.data.status == 'pending' &&
+          request.resource.data.status == 'cancelled' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'processedAt', 'updatedAt', 'failureReason'])
+        )
+      );
+
+      // No deletions allowed
+      allow delete: if false;
+    }
+
+    // Rider earnings ledger (per-earning records)
+    match /earnings/{earningId} {
+      // Riders can read their own earnings; admins can read all
+      allow get: if isAuthenticated() && (
+        resource.data.riderId == request.auth.uid ||
+        isAdmin()
+      );
+
+      // List queries have no resource; filter by riderId client-side
+      allow list: if isAuthenticated();
+
+      // Riders can create earning records for themselves
+      allow create: if isAuthenticated() &&
+        request.resource.data.riderId == request.auth.uid &&
+        request.resource.data.amount is number &&
+        request.resource.data.amount >= 0;
+
+      // Only admins can update/delete ledger entries
+      allow update, delete: if isAdmin();
+    }
+
+    // Rider earnings wallet view (synced from rider app + admin dashboard)
+    match /rider_earnings/{riderId} {
+      allow get: if isAuthenticated() && (isOwner(riderId) || isAdmin());
+      allow create, update: if isAuthenticated() && (isOwner(riderId) || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // EXISTING GO7 APP RULES
+    match /users/{userId} {
+      // Own profile + admin only - removed unauthenticated access
+      allow get: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow list: if isAuthenticated();
+      
+      // Allow users to create their own profile during signup
+      allow create: if request.auth != null && request.auth.uid == userId
+        && (!('role' in request.resource.data)
+            || request.resource.data.role in ['customer', 'user', 'vendor', 'rider', 'agent']);
+      
+      // Users may update own profile but cannot self-promote to admin
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        (isOwner(userId)
+          && (!('role' in request.resource.data.diff(resource.data).affectedKeys())
+              || request.resource.data.role == resource.data.role)
+          && !request.resource.data.diff(resource.data).affectedKeys()
+              .hasAny(['walletBalance', 'points', 'coins', 'balance', 'luckyWeek']))
+      );
+      
+      allow delete: if isAuthenticated() && (isAdmin() || isOwner(userId));
+    }
+    
+    match /orders/{orderId} {
+      // Owner can read; public read for Go7 booking codes used in tracking URLs
+      allow read: if isAuthenticated()
+        || (resource != null && resource.data.bookingId is string && resource.data.bookingId.matches('(?i)^Go7-.*'))
+        || orderId.matches('(?i)^Go7-.*');
+      // 🔒 SECURITY: orders are created ONLY server-side (createCommerceOrder /
+      // createBookDeliveryFee paths use the Admin SDK, bypassing rules). A client
+      // can NOT create an order directly, so the delivery fee is never
+      // client-authoritative. Callers MUST be migrated to the server callables
+      // before this rules version is deployed.
+      allow create: if false;
+      // Updates: admin/rider always; an owner/creator may update only WITHOUT
+      // changing delivery-authoritative fields (fee/distance/zone/orderType/totals).
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        isRider() ||
+        (isOwner(resource.data.userId) &&
+          paymentFieldsUnchanged() &&
+          request.resource.data.deliveryFee == resource.data.deliveryFee &&
+          request.resource.data.distanceKm == resource.data.distanceKm &&
+          request.resource.data.grandTotal == resource.data.grandTotal &&
+          request.resource.data.subtotal == resource.data.subtotal &&
+          request.resource.data.orderType == resource.data.orderType)
+      );
+      allow delete: if isAuthenticated() && (isAdmin() || isOwner(resource.data.userId));
+    }
+
+    // GoBuy orders — backend + assignment use gobuy_orders
+    match /gobuy_orders/{orderId} {
+      allow read: if isAuthenticated()
+        && (isOwner(resource.data.userId) || isAdmin() || isRider());
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated()
+        && (isAdmin() || isRider()
+          || (isOwner(resource.data.userId) && paymentFieldsUnchanged()));
+      allow delete: if isAdmin();
+    }
+
+    // Legacy camelCase collection (older client builds) — keep readable/writable
+    match /gobuyOrders/{orderId} {
+      allow read: if isAuthenticated()
+        && (isOwner(resource.data.userId) || isAdmin() || isRider());
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated()
+        && (isAdmin() || isRider()
+          || (isOwner(resource.data.userId) && paymentFieldsUnchanged()));
+      allow delete: if isAdmin();
+    }
+    
+    match /bookings/{bookingId} {
+      // Allow get for tracking (order owner, assigned rider, or admin)
+      allow get: if isAuthenticated() && (
+        isOwner(resource.data.userId) ||
+        isOwner(resource.data.riderId) ||
+        ('customer' in resource.data && isOwner(resource.data.customer.uid)) ||
+        isAdmin()
+      );
+
+      // Available-booking queries are limited to rider-visible pool statuses;
+      // customers may list their OWN bookings (mirrors `get` owner clause —
+      // fixes "Missing or insufficient permissions" on customer listeners).
+      allow list: if isAuthenticated() && (
+        isAdmin() ||
+        isOwner(resource.data.userId) ||
+        ('customer' in resource.data && isOwner(resource.data.customer.uid)) ||
+        (isAuthenticated() && resource.data.riderId == request.auth.uid) ||
+        (isRider() && resource.data.status in ['searching_rider', 'pending', 'pending_dispatch', 'requested', 'Requested', 'assigned', 'enroute', 'enroute_pickup', 'enroute_dropoff', 'at_pickup', 'at_delivery', 'picked_up', 'in_transit'])
+      );
+      
+      // Only authenticated users can create bookings
+      allow create: if isAuthenticated() && 
+                   (request.resource.data.userId == request.auth.uid ||
+                    ('customer' in request.resource.data && request.resource.data.customer.uid == request.auth.uid));
+      
+      // Owner, assigned rider, or admin can update
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        (isOwner(resource.data.userId) && paymentFieldsUnchanged()) ||
+        (('customer' in resource.data && isOwner(resource.data.customer.uid)) && paymentFieldsUnchanged()) ||
+        (
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['customer', 'userId']) &&
+          canRiderUpdate(resource.data.riderId, request.resource.data.riderId)
+        )
+      );
+    }
+
+    // Payment anomalies — written only by webhook/functions; admins review.
+    match /paymentAnomalies/{docId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    // Vendor meal-plan products — vendors manage their own plans; any signed-in
+    // user can read ACTIVE plans (for the customer bundle builder).
+    match /mealPlanProducts/{planId} {
+      allow read: if isAuthenticated() && (
+        isAdmin() || resource.data.vendorId == request.auth.uid || resource.data.active == true
+      );
+      // Writes go through upsertMealPlan (validates ownership, menu items,
+      // slot shapes and prices server-side). Clients never write plans.
+      allow create, update, delete: if false;
+    }
+
+    // Scheduled bundle legs — denormalized vendor lookahead. Vendors read
+    // their own upcoming legs; owners read theirs; all writes are Functions.
+    match /scheduledBundleLegs/{legId} {
+      allow get, list: if isAuthenticated() && (
+        isAdmin() || resource.data.vendorId == request.auth.uid || isOwner(resource.data.userId)
+      );
+      allow create, update, delete: if false;
+    }
+
+    // Meal bundles — read by owner/admin only; ALL writes go through
+    // server-side callables (createMealBundle/confirmMealBundlePayment/
+    // fan-out) which bypass rules via Admin SDK.
+    match /mealBundles/{bundleId} {
+      allow get, list: if isAuthenticated() && (
+        isOwner(resource.data.userId) || isAdmin()
+      );
+      allow create, update, delete: if false;
+    }
+
+    match /adminAlerts/{alertId} {
+      allow read, update: if isAdmin();
+      allow create, delete: if false;
+    }
+    
+    match /carts/{userId} {
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && request.auth.uid == userId;
+      allow delete: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Points system — client can read; minting goes through Functions/admin later
+    match /points/{userId} {
+      allow read: if isAuthenticated() && isOwner(userId);
+      allow create: if isAuthenticated() && isOwner(userId)
+        && (!('balance' in request.resource.data) || request.resource.data.balance == 0);
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+    
+    match /pointsHistory/{historyId} {
+      allow read: if isAuthenticated() && isOwner(resource.data.userId);
+      allow create: if isAdmin();
+    }
+    
+    // Wallet rules — balance writes should be Cloud Functions only once Blaze is on.
+    // Until then: owner can create + update metadata, but cannot raise balance.
+    match /wallets/{userId} {
+      allow read: if isAuthenticated() && isOwner(userId);
+      
+      allow create: if request.auth != null && request.auth.uid == userId
+        && (!('balance' in request.resource.data) || request.resource.data.balance == 0);
+      
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        (isOwner(userId)
+          && !request.resource.data.diff(resource.data).affectedKeys()
+              .hasAny(['balance', 'availableBalance', 'pendingBalance']))
+      );
+      
+      allow delete: if false;
+
+      match /transactions/{transactionId} {
+        allow read: if isAuthenticated() && isOwner(userId);
+        // Ledger entries: admin / future Functions only (prevents fake credits)
+        allow create, update, delete: if isAdmin();
+      }
+    }
+    
+    match /transactions/{transactionId} {
+      allow read: if isAuthenticated() && isOwner(resource.data.userId);
+      allow create: if isAdmin();
+    }
+
+    // ================================================================
+    // GROWTH & REFERRAL ENGINE — server-authoritative only.
+    // Partner-facing data is served via masked Cloud Function getters
+    // (getPartnerDashboard / getPartnerRewards); no client writes ever.
+    // ================================================================
+    match /growthPartners/{partnerId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /growthCampaigns/{campaignId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    // Doc id = customerId. A customer may read only their own attribution
+    // (contains partnerCode + status; no other-customer PII).
+    match /referralAttributions/{customerId} {
+      allow get: if isAuthenticated() && (isOwner(customerId) || isAdmin());
+      allow list: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /growthRewards/{rewardId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /growthClicks/{clickId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /growthAuditLogs/{logId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    // OTP docs keyed by uid — own account only (client fallback while Functions are down)
+    match /otps/{userId} {
+      allow read, create, update: if isAuthenticated() && isOwner(userId);
+      allow delete: if isAuthenticated() && (isOwner(userId) || isAdmin());
+    }
+
+    match /otp_codes/{userId} {
+      allow read, create, update: if isAuthenticated() && isOwner(userId);
+      allow delete: if isAuthenticated() && (isOwner(userId) || isAdmin());
+    }
+    
+    match /health_checks/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── Gamification (client-authoritative profile/coins; money-value writes are server-only) ──
+    match /gamificationProfiles/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow create, update: if isAuthenticated() && isOwner(userId);
+      allow delete: if isAdmin();
+    }
+
+    match /gamificationTransactions/{txId} {
+      allow read: if isAuthenticated() && (isOwner(resource.data.userId) || isAdmin());
+      allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
+      allow update, delete: if isAdmin();
+    }
+
+    // Rewards the client may create: coin-store redemptions only (positive coin cost,
+    // non-cash types). order_credit / jackpot rewards are issued by Cloud Functions only.
+    match /userRewards/{rewardId} {
+      allow read: if isAuthenticated() && (isOwner(resource.data.userId) || isAdmin());
+      allow create: if isAuthenticated()
+        && isOwner(request.resource.data.userId)
+        && request.resource.data.type in ['discount', 'free_delivery', 'cashback', 'voucher']
+        && request.resource.data.source != 'weekly_jackpot';
+      // Redemption is one-directional — a client may SET used:true but never
+      // flip it back, preventing voucher reuse. Admin can do anything.
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        (isOwner(resource.data.userId) &&
+         request.resource.data.diff(resource.data).affectedKeys()
+           .hasOnly(['used', 'usedAt', 'appliedToOrderId', 'redeemedAt']) &&
+         request.resource.data.used == true)
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Weekly jackpot pool: entrants write only their own entry doc; the weekly
+    // draw + prize credit run server-side (settleWeeklyJackpot callable).
+    match /jackpotPools/{weekKey} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      match /entries/{userId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated() && isOwner(userId);
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // Grant records — readable so the UI can show the winner; written by Functions only.
+    match /jackpotGrants/{weekKey} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // ── Customer saved addresses ──
+    match /addresses/{addressId} {
+      allow read: if isAuthenticated() && (isOwner(resource.data.userId) || isAdmin());
+      allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
+      allow update, delete: if isAuthenticated() && (isOwner(resource.data.userId) || isAdmin());
+    }
+
+    // Referral records — parties can read their own; invitee/inviter creates on signup.
+    match /referrals/{referralId} {
+      allow read: if isAuthenticated() && (
+        isOwner(resource.data.inviterId) || isOwner(resource.data.inviteeId) || isAdmin());
+      allow create: if isAuthenticated() && (
+        isOwner(request.resource.data.inviterId) || isOwner(request.resource.data.inviteeId));
+      allow update, delete: if isAdmin();
+    }
+
+    // Legacy flat wallet ledger — customers read/append their own rows; corrections are admin-only.
+    match /walletTransactions/{txId} {
+      allow read: if isAuthenticated() && (isOwner(resource.data.userId) || isAdmin());
+      allow create: if isAuthenticated() && isOwner(request.resource.data.userId);
+      allow update, delete: if isAdmin();
+    }
+
+    // System Collections
+    match /settings/{document} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    match /promoBanners/{bannerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /analytics/{document} {
+      allow read, write: if isAdmin();
+    }
+
+    match /packageAnalyses/{analysisId} {
+      allow create: if request.auth != null;
+      allow read, update: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow read, write: if isAdmin();
+    }
+
+    // VENDOR AUTHENTICATION RULES
+    match /vendors/{vendorId} {
+      // Anyone can read vendor info (for customer app browsing)
+      allow read: if true;
+
+      // Vendor can write their own data; admin can write any vendor
+      allow write: if isAuthenticated() && (isOwner(vendorId) || isAdmin());
+
+      // Allow vendor creation during registration
+      allow create: if isAuthenticated();
+      
+      // Vendor alerts subcollection
+      match /alerts/{alertId} {
+        // Only the vendor can read/write their alerts
+        allow read, write: if isAuthenticated() && isOwner(vendorId);
+      }
+      
+      // Vendor categories subcollection
+      match /categories/{categoryId} {
+        // Anyone can read categories (for customer browsing)
+        allow read: if true;
+        
+        // Only vendor can write their categories
+        allow write: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId));
+        
+        // Category creation validation
+        allow create: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId)) &&
+                      request.resource.data.keys().hasAll(['name', 'slug', 'priority', 'vendorId']) &&
+                      request.resource.data.name is string &&
+                      request.resource.data.name.size() > 0 &&
+                      request.resource.data.slug is string &&
+                      request.resource.data.priority is number &&
+                      request.resource.data.vendorId == vendorId;
+        
+        // Category update validation
+        allow update: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId)) &&
+                      request.resource.data.vendorId == vendorId;
+
+        // Category-level addons (shared extras for all products in category)
+        match /addons/{addonId} {
+          allow read: if true;
+          allow write: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId));
+          allow create: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId)) &&
+                        request.resource.data.keys().hasAll(['name', 'price']) &&
+                        request.resource.data.name is string &&
+                        request.resource.data.name.size() > 0 &&
+                        request.resource.data.price is number &&
+                        request.resource.data.price >= 0;
+        }
+      }
+      
+      // Vendor addons subcollection
+      match /addons/{addonId} {
+        // Anyone can read addons (for customer browsing)
+        allow read: if true;
+        
+        // Vendor owner (uid == doc id OR vendors/{id}.userId == uid)
+        allow write: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId));
+        
+        // Allow creation with valid data
+        allow create: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId)) &&
+                      request.resource.data.keys().hasAll(['name', 'price']) &&
+                      request.resource.data.name is string &&
+                      request.resource.data.name.size() > 0 &&
+                      request.resource.data.price is number &&
+                      request.resource.data.price >= 0;
+      }
+
+      // V2 Products subcollection - ENHANCED SECURITY
+      match /products/{productId} {
+        // Anyone can read products (for customer browsing)
+        allow read: if true;
+        
+        // Only vendor owner can write their products
+        allow write: if isAuthenticated() && isOwner(vendorId);
+        
+        // Enhanced product creation validation
+        allow create: if isAuthenticated() && isOwner(vendorId) &&
+                      request.resource.data.keys().hasAll(['name', 'basePrice', 'measurementType', 'vendorId']) &&
+                      request.resource.data.name is string &&
+                      request.resource.data.name.size() > 0 &&
+                      request.resource.data.basePrice is number &&
+                      request.resource.data.basePrice >= 0 &&
+                      request.resource.data.measurementType in ['unit', 'portion', 'bundle', 'weight'] &&
+                      request.resource.data.vendorId == vendorId;
+        
+        // V2 Product addons validation
+        allow update: if isAuthenticated() && isOwner(vendorId) &&
+                      (!('addons' in request.resource.data.keys()) ||
+                       (request.resource.data.addons is list &&
+                        request.resource.data.addons.size() <= 20)); // Max 20 addons per product
+
+        // Product-level addon subcollection (V2 menu addons)
+        match /addons/{addonId} {
+          allow read: if true;
+          allow write: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId));
+        }
+      }
+      
+      // Combos subcollection
+      match /combos/{comboId} {
+        allow read: if true;
+        allow write: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId) || isAdmin());
+        allow create: if isAuthenticated() && (isOwner(vendorId) || isVendorOwner(vendorId) || isAdmin());
+      }
+      
+      // Legacy menu items subcollection (V1 compatibility)
+      match /menus/{itemId} {
+        // Anyone can read menu items (for customer browsing)
+        allow read: if true;
+        
+        // Only vendor can write their menu items
+        allow write: if isAuthenticated() && isOwner(vendorId);
+        
+        // Allow vendor to create menu items
+        allow create: if isAuthenticated() && isOwner(vendorId);
+      }
+    }
+    
+    // OLD COMBOS COLLECTION - read only (legacy migration)
+    match /combos/{comboId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User favorites (vendors + items)
+    match /favorites/{userId} {
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Admin notifications
+    match /admin_notifications/{notificationId} {
+      allow read, write: if isAdmin();
+      allow create: if isAuthenticated(); // Vendors can create notifications
+    }
+
+    // REFUNDS COLLECTION RULES
+    match /refunds/{refundId} {
+      // Users can read their own refunds
+      allow read: if isAuthenticated() && isOwner(resource.data.userId);
+      
+      // Admins can read all refunds
+      allow read: if isAdmin();
+      
+      // Only system/cloud functions can create refunds (no direct writes)
+      allow create: if false;
+      
+      // No updates or deletes allowed
+      allow update, delete: if false;
+    }
+
+    // LEGACY PRODUCTS COLLECTION - ALLOW DELETION FOR CLEANUP
+    match /products/{productId} {
+      allow read: if true; // Anyone can read (for compatibility)
+      allow delete: if isAuthenticated(); // Allow auth users to delete for cleanup
+      allow write: if false; // No new products in legacy collection
+    }
+
+    // Allow public read access to all menu items via collectionGroup
+    match /{path=**}/menus/{itemId} {
+      allow read: if true;
+      allow write: if false; // Prevent direct writes through collectionGroup
+    }
+
+    // App release config — public read (mobile version gate), admin write
+    match /appConfig/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // GO7 delivery pricing — public read, admin write
+    match /pricingSettings/{docId} {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // Delivery zones — public read (zone detection), admin write
+    match /deliveryZones/{zoneId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Live rider GPS + tracking (customer map reads)
+    match /riderLocations/{riderId} {
+      // Only rider can read their own location, admins can read all
+      allow read: if isAuthenticated() && (
+        isOwner(riderId) ||
+        isAdmin()
+      );
+      
+      // Only rider can update their own location
+      allow create, update: if isAuthenticated() && isOwner(riderId);
+      
+      allow delete: if isAdmin();
+    }
+
+    match /deliveryTracking/{orderId} {
+      // Only order customer, assigned rider, or admin can read
+      allow get: if isAuthenticated() && (
+        isOwner(resource.data.customerId) ||
+        isOwner(resource.data.riderId) ||
+        isAdmin()
+      );
+
+      // No list queries expected; allow if authenticated to avoid stale index errors
+      allow list: if isAuthenticated();
+      
+      // Only assigned rider can create/update their own delivery tracking
+      allow create: if isAuthenticated() && (
+        request.resource.data.riderId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.riderId) ||
+        isAdmin()
+      );
+      
+      allow delete: if isAdmin();
+    }
+
+    match /rider_locations/{orderId} {
+      // Only order customer, assigned rider, or admin can read
+      allow get: if isAuthenticated() && (
+        isOwner(resource.data.customerId) ||
+        isOwner(resource.data.riderId) ||
+        isAdmin()
+      );
+
+      // No list queries expected; allow authenticated reads to avoid stale index errors
+      allow list: if isAuthenticated();
+      
+      // Rider can create their own location entry; assigned rider can update it
+      allow create: if isAuthenticated() && (
+        request.resource.data.riderId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow update: if isAuthenticated() && (
+        isOwner(resource.data.riderId) ||
+        isAdmin()
+      );
+      
+      allow delete: if isAdmin();
+    }
+
+    // Customer ↔ rider chat per delivery order
+    match /chats/{orderId} {
+      // Only participants can read their own chats
+      allow read: if isAuthenticated() && (
+        resource.data.customerId == request.auth.uid ||
+        resource.data.riderId == request.auth.uid ||
+        resource.data.stationId == request.auth.uid ||
+        isAdmin()
+      );
+      
+      // Only participants can create chats
+      allow create: if isAuthenticated() && (
+        request.resource.data.customerId == request.auth.uid ||
+        request.resource.data.riderId == request.auth.uid ||
+        request.resource.data.stationId == request.auth.uid
+      );
+      
+      // Only participants can update their own chats
+      allow update: if isAuthenticated() && (
+        resource.data.customerId == request.auth.uid ||
+        resource.data.riderId == request.auth.uid ||
+        resource.data.stationId == request.auth.uid ||
+        isAdmin()
+      );
+      
+      allow delete: if isAdmin();
+
+      match /messages/{messageId} {
+        // Only chat participants can read messages
+        allow read: if isAuthenticated() && (
+          get(/databases/$(database)/documents/chats/$(orderId)).data.customerId == request.auth.uid ||
+          get(/databases/$(database)/documents/chats/$(orderId)).data.riderId == request.auth.uid ||
+          get(/databases/$(database)/documents/chats/$(orderId)).data.stationId == request.auth.uid ||
+          isAdmin()
+        );
+        
+        // Only chat participants can create messages
+        allow create: if isAuthenticated() &&
+          (get(/databases/$(database)/documents/chats/$(orderId)).data.customerId == request.auth.uid ||
+           get(/databases/$(database)/documents/chats/$(orderId)).data.riderId == request.auth.uid ||
+           get(/databases/$(database)/documents/chats/$(orderId)).data.stationId == request.auth.uid ||
+           isAdmin()) &&
+          request.resource.data.keys().hasAll(['message', 'senderType', 'timestamp']) &&
+          request.resource.data.senderType in ['customer', 'rider', 'support', 'system'];
+        
+        // Only message sender can update their own messages
+        allow update: if isAuthenticated() &&
+          request.resource.data.senderId == request.auth.uid ||
+          isAdmin();
+        
+        allow delete: if isAdmin();
+      }
+    }
+
+    // Vendor earnings ledger — client create is kept (VendorWallet UI writes
+    // legit credit/debit records) but constrained to sane shapes; fabricated
+    // entries can't alter server-tracked payout state. Ledger writes should
+    // migrate server-side long-term.
+    match /vendorTransactions/{txnId} {
+      allow read: if isAuthenticated()
+        && resource.data.vendorId == request.auth.uid;
+      allow create: if isAuthenticated()
+        && request.resource.data.vendorId == request.auth.uid
+        && request.resource.data.type in ['credit', 'debit']
+        && request.resource.data.amount > 0
+        && request.resource.data.amount <= 10000000; // ₦100k sanity bound
+      allow update, delete: if isAdmin();
+    }
+
+    // Vendor withdrawal requests
+    match /payoutRequests/{requestId} {
+      allow read: if isAuthenticated()
+        && (
+          resource.data.vendorId == request.auth.uid ||
+          isAdmin()
+        );
+      allow create: if isAuthenticated()
+        && request.resource.data.vendorId == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.amount > 0
+        && request.resource.data.amount <= 10000000;
+      allow update, delete: if isAdmin();
+    }
+
+    // ================================================================
+    // FUEL & CNG DELIVERY SYSTEM RULES
+    // ================================================================
+    
+    // Fuel orders collection
+    match /fuelOrders/{orderId} {
+      // Customer can get their own orders, riders can get assigned or pending orders, admins can get all
+      allow get: if isAuthenticated() && (
+        isOwner(resource.data.customerId) ||
+        isOwner(resource.data.riderId) ||
+        (isRider() && resource.data.status == 'pending') ||
+        isAdmin()
+      );
+
+      // List queries have no resource; rely on client filters
+      allow list: if isAuthenticated();
+      
+      // 🔒 SECURITY: fuel orders are created ONLY server-side via createFuelOrder
+      // (Admin SDK bypasses rules). A client can NOT write a fuelOrders doc
+      // directly, so price / litres / service charge / total can never be
+      // client-authoritative. Deploy only after the sole creation path
+      // (createFuelOrder) is confirmed for all production callers.
+      allow create: if false;
+      
+      // Customer can update limited fields, rider can accept/perform the order, admin can update all
+      allow update: if isAuthenticated() && (
+        isAdmin() ||
+        (isOwner(resource.data.customerId) && 
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['location', 'contact'])) ||
+        (
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['customerId']) &&
+          canRiderUpdate(resource.data.riderId, request.resource.data.riderId)
+        )
+      );
+      
+      allow delete: if isAdmin();
+    }
+    
+    // Fuel stations collection
+    match /fuelStations/{stationId} {
+      // Anyone can read fuel station info (for customer browsing)
+      allow read: if true;
+      
+      // Only admins can create fuel stations
+      allow create: if isAdmin();
+      
+      // Only admins can update fuel stations
+      allow update: if isAdmin();
+      
+      allow delete: if isAdmin();
+    }
+
+    // Catch-all: deny-by-default with limited authenticated access
+    // This is a safety net for new collections - prefer explicit rules
+    match /{document=**} {
+      // Deny all by default for safety
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Connection Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #00ff00;
+    }
+    .test-section {
+      background: #000;
+      border: 2px solid #00ff00;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .success { color: #00ff00; }
+    .error { color: #ff0000; }
+    .warning { color: #ffaa00; }
+    .info { color: #00aaff; }
+    pre { 
+      background: #2a2a2a; 
+      padding: 10px; 
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    button {
+      background: #00ff00;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+    button:hover {
+      background: #00aa00;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Firebase Connection Diagnostic Tool</h1>
+  
+  <div class="test-section">
+    <h2>Step 1: Initialize Firebase</h2>
+    <button onclick="testFirebaseInit()">Test Firebase Initialization</button>
+    <div id="init-result"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Step 2: Test Firestore Connection</h2>
+    <button onclick="testFirestoreConnection()">Test Firestore Read</button>
+    <div id="firestore-result"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Step 3: Check Network Status</h2>
+    <button onclick="checkNetworkStatus()">Check Network</button>
+    <div id="network-result"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Step 4: Test Specific Vendor Products</h2>
+    <input type="text" id="test-vendor-id" placeholder="Enter vendor ID" style="padding: 10px; width: 300px; background: #2a2a2a; color: #00ff00; border: 1px solid #00ff00; border-radius: 4px;">
+    <button onclick="testVendorProducts()">Test Vendor Products</button>
+    <div id="vendor-result"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Console Output</h2>
+    <div id="console-output" style="max-height: 400px; overflow-y: auto;"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+    import { 
+      getFirestore, 
+      collection, 
+      getDocs, 
+      doc, 
+      getDoc,
+      enableNetwork,
+      disableNetwork,
+      onSnapshot
+    } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBmQwPSnQslo6Sq4NeYjAUi8iaZIYVlaBg",
+      authDomain: "go7-delivery.firebaseapp.com",
+      projectId: "go7-delivery",
+      storageBucket: "go7-delivery.firebasestorage.app",
+      messagingSenderId: "232009015458",
+      appId: "1:232009015458:web:49dbb63a5a67112325f7fb",
+      databaseURL: "https://go7-delivery-default-rtdb.firebaseio.com"
+    };
+
+    let app, db;
+    const consoleDiv = document.getElementById('console-output');
+
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = type;
+      div.textContent = `[${timestamp}] ${message}`;
+      consoleDiv.appendChild(div);
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+      console.log(message);
+    }
+
+    window.testFirebaseInit = async function() {
+      const resultDiv = document.getElementById('init-result');
+      resultDiv.innerHTML = '<div class="info">⏳ Initializing Firebase...</div>';
+      
+      try {
+        log('🔥 Initializing Firebase App...', 'info');
+        app = initializeApp(firebaseConfig);
+        log('✅ Firebase App initialized successfully', 'success');
+        
+        log('🔥 Initializing Firestore...', 'info');
+        db = getFirestore(app);
+        log('✅ Firestore initialized successfully', 'success');
+        
+        // Force enable network
+        log('🌐 Forcing network to be ENABLED...', 'info');
+        await enableNetwork(db);
+        log('✅ Network ENABLED successfully', 'success');
+        
+        resultDiv.innerHTML = `
+          <div class="success">✅ Firebase initialized successfully!</div>
+          <pre>
+Project ID: ${app.options.projectId}
+Auth Domain: ${app.options.authDomain}
+API Key: ${app.options.apiKey.substring(0, 10)}...
+          </pre>
+        `;
+        
+        log('Firebase initialization complete', 'success');
+      } catch (error) {
+        log(`❌ ERROR: ${error.message}`, 'error');
+        resultDiv.innerHTML = `
+          <div class="error">❌ Error: ${error.message}</div>
+          <pre>${error.stack}</pre>
+        `;
+      }
+    };
+
+    window.testFirestoreConnection = async function() {
+      const resultDiv = document.getElementById('firestore-result');
+      
+      if (!db) {
+        resultDiv.innerHTML = '<div class="error">❌ Please initialize Firebase first!</div>';
+        return;
+      }
+      
+      resultDiv.innerHTML = '<div class="info">⏳ Testing Firestore connection...</div>';
+      log('🔍 Testing Firestore read operation...', 'info');
+      
+      try {
+        // Test 1: Try to list vendors
+        log('📋 Attempting to read vendors collection...', 'info');
+        const vendorsRef = collection(db, 'vendors');
+        const vendorsSnapshot = await getDocs(vendorsRef);
+        
+        log(`✅ Successfully read vendors collection: ${vendorsSnapshot.size} vendors found`, 'success');
+        
+        let html = `<div class="success">✅ Firestore connection working!</div>`;
+        html += `<div class="info">Found ${vendorsSnapshot.size} vendors</div>`;
+        
+        if (vendorsSnapshot.size > 0) {
+          html += '<div style="margin-top: 10px;"><strong>Vendors:</strong></div>';
+          vendorsSnapshot.forEach((doc, index) => {
+            if (index < 5) { // Show first 5
+              const data = doc.data();
+              html += `<div>- ${data.name || data.businessName || 'Unnamed'} (ID: ${doc.id})</div>`;
+              log(`  Vendor ${index + 1}: ${data.name || 'Unnamed'} (${doc.id})`, 'info');
+            }
+          });
+        }
+        
+        resultDiv.innerHTML = html;
+        
+      } catch (error) {
+        log(`❌ Firestore ERROR: ${error.message}`, 'error');
+        log(`Error code: ${error.code}`, 'error');
+        
+        let errorDetails = '';
+        if (error.message.includes('offline')) {
+          errorDetails = `
+            <div class="error">🚨 OFFLINE ERROR DETECTED!</div>
+            <div class="warning">Possible causes:</div>
+            <ul>
+              <li>Your computer is not connected to the internet</li>
+              <li>Firewall is blocking Firebase (port 443)</li>
+              <li>Antivirus is blocking connections</li>
+              <li>Firestore security rules are blocking access</li>
+              <li>Browser is in offline mode</li>
+            </ul>
+            <div class="info">💡 Try:</div>
+            <ul>
+              <li>Check your internet connection</li>
+              <li>Disable antivirus temporarily</li>
+              <li>Try a different browser</li>
+              <li>Check Firebase Console security rules</li>
+            </ul>
+          `;
+        } else if (error.code === 'permission-denied') {
+          errorDetails = `
+            <div class="error">🚨 PERMISSION DENIED!</div>
+            <div class="warning">Firestore security rules are blocking this request</div>
+            <div class="info">Check your Firebase Console > Firestore > Rules</div>
+          `;
+        }
+        
+        resultDiv.innerHTML = `
+          <div class="error">❌ Error: ${error.message}</div>
+          ${errorDetails}
+          <pre>Error Code: ${error.code || 'N/A'}
+Full Error: ${JSON.stringify(error, null, 2)}</pre>
+        `;
+      }
+    };
+
+    window.checkNetworkStatus = async function() {
+      const resultDiv = document.getElementById('network-result');
+      resultDiv.innerHTML = '<div class="info">⏳ Checking network status...</div>';
+      
+      log('🌐 Running network diagnostics...', 'info');
+      
+      let html = '<div class="success">Network Diagnostics:</div><ul>';
+      
+      // Check browser online status
+      const isOnline = navigator.onLine;
+      html += `<li>Browser online status: <span class="${isOnline ? 'success' : 'error'}">${isOnline ? '✅ ONLINE' : '❌ OFFLINE'}</span></li>`;
+      log(`Browser online: ${isOnline}`, isOnline ? 'success' : 'error');
+      
+      // Check Firebase reachability
+      try {
+        log('Testing Firebase API reachability...', 'info');
+        const response = await fetch('https://firestore.googleapis.com/');
+        html += `<li>Firebase API reachable: <span class="success">✅ YES (Status: ${response.status})</span></li>`;
+        log(`Firebase API reachable: Status ${response.status}`, 'success');
+      } catch (error) {
+        html += `<li>Firebase API reachable: <span class="error">❌ NO - ${error.message}</span></li>`;
+        log(`Firebase API NOT reachable: ${error.message}`, 'error');
+      }
+      
+      // Check if Firestore is enabled
+      if (db) {
+        html += `<li>Firestore initialized: <span class="success">✅ YES</span></li>`;
+        log('Firestore instance exists', 'success');
+      } else {
+        html += `<li>Firestore initialized: <span class="error">❌ NO</span></li>`;
+        log('Firestore not initialized', 'error');
+      }
+      
+      html += '</ul>';
+      resultDiv.innerHTML = html;
+    };
+
+    window.testVendorProducts = async function() {
+      const resultDiv = document.getElementById('vendor-result');
+      const vendorId = document.getElementById('test-vendor-id').value.trim();
+      
+      if (!vendorId) {
+        resultDiv.innerHTML = '<div class="error">❌ Please enter a vendor ID</div>';
+        return;
+      }
+      
+      if (!db) {
+        resultDiv.innerHTML = '<div class="error">❌ Please initialize Firebase first!</div>';
+        return;
+      }
+      
+      resultDiv.innerHTML = '<div class="info">⏳ Testing vendor products...</div>';
+      log(`🔍 Testing products for vendor: ${vendorId}`, 'info');
+      
+      try {
+        // Check if vendor exists
+        log(`Checking vendor document: vendors/${vendorId}`, 'info');
+        const vendorRef = doc(db, 'vendors', vendorId);
+        const vendorDoc = await getDoc(vendorRef);
+        
+        if (!vendorDoc.exists()) {
+          log(`❌ Vendor ${vendorId} does not exist!`, 'error');
+          resultDiv.innerHTML = `<div class="error">❌ Vendor "${vendorId}" not found!</div>`;
+          return;
+        }
+        
+        const vendorData = vendorDoc.data();
+        log(`✅ Vendor found: ${vendorData.name || vendorData.businessName}`, 'success');
+        
+        // Check products
+        log(`Checking products at: vendors/${vendorId}/products`, 'info');
+        const productsRef = collection(db, 'vendors', vendorId, 'products');
+        const productsSnapshot = await getDocs(productsRef);
+        
+        log(`✅ Products query successful: ${productsSnapshot.size} products found`, 'success');
+        
+        let html = `
+          <div class="success">✅ Vendor found: ${vendorData.name || vendorData.businessName}</div>
+          <div class="info">Products: ${productsSnapshot.size}</div>
+        `;
+        
+        if (productsSnapshot.size === 0) {
+          html += `<div class="warning">⚠️ No products found for this vendor!</div>`;
+          log('⚠️ No products in collection', 'warning');
+        } else {
+          html += '<div style="margin-top: 10px;"><strong>Products:</strong></div>';
+          productsSnapshot.forEach((doc, index) => {
+            const product = doc.data();
+            html += `
+              <div style="padding: 10px; margin: 5px 0; background: #2a2a2a; border-radius: 4px;">
+                <strong>${product.name || 'Unnamed'}</strong> - ₦${product.basePrice || product.price || 0}<br>
+                <small>ID: ${doc.id}</small><br>
+                <small>Active: ${product.active ? '✅' : '❌'} | Available: ${product.available ? '✅' : '❌'}</small>
+              </div>
+            `;
+            log(`  Product: ${product.name} (₦${product.basePrice || product.price})`, 'info');
+          });
+        }
+        
+        resultDiv.innerHTML = html;
+        
+      } catch (error) {
+        log(`❌ ERROR testing vendor products: ${error.message}`, 'error');
+        resultDiv.innerHTML = `
+          <div class="error">❌ Error: ${error.message}</div>
+          <pre>Code: ${error.code || 'N/A'}
+Message: ${error.message}
+Stack: ${error.stack}</pre>
+        `;
+      }
+    };
+
+    // Auto-initialize on page load
+    log('🚀 Diagnostic tool loaded. Click buttons to test.', 'info');
+  </script>
+</body>
+</html>

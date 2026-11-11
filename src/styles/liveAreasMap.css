@@ -1,0 +1,106 @@
+/* LiveAreasMap Styles */
+.live-areas-map {
+  width: 100%;
+}
+
+/* Map container with guaranteed height */
+.go7-map-wrap { 
+  position: relative; 
+  min-height: 420px; 
+  isolation: isolate;
+}
+
+.go7-map-wrap .leaflet-container { 
+  height: 420px; 
+  border-radius: 12px; 
+  overflow: hidden; 
+}
+
+.go7-map-wrap * { 
+  z-index: auto; 
+}
+
+/* Prevent decorative elements from blocking interaction */
+.decorative, 
+.mesh-bg, 
+.hero-overlay { 
+  pointer-events: none; 
+}
+
+@media (min-width: 1024px) { 
+  .go7-map-wrap .leaflet-container { 
+    height: 520px; 
+  } 
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.map-tiles-desaturated {
+  filter: saturate(0.8) contrast(1.05);
+}
+
+.pill-overlay-container {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.area-pill {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: inline-block;
+  color: white;
+}
+
+.area-pill.active {
+  transform: scale(1.05);
+}
+
+.area-pill:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+}
+
+.area-pill:focus {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Color variants */
+.area-pill-blue {
+  background-color: #4F46E5;
+}
+
+.area-pill-green {
+  background-color: #16A34A;
+}
+
+.area-pill-orange {
+  background-color: #F97316;
+}
+
+.area-pill-pink {
+  background-color: #EC4899;
+}
+
+.area-pill-purple {
+  background-color: #8B5CF6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .area-pill {
+    font-size: 12px !important;
+    padding: 3px 8px !important;
+  }
+}

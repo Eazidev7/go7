@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cleanup Vendor User Profiles</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    .warning { background: #fff3cd; color: #856404; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>🧹 Cleanup Vendor User Profiles</h1>
+  <p>This will delete user profiles for accounts that have vendor profiles.</p>
+  
+  <button onclick="cleanup()">Start Cleanup</button>
+  
+  <div id="output"></div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, getDocs, doc, deleteDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8-83X6nzox-y2rsX6Rukkj48hYs1HVt0",
+      authDomain: "go7-delivery.firebaseapp.com",
+      projectId: "go7-delivery",
+      storageBucket: "go7-delivery.firebasestorage.app",
+      messagingSenderId: "467366276616",
+      appId: "1:467366276616:web:5ef5bc9f0e91d8d026e9d0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.cleanup = async function() {
+      const output = document.getElementById('output');
+      output.innerHTML = '<div class="warning">🔄 Processing...</div>';
+      
+      try {
+        // Get all vendors
+        const vendorsSnapshot = await getDocs(collection(db, 'vendors'));
+        const vendorIds = vendorsSnapshot.docs.map(doc => doc.id);
+        
+        output.innerHTML += `<div class="result success">Found ${vendorIds.length} vendors</div>`;
+        
+        let deleted = 0;
+        let skipped = 0;
+        
+        // Check each vendor ID in users collection
+        for (const vendorId of vendorIds) {
+          const userDocRef = doc(db, 'users', vendorId);
+          const userDoc = await getDoc(userDocRef);
+          
+          if (userDoc.exists()) {
+            // Delete the user profile
+            await deleteDoc(userDocRef);
+            deleted++;
+            output.innerHTML += `<div class="result success">✅ Deleted user profile for vendor: ${vendorId}</div>`;
+          } else {
+            skipped++;
+          }
+        }
+        
+        output.innerHTML += `<div class="result success"><strong>✅ Cleanup Complete!</strong><br>
+          Deleted: ${deleted} user profiles<br>
+          Skipped: ${skipped} (no user profile found)</div>`;
+        
+      } catch (error) {
+        output.innerHTML += `<div class="result error">❌ Error: ${error.message}</div>`;
+        console.error(error);
+      }
+    };
+  </script>
+</body>
+</html>

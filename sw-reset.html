@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Go7 - Service Worker Unregister</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 600px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    h1 {
+      color: #E30613;
+      margin-top: 0;
+    }
+    
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    button {
+      background-color: #E30613;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    
+    button.secondary {
+      background-color: #555;
+    }
+    
+    button:hover {
+      background-color: #C30000;
+    }
+    
+    button.secondary:hover {
+      background-color: #333;
+    }
+    
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 4px;
+      background-color: #f0f0f0;
+    }
+    
+    .status.success {
+      background-color: #d4edda;
+      border-left: 4px solid #28a745;
+      color: #155724;
+    }
+    
+    .status.error {
+      background-color: #f8d7da;
+      border-left: 4px solid #dc3545;
+      color: #721c24;
+    }
+    
+    .status.warning {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      color: #856404;
+    }
+    
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .actions a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Go7 Service Worker Reset</h1>
+    <p>Use this tool to fix service worker errors and issues with the Go7 application.</p>
+    
+    <div class="buttons">
+      <button id="unregisterBtn">Unregister Service Workers</button>
+      <button id="clearCacheBtn">Clear Application Cache</button>
+      <button id="registerFixBtn" class="secondary">Register Fixed Service Worker</button>
+    </div>
+    
+    <div id="status" class="status">
+      Ready to fix service worker issues. Click a button above to begin.
+    </div>
+    
+    <div class="actions">
+      <a href="/"><button class="secondary">Return to App</button></a>
+    </div>
+  </div>
+  
+  <script>
+    const statusDiv = document.getElementById('status');
+    const unregisterBtn = document.getElementById('unregisterBtn');
+    const clearCacheBtn = document.getElementById('clearCacheBtn');
+    const registerFixBtn = document.getElementById('registerFixBtn');
+    
+    // Show status message with type (success, error, warning, info)
+    function showStatus(message, type = '') {
+      statusDiv.textContent = message;
+      statusDiv.className = 'status ' + type;
+    }
+    
+    // Handle unregistering service workers
+    unregisterBtn.addEventListener('click', async () => {
+      if ('serviceWorker' in navigator) {
+        try {
+          showStatus('Unregistering service workers...', 'warning');
+          
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          
+          if (registrations.length === 0) {
+            showStatus('No service workers found to unregister.', 'warning');
+            return;
+          }
+          
+          let count = 0;
+          for (let registration of registrations) {
+            await registration.unregister();
+            count++;
+          }
+          
+          showStatus(`Successfully unregistered ${count} service worker(s).`, 'success');
+          
+          // Reset localStorage flag
+          localStorage.removeItem('sw-disabled');
+          
+        } catch (error) {
+          showStatus(`Error unregistering service workers: ${error.message}`, 'error');
+        }
+      } else {
+        showStatus('Service Workers are not supported in this browser.', 'warning');
+      }
+    });
+    
+    // Handle clearing application cache
+    clearCacheBtn.addEventListener('click', async () => {
+      try {
+        showStatus('Clearing application caches...', 'warning');
+        
+        if ('caches' in window) {
+          const cacheKeys = await caches.keys();
+          
+          if (cacheKeys.length === 0) {
+            showStatus('No caches found to clear.', 'warning');
+            return;
+          }
+          
+          await Promise.all(cacheKeys.map(key => caches.delete(key)));
+          showStatus(`Successfully cleared ${cacheKeys.length} cache(s).`, 'success');
+        } else {
+          showStatus('Cache API is not supported in this browser.', 'warning');
+        }
+      } catch (error) {
+        showStatus(`Error clearing caches: ${error.message}`, 'error');
+      }
+    });
+    
+    // Handle registering the fixed service worker
+    registerFixBtn.addEventListener('click', async () => {
+      if ('serviceWorker' in navigator) {
+        try {
+          showStatus('Registering fixed service worker...', 'warning');
+          
+          // First unregister any existing service workers
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          for (let registration of registrations) {
+            await registration.unregister();
+          }
+          
+          // Register the fixed service worker
+          const registration = await navigator.serviceWorker.register('/sw-fix.js');
+          
+          showStatus('Fixed service worker registered successfully!', 'success');
+        } catch (error) {
+          showStatus(`Error registering fixed service worker: ${error.message}`, 'error');
+        }
+      } else {
+        showStatus('Service Workers are not supported in this browser.', 'warning');
+      }
+    });
+    
+    // Check service worker status on load
+    window.addEventListener('load', async () => {
+      if ('serviceWorker' in navigator) {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          if (registrations.length > 0) {
+            showStatus(`Found ${registrations.length} active service worker(s). You can unregister them to fix issues.`, 'warning');
+          } else {
+            showStatus('No active service workers found.', 'info');
+          }
+        } catch (error) {
+          showStatus(`Error checking service workers: ${error.message}`, 'error');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Sample Products to Vendor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #e74c3c; }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      background: #e74c3c;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #c0392b; }
+    #output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .success { color: #27ae60; }
+    .error { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍱 Add Sample Products to Vendor</h1>
+    <p>Enter the vendor ID to add sample products</p>
+    
+    <input type="text" id="vendorId" placeholder="Enter Vendor ID" />
+    <button onclick="addSampleProducts()">Add Sample Products</button>
+    
+    <div id="output"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+    // Firebase config - UPDATE THIS WITH YOUR FIREBASE CONFIG
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKR5yF7XBDcTZqIjXZAwBddIwLSHutMIt",
+      authDomain: "go7-delivery-app.firebaseapp.com",
+      projectId: "go7-delivery-app",
+      storageBucket: "go7-delivery-app.firebasestorage.app",
+      messagingSenderId: "780697850453",
+      appId: "1:780697850453:web:11ce7e41f1f4ad0dca0619"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const sampleProducts = [
+      {
+        name: "Jollof Rice Special",
+        description: "Classic Nigerian jollof rice with chicken",
+        basePrice: 2500,
+        category: "food",
+        measurementType: "portion",
+        imageUrl: "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        isAvailable: true,
+        active: true,
+        isActive: true,
+        available: true,
+        preparationTime: 25,
+        tags: ["popular", "rice", "chicken"]
+      },
+      {
+        name: "Fried Rice with Chicken",
+        description: "Delicious fried rice served with grilled chicken",
+        basePrice: 3000,
+        category: "food",
+        measurementType: "portion",
+        imageUrl: "https://images.unsplash.com/photo-1603133872878-684f208fb84b",
+        isAvailable: true,
+        active: true,
+        isActive: true,
+        available: true,
+        preparationTime: 30,
+        tags: ["rice", "chicken"]
+      },
+      {
+        name: "Pounded Yam & Egusi",
+        description: "Fresh pounded yam with rich egusi soup",
+        basePrice: 3500,
+        category: "food",
+        measurementType: "portion",
+        imageUrl: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26",
+        isAvailable: true,
+        active: true,
+        isActive: true,
+        available: true,
+        preparationTime: 35,
+        tags: ["swallow", "soup"]
+      },
+      {
+        name: "Suya Platter",
+        description: "Spicy grilled beef with onions and spices",
+        basePrice: 2000,
+        category: "food",
+        measurementType: "portion",
+        imageUrl: "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+        isAvailable: true,
+        active: true,
+        isActive: true,
+        available: true,
+        preparationTime: 20,
+        tags: ["popular", "grilled", "beef"]
+      },
+      {
+        name: "Pepper Soup",
+        description: "Spicy Nigerian pepper soup with assorted meat",
+        basePrice: 1800,
+        category: "food",
+        measurementType: "portion",
+        imageUrl: "https://images.unsplash.com/photo-1547592166-23ac45744acd",
+        isAvailable: true,
+        active: true,
+        isActive: true,
+        available: true,
+        preparationTime: 25,
+        tags: ["soup", "spicy"]
+      },
+      {
+        name: "Moi Moi",
+        description: "Steamed bean pudding",
+        basePrice: 500,
+        category: "food",
+        measurementType: "unit",
+        imageUrl: "https://images.unsplash.com/photo-1606923829579-0cb981a83e2e",
+        isAvailable: true,
+        active: true,
+        isActive: true,
+        available: true,
+        preparationTime: 15,
+        tags: ["side", "beans"]
+      }
+    ];
+
+    window.addSampleProducts = async function() {
+      const vendorId = document.getElementById('vendorId').value.trim();
+      const output = document.getElementById('output');
+      
+      if (!vendorId) {
+        output.innerHTML = '<span class="error">Please enter a vendor ID</span>';
+        return;
+      }
+      
+      output.innerHTML = '<span>Adding products...</span>\n';
+      
+      try {
+        let successCount = 0;
+        let errorCount = 0;
+        
+        for (const product of sampleProducts) {
+          try {
+            const productsRef = collection(db, 'vendors', vendorId, 'products');
+            const productData = {
+              ...product,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+              vendorId: vendorId
+            };
+            
+            const docRef = await addDoc(productsRef, productData);
+            output.innerHTML += `<span class="success">✓ Added: ${product.name} (ID: ${docRef.id})</span>\n`;
+            successCount++;
+          } catch (error) {
+            output.innerHTML += `<span class="error">✗ Failed: ${product.name} - ${error.message}</span>\n`;
+            errorCount++;
+          }
+        }
+        
+        output.innerHTML += `\n<span class="success">==========================</span>\n`;
+        output.innerHTML += `<span class="success">Success: ${successCount} products added</span>\n`;
+        if (errorCount > 0) {
+          output.innerHTML += `<span class="error">Failed: ${errorCount} products</span>\n`;
+        }
+        output.innerHTML += `<span class="success">==========================</span>\n`;
+        output.innerHTML += `\nPath: vendors/${vendorId}/products\n`;
+        output.innerHTML += `\nReload your vendor page to see the products!`;
+        
+      } catch (error) {
+        output.innerHTML += `<span class="error">Error: ${error.message}</span>`;
+        console.error('Error adding products:', error);
+      }
+    };
+  </script>
+</body>
+</html>

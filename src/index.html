@@ -1,0 +1,13 @@
+<script>
+import { addToCart, removeFromCart, getCartCount, calculateTotal, createOrderFromCart } from './utils/vendorCart.js';
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.getCartCount = getCartCount;
+window.calculateTotal = calculateTotal;
+window.createOrderFromCart = createOrderFromCart;
+window.assignNearestRider = function(orderId) {
+  // Simulate rider assignment
+  console.log('Assigning nearest rider for order:', orderId);
+  // ...existing logic...
+};
+</script>

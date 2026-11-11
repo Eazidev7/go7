@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Diagnostic Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #e61e25;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        #react-container {
+            padding: 20px;
+            border: 2px dashed #ccc;
+            margin: 20px 0;
+            min-height: 100px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .button {
+            background-color: #e61e25;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Go7 React Diagnostic Tool</h1>
+        <p>This page will help identify issues with your React app setup.</p>
+
+        <div class="card">
+            <h2>React Library Test</h2>
+            <div id="react-status">Testing React loading...</div>
+            <button onclick="testReactLibraries()" class="button">Test React Libraries</button>
+        </div>
+
+        <div class="card">
+            <h2>React Mounting Test</h2>
+            <p>This area should show a simple React component if mounting works:</p>
+            <div id="react-container"></div>
+            <button onclick="testReactMounting()" class="button">Test React Mounting</button>
+        </div>
+
+        <div class="card">
+            <h2>Error Messages</h2>
+            <div id="error-log">No errors detected yet.</div>
+        </div>
+
+        <div class="card">
+            <h2>React and Go7 App Diagnostics</h2>
+            <div id="diagnostics-results"></div>
+            <button onclick="runDiagnostics()" class="button">Run Full Diagnostics</button>
+        </div>
+    </div>
+
+    <!-- Load React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script>
+        // Capture console errors
+        const originalConsoleError = console.error;
+        console.error = function() {
+            const errorLog = document.getElementById('error-log');
+            errorLog.className = 'error';
+            errorLog.innerHTML = '<strong>Error detected:</strong><br>' + 
+                                Array.from(arguments).join(' ');
+            originalConsoleError.apply(console, arguments);
+        };
+
+        // Test if React libraries loaded correctly
+        function testReactLibraries() {
+            const reactStatus = document.getElementById('react-status');
+            
+            try {
+                if (typeof React === 'object' && React !== null) {
+                    reactStatus.className = 'success';
+                    reactStatus.textContent = '✅ React library loaded successfully! Version: ' + React.version;
+                } else {
+                    throw new Error('React not found');
+                }
+                
+                if (typeof ReactDOM === 'object' && ReactDOM !== null) {
+                    reactStatus.className = 'success';
+                    reactStatus.textContent += '\n✅ ReactDOM library loaded successfully!';
+                } else {
+                    throw new Error('ReactDOM not found');
+                }
+            } catch (error) {
+                reactStatus.className = 'error';
+                reactStatus.textContent = '❌ React loading failed: ' + error.message;
+            }
+        }
+
+        // Test React mounting capabilities
+        function testReactMounting() {
+            const container = document.getElementById('react-container');
+            try {
+                // Create a simple React element
+                const element = React.createElement(
+                    'div', 
+                    { style: { color: '#e61e25' } },
+                    React.createElement('h3', null, 'Hello from React!'),
+                    React.createElement('p', null, 'If you can see this message, React mounting is working correctly.')
+                );
+                
+                // Render the element to the container
+                const root = ReactDOM.createRoot(container);
+                root.render(element);
+                
+                // Add success message
+                const successElement = document.createElement('div');
+                successElement.className = 'success';
+                successElement.textContent = '✅ React mounting successful!';
+                container.appendChild(successElement);
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error">
+                        <strong>React mounting failed:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Run comprehensive diagnostics
+        function runDiagnostics() {
+            const results = document.getElementById('diagnostics-results');
+            results.innerHTML = '<p>Running diagnostics...</p>';
+            
+            let diagnosticResults = [];
+            
+            // Check React libraries
+            if (typeof React === 'object' && React !== null) {
+                diagnosticResults.push('✅ React library available (v' + React.version + ')');
+            } else {
+                diagnosticResults.push('❌ React library not available');
+            }
+            
+            // Check ReactDOM
+            if (typeof ReactDOM === 'object' && ReactDOM !== null) {
+                diagnosticResults.push('✅ ReactDOM library available');
+            } else {
+                diagnosticResults.push('❌ ReactDOM library not available');
+            }
+            
+            // Check browser capabilities
+            diagnosticResults.push('✅ Browser: ' + navigator.userAgent);
+            
+            // Check for localStorage availability (often used by React apps)
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                diagnosticResults.push('✅ localStorage available');
+            } catch (e) {
+                diagnosticResults.push('❌ localStorage not available');
+            }
+            
+            // Check if JS modules are supported
+            try {
+                new Function('import("")');
+                diagnosticResults.push('✅ ES Modules supported');
+            } catch (e) {
+                diagnosticResults.push('❌ ES Modules not supported');
+            }
+            
+            // Check if fetch API is available
+            if (typeof fetch === 'function') {
+                diagnosticResults.push('✅ Fetch API available');
+            } else {
+                diagnosticResults.push('❌ Fetch API not available');
+            }
+            
+            // Recommend next steps
+            diagnosticResults.push('<strong>Recommendations for Go7 App:</strong>');
+            diagnosticResults.push('1. Check for JS console errors in your app');
+            diagnosticResults.push('2. Verify all imports in App.jsx have correct file extensions (.jsx)');
+            diagnosticResults.push('3. Confirm index.html is correctly loading React');
+            diagnosticResults.push('4. Use non-module version of React if MIME type issues persist');
+            
+            results.innerHTML = diagnosticResults.map(result => `<div>${result}</div>`).join('');
+        }
+
+        // Run initial tests
+        window.onload = function() {
+            testReactLibraries();
+            testReactMounting();
+        };
+    </script>
+</body>
+</html>

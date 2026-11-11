@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // Performance optimizations
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    ".firebase",
+    "coverage",
+    "functions",
+    "deploy_temp",
+    "public_backup",
+    "go7-temp",
+    "design",
+    "icons",
+    "docs",
+    "tests",
+    "test-screenshots",
+    "go7 figma",
+    "scripts",
+    "src/pages/_archive_backups",
+    "src/components/components",
+    "src/pages/pages",
+    "src/hooks/hooks",
+    "src/App_broken.jsx",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/.cache/**"
+  ]
+}

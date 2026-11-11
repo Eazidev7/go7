@@ -1,0 +1,589 @@
+/* GO7 NOTIFICATION STYLES */
+/* Enhanced styling for SweetAlert2 and Toastify notifications */
+
+/* ===== SWEETALERT2 CUSTOM STYLES ===== */
+
+/* Go7 Success Popup */
+.go7-success-popup {
+    border-radius: 16px !important;
+    border: 3px solid #22C55E !important;
+    box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2), 0 0 30px rgba(34, 197, 94, 0.1) !important;
+}
+
+.go7-success-title {
+    color: #22C55E !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+
+.go7-success-button {
+    background: linear-gradient(90deg, #E30613 0%, #FF4444 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-success-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* Go7 Error Popup */
+.go7-error-popup {
+    border-radius: 16px !important;
+    border: 3px solid #EF4444 !important;
+    box-shadow: 0 20px 40px rgba(239, 68, 68, 0.2), 0 0 30px rgba(239, 68, 68, 0.1) !important;
+}
+
+.go7-error-title {
+    color: #EF4444 !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+
+.go7-error-button {
+    background: linear-gradient(90deg, #E30613 0%, #FF4444 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-error-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* Go7 Warning Popup */
+.go7-warning-popup {
+    border-radius: 16px !important;
+    border: 3px solid #F59E0B !important;
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2), 0 0 30px rgba(245, 158, 11, 0.1) !important;
+}
+
+.go7-warning-title {
+    color: #F59E0B !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+}
+
+.go7-warning-button {
+    background: linear-gradient(90deg, #E30613 0%, #FF4444 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-warning-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* ===== TOASTIFY CUSTOM STYLES ===== */
+
+/* Go7 Rider Toast */
+.go7-rider-toast {
+    animation: slideInRight 0.4s ease-out, glowPulse 2s infinite alternate !important;
+}
+
+/* Go7 Pricing Toast */
+.go7-pricing-toast {
+    animation: slideInLeft 0.4s ease-out !important;
+}
+
+/* Go7 Location Toast */
+.go7-location-toast {
+    animation: fadeInDown 0.4s ease-out !important;
+}
+
+/* General Go7 Toast Styles */
+.go7-toast {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-toast:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Toast Type Specific Styles */
+.go7-toast-success {
+    border-left: 5px solid #22C55E !important;
+}
+
+.go7-toast-error {
+    border-left: 5px solid #EF4444 !important;
+}
+
+.go7-toast-warning {
+    border-left: 5px solid #F59E0B !important;
+}
+
+.go7-toast-info {
+    border-left: 5px solid #E30613 !important;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 8px 20px rgba(227, 6, 19, 0.4), 0 0 15px rgba(227, 6, 19, 0.3);
+    }
+
+    100% {
+        box-shadow: 0 8px 20px rgba(227, 6, 19, 0.6), 0 0 25px rgba(227, 6, 19, 0.5);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile specific adjustments */
+@media (max-width: 640px) {
+
+    .go7-success-popup,
+    .go7-error-popup,
+    .go7-warning-popup {
+        margin: 20px !important;
+        width: calc(100% - 40px) !important;
+    }
+
+    .go7-toast {
+        margin: 10px !important;
+        width: calc(100% - 20px) !important;
+        font-size: 13px !important;
+        padding: 10px 16px !important;
+    }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+
+    .go7-success-title,
+    .go7-error-title,
+    .go7-warning-title {
+        font-size: 1.3rem !important;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .go7-success-popup {
+        border-width: 4px !important;
+    }
+
+    .go7-error-popup {
+        border-width: 4px !important;
+    }
+
+    .go7-warning-popup {
+        border-width: 4px !important;
+    }
+
+    .go7-toast {
+        border-width: 3px !important;
+        font-weight: 600 !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .go7-toast,
+    .go7-success-popup,
+    .go7-error-popup,
+    .go7-warning-popup {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .go7-toast:hover {
+        transform: none !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+
+    .go7-success-popup,
+    .go7-error-popup,
+    .go7-warning-popup {
+        background: #1F2937 !important;
+        color: #F9FAFB !important;
+    }
+}
+
+/* ===== GO7 NOTIFICATION ICON GLOW STYLES ===== */
+/* Adds glowing red shadow effect behind icons for notifications and toasts */
+
+.footer__icon--glow {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+    transition: transform 0.2s ease-in-out;
+}
+
+.footer__icon--glow:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.8));
+}
+
+/* ===== GO7 MODERN BOOKING ALERTS ===== */
+/* Custom styles for booking success, delivery complete, and error popups */
+
+.go7-booking-success-popup {
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    box-shadow: 0 20px 60px rgba(230, 0, 35, 0.2) !important;
+    animation: bounceIn 0.5s ease-out !important;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.go7-delivery-complete-popup {
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2) !important;
+    animation: slideInDown 0.4s ease-out !important;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.go7-track-button,
+.go7-done-button {
+    font-family: 'Inter', 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 10px !important;
+    transition: all 0.3s ease !important;
+}
+
+.go7-track-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(230, 0, 35, 0.3) !important;
+}
+
+.go7-error-popup {
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    animation: shake 0.5s ease-in-out !important;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-10px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(10px);
+    }
+}
+
+/* ===== GO7 TOAST NOTIFICATION SYSTEM ===== */
+
+.go7-notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    pointer-events: none;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 16px;
+}
+
+.go7-toast {
+    margin-bottom: 12px;
+    padding: 14px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: go7ToastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-left: 4px solid #1e1e1e;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.go7-toast__icon {
+    flex-shrink: 0;
+    color: #1e1e1e;
+}
+
+.go7-toast--success .go7-toast__icon {
+    color: #28a745;
+}
+
+.go7-toast--warning .go7-toast__icon {
+    color: #ff9800;
+}
+
+.go7-toast--error .go7-toast__icon {
+    color: #e61e25;
+}
+
+.go7-toast:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Go7 Toast Types */
+.go7-toast--info {
+    border-left-color: #1e1e1e;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.go7-toast--success {
+    border-left-color: #28a745;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%);
+}
+
+.go7-toast--warning {
+    border-left-color: #ff9800;
+    background: linear-gradient(135deg, #ffffff 0%, #fff8f0 100%);
+}
+
+.go7-toast--error {
+    border-left-color: #e61e25;
+    background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+}
+
+.go7-toast__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.go7-toast__message {
+    color: #1e1e1e;
+    margin: 0;
+    flex: 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Go7 Brand Accent */
+.go7-toast--success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, #28a745 50%, transparent 100%);
+    opacity: 0.1;
+}
+
+.go7-toast--error::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, #e61e25 50%, transparent 100%);
+    opacity: 0.1;
+}
+
+/* Animation */
+@keyframes go7ToastSlideIn {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .go7-notification-container {
+        top: 15px;
+        padding: 0 12px;
+        max-width: 100%;
+    }
+    
+    .go7-toast {
+        padding: 12px 16px;
+        font-size: 13px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .go7-notification-container {
+        top: 20px;
+        max-width: 350px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+    .go7-notification-container {
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* GO7 2026 Sonner toasts — white cards, soft shadow, brand accents */
+[data-sonner-toaster] {
+  font-family: inherit !important;
+  --width: min(380px, calc(100vw - 32px));
+}
+
+[data-sonner-toast] {
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  gap: 12px !important;
+  box-shadow:
+    0 10px 30px rgba(18, 18, 18, 0.12),
+    0 0 0 1px rgba(18, 18, 18, 0.04) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+[data-sonner-toast][data-type='success'] {
+  background: #ffffff !important;
+  border: 1.5px solid #dcfce7 !important;
+  color: #121212 !important;
+}
+
+[data-sonner-toast][data-type='success'] [data-icon] {
+  color: #16a34a !important;
+}
+
+[data-sonner-toast][data-type='error'] {
+  background: #ffffff !important;
+  border: 1.5px solid #fecaca !important;
+  color: #121212 !important;
+}
+
+[data-sonner-toast][data-type='error'] [data-icon] {
+  color: #e53935 !important;
+}
+
+[data-sonner-toast][data-type='info'],
+[data-sonner-toast]:not([data-type]) {
+  background: #ffffff !important;
+  border: 1.5px solid #fee2e2 !important;
+  color: #121212 !important;
+}
+
+[data-sonner-toast] [data-title] {
+  font-weight: 650 !important;
+  font-size: 14px !important;
+  letter-spacing: -0.01em !important;
+  color: #121212 !important;
+}
+
+[data-sonner-toast] [data-description] {
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  color: #6b7280 !important;
+  margin-top: 2px !important;
+}
+
+[data-sonner-toast] [data-close-button] {
+  background: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  color: #6b7280 !important;
+}

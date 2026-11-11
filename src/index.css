@@ -1,0 +1,1224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import './styles/styledDeliveryMap.css';
+@import './styles/go7Notifications.css';
+@import './styles/mobile-enhancements.css';
+@import './styles/mobile-ui.css';
+@import './styles/utilities.css';
+@import './styles/font-fallbacks.css';
+@import './styles/capacitor-safe-area.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* iOS Safari specific fixes */
+input, textarea, select {
+  font-size: 16px; /* Prevent zoom on iOS */
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
+/* Fix iOS viewport issues */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* iOS scroll momentum */
+body, .scroll-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+html {
+  background-color: #ffe5e5;
+}
+
+body {
+  font-family: var(--font-inter);
+  line-height: 1.5;
+  background-color: #ffe5e5;
+  color: #333333;
+  /* Remove padding for onboarding */
+  padding-bottom: 0;
+  
+  /* iOS Safari fixes */
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent zoom on input focus */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Desktop/legacy shells only — mobile Figma shell has its own BottomNav */
+body:not(.onboarding-page):not(.go7-mobile-shell) {
+  padding-bottom: 80px;
+}
+
+body.go7-mobile-shell {
+  padding-bottom: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+  max-height: 100dvh;
+}
+
+body.go7-mobile-shell #root {
+  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* html lock when mobile shell is active (prevents rubber-band document scroll) */
+html:has(body.go7-mobile-shell) {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* Main app container adjustment for bottom nav */
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
+code {
+  background: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* PWA Install Prompt Animations */
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Homepage v2.0 Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+/* Go7 Notification Styles */
+.go7-notification {
+  font-family: 'Inter', sans-serif;
+}
+
+.go7-popup {
+  border-radius: 1rem !important;
+  border: 2px solid #FEE2E2 !important;
+}
+
+.go7-title {
+  color: #1F2937 !important;
+  font-weight: 600 !important;
+}
+
+.go7-confirm-button {
+  background: linear-gradient(135deg, #E30613 0%, #B91C1C 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.go7-confirm-button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 25px rgba(227, 6, 19, 0.3) !important;
+}
+
+.go7-cancel-button {
+  background: #6B7280 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+.go7-toast {
+  border-left: 4px solid #E30613 !important;
+}
+
+.animate__animated {
+  animation-duration: 0.5s !important;
+}
+
+@keyframes go7-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* FareDisplay animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+.go7-custom-dialog {
+  animation: go7-pulse 0.6s ease-in-out !important;
+}
+
+/* Real-time Tracking Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+
+  0%,
+  20%,
+  40%,
+  60%,
+  80% {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes tada {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+
+  40%,
+  60%,
+  80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.animate__fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate__bounceIn {
+  animation: bounceIn 0.8s;
+}
+
+.animate__shake {
+  animation: shake 0.82s;
+}
+
+.animate__tada {
+  animation: tada 1s;
+}
+
+/* Loading States */
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Status Indicators */
+.status-indicator {
+  position: relative;
+}
+
+.status-indicator::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: pulse 2s infinite;
+}
+
+.status-online::after {
+  background-color: #10B981;
+}
+
+.status-busy::after {
+  background-color: #F59E0B;
+}
+
+.status-offline::after {
+  background-color: #6B7280;
+}
+
+/* Interactive Elements */
+.interactive-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Go7 Theme Gradients */
+.go7-gradient {
+  background: linear-gradient(135deg, #E30613 0%, #B91C1C 100%);
+}
+
+.go7-gradient-light {
+  background: linear-gradient(135deg, #FEE2E2 0%, #FED7AA 100%);
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-in forwards;
+}
+
+/* PWA status bar adjustments for iOS */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .pwa-safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .pwa-safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* PWA viewport adjustments */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Hide elements that shouldn't appear in PWA mode */
+  .hide-in-pwa {
+    display: none !important;
+  }
+}
+
+/* Tiny Chowdeck-style labels with teardrop pins */
+
+.chowdeck-tiny-label {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.chowdeck-pin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.chowdeck-mini-label {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 10px !important;
+  color: #000 !important;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  user-select: none;
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
+}
+
+.chowdeck-teardrop-pin {
+  width: 12px;
+  height: 16px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  margin-top: -2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.pin-dot {
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transform: rotate(45deg);
+}
+
+.chowdeck-pin-container:hover .chowdeck-mini-label {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Chowdeck sketchy cream background */
+.chowdeck-sketchy-bg {
+  filter: sepia(0.8) saturate(0.2) hue-rotate(15deg) brightness(1.3) contrast(0.6) !important;
+  opacity: 0.7 !important;
+}
+
+/* Cream background container matching Chowdeck with subtle texture */
+.leaflet-container {
+  background:
+    radial-gradient(circle at 20% 80%, rgba(245, 243, 239, 0.3) 0%, transparent 20%),
+    radial-gradient(circle at 80% 20%, rgba(248, 246, 242, 0.3) 0%, transparent 20%),
+    linear-gradient(45deg, #f8f6f2 0%, #f5f3ef 50%, #f7f5f1 100%) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Hide all controls for clean Chowdeck look */
+.leaflet-control-zoom,
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* DELIVERY LOCATION SELECTOR - EXACT STYLING */
+:root {
+  --primary-orange: #FF6B35;
+  --primary-dark: #E25822;
+  --text-dark: #1A1A1A;
+  --text-medium: #666666;
+  --text-light: #999999;
+  --border-light: #E0E0E0;
+  --background: #F8F9FA;
+  --white: #FFFFFF;
+  --hover-blue: #667EEA;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Map background with Chowdeck styling */
+.leaflet-container {
+  background: #f2ead0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.leaflet-container .leaflet-tile-pane {
+  display: none !important;
+}
+
+/* Chowdeck-style map labels */
+.chowdeck-tiny {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.tiny-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  color: #000 !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.tiny-label:hover {
+  transform: scale(1.05) translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Main container styling */
+.location-selector {
+  max-width: 400px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+  background: var(--background) !important;
+  min-height: 100vh !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Header section */
+.location-header {
+  text-align: center !important;
+  margin-bottom: 30px !important;
+}
+
+.location-title {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: var(--text-dark) !important;
+  margin-bottom: 8px !important;
+}
+
+.location-subtitle {
+  font-size: 14px !important;
+  color: var(--text-medium) !important;
+  line-height: 1.4 !important;
+}
+
+/* Search bar styling */
+.search-container {
+  margin-bottom: 25px !important;
+}
+
+.search-box {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  background: var(--white) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  box-shadow: 0 2px 8px var(--shadow) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+.search-icon {
+  margin-right: 12px !important;
+  font-size: 18px !important;
+  color: var(--text-medium) !important;
+}
+
+.search-input {
+  border: none !important;
+  outline: none !important;
+  font-size: 16px !important;
+  width: 100% !important;
+  background: transparent !important;
+  color: var(--text-dark) !important;
+}
+
+.search-input::placeholder {
+  color: var(--text-light) !important;
+}
+
+/* GPS/Live location button */
+.live-location-section {
+  text-align: center !important;
+  margin-bottom: 30px !important;
+}
+
+.gps-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  background: linear-gradient(135deg, var(--primary-orange), var(--primary-dark)) !important;
+  color: var(--white) !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 25px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  margin-bottom: 10px !important;
+}
+
+.gps-button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(226, 88, 34, 0.3) !important;
+}
+
+.gps-icon {
+  margin-right: 8px !important;
+  font-size: 18px !important;
+}
+
+.live-location-text {
+  color: var(--text-medium) !important;
+  font-size: 14px !important;
+  font-style: italic !important;
+}
+
+/* Abeokuta locations grid */
+.abeokuta-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px !important;
+  margin-top: 20px !important;
+}
+
+.area-card {
+  background: var(--white) !important;
+  border: 2px solid var(--border-light) !important;
+  border-radius: 12px !important;
+  padding: 16px 12px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 500 !important;
+  color: var(--text-dark) !important;
+  min-height: 60px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.area-card:hover {
+  border-color: var(--hover-blue) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px var(--shadow) !important;
+}
+
+.area-card.selected {
+  background: linear-gradient(135deg, var(--primary-orange), var(--primary-dark)) !important;
+  color: var(--white) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+/* Popular areas highlight */
+.popular-area {
+  position: relative !important;
+}
+
+.popular-area::before {
+  content: "Popular" !important;
+  position: absolute !important;
+  top: -8px !important;
+  right: 10px !important;
+  background: var(--primary-orange) !important;
+  color: var(--white) !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .abeokuta-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Selected badge */
+.selected-badge {
+  margin-top: 16px !important;
+  padding: 8px 16px !important;
+  background: var(--primary-orange) !important;
+  color: var(--white) !important;
+  border-radius: 20px !important;
+  display: inline-block !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Map container */
+.map-container {
+  margin-bottom: 25px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 16px var(--shadow) !important;
+}
+
+.delivery-map {
+  width: 100% !important;
+  height: 300px !important;
+  background: #f2ead0 !important;
+}
+
+@media (max-width: 480px) {
+  .abeokuta-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .area-card {
+    padding: 14px 10px !important;
+    min-height: 55px !important;
+    font-size: 15px !important;
+  }
+}
+
+.chowdeck-exact {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  position: relative;
+}
+
+.chowdeck-label-exact {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  color: #000 !important;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2px;
+  position: relative;
+  z-index: 10;
+}
+
+.chowdeck-pin-exact {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.chowdeck-pin-exact::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid inherit;
+}
+
+/* Enhanced Chowdeck-style grid buttons */
+.chowdeck-grid-button {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 12px 16px !important;
+  border-radius: 20px !important;
+  border: 2px solid white !important;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transform-origin: center;
+}
+
+.chowdeck-grid-button:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
+  filter: brightness(1.05);
+}
+
+.chowdeck-grid-button:active {
+  transform: scale(0.98) translateY(0px);
+  transition: all 0.1s ease;
+}
+
+.chowdeck-grid-button.selected {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 6px 20px rgba(0, 0, 0, 0.25);
+  transform: scale(1.02);
+}
+
+/* Legacy tooltip styles for fallback */
+.leaflet-tooltip.custom-label {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 15px;
+  font-weight: 700;
+  color: #222;
+  text-shadow: 1px 1px 0px #fff;
+}
+
+/* Map container styling */
+#map {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Instructions animation */
+.instruction {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Leaflet customizations */
+.leaflet-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.leaflet-control-zoom a {
+  border-radius: 8px !important;
+  border: 1px solid #ddd !important;
+  background: #fff !important;
+  color: #333 !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #f0f0f0 !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  #map {
+    height: 350px !important;
+  }
+
+  .area-label-btn {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+/* Hero component animations */
+.go7-bike-animation {
+  animation: moveBike 8s linear infinite;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.go7-scooter-curved-animation {
+  position: absolute;
+  animation: moveBikeCurved 10s linear infinite;
+  bottom: 80px;
+  left: -80px;
+  z-index: 10;
+}
+
+@keyframes moveBike {
+  0% {
+    transform: translateX(-120px);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 120px));
+  }
+}
+
+/* Curved path animation following the SVG road curve */
+@keyframes moveBikeCurved {
+  0% {
+    transform: translateX(-80px) translateY(0px) rotate(0deg) scaleX(1);
+  }
+
+  25% {
+    transform: translateX(25vw) translateY(-20px) rotate(-5deg) scaleX(1);
+  }
+
+  50% {
+    transform: translateX(50vw) translateY(-10px) rotate(0deg) scaleX(1);
+  }
+
+  75% {
+    transform: translateX(75vw) translateY(-20px) rotate(5deg) scaleX(1);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 80px)) translateY(0px) rotate(0deg) scaleX(1);
+  }
+}
+
+/* Cartoon road styling */
+.road-surface {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.road-centerline {
+  animation: dashMove 2s linear infinite;
+}
+
+@keyframes dashMove {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 35;
+  }
+}
+
+/* Road shine effect */
+.road-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 45%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 55%,
+      transparent 100%);
+  animation: roadShine 3s ease-in-out infinite;
+}
+
+@keyframes roadShine {
+
+  0%,
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+
+/* Responsive animation adjustments */
+@media (max-width: 768px) {
+  .go7-bike-animation {
+    animation-duration: 6s;
+  }
+
+  .go7-scooter-curved-animation {
+    animation-duration: 8s;
+    bottom: 60px;
+  }
+
+  @keyframes moveBikeCurved {
+    0% {
+      transform: translateX(-60px) translateY(0px) rotate(0deg);
+    }
+
+    25% {
+      transform: translateX(25vw) translateY(-15px) rotate(-3deg);
+    }
+
+    50% {
+      transform: translateX(50vw) translateY(-8px) rotate(0deg);
+    }
+
+    75% {
+      transform: translateX(75vw) translateY(-15px) rotate(3deg);
+    }
+
+    100% {
+      transform: translateX(calc(100vw + 60px)) translateY(0px) rotate(0deg);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .go7-bike-animation {
+    animation-duration: 5s;
+  }
+
+  .go7-scooter-curved-animation {
+    animation-duration: 7s;
+    bottom: 50px;
+  }
+
+  @keyframes moveBikeCurved {
+    0% {
+      transform: translateX(-40px) translateY(0px) rotate(0deg);
+    }
+
+    25% {
+      transform: translateX(25vw) translateY(-10px) rotate(-2deg);
+    }
+
+    50% {
+      transform: translateX(50vw) translateY(-5px) rotate(0deg);
+    }
+
+    75% {
+      transform: translateX(75vw) translateY(-10px) rotate(2deg);
+    }
+
+    100% {
+      transform: translateX(calc(100vw + 40px)) translateY(0px) rotate(0deg);
+    }
+  }
+}
+
+/* ==============================================
+   VENDOR CARDS STYLES - GO7 ABEOKUTA VENDORS
+   ============================================== */
+
+.vendor-feed h3 {
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.vendor-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 8px 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.vendor-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.vendor-card {
+  flex: 0 0 140px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  text-align: center;
+  scroll-snap-align: start;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vendor-card:hover {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.vendor-card:active {
+  transform: scale(0.95);
+}
+
+.vendor-card img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 14px 14px 0 0;
+}
+
+.vendor-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 6px 8px 4px;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.vendor-card p {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0 8px 8px;
+  line-height: 1.2;
+}
+
+/* Order button for vendor pages */
+.order-btn {
+  background-color: #e61e25;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 16px auto;
+  width: calc(100% - 32px);
+  max-width: 300px;
+  display: block;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.order-btn:hover {
+  background-color: #d11920;
+  transform: translateY(-1px);
+}
+
+.order-btn:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Line clamp utility for vendor names */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Animation for vendor sections */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease forwards;
+}

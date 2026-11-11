@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go7 Mobile Redirect Diagnostics</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .header {
+            background: #E30613;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #E5FFE5; border: 1px solid #00CC00; }
+        .error { background: #FFE5E5; border: 1px solid #CC0000; }
+        .warning { background: #FFF9E6; border: 1px solid #FFD700; }
+        .button {
+            display: inline-block;
+            background: #E30613;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .button.secondary {
+            background: #333;
+        }
+        #log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Mobile Redirect Diagnostics</h1>
+            <p>Testing mobile detection and routing</p>
+        </div>
+
+        <div class="card">
+            <h2>Current Status</h2>
+            <div id="currentStatus" class="status warning">
+                Checking mobile detection...
+            </div>
+            
+            <div id="deviceInfo">
+                <h3>Device Information:</h3>
+                <ul id="infoList"></ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Route Testing</h2>
+            <p>Test different routes and mobile detection scenarios:</p>
+            
+            <a href="/" class="button">Homepage (Auto Detect)</a>
+            <a href="/?forceMobile=true" class="button">Force Mobile</a>
+            <a href="/mobile" class="button">Direct Mobile Route</a>
+            <a href="/mobile-simple.html" class="button">Simple Mobile Page</a>
+            
+            <br><br>
+            
+            <a href="/?forceMobile=false" class="button secondary">Force Desktop</a>
+            <a href="/mobile-access.html" class="button secondary">Mobile Portal</a>
+        </div>
+
+        <div class="card">
+            <h2>Debug Log</h2>
+            <div id="log">Loading diagnostics...</div>
+        </div>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+        const statusDiv = document.getElementById('currentStatus');
+        const infoList = document.getElementById('infoList');
+
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            log.textContent += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function updateStatus(message, type = 'warning') {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        // Mobile detection function
+        function detectMobile() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const userAgent = navigator.userAgent.toLowerCase();
+            const mobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+            const touchEnabled = 'ontouchstart' in window;
+            const forceMobile = new URLSearchParams(window.location.search).get('forceMobile');
+            
+            let isMobile = false;
+            
+            if (forceMobile === 'true') {
+                isMobile = true;
+                addLog('Mobile forced via URL parameter');
+            } else if (forceMobile === 'false') {
+                isMobile = false;
+                addLog('Desktop forced via URL parameter');
+            } else {
+                isMobile = width <= 768 || mobileUA;
+                addLog(`Auto-detection: width=${width}px, UA=${mobileUA}, result=${isMobile}`);
+            }
+            
+            return {
+                isMobile,
+                width,
+                height,
+                userAgent,
+                mobileUA,
+                touchEnabled,
+                forceMobile
+            };
+        }
+
+        // Test route accessibility
+        async function testRoutes() {
+            const routes = ['/', '/mobile', '/mobile-simple.html'];
+            
+            for (const route of routes) {
+                try {
+                    const response = await fetch(route, { method: 'HEAD' });
+                    addLog(`Route ${route}: ${response.status} ${response.statusText}`);
+                } catch (error) {
+                    addLog(`Route ${route}: ERROR - ${error.message}`);
+                }
+            }
+        }
+
+        // Initialize diagnostics
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('Mobile Redirect Diagnostics Started');
+            addLog('Current URL: ' + window.location.href);
+            addLog('Current Path: ' + window.location.pathname);
+            
+            const detection = detectMobile();
+            
+            // Update status
+            if (detection.isMobile) {
+                updateStatus('Mobile device detected - should redirect to /mobile', 'success');
+            } else {
+                updateStatus('Desktop device detected - should stay on homepage', 'success');
+            }
+            
+            // Display device info
+            const info = [
+                `Screen Size: ${detection.width}x${detection.height}px`,
+                `Mobile by Size: ${detection.width <= 768 ? 'Yes' : 'No'}`,
+                `Mobile by UA: ${detection.mobileUA ? 'Yes' : 'No'}`,
+                `Touch Enabled: ${detection.touchEnabled ? 'Yes' : 'No'}`,
+                `Force Parameter: ${detection.forceMobile || 'None'}`,
+                `Final Result: ${detection.isMobile ? 'MOBILE' : 'DESKTOP'}`
+            ];
+            
+            info.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                infoList.appendChild(li);
+                addLog(item);
+            });
+            
+            // Test routes
+            addLog('Testing route accessibility...');
+            testRoutes();
+            
+            // Check for redirect loops
+            if (window.location.pathname === '/mobile' && !detection.isMobile) {
+                addLog('WARNING: On mobile route but not mobile device - potential redirect loop');
+                updateStatus('WARNING: Potential redirect loop detected', 'error');
+            } else if (window.location.pathname === '/' && detection.isMobile) {
+                addLog('INFO: On homepage with mobile device - redirect should occur');
+                updateStatus('Mobile detected - redirect should happen', 'warning');
+            }
+        });
+
+        // Monitor for redirects
+        let redirectCount = 0;
+        const originalReplace = window.location.replace;
+        const originalAssign = window.location.assign;
+        
+        window.location.replace = function(url) {
+            redirectCount++;
+            addLog(`REDIRECT #${redirectCount}: replace() to ${url}`);
+            if (redirectCount > 3) {
+                addLog('ERROR: Too many redirects - possible infinite loop');
+                updateStatus('ERROR: Redirect loop detected!', 'error');
+                return;
+            }
+            return originalReplace.call(this, url);
+        };
+        
+        Object.defineProperty(window.location, 'href', {
+            set: function(url) {
+                redirectCount++;
+                addLog(`REDIRECT #${redirectCount}: href set to ${url}`);
+                if (redirectCount > 3) {
+                    addLog('ERROR: Too many redirects - possible infinite loop');
+                    updateStatus('ERROR: Redirect loop detected!', 'error');
+                    return;
+                }
+                window.location.assign(url);
+            }
+        });
+    </script>
+</body>
+</html>

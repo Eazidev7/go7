@@ -1,0 +1,130 @@
+# Go7 iOS build — Capacitor → signed IPA → App Store Connect
+#
+# Required repo secrets (Settings → Secrets → Actions):
+#   APPLE_CERTIFICATE_P12        base64-encoded .p12 distribution certificate
+#   APPLE_CERTIFICATE_PASSWORD   password used when exporting the .p12
+#   APPLE_PROVISIONING_PROFILE   base64-encoded .mobileprovision for g.go7.app (App Store)
+#   APPLE_KEYCHAIN_PASSWORD      any random password — used for the temp CI keychain
+#   APP_STORE_CONNECT_KEY_ID     App Store Connect API key ID (for upload)
+#   APP_STORE_CONNECT_ISSUER_ID  Issuer ID
+#   APP_STORE_CONNECT_PRIVATE_KEY base64-encoded .p8 key contents
+#
+# Optional: FIREBASE_VITE_* env vars if the web build needs them.
+name: iOS Build
+
+on:
+  workflow_dispatch:            # run manually — Actions tab → "iOS Build" → Run workflow
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web assets
+        run: npm run build
+        env:
+          VITE_MAPTILER_API_KEY: ${{ secrets.VITE_MAPTILER_API_KEY }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+          VITE_ORS_API_KEY: ${{ secrets.VITE_ORS_API_KEY }}
+
+      - name: Sync Capacitor iOS
+        run: npx cap sync ios
+
+      - name: Install Pods
+        run: |
+          cd ios/App
+          pod install --repo-update
+
+      - name: Decode signing assets
+        env:
+          APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
+          APPLE_PROVISIONING_PROFILE: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
+        run: |
+          echo "$APPLE_CERTIFICATE_P12" | base64 -d > "$RUNNER_TEMP/cert.p12"
+          echo "$APPLE_PROVISIONING_PROFILE" | base64 -d > "$RUNNER_TEMP/profile.mobileprovision"
+
+      - name: Create CI keychain + import certificate
+        env:
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
+        run: |
+          security create-keychain -p "$APPLE_KEYCHAIN_PASSWORD" ci.keychain
+          security set-keychain-settings -lut 21600 ci.keychain
+          security unlock-keychain -p "$APPLE_KEYCHAIN_PASSWORD" ci.keychain
+          security import "$RUNNER_TEMP/cert.p12" -k ci.keychain \
+            -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: \
+            -k "$APPLE_KEYCHAIN_PASSWORD" ci.keychain
+          security list-keychains -d user -s ci.keychain login.keychain
+
+      - name: Install provisioning profile
+        run: |
+          UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< \
+            "$(security cms -D -i "$RUNNER_TEMP/profile.mobileprovision")")
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$RUNNER_TEMP/profile.mobileprovision" \
+            "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+          echo "PROFILE_UUID=$UUID" >> "$GITHUB_ENV"
+
+      - name: Archive
+        run: |
+          cd ios/App
+          xcodebuild archive \
+            -workspace App.xcworkspace -scheme App \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "$RUNNER_TEMP/Go7.xcarchive" \
+            -allowProvisioningUpdates \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM="$(grep -o '[A-Z0-9]\{10\}' <<< "$PROFILE_UUID" || true)" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            | xcpretty || xcodebuild archive \
+            -workspace App.xcworkspace -scheme App \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "$RUNNER_TEMP/Go7.xcarchive" \
+            -allowProvisioningUpdates
+
+      - name: Export IPA + upload to TestFlight
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/asc"
+          echo "$APP_STORE_CONNECT_PRIVATE_KEY" | base64 -d > \
+            "$RUNNER_TEMP/asc/AuthKey_$APP_STORE_CONNECT_KEY_ID.p8"
+          cat > "$RUNNER_TEMP/exportOptions.plist" <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store</string>
+            <key>uploadSymbols</key><true/>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/Go7.xcarchive" \
+            -exportPath "$RUNNER_TEMP/ipa" \
+            -exportOptionsPlist "$RUNNER_TEMP/exportOptions.plist" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey_$APP_STORE_CONNECT_KEY_ID.p8" \
+            -authenticationKeyID "$APP_STORE_CONNECT_KEY_ID" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Go7.ipa
+          path: ${{ runner.temp }}/ipa/*.ipa

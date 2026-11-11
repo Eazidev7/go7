@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go7 — Notification Sound Preview</title>
+<style>
+  :root { --red:#E0001B; --bg:#0f1115; --card:#171a21; --line:#262b35; --txt:#e8eaee; --dim:#9aa3b2; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+         font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; padding:28px 18px 60px; }
+  .wrap { max-width:780px; margin:0 auto; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  h1 span { color:var(--red); }
+  .sub { color:var(--dim); font-size:13px; margin-bottom:22px; }
+  h2 { font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:var(--dim);
+       margin:30px 0 10px; font-weight:600; }
+  .row { display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--line);
+         border-radius:11px; padding:11px 13px; margin-bottom:8px; }
+  .row.hot { border-color:rgba(224,0,27,.55); background:#1d1418; }
+  .play { flex:none; width:38px; height:38px; border-radius:50%; border:0; cursor:pointer;
+          background:var(--red); color:#fff; font-size:14px; display:grid; place-items:center; transition:.15s; }
+  .play:hover { transform:scale(1.07); }
+  .play:active { transform:scale(.95); }
+  .play.on { background:#2b8a3e; }
+  .meta { flex:1; min-width:0; }
+  .name { font-weight:600; font-size:14px; }
+  .name code { background:#0b0d11; border:1px solid var(--line); border-radius:5px;
+               padding:1px 6px; font-size:11px; color:#c8d0dc; }
+  .use { color:var(--dim); font-size:12.5px; margin-top:2px; }
+  .dur { color:#5c6675; font-size:11.5px; flex:none; font-variant-numeric:tabular-nums; }
+  .loop { flex:none; border:1px solid var(--line); background:#20242c; color:var(--dim);
+          border-radius:7px; padding:5px 9px; cursor:pointer; font-size:11.5px; white-space:nowrap; }
+  .loop.on { background:#7a1020; border-color:var(--red); color:#fff; }
+  .bar { display:flex; gap:10px; margin:6px 0 4px; flex-wrap:wrap; }
+  .btn { background:#20242c; color:var(--txt); border:1px solid var(--line); border-radius:9px;
+         padding:9px 15px; cursor:pointer; font-size:13px; font-weight:500; }
+  .btn:hover { background:#2a2f39; }
+  .btn.p { background:var(--red); border-color:var(--red); color:#fff; }
+  .note { background:#141821; border:1px solid var(--line); border-left:3px solid var(--red);
+          border-radius:8px; padding:12px 14px; color:var(--dim); font-size:13px; margin-top:26px; }
+  .note b { color:var(--txt); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Go7 <span>·</span> Notification Sound Set</h1>
+  <div class="sub">19 custom-synthesised tones · 309 KB total · no licensing restrictions · click any ▶︎ to hear it</div>
+
+  <div class="bar">
+    <button class="btn p" id="all">▶︎ Play all in order</button>
+    <button class="btn" id="stop">■ Stop</button>
+  </div>
+
+  <h2>Shared — customer &amp; rider</h2>
+  <div id="shared"></div>
+
+  <h2>Rider priority alerts</h2>
+  <div id="rider"></div>
+
+  <h2>Gamification rewards — customer app</h2>
+  <div id="game"></div>
+
+  <div class="note">
+    <b>Rider note:</b> <code>new-job.mp3</code> is now <b>3.03 s</b> and built as 3 identical 1.0 s
+    cycles. Each cycle is a rising E–G–C figure plus a low supporting thump so it carries outdoors and
+    through engine noise. The tail of each cycle decays to silence, so when the file <b>loops</b> it
+    sounds like one continuous repeating alert — no gap, no click, no stutter.<br><br>
+    <b>Loop toggle:</b> the rider alerts below have a 🔁 button. Switch it on and press ▶︎ to hear how a
+    job alert repeats until the rider acknowledges it. Recommended: loop <code>new-job</code>, and cap
+    it (~6 repeats / 20 s) so it cannot ring forever if the phone is left unattended.<br><br>
+    <b>Autoplay policy:</b> browsers block audio until the user interacts with the page once. Both apps
+    will need a one-time "enable alert sounds" tap before in-page audio can play.
+  </div>
+</div>
+
+<script>
+const SHARED = [
+  ['notification', 'Generic notification — two-note ping'],
+  ['notify',       'Generic alert / warning bell'],
+  ['success',      'Order or payment confirmed'],
+  ['error',        'Something failed'],
+  ['order-assigned','Rider assigned to your order'],
+  ['status-update','Order status changed'],
+  ['order-complete','Delivery completed'],
+  ['location-ping','Tiny GPS / location blip'],
+  ['chat',         'New chat message'],
+];
+const RIDER = [
+  ['new-job',          'NEW JOB — critical, loops until acknowledged', true, true],
+  ['job-cancelled',    'Job cancelled / reassigned', false, true],
+  ['earnings-credited','Earnings credited to wallet', false, true],
+];
+
+const GAME = [
+  ['level-up',         'Levelled up — rising 4-note'],
+  ['mission-complete', 'Mission completed — warm resolve'],
+  ['badge-unlock',     'Badge unlocked — bright sparkle'],
+  ['legendary-badge',  'Legendary badge — grand rising 5-note'],
+  ['streak-milestone', 'Streak milestone — triple ascending'],
+  ['reward-unlock',    'Reward unlocked — coin double ping'],
+  ['prize-won',        'Prize won — fanfare'],
+];
+
+const DURS = { notification:'0.78s', notify:'0.73s', success:'0.99s', error:'0.84s',
+  'order-assigned':'0.94s', 'status-update':'0.60s', 'order-complete':'1.04s',
+  'location-ping':'0.26s', chat:'0.50s', 'new-job':'3.03s', 'job-cancelled':'0.99s',
+  'earnings-credited':'1.10s', 'level-up':'1.10s', 'mission-complete':'0.95s',
+  'badge-unlock':'0.80s', 'legendary-badge':'1.40s', 'streak-milestone':'0.75s',
+  'reward-unlock':'0.65s', 'prize-won':'1.50s' };
+
+const players = [];
+function render(target, list, allowLoop) {
+  const el = document.getElementById(target);
+  list.forEach(([file, use, hot, loopDefault]) => {
+    const row = document.createElement('div');
+    row.className = 'row' + (hot ? ' hot' : '');
+    row.innerHTML =
+      '<button class="play" aria-label="Play ' + file + '">▶</button>' +
+      '<div class="meta"><div class="name"><code>' + file + '.mp3</code></div>' +
+      '<div class="use">' + use + '</div></div>' +
+      '<div class="dur">' + (DURS[file] || '') + '</div>' +
+      (allowLoop ? '<button class="loop' + (loopDefault ? ' on' : '') + '">\u{1F501} loop</button>' : '');
+    const audio = new Audio('public/sounds/' + file + '.mp3');
+    audio.preload = 'auto';
+    audio.loop = !!loopDefault;
+    const btn = row.querySelector('.play');
+    const loopBtn = row.querySelector('.loop');
+    if (loopBtn) loopBtn.onclick = () => {
+      audio.loop = !audio.loop;
+      loopBtn.classList.toggle('on', audio.loop);
+    };
+    btn.onclick = () => {
+      const wasPlaying = !audio.paused;
+      stopAll();
+      if (wasPlaying && !audio.loop) return;
+      audio.currentTime = 0;
+      audio.play();
+      btn.textContent = '\u275A\u275A'; btn.classList.add('on');
+    };
+    audio.onended = () => { btn.textContent = '▶'; btn.classList.remove('on'); };
+    players.push({ audio, btn });
+    el.appendChild(row);
+  });
+}
+function stopAll() {
+  players.forEach(p => { p.audio.pause(); p.audio.currentTime = 0; p.btn.textContent = '▶'; p.btn.classList.remove('on'); });
+}
+render('shared', SHARED, false);
+render('rider', RIDER, true);
+render('game', GAME, false);
+
+let running = false;
+document.getElementById('all').onclick = async () => {
+  if (running) { stopAll(); return; }
+  running = true;
+  document.getElementById('all').textContent = '■ Stop';
+  stopAll();
+  const order = [...SHARED, ...RIDER, ...GAME];
+  for (const [file] of order) {
+    const p = players.find(x => x.audio.src.includes('/' + file + '.mp3'));
+    if (!p) continue;
+    const wasLooping = p.audio.loop;
+    p.audio.loop = false;                 // never block the sequence
+    p.audio.currentTime = 0;
+    p.btn.textContent = '❚❚'; p.btn.classList.add('on');
+    await p.audio.play().catch(() => {});
+    await new Promise(r => {
+      const done = () => { p.audio.onended = null; clearTimeout(tid); r(); };
+      const tid = setTimeout(done, 6000);  // safety cap
+      p.audio.onended = done;
+    });
+    p.audio.loop = wasLooping;
+    p.btn.textContent = '▶'; p.btn.classList.remove('on');
+    await new Promise(r => setTimeout(r, 260));
+  }
+  running = false;
+  document.getElementById('all').textContent = '▶︎ Play all in order';
+};
+document.getElementById('stop').onclick = (e) => { running = false; document.getElementById('all').textContent = '▶︎ Play all in order'; stopAll(); };
+</script>
+</body>
+</html>

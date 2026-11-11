@@ -1,0 +1,496 @@
+/* 🎨 GO7 PROFESSIONAL TRACKING STYLES - 2025 DESIGN */
+
+/* Global Tracking Container */
+.go7-tracking-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+}
+
+/* Map Container */
+.go7-tracking-map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Minimal map styling - let Leaflet handle tiles */
+#tracking-map-v2 {
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background: #f0f0f0;
+}
+
+#tracking-map-v2 .leaflet-tile-pane {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+#tracking-map-v2 .leaflet-tile {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  background: white !important;
+}
+
+#tracking-map-v2 .leaflet-tile img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: #f0f0f0 !important;
+}
+
+/* Rider Header - Top Section */
+.rider-header {
+  background: #000;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rider-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rider-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E30000, #ff4444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* Delivery Info Card - Bottom Section */
+.delivery-info {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 20px 20px 0 0;
+  margin-top: -20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+/* ETA Section - Dynamic Display */
+.eta-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.eta-time {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #E30000;
+  line-height: 1.2;
+}
+
+/* Distance Display */
+.distance {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Status Badge */
+.status {
+  font-weight: 600;
+  color: #111827;
+  display: inline-block;
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.status.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.completed {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Package ID */
+.package-id {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  padding: 8px 12px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Chat Bubble */
+.chat-bubble {
+  background: #d90429;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: fit-content;
+  max-width: 80%;
+  box-shadow: 0 2px 8px rgba(217, 4, 41, 0.3);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.chat-bubble.incoming {
+  background: #f3f4f6;
+  color: #111827;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Rider Name */
+.rider-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 5px;
+  color: #6b7280;
+}
+
+.rider-name strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+/* Chat Input */
+.chat-input {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #d90429;
+  box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-call {
+  flex: 1;
+  background-color: #E30000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(227, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-call:hover {
+  background-color: #c50000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(227, 0, 0, 0.4);
+}
+
+.btn-call:active {
+  transform: translateY(0);
+}
+
+.btn-chat {
+  background-color: #f3f4f6;
+  color: #111827;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.btn-chat:hover {
+  background-color: #e5e7eb;
+  transform: scale(1.05);
+}
+
+/* Floating Chat Button */
+.floating-chat-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #E30000;
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(227, 0, 0, 0.4);
+  cursor: pointer;
+  font-size: 28px;
+  z-index: 999;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-chat-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(227, 0, 0, 0.5);
+}
+
+.floating-chat-btn:active {
+  transform: scale(0.95);
+}
+
+/* Status Bar - Top */
+.status-bar {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+  min-width: 250px;
+  justify-content: center;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  animation: pulse-status 2s infinite;
+}
+
+.status-indicator.in-transit {
+  background-color: #3b82f6;
+}
+
+.status-indicator.completed {
+  background-color: #22c55e;
+}
+
+.status-indicator.pending {
+  background-color: #f59e0b;
+}
+
+@keyframes pulse-status {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.status-text {
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Back Button */
+.btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 24px;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  background-color: #f9fafb;
+  transform: scale(1.05);
+}
+
+.btn-back:active {
+  transform: scale(0.95);
+}
+
+/* Rider Info Card */
+.rider-info-card {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+}
+
+.rider-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.rider-info-text {
+  flex: 1;
+}
+
+.rider-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.rider-name-text {
+  font-weight: 700;
+  font-size: 18px;
+  color: #111827;
+}
+
+.rider-rating {
+  font-size: 14px;
+}
+
+.rider-status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eta-highlight {
+  color: #E30000;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.status-divider {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.status-label {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Order ID Badge */
+.order-id-badge {
+  background: #f3f4f6;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.order-id-label {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.order-id-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Leaflet Customizations */
+.custom-rider-icon,
+.custom-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .delivery-info {
+    padding: 0.85rem;
+  }
+
+  .eta-time {
+    font-size: 1.2rem;
+  }
+
+  .rider-info-card {
+    bottom: 90px;
+    width: 95%;
+    padding: 16px;
+  }
+
+  .floating-chat-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    bottom: 16px;
+    right: 16px;
+  }
+}

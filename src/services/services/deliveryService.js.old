@@ -1,0 +1,775 @@
+// GO7 DELIVERY FLOW - FIREBASE + REACT + LEAFLET
+// Complete delivery booking and management system
+
+import { 
+  collection, 
+  addDoc, 
+  updateDoc, 
+  doc, 
+  getDocs,
+  getDoc, 
+  query, 
+  where, 
+  setDoc, 
+  increment,
+  onSnapshot,
+  serverTimestamp,
+  runTransaction,
+  orderBy,
+  limit,
+  arrayUnion,
+  arrayRemove,
+  FieldValue
+} from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { validatePickupTime } from '../utils/pickupTimeValidation';
+
+// 1. FIRESTORE STRUCTURE
+// - deliveries: { deliveryId, status, pickup, dropoff, riderId, userId, createdAt, deliveredAt, price }
+// - riders: { riderId, available, lastLocation }
+// - rider_earnings: { riderId, totalEarned, deliveries: [deliveryId...] }
+
+// 2. BOOK DELIVERY FUNCTION
+export async function bookDelivery(deliveryDetails) {
+  try {
+    console.log('?? Booking new delivery:', deliveryDetails);
+    
+    // Validate pickup time if scheduled
+    const isScheduled = deliveryDetails.pickupOption === 'scheduled';
+    if (isScheduled && deliveryDetails.scheduledPickupTime) {
+      const validation = validatePickupTime(deliveryDetails.scheduledPickupTime);
+      if (!validation.isValid) {
+        throw new Error(`Pickup time validation failed: ${validation.error}`);
+      }
+      console.log('? Pickup time validation passed');
+    }
+    
+    // Generate a random 6-digit OTP for delivery verification
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log('?? Generated OTP:', otp);
+    
+    // Determine pickup time and delivery status
+    const pickupTime = isScheduled ? 
+      new Date(deliveryDetails.scheduledPickupTime) : 
+      new Date(); // immediate pickup
+    
+    const initialStatus = isScheduled ? "scheduled" : "pending";
+    
+    // Create delivery document
+    const docRef = await addDoc(collection(db, "deliveries"), {
+      ...deliveryDetails,
+      status: initialStatus,
+      otp: otp,
+      pickupTime: pickupTime,
+      isScheduled: isScheduled,
+      riderReminderSent: false,
+      customerReminderSent: false,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+
+    console.log(`? Delivery created with ID: ${docRef.id} (${isScheduled ? 'scheduled' : 'immediate'})`);
+
+    // Only auto-assign rider for immediate deliveries
+    if (!isScheduled) {
+      const assignmentSuccess = await assignRiderToDelivery(docRef.id, deliveryDetails.pickup?.coordinates);
+      
+      // Mark assignment as attempted even if unsuccessful
+      if (!assignmentSuccess) {
+        await updateDoc(doc(db, "deliveries", docRef.id), {
+          assignmentAttempted: true,
+          updatedAt: serverTimestamp()
+        });
+      }
+    } else {
+      console.log(`? Scheduled delivery - will assign rider at ${new Date(pickupTime.getTime() - 20 * 60 * 1000).toLocaleString()}`);
+    }
+
+    return docRef.id;
+  } catch (error) {
+    console.error('? Error booking delivery:', error);
+    throw error; // Re-throw to allow caller to handle the validation error
+  }
+}
+
+// Helper function to assign a rider to a delivery
+async function assignRiderToDelivery(deliveryId, pickupCoordinates) {
+  try {
+    // Find available riders
+    const ridersSnapshot = await getDocs(
+      query(collection(db, "riders"), where("available", "==", true))
+    );
+    
+    if (ridersSnapshot.empty) {
+      console.log('?? No available riders - delivery remains pending');
+      return false;
+    }
+    
+    // Select the most appropriate rider
+    // For now, we'll select the first one, but this could be enhanced to:
+    // 1. Find the closest rider to the pickup location
+    // 2. Consider rider ratings
+    // 3. Consider rider workload
+    let selectedRider = null;
+    let minDistance = Number.MAX_VALUE;
+    
+    ridersSnapshot.forEach(doc => {
+      const rider = { id: doc.id, ...doc.data() };
+      
+      // If the rider has location data and we have pickup coordinates,
+      // we can calculate distance to find the closest rider
+      if (rider.lastLocation && pickupCoordinates) {
+        const distance = calculateDistanceBetweenCoordinates(
+          rider.lastLocation,
+          pickupCoordinates
+        );
+        
+        if (distance < minDistance) {
+          minDistance = distance;
+          selectedRider = rider;
+        }
+      } else if (!selectedRider) {
+        // Fallback if we can't calculate distance
+        selectedRider = rider;
+      }
+    });
+    
+    if (!selectedRider) {
+      console.log('?? No suitable rider found - delivery remains pending');
+      return false;
+    }
+    
+    const riderId = selectedRider.id;
+    console.log('?? Auto-assigning rider:', riderId);
+    
+    // Use a transaction to ensure atomicity
+    try {
+      await runTransaction(db, async (transaction) => {
+        // Get the delivery document
+        const deliveryRef = doc(db, "deliveries", deliveryId);
+        
+        // Update delivery status
+        transaction.update(deliveryRef, {
+          riderId: riderId,
+          status: "assigned",
+          assignedAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+        
+        // Update rider availability
+        const riderRef = doc(db, "riders", riderId);
+        transaction.update(riderRef, {
+          available: false,
+          currentDelivery: deliveryId,
+          lastAssigned: serverTimestamp()
+        });
+      });
+      
+      console.log('? Rider assigned successfully:', riderId);
+      return true;
+    } catch (txError) {
+      console.error('? Transaction failed:', txError);
+      return false;
+    }
+  } catch (error) {
+    console.error('? Error assigning rider:', error);
+    return false;
+  }
+}
+
+// Helper function to calculate distance between two coordinates
+function calculateDistanceBetweenCoordinates(coord1, coord2) {
+  if (!coord1 || !coord2) return Number.MAX_VALUE;
+  
+  const R = 6371; // Earth's radius in km
+  const lat1 = coord1.latitude * Math.PI / 180;
+  const lat2 = coord2.latitude * Math.PI / 180;
+  const latDiff = (coord2.latitude - coord1.latitude) * Math.PI / 180;
+  const lngDiff = (coord2.longitude - coord1.longitude) * Math.PI / 180;
+  
+  const a = Math.sin(latDiff/2) * Math.sin(latDiff/2) +
+            Math.cos(lat1) * Math.cos(lat2) *
+            Math.sin(lngDiff/2) * Math.sin(lngDiff/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  
+  return R * c; // Distance in km
+}
+
+// 3. RIDER ACCEPTS DELIVERY
+export async function riderAcceptsDelivery(deliveryId, riderId) {
+  try {
+    console.log(`?? Rider ${riderId} accepting delivery ${deliveryId}`);
+    
+    // Use transaction to ensure atomicity
+    await runTransaction(db, async (transaction) => {
+      // Get the delivery document
+      const deliveryRef = doc(db, "deliveries", deliveryId);
+      const deliveryDoc = await transaction.get(deliveryRef);
+      
+      if (!deliveryDoc.exists()) {
+        throw new Error('Delivery not found');
+      }
+      
+      const deliveryData = deliveryDoc.data();
+      
+      // Verify this delivery is assigned to this rider
+      if (deliveryData.riderId !== riderId) {
+        throw new Error('This delivery is not assigned to this rider');
+      }
+      
+      // Verify the delivery is in the correct state
+      if (deliveryData.status !== 'assigned') {
+        throw new Error(`Cannot accept delivery with status: ${deliveryData.status}`);
+      }
+      
+      // Update delivery status
+      transaction.update(deliveryRef, {
+        status: "enroute",
+        startedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        statusHistory: {
+          ...deliveryData.statusHistory || {},
+          enroute: serverTimestamp()
+        }
+      });
+      
+      // Update rider status
+      const riderRef = doc(db, "riders", riderId);
+      transaction.update(riderRef, {
+        status: 'delivering',
+        lastStatusUpdate: serverTimestamp(),
+        currentDeliveryStatus: 'enroute'
+      });
+    });
+
+    console.log('? Delivery status updated to en route');
+    return true;
+  } catch (error) {
+    console.error('? Error accepting delivery:', error);
+    throw error;
+  }
+}
+
+// 4. MARK DELIVERY AS COMPLETE
+export async function completeDelivery(deliveryId, riderId, amountEarned, otpCode) {
+  try {
+    console.log(`? Completing delivery ${deliveryId} for rider ${riderId}`);
+    
+    // Use transaction to ensure all updates happen atomically
+    await runTransaction(db, async (transaction) => {
+      // Get the delivery document
+      const deliveryRef = doc(db, "deliveries", deliveryId);
+      const deliveryDoc = await transaction.get(deliveryRef);
+      
+      if (!deliveryDoc.exists()) {
+        throw new Error('Delivery not found');
+      }
+      
+      const deliveryData = deliveryDoc.data();
+      
+      // Verify this delivery belongs to this rider
+      if (deliveryData.riderId !== riderId) {
+        throw new Error('This delivery is not assigned to this rider');
+      }
+      
+      // Verify OTP code if provided
+      if (otpCode && deliveryData.otp && deliveryData.otp !== otpCode) {
+        throw new Error('Invalid OTP code. Delivery cannot be completed.');
+      }
+      
+      // Update delivery status
+      transaction.update(deliveryRef, {
+        status: "completed",
+        deliveredAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        completionNotes: 'Delivered by rider',
+        rated: false, // Initialize rating status
+        customerRating: null, // Will be set when rating is submitted
+        otp: otpCode || deliveryData.otp // Include OTP in the update for security rule validation
+      });
+
+      // Calculate earnings if not provided
+      const earnings = amountEarned || deliveryData.deliveryFee || 0;
+      
+      // Add to rider earnings
+      const earningsRef = doc(db, "rider_earnings", riderId);
+      
+      // Get current earnings document to check if it exists and get current data
+      const earningsDoc = await transaction.get(earningsRef);
+      
+      if (earningsDoc.exists()) {
+        // If earnings document exists, update it and append to completedDeliveries array
+        const earningsData = earningsDoc.data();
+        const completedDeliveries = earningsData.completedDeliveriesArray || [];
+        
+        // Only add deliveryId if not already in the array
+        if (!completedDeliveries.includes(deliveryId)) {
+          completedDeliveries.push(deliveryId);
+        }
+        
+        transaction.update(earningsRef, {
+          totalEarned: increment(earnings),
+          lastUpdated: serverTimestamp(),
+          deliveryCount: increment(1),
+          completedDeliveries: increment(1),
+          completedDeliveriesArray: completedDeliveries,
+          // Add additional stats
+          totalEarningsAmount: increment(earnings),
+          lastDeliveryCompleted: serverTimestamp(),
+          lastCompletedDeliveryId: deliveryId
+        });
+      } else {
+        // If earnings document doesn't exist yet, create it
+        transaction.set(earningsRef, {
+          totalEarned: earnings,
+          lastUpdated: serverTimestamp(),
+          deliveryCount: 1,
+          completedDeliveries: 1,
+          completedDeliveriesArray: [deliveryId],
+          // Add additional stats
+          totalEarningsAmount: earnings,
+          lastDeliveryCompleted: serverTimestamp(),
+          lastCompletedDeliveryId: deliveryId,
+          riderId: riderId,
+          createdAt: serverTimestamp()
+        });
+      }
+
+      // Mark rider as available again
+      const riderRef = doc(db, "riders", riderId);
+      transaction.update(riderRef, {
+        available: true,
+        currentDelivery: null,
+        lastCompleted: serverTimestamp(),
+        totalCompletedDeliveries: increment(1)
+      });
+    });
+
+    console.log('? Delivery completed and rider earnings updated');
+    return true;
+  } catch (error) {
+    console.error('? Error completing delivery:', error);
+    throw error;
+  }
+}
+
+// 5. LISTEN TO DELIVERY STATUS CHANGES
+export function subscribeToDelivery(deliveryId, callback) {
+  console.log(`?? Subscribing to delivery updates: ${deliveryId}`);
+  
+  const unsubscribe = onSnapshot(doc(db, "deliveries", deliveryId), (doc) => {
+    if (doc.exists()) {
+      const deliveryData = { id: doc.id, ...doc.data() };
+      console.log('?? Delivery update received:', deliveryData);
+      callback(deliveryData);
+    } else {
+      console.log('? Delivery not found');
+      callback(null);
+    }
+  }, (error) => {
+    console.error('? Error listening to delivery:', error);
+  });
+
+  return unsubscribe;
+}
+
+// 6. GET AVAILABLE RIDERS
+export async function getAvailableRiders() {
+  try {
+    const ridersSnapshot = await getDocs(
+      query(collection(db, "riders"), where("available", "==", true))
+    );
+    
+    const riders = ridersSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    
+    console.log(`?? Found ${riders.length} available riders`);
+    return riders;
+  } catch (error) {
+    console.error('? Error getting available riders:', error);
+    throw error;
+  }
+}
+
+// 7. CALCULATE DELIVERY PRICE (basic implementation)
+export function calculateDeliveryPrice(pickup, dropoff, distance = null) {
+  const basePrice = 500; // ?500 base price
+  const pricePerKm = 100; // ?100 per km
+  
+  // Use provided distance or default estimate
+  const estimatedDistance = distance || 5; // Default 5km
+  const totalPrice = basePrice + (estimatedDistance * pricePerKm);
+  
+  return {
+    basePrice,
+    distancePrice: estimatedDistance * pricePerKm,
+    totalPrice,
+    distance: estimatedDistance
+  };
+}
+
+// 8. CREATE SAMPLE RIDER (for testing)
+export async function createSampleRider(riderData) {
+  try {
+    const docRef = await addDoc(collection(db, "riders"), {
+      ...riderData,
+      available: true,
+      createdAt: serverTimestamp(),
+      totalDeliveries: 0,
+      rating: 5.0
+    });
+    
+    console.log('? Sample rider created:', docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error('? Error creating sample rider:', error);
+    throw error;
+  }
+}
+
+// 9. UPDATE RIDER AVAILABILITY
+export async function updateRiderAvailability(riderId, available, reason = '') {
+  try {
+    console.log(`?? Setting rider ${riderId} availability to ${available} - Reason: ${reason}`);
+    
+    // Get rider's current data
+    const riderRef = doc(db, "riders", riderId);
+    
+    await runTransaction(db, async (transaction) => {
+      const riderDoc = await transaction.get(riderRef);
+      
+      if (!riderDoc.exists()) {
+        throw new Error('Rider not found');
+      }
+      
+      const riderData = riderDoc.data();
+      
+      // If rider has a current delivery and we're setting to available, check if we should do this
+      if (!available && riderData.currentDelivery) {
+        console.warn('?? Setting rider unavailable while having active delivery. Proceeding as requested.');
+      }
+      
+      // Update rider status
+      transaction.update(riderRef, {
+        available: available,
+        ...(available ? { currentDelivery: null, status: 'available' } : { status: 'unavailable' }),
+        lastStatusChange: serverTimestamp(),
+        statusChangeReason: reason || (available ? 'Marked as available' : 'Marked as unavailable'),
+        statusHistory: {
+          ...(riderData.statusHistory || {}),
+          [available ? 'available' : 'unavailable']: serverTimestamp()
+        }
+      });
+    });
+    
+    console.log(`? Rider availability updated to ${available}`);
+    return true;
+  } catch (error) {
+    console.error('? Error updating rider availability:', error);
+    throw error;
+  }
+}
+
+// 10. GET RIDER STATISTICS
+export async function getRiderStatistics(riderId) {
+  try {
+    console.log(`?? Fetching statistics for rider ${riderId}`);
+    
+    // Get rider's basic info
+    const riderDoc = await getDoc(doc(db, "riders", riderId));
+    if (!riderDoc.exists()) {
+      throw new Error('Rider not found');
+    }
+    
+    // Get rider's earnings
+    const earningsDoc = await getDoc(doc(db, "rider_earnings", riderId));
+    const earnings = earningsDoc.exists() ? earningsDoc.data() : { totalEarned: 0, deliveryCount: 0 };
+    
+    // Get rider's recent deliveries
+    const deliveriesSnapshot = await getDocs(
+      query(
+        collection(db, "deliveries"),
+        where("riderId", "==", riderId),
+        orderBy("createdAt", "desc"),
+        limit(20)
+      )
+    );
+    
+    const deliveries = deliveriesSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    
+    // Calculate statistics
+    const completedDeliveries = deliveries.filter(d => d.status === 'completed').length;
+    const pendingDeliveries = deliveries.filter(d => ['assigned', 'enroute'].includes(d.status)).length;
+    
+    // Calculate average delivery time for completed deliveries
+    const deliveryTimes = deliveries
+      .filter(d => d.status === 'completed' && d.deliveredAt && d.startedAt)
+      .map(d => {
+        const startTime = d.startedAt.toDate ? d.startedAt.toDate() : new Date(d.startedAt);
+        const endTime = d.deliveredAt.toDate ? d.deliveredAt.toDate() : new Date(d.deliveredAt);
+        return (endTime - startTime) / (1000 * 60); // minutes
+      });
+    
+    const averageDeliveryTime = deliveryTimes.length > 0
+      ? deliveryTimes.reduce((sum, time) => sum + time, 0) / deliveryTimes.length
+      : 0;
+    
+    // Return compiled statistics
+    const statistics = {
+      riderInfo: riderDoc.data(),
+      earnings: earnings.totalEarned || 0,
+      totalDeliveries: earnings.deliveryCount || 0,
+      completedDeliveries,
+      pendingDeliveries,
+      averageDeliveryTime: Math.round(averageDeliveryTime),
+      recentDeliveries: deliveries
+    };
+    
+    console.log('?? Rider statistics compiled successfully');
+    return statistics;
+  } catch (error) {
+    console.error('? Error getting rider statistics:', error);
+    throw error;
+  }
+}
+
+// 11. GET RIDER EARNINGS
+export async function getRiderEarnings(riderId, timeFrame = 'all') {
+  try {
+    console.log(`?? Fetching earnings for rider ${riderId} - timeFrame: ${timeFrame}`);
+    
+    // Get rider's earnings document
+    const earningsRef = doc(db, "rider_earnings", riderId);
+    const earningsDoc = await getDoc(earningsRef);
+    
+    if (!earningsDoc.exists()) {
+      // Return default structure if no earnings record exists yet
+      return {
+        totalEarned: 0,
+        deliveryCount: 0,
+        completedDeliveries: 0,
+        completedDeliveriesArray: [],
+        riderId: riderId,
+        timeFrame: timeFrame,
+        filteredEarnings: 0,
+        filteredDeliveryCount: 0,
+        completedDeliveriesDetails: []
+      };
+    }
+    
+    const earningsData = earningsDoc.data();
+    
+    // Get completed deliveries details if there are any
+    let completedDeliveriesDetails = [];
+    
+    if (earningsData.completedDeliveriesArray && earningsData.completedDeliveriesArray.length > 0) {
+      // Batch get the details of the completed deliveries (limited to the last 50)
+      const recentDeliveryIds = earningsData.completedDeliveriesArray.slice(-50);
+      const deliveriesPromises = recentDeliveryIds.map(id => 
+        getDoc(doc(db, "deliveries", id))
+      );
+      
+      const deliveryDocs = await Promise.all(deliveriesPromises);
+      
+      completedDeliveriesDetails = deliveryDocs
+        .filter(doc => doc.exists())
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        .sort((a, b) => {
+          // Sort by completedAt timestamp (descending)
+          const aTime = a.deliveredAt ? (a.deliveredAt.toDate?.() || new Date(a.deliveredAt)) : new Date(0);
+          const bTime = b.deliveredAt ? (b.deliveredAt.toDate?.() || new Date(b.deliveredAt)) : new Date(0);
+          return bTime - aTime;
+        });
+    }
+    
+    // Filter deliveries and calculate earnings based on timeFrame
+    let filteredDeliveries = [...completedDeliveriesDetails];
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())).getTime();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    
+    if (timeFrame !== 'all') {
+      filteredDeliveries = completedDeliveriesDetails.filter(delivery => {
+        if (!delivery.deliveredAt) return false;
+        const deliveryTime = delivery.deliveredAt.toDate ? 
+          delivery.deliveredAt.toDate().getTime() : 
+          new Date(delivery.deliveredAt).getTime();
+        
+        switch(timeFrame) {
+          case 'today':
+            return deliveryTime >= startOfDay;
+          case 'week':
+            return deliveryTime >= startOfWeek;
+          case 'month':
+            return deliveryTime >= startOfMonth;
+          default:
+            return true;
+        }
+      });
+    }
+    
+    // Calculate filtered earnings
+    const filteredEarnings = filteredDeliveries.reduce((sum, delivery) => 
+      sum + (delivery.deliveryFee || 0), 0);
+    
+    // Return earnings with delivery details and filtered data
+    return {
+      ...earningsData,
+      completedDeliveriesDetails,
+      timeFrame,
+      filteredDeliveries,
+      filteredEarnings,
+      filteredDeliveryCount: filteredDeliveries.length
+    };
+  } catch (error) {
+    console.error('? Error fetching rider earnings:', error);
+    throw error;
+  }
+}
+
+// 12. Get delivery OTP code (for customers only)
+export async function getDeliveryOTP(deliveryId, userId) {
+  try {
+    const deliveryRef = doc(db, "deliveries", deliveryId);
+    const deliverySnap = await getDoc(deliveryRef);
+    
+    if (!deliverySnap.exists()) {
+      throw new Error('Delivery not found');
+    }
+    
+    const deliveryData = deliverySnap.data();
+    
+    // Security check: Only allow the customer of this delivery to see the OTP
+    if (deliveryData.customerId !== userId && deliveryData.userId !== userId) {
+      throw new Error('You are not authorized to view this OTP');
+    }
+    
+    return deliveryData.otp;
+  } catch (error) {
+    console.error('? Error getting delivery OTP:', error);
+    throw error;
+  }
+}
+
+// 13. Verify delivery OTP
+export async function verifyDeliveryOTP(deliveryId, riderId, otpCode) {
+  try {
+    const deliveryRef = doc(db, "deliveries", deliveryId);
+    const deliverySnap = await getDoc(deliveryRef);
+    
+    if (!deliverySnap.exists()) {
+      return { success: false, message: 'Delivery not found' };
+    }
+    
+    const deliveryData = deliverySnap.data();
+    
+    // Security check: Only allow the assigned rider to verify the OTP
+    if (deliveryData.riderId !== riderId) {
+      return { success: false, message: 'You are not assigned to this delivery' };
+    }
+    
+    // Check if OTP matches
+    if (deliveryData.otp !== otpCode) {
+      return { success: false, message: 'Invalid OTP code' };
+    }
+    
+    return { success: true, message: 'OTP verified successfully' };
+  } catch (error) {
+    console.error('? Error verifying delivery OTP:', error);
+    return { success: false, message: error.message };
+  }
+}
+
+// 12. Get delivery OTP code (for customers only)
+export async function getDeliveryOTP(deliveryId, userId) {
+  try {
+    const deliveryRef = doc(db, "deliveries", deliveryId);
+    const deliverySnap = await getDoc(deliveryRef);
+    
+    if (!deliverySnap.exists()) {
+      throw new Error('Delivery not found');
+    }
+    
+    const deliveryData = deliverySnap.data();
+    
+    // Security check: Only allow the customer of this delivery to see the OTP
+    if (deliveryData.customerId !== userId && deliveryData.userId !== userId) {
+      throw new Error('You are not authorized to view this OTP');
+    }
+    
+    return deliveryData.otp;
+  } catch (error) {
+    console.error('? Error getting delivery OTP:', error);
+    throw error;
+  }
+}
+
+// 13. Verify delivery OTP
+export async function verifyDeliveryOTP(deliveryId, riderId, otpCode) {
+  try {
+    const deliveryRef = doc(db, "deliveries", deliveryId);
+    const deliverySnap = await getDoc(deliveryRef);
+    
+    if (!deliverySnap.exists()) {
+      return { success: false, message: 'Delivery not found' };
+    }
+    
+    const deliveryData = deliverySnap.data();
+    
+    // Security check: Only allow the assigned rider to verify the OTP
+    if (deliveryData.riderId !== riderId) {
+      return { success: false, message: 'You are not assigned to this delivery' };
+    }
+    
+    // Check if OTP matches
+    if (deliveryData.otp !== otpCode) {
+      return { success: false, message: 'Invalid OTP code' };
+    }
+    
+    return { success: true, message: 'OTP verified successfully' };
+  } catch (error) {
+    console.error('? Error verifying delivery OTP:', error);
+    return { success: false, message: error.message };
+  }
+}
+ 
+ / /   1 4 .   G e t   s c h e d u l e d   d e l i v e r i e s   f o r   a d m i n / m a n a g e m e n t 
+ e x p o r t   a s y n c   f u n c t i o n   g e t S c h e d u l e d D e l i v e r i e s ( )   { 
+     t r y   { 
+         c o n s t   q   =   q u e r y ( 
+             c o l l e c t i o n ( d b ,   " d e l i v e r i e s " ) , 
+             w h e r e ( " s t a t u s " ,   " = = " ,   " s c h e d u l e d " ) , 
+             o r d e r B y ( " p i c k u p T i m e " ,   " a s c " ) 
+         ) ; 
+         
+         c o n s t   q u e r y S n a p s h o t   =   a w a i t   g e t D o c s ( q ) ; 
+         c o n s t   s c h e d u l e d D e l i v e r i e s   =   [ ] ; 
+         
+         q u e r y S n a p s h o t . f o r E a c h ( ( d o c )   = >   { 
+             c o n s t   d a t a   =   d o c . d a t a ( ) ; 
+             s c h e d u l e d D e l i v e r i e s . p u s h ( { 
+                 i d :   d o c . i d , 
+                 . . . d a t a , 
+                 p i c k u p T i m e :   d a t a . p i c k u p T i m e ? . t o D a t e ( )   | |   n e w   D a t e ( d a t a . s c h e d u l e d P i c k u p T i m e ) , 
+                 c r e a t e d A t :   d a t a . c r e a t e d A t ? . t o D a t e ( ) 
+             } ) ; 
+         } ) ; 
+         
+         c o n s o l e . l o g ( ` =???  R e t r i e v e d   $ { s c h e d u l e d D e l i v e r i e s . l e n g t h }   s c h e d u l e d   d e l i v e r i e s ` ) ; 
+         r e t u r n   s c h e d u l e d D e l i v e r i e s ; 
+     }   c a t c h   ( e r r o r )   { 
+         c o n s o l e . e r r o r ( " L'  E r r o r   f e t c h i n g   s c h e d u l e d   d e l i v e r i e s : " ,   e r r o r ) ; 
+         t h r o w   e r r o r ; 
+     } 
+ } 
+ 
+ 
